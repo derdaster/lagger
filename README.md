@@ -1,2 +1,0 @@
-# lagger
-Lagger Android application
