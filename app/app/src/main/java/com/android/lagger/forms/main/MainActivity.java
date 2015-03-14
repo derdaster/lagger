@@ -10,12 +10,14 @@ import android.view.View;
 import android.widget.Button;
 
 import com.android.lagger.R;
+import com.android.lagger.forms.login.LoginActivity;
 import com.android.lagger.gpslocation.GPSActivity;
 
 
 public class MainActivity extends ActionBarActivity {
 
     Button button;
+    Button buttonL;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,7 +52,6 @@ public class MainActivity extends ActionBarActivity {
         final Context context = this;
 
         button = (Button) findViewById(R.id.button1);
-
         button.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -62,6 +63,17 @@ public class MainActivity extends ActionBarActivity {
             }
 
         });
+        buttonL = (Button) findViewById(R.id.button2);
+        buttonL.setOnClickListener(new View.OnClickListener() {
 
+            @Override
+            public void onClick(View arg0) {
+
+                Intent intent = new Intent(context, LoginActivity.class);
+                startActivity(intent);
+
+            }
+
+        });
     }
 }

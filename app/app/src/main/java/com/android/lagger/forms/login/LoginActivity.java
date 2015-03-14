@@ -4,8 +4,10 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.EditText;
 
 import com.android.lagger.R;
+import com.wrapp.floatlabelededittext.FloatLabeledEditText;
 
 public class LoginActivity extends ActionBarActivity {
 
