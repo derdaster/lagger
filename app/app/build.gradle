@@ -25,4 +25,5 @@ dependencies {
     compile 'com.google.android.gms:play-services:6.5.87'
     compile 'com.wrapp.floatlabelededittext:library:0.0.6'
     compile 'info.hoang8f:fbutton:1.0.5'
+    compile 'com.github.citux:datetimepicker:0.1.2'
 }

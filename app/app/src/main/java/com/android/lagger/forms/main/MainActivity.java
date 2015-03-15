@@ -11,6 +11,7 @@ import android.widget.Button;
 
 import com.android.lagger.R;
 import com.android.lagger.forms.login.LoginActivity;
+import com.android.lagger.forms.meetings.CreateEditMeetingActivity;
 import com.android.lagger.gpslocation.GPSActivity;
 
 
@@ -18,6 +19,7 @@ public class MainActivity extends ActionBarActivity {
 
     Button button;
     Button buttonL;
+    Button buttonM;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,6 +72,19 @@ public class MainActivity extends ActionBarActivity {
             public void onClick(View arg0) {
 
                 Intent intent = new Intent(context, LoginActivity.class);
+                startActivity(intent);
+
+            }
+
+        });
+
+        buttonM = (Button) findViewById(R.id.button3);
+        buttonM.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View arg0) {
+
+                Intent intent = new Intent(context, CreateEditMeetingActivity.class);
                 startActivity(intent);
 
             }
