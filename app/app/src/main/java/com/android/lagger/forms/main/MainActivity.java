@@ -12,6 +12,8 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.android.lagger.R;
+import com.android.lagger.forms.login.LoginActivity;
+import com.android.lagger.forms.meetings.CreateEditMeetingActivity;
 import com.android.lagger.gpslocation.GPSActivity;
 import com.android.lagger.serverConnection.TestServerConnection;
 
@@ -21,6 +23,8 @@ public class MainActivity extends ActionBarActivity {
     Button button;
     Button btnGet;
     Button btnPost;
+    Button buttonL;
+    Button buttonM;
 
     TextView getResponseTextView;
     TextView postResponseTextView;
@@ -64,7 +68,6 @@ public class MainActivity extends ActionBarActivity {
         final Context context = this;
 
         button = (Button) findViewById(R.id.button1);
-
         button.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -76,7 +79,31 @@ public class MainActivity extends ActionBarActivity {
             }
 
         });
+        buttonL = (Button) findViewById(R.id.button2);
+        buttonL.setOnClickListener(new View.OnClickListener() {
 
+            @Override
+            public void onClick(View arg0) {
+
+                Intent intent = new Intent(context, LoginActivity.class);
+                startActivity(intent);
+
+            }
+
+        });
+
+        buttonM = (Button) findViewById(R.id.button3);
+        buttonM.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View arg0) {
+
+                Intent intent = new Intent(context, CreateEditMeetingActivity.class);
+                startActivity(intent);
+
+            }
+
+        });
     }
 
     public void addListenerOnServerButtons(){

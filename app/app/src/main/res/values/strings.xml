@@ -6,4 +6,6 @@
     <string name="title_activity_login">LoginActivity</string>
     <string name="title_activity_friends">FriendsActivity</string>
     <string name="title_activity_meetings">MeetingsActivity</string>
+    <string name="title_activity_meetings_list">MeetingsListActivity</string>
+    <string name="title_activity_create_edit_meeting">CreateEditMeetingActivity</string>
 </resources>
