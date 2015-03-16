@@ -126,7 +126,7 @@ public class MainActivity extends ActionBarActivity {
                     @Override
                     protected void onPostExecute(String result) {
                         getResponseTextView = (TextView) findViewById(R.id.textView2);
-                        getResponseTextView.setText(getResponseTextView.getText() + result);
+                        getResponseTextView.setText("GET response: " + result);
                     }
                 }.execute();
 
@@ -147,7 +147,7 @@ public class MainActivity extends ActionBarActivity {
                     @Override
                     protected void onPostExecute(String result) {
                         postResponseTextView = (TextView) findViewById(R.id.textView3);
-                        postResponseTextView.setText(postResponseTextView.getText() + result);
+                        postResponseTextView.setText("POST response: " + result);
                     }
                 }.execute();
 

@@ -28,17 +28,16 @@
             android:layout_height="wrap_content"
             android:text="Create meeting" />
     <Button
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="GET TEST"
         android:id="@+id/GETbutton"
-        android:layout_marginTop="35dp"
         android:layout_below="@+id/button1"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
     <Button
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="POST TEST"
         android:id="@+id/POSTbutton"
@@ -52,7 +51,6 @@
         android:text="GET response:"
         android:id="@+id/textView2"
         android:layout_below="@+id/GETbutton"
-        android:layout_marginTop="36dp"
         android:layout_alignRight="@+id/POSTbutton"
         android:layout_alignEnd="@+id/POSTbutton"
         android:layout_alignParentLeft="true"
@@ -65,8 +63,7 @@
         android:id="@+id/textView3"
         android:layout_below="@+id/textView2"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="74dp" />
+        android:layout_alignParentStart="true" />
             </LinearLayout>
 
 </RelativeLayout>
