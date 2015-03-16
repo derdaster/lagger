@@ -2,25 +2,39 @@ package com.android.lagger.forms.main;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.android.lagger.R;
 import com.android.lagger.gpslocation.GPSActivity;
+import com.android.lagger.serverConnection.TestServerConnection;
 
 
 public class MainActivity extends ActionBarActivity {
 
     Button button;
+    Button btnGet;
+    Button btnPost;
+
+    TextView getResponseTextView;
+    TextView postResponseTextView;
+
+    String responseGET = "testowy string";
+    String responsePOST;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         addListenerOnButton();
+        addListenerOnServerButtons();
     }
 
     @Override
@@ -64,4 +78,56 @@ public class MainActivity extends ActionBarActivity {
         });
 
     }
+
+    public void addListenerOnServerButtons(){
+        final Context context = this;
+
+        btnGet = (Button) findViewById(R.id.GETbutton);
+        btnPost = (Button) findViewById(R.id.POSTbutton);
+
+        btnGet.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View arg0) {
+
+               new AsyncTask<String, Void, String>() {
+                    @Override
+                    protected String doInBackground(String... urls) {
+                        return  TestServerConnection.GET(TestServerConnection.TEST_CONNECTION_URL);
+                    }
+                    // onPostExecute displays the results of the AsyncTask.
+                    @Override
+                    protected void onPostExecute(String result) {
+                        getResponseTextView = (TextView) findViewById(R.id.textView2);
+                        getResponseTextView.setText(getResponseTextView.getText() + result);
+                    }
+                }.execute();
+
+            }
+
+        });
+
+        btnPost.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View arg0) {
+                new AsyncTask<String, Void, String>() {
+                    @Override
+                    protected String doInBackground(String... urls) {
+                        return  TestServerConnection.POST(TestServerConnection.TEST_POST);
+                    }
+                    // onPostExecute displays the results of the AsyncTask.
+                    @Override
+                    protected void onPostExecute(String result) {
+                        postResponseTextView = (TextView) findViewById(R.id.textView3);
+                        postResponseTextView.setText(postResponseTextView.getText() + result);
+                    }
+                }.execute();
+
+            }
+
+        });
+
+    }
+
 }
