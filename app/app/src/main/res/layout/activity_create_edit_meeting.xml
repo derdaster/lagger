@@ -1,6 +1,8 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     xmlns:fbutton="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
     android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
@@ -8,15 +10,16 @@
     tools:context="com.android.lagger.forms.meetings.CreateEditMeetingActivity">
 
 
+
+
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:id="@+id/scrollView">
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent">
-
+            android:layout_height="wrap_content">
             <TextView
                 android:textColor="@color/color_wet_asphalt"
                 android:textSize="24dp"
@@ -40,8 +43,9 @@
                     android:layout_weight="1"/>
 
                 <com.wrapp.floatlabelededittext.FloatLabeledEditText
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:paddingLeft="20dp"
                     android:layout_weight="4">
                     <EditText
                         android:layout_width="match_parent"
@@ -49,6 +53,8 @@
                         android:id="@+id/editTextMeeting"/>
                 </com.wrapp.floatlabelededittext.FloatLabeledEditText>
             </LinearLayout>
+
+
 
             <TextView
                 android:textColor="@color/color_wet_asphalt"
@@ -164,7 +170,6 @@
                     fbutton:cornerRadius="7dp"/>
 
             </LinearLayout>
-
             <TextView
                 android:textColor="@color/color_wet_asphalt"
                 android:textSize="24dp"
@@ -202,8 +207,52 @@
                     fbutton:shadowHeight="4dp"
                     fbutton:cornerRadius="7dp"/>
             </LinearLayout>
-        <!--Lista gości-->
+            <ListView
+                android:id="@+id/guestList"
+                android:layout_height="300dp"
+                android:layout_width="match_parent"
+                android:paddingBottom="10dp">
+            </ListView>
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="10dp">
+                <info.hoang8f.widget.FButton
+                    android:layout_weight="1"
+                    android:layout_gravity="left"
+                    android:id="@+id/btnCancel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:onClick="onClick"
+                    android:text="Cancel"
+                    android:textColor="@color/color_silver"
+                    fbutton:buttonColor="@color/color_carrot"
+                    fbutton:shadowColor="@color/color_asbestos"
+                    fbutton:shadowEnabled="true"
+                    fbutton:shadowHeight="4dp"
+                    fbutton:cornerRadius="7dp"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.2"/>
+                <info.hoang8f.widget.FButton
+                    android:layout_weight="1"
+                    android:layout_gravity="right"
+                    android:id="@+id/btnCreateMeeting"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:onClick="onClick"
+                    android:text="Create"
+                    android:textColor="@color/color_silver"
+                    fbutton:buttonColor="@color/color_green_sea"
+                    fbutton:shadowColor="@color/color_asbestos"
+                    fbutton:shadowEnabled="true"
+                    fbutton:shadowHeight="4dp"
+                    fbutton:cornerRadius="7dp"/>
+            </LinearLayout>
         </LinearLayout>
-        </ScrollView>
+    </ScrollView>
 
-</RelativeLayout>
+
+</LinearLayout>

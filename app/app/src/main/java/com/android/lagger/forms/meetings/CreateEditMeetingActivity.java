@@ -2,10 +2,17 @@ package com.android.lagger.forms.meetings;
 
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.datetimepicker.date.DatePickerDialog;
 import com.android.datetimepicker.time.RadialPickerLayout;
@@ -25,6 +32,7 @@ public class CreateEditMeetingActivity extends ActionBarActivity implements Date
     private Calendar calendar;
     private DateFormat dateFormat;
     private SimpleDateFormat timeFormat;
+    private ListView guestList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,10 +42,59 @@ public class CreateEditMeetingActivity extends ActionBarActivity implements Date
         calendar = Calendar.getInstance();
         dateFormat = DateFormat.getDateInstance(DateFormat.LONG, Locale.getDefault());
         timeFormat = new SimpleDateFormat(TIME_PATTERN, Locale.getDefault());
-
         labelDate = (TextView) findViewById(R.id.labelDate);
+        guestList = (ListView) findViewById(R.id.guestList);
 
+        createGuestList();
         update();
+    }
+
+    private void createGuestList(){
+        String[] values = new String[] {
+                "Karol Więcek",
+                "Bożena Walczak",
+                "Grzegorz Kaśków",
+                "Marek Tomczak",
+                "Paweł Nowak",
+                "Ilona Kowalska",
+                "Karol Więcek",
+                "Bożena Walczak",
+                "Grzegorz Kaśków",
+                "Marek Tomczak",
+                "Paweł Nowak",
+                "Ilona Kowalska",
+                "Piotrek Bilon"
+        };
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_list_item_1, android.R.id.text1, values);
+        guestList.setAdapter(adapter);
+
+        guestList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view,
+                                    int position, long id) {
+                int itemPosition     = position;
+                String  itemValue    = (String) guestList.getItemAtPosition(position);
+                Toast.makeText(getApplicationContext(),
+                        "Position :" + itemPosition + "  ListItem : " + itemValue, Toast.LENGTH_LONG)
+                        .show();
+
+            }
+
+        });
+
+        guestList.setOnTouchListener(new ListView.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_MOVE)
+                {
+                    guestList.scrollBy(0, 1);
+                }
+                return false;
+            }
+        });
     }
 
     private void update() {
@@ -55,6 +112,10 @@ public class CreateEditMeetingActivity extends ActionBarActivity implements Date
             case R.id.btnLocation:
                 break;
             case R.id.btnAddGuest:
+                break;
+            case R.id.btnCancel:
+                break;
+            case R.id.btnCreateMeeting:
                 break;
         }
     }
