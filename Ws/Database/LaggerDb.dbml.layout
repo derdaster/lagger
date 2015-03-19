@@ -1,12 +1,78 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 11, 8.5" name="LaggerDb">
+<ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 15.75, 10.625" name="LaggerDb">
   <DataContextMoniker Name="/LaggerDbEntities" />
   <nestedChildShapes>
-    <classShape Id="0c6c82f1-4d70-40b6-80d3-7f883576dd5b" absoluteBounds="4.125, 1, 2, 2.3478011067708335">
-      <DataClassMoniker Name="/LaggerDbEntities/User" />
+    <classShape Id="77edc084-5abb-41f3-99c5-5bbe0e63adcc" absoluteBounds="13.5, 1.375, 2, 2.7324039713541666">
+      <DataClassMoniker Name="/LaggerDbEntities/Event" />
       <nestedChildShapes>
-        <elementListCompartment Id="30a9bde2-f5ff-4569-a517-fc6c890bdd4e" absoluteBounds="4.14, 1.46, 1.9700000000000002, 1.7878011067708335" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="e379eb7b-2e1e-4ab6-b65b-8243cee254d0" absoluteBounds="13.515, 1.835, 1.9700000000000002, 2.1724039713541665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
+    <classShape Id="ff78fac8-885d-46a5-a068-c90ce1323f98" absoluteBounds="1.75, 3.5, 2, 2.1554996744791666">
+      <DataClassMoniker Name="/LaggerDbEntities/UserFriend" />
+      <nestedChildShapes>
+        <elementListCompartment Id="b96645a2-f0bd-4f81-b294-2e47e0ff1345" absoluteBounds="1.7650000000000006, 3.96, 1.9700000000000002, 1.5954996744791665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="5a79ad63-a011-4f6f-a8ac-f7f713196209" absoluteBounds="3.5, 8, 2, 2.3478011067708353">
+      <DataClassMoniker Name="/LaggerDbEntities/EventDetail" />
+      <nestedChildShapes>
+        <elementListCompartment Id="e7c1354a-0994-4dcd-ac8d-4bf2e5651703" absoluteBounds="3.515, 8.46, 1.9700000000000002, 1.7878011067708335" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="30d92a67-5268-43b2-bd55-2720cdbd6714" absoluteBounds="6.625, 4.25, 2, 2.5401025390625005">
+      <DataClassMoniker Name="/LaggerDbEntities/User" />
+      <nestedChildShapes>
+        <elementListCompartment Id="23fdc458-8696-4da8-8c51-93797a1b5308" absoluteBounds="6.6400000000000006, 4.71, 1.9700000000000002, 1.9801025390625" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="419c2304-3789-4cf3-b38f-c6dd475a76aa" absoluteBounds="8.5, 1.25, 2, 2.1554996744791666">
+      <DataClassMoniker Name="/LaggerDbEntities/UserEvent" />
+      <nestedChildShapes>
+        <elementListCompartment Id="2787a601-2d83-4378-a461-18618ecdff13" absoluteBounds="8.515, 1.71, 1.9700000000000002, 1.5954996744791665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <associationConnector edgePoints="[(14.5 : 4.10740397135417); (14.5 : 9.17390055338542); (5.5 : 9.17390055338542)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/LaggerDbEntities/Event/Event_EventDetail" />
+      <nodes>
+        <classShapeMoniker Id="77edc084-5abb-41f3-99c5-5bbe0e63adcc" />
+        <classShapeMoniker Id="5a79ad63-a011-4f6f-a8ac-f7f713196209" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(6.625 : 4.95274983723958); (3.75 : 4.95274983723958)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/LaggerDbEntities/User/User_UserFriend" />
+      <nodes>
+        <classShapeMoniker Id="30d92a67-5268-43b2-bd55-2720cdbd6714" />
+        <classShapeMoniker Id="ff78fac8-885d-46a5-a068-c90ce1323f98" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(6.625 : 4.53887491861979); (3.75 : 4.53887491861979)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/LaggerDbEntities/User/User_UserFriend1" />
+      <nodes>
+        <classShapeMoniker Id="30d92a67-5268-43b2-bd55-2720cdbd6714" />
+        <classShapeMoniker Id="ff78fac8-885d-46a5-a068-c90ce1323f98" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(7.625 : 6.7901025390625); (7.625 : 8.55569777669271); (5.5 : 8.55569777669271)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/LaggerDbEntities/User/User_EventDetail" />
+      <nodes>
+        <classShapeMoniker Id="30d92a67-5268-43b2-bd55-2720cdbd6714" />
+        <classShapeMoniker Id="5a79ad63-a011-4f6f-a8ac-f7f713196209" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(13.5 : 2.39024983723958); (10.5 : 2.39024983723958)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/LaggerDbEntities/Event/Event_UserEvent" />
+      <nodes>
+        <classShapeMoniker Id="77edc084-5abb-41f3-99c5-5bbe0e63adcc" />
+        <classShapeMoniker Id="419c2304-3789-4cf3-b38f-c6dd475a76aa" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(7.5624995 : 4.25); (7.5624995 : 2.32774983723958); (8.5 : 2.32774983723958)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/LaggerDbEntities/User/User_UserEvent" />
+      <nodes>
+        <classShapeMoniker Id="30d92a67-5268-43b2-bd55-2720cdbd6714" />
+        <classShapeMoniker Id="419c2304-3789-4cf3-b38f-c6dd475a76aa" />
+      </nodes>
+    </associationConnector>
   </nestedChildShapes>
 </ordesignerObjectsDiagram>

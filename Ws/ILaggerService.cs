@@ -13,6 +13,24 @@ namespace LaggerServer
     public interface ILaggerService
     {
         [OperationContract]
+        [WebInvoke(UriTemplate = "user/login", Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        LoginUserResponse LoginUser(LoginUserRequest request);
+
+        [OperationContract]
+        [WebInvoke(UriTemplate = "user/meetings/get", Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        GetMeetingsResponse GetMeetings(GetMeetingsRequest request);
+
+        [OperationContract]
+        [WebInvoke(UriTemplate = "user/meetings/invitation", Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        GetMeetingInvitationsResponse GetMeetingInvitations(GetMeetingInvitationsRequest request);
+
+        [OperationContract]
+        [WebInvoke(UriTemplate = "user/friends/get", Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        GetFriendsResponse GetFriends(GetFriendsRequest request);
+
+        #region Testy
+
+        [OperationContract]
         [WebGet(UriTemplate = "test/connection", ResponseFormat = WebMessageFormat.Json)]
         string TestConnection();
 
@@ -31,6 +49,8 @@ namespace LaggerServer
         [OperationContract]
         [WebGet(ResponseFormat = WebMessageFormat.Json, UriTemplate = "Test/{id}")]
         User GetUser(string id);
+
+        #endregion
     }
 
 

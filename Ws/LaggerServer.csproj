@@ -71,10 +71,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>LaggerDb.dbml</DependentUpon>
     </Compile>
+    <Compile Include="Entities.cs" />
     <Compile Include="LaggerService.svc.cs">
       <DependentUpon>LaggerService.svc</DependentUpon>
     </Compile>
     <Compile Include="ILaggerService.cs" />
+    <Compile Include="LaggerServiceRequestResponse.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />
