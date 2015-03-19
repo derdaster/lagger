@@ -19,11 +19,14 @@ import java.io.InputStreamReader;
 
 /**
  * Created by Ewelina Klisowska on 2015-03-14.
+ *
+ * This class is only for quick testing new connections with server
  */
 public class TestServerConnection {
 
     public static final String TEST_POST = "http://abecadlo.zapto.org:9999/LaggerService.svc/test/json";
     public static final String TEST_CONNECTION_URL = "http://abecadlo.zapto.org:9999/LaggerService.svc/test/connection";
+    public static final String TEST_USER_LOGIN = "http://abecadlo.zapto.org:9999/LaggerService.svc/user/login";
 
     public static String GET(String url){
         InputStream inputStream = null;
@@ -74,6 +77,58 @@ public class TestServerConnection {
             JsonObject jsonObject = new JsonObject();
             jsonObject.addProperty("Login", "john");
             jsonObject.addProperty("Password", "4321");
+
+            // 4. convert JSONObject to JSON to String
+            json = g.toJson(jsonObject).toString();
+
+            // 5. set json to StringEntity
+            StringEntity se = new StringEntity(json);
+
+            // 6. set httpPost Entity
+            httpPost.setEntity(se);
+
+            // 7. Set some headers to inform server about the type of the content
+            httpPost.setHeader("Accept", "application/json");
+            httpPost.setHeader("Content-type", "application/json");
+
+            // 8. Execute POST request to the given URL
+            HttpResponse httpResponse = httpclient.execute(httpPost);
+
+            // 9. receive response as inputStream
+            inputStream = httpResponse.getEntity().getContent();
+
+            // 10. convert inputstream to string
+            if(inputStream != null)
+                result = convertInputStreamToString(inputStream);
+            else
+                result = "Did not work!";
+
+        } catch (Exception e) {
+            Exception ex = e;
+        }
+
+        // 11. return result
+        return result;
+    }
+
+    public static String user_post_test(){
+        InputStream inputStream = null;
+        String result = "";
+        try {
+
+            // 1. create HttpClient
+            HttpClient httpclient = new DefaultHttpClient();
+
+            // 2. make POST request to the given URL
+            HttpPost httpPost = new HttpPost(TEST_USER_LOGIN);
+
+            String json = "";
+
+            // 3. build gson object
+            Gson g = new Gson();
+            JsonObject jsonObject = new JsonObject();
+            jsonObject.addProperty("Login", "Test");
+            jsonObject.addProperty("Password", "tajneHaslo");
 
             // 4. convert JSONObject to JSON to String
             json = g.toJson(jsonObject).toString();

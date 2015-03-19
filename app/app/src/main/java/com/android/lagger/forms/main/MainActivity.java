@@ -29,7 +29,7 @@ public class MainActivity extends ActionBarActivity {
     TextView getResponseTextView;
     TextView postResponseTextView;
 
-    String responseGET = "testowy string";
+    String responseGET;
     String responsePOST;
 
 
@@ -79,18 +79,18 @@ public class MainActivity extends ActionBarActivity {
             }
 
         });
-        buttonL = (Button) findViewById(R.id.button2);
-        buttonL.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View arg0) {
-
-                Intent intent = new Intent(context, LoginActivity.class);
-                startActivity(intent);
-
-            }
-
-        });
+//        buttonL = (Button) findViewById(R.id.button2);
+//        buttonL.setOnClickListener(new View.OnClickListener() {
+//
+//            @Override
+//            public void onClick(View arg0) {
+//
+//                Intent intent = new Intent(context, LoginActivity.class);
+//                startActivity(intent);
+//
+//            }
+//
+//        });
 
         buttonM = (Button) findViewById(R.id.button3);
         buttonM.setOnClickListener(new View.OnClickListener() {
@@ -121,6 +121,11 @@ public class MainActivity extends ActionBarActivity {
                     @Override
                     protected String doInBackground(String... urls) {
                         return  TestServerConnection.GET(TestServerConnection.TEST_CONNECTION_URL);
+                        /*
+                        for quick test login user
+                          return TestServerConnection.user_post_test();
+                        */
+
                     }
                     // onPostExecute displays the results of the AsyncTask.
                     @Override

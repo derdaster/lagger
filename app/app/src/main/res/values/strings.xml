@@ -8,4 +8,7 @@
     <string name="title_activity_meetings">MeetingsActivity</string>
     <string name="title_activity_meetings_list">MeetingsListActivity</string>
     <string name="title_activity_create_edit_meeting">CreateEditMeetingActivity</string>
+    <string name="unregistered_user">Unregistered user!</string>
+    <string name="success_login">Success!</string>
+    <string name="incorrect_password">Incorrect password!</string>
 </resources>
