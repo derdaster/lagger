@@ -1,15 +1,15 @@
 package com.android.lagger.forms.meetings;
 
-import android.support.v7.app.ActionBarActivity;
+import android.app.Fragment;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.LinearLayout;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -18,36 +18,85 @@ import com.android.datetimepicker.date.DatePickerDialog;
 import com.android.datetimepicker.time.RadialPickerLayout;
 import com.android.datetimepicker.time.TimePickerDialog;
 import com.android.lagger.R;
+import com.android.lagger.forms.main.MainActivity;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
 
-public class CreateEditMeetingActivity extends ActionBarActivity implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
+/**
+ * Created by Kubaa on 2015-03-20.
+ */
+public class CreateEditMeetingFragment extends Fragment{
 
     private static final String TIME_PATTERN = "HH:mm";
 
+    private View parent;
+    private Context mContext;
     private TextView labelDate;
     private Calendar calendar;
     private DateFormat dateFormat;
     private SimpleDateFormat timeFormat;
     private ListView guestList;
+    private Button btnDate;
+    private Button btnTime;
+
+    public CreateEditMeetingFragment(Context context){
+        mContext = context;
+    }
+
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        parent = inflater.inflate(R.layout.fragment_create_edit_meeting, container, false);
+
+        addButtonsAndListeners();
+
+        return parent;
+    }
+
+    public void addButtonsAndListeners()
+    {
+        btnDate = (Button) parent.findViewById(R.id.btnDatePicker);
+        btnDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DatePickerDialog.newInstance(new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePickerDialog dialog, int year, int monthOfYear, int dayOfMonth) {
+                        calendar.set(year, monthOfYear, dayOfMonth);
+                        update();
+                    }
+                }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)).show(getFragmentManager(), "datePicker");
+            }
+        });
+        btnTime = (Button) parent.findViewById(R.id.btnTimePicker);
+        btnTime.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TimePickerDialog.newInstance(new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(RadialPickerLayout view, int hourOfDay, int minute) {
+                        calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
+                        calendar.set(Calendar.MINUTE, minute);
+                        update();
+                    }
+                }, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), true).show(getFragmentManager(), "timePicker");
+            }
+        });
+    }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_create_edit_meeting);
-
+    public void onViewCreated(View view, Bundle savedInstanceState) {
         calendar = Calendar.getInstance();
         dateFormat = DateFormat.getDateInstance(DateFormat.LONG, Locale.getDefault());
         timeFormat = new SimpleDateFormat(TIME_PATTERN, Locale.getDefault());
-        labelDate = (TextView) findViewById(R.id.labelDate);
-        guestList = (ListView) findViewById(R.id.guestList);
+        labelDate = (TextView) getView().findViewById(R.id.labelDate);
+        guestList = (ListView) getView().findViewById(R.id.guestList);
 
         createGuestList();
         update();
     }
+
 
     private void createGuestList(){
         String[] values = new String[] {
@@ -66,8 +115,7 @@ public class CreateEditMeetingActivity extends ActionBarActivity implements Date
                 "Piotrek Bilon"
         };
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_list_item_1, android.R.id.text1, values);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(mContext, android.R.layout.simple_list_item_1, android.R.id.text1, values);
         guestList.setAdapter(adapter);
 
         guestList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -77,7 +125,7 @@ public class CreateEditMeetingActivity extends ActionBarActivity implements Date
                                     int position, long id) {
                 int itemPosition     = position;
                 String  itemValue    = (String) guestList.getItemAtPosition(position);
-                Toast.makeText(getApplicationContext(),
+                Toast.makeText(mContext,
                         "Position :" + itemPosition + "  ListItem : " + itemValue, Toast.LENGTH_LONG)
                         .show();
 
@@ -101,57 +149,5 @@ public class CreateEditMeetingActivity extends ActionBarActivity implements Date
         labelDate.setText(dateFormat.format(calendar.getTime()) + " " + timeFormat.format(calendar.getTime()));
     }
 
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.btnDatePicker:
-                DatePickerDialog.newInstance(this, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)).show(getFragmentManager(), "datePicker");
-                break;
-            case R.id.btnTimePicker:
-                TimePickerDialog.newInstance(this, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), true).show(getFragmentManager(), "timePicker");
-                break;
-            case R.id.btnLocation:
-                break;
-            case R.id.btnAddGuest:
-                break;
-            case R.id.btnCancel:
-                break;
-            case R.id.btnCreateMeeting:
-                break;
-        }
-    }
 
-    @Override
-    public void onDateSet(DatePickerDialog dialog, int year, int monthOfYear, int dayOfMonth) {
-        calendar.set(year, monthOfYear, dayOfMonth);
-        update();
-    }
-
-    @Override
-    public void onTimeSet(RadialPickerLayout view, int hourOfDay, int minute) {
-        calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
-        calendar.set(Calendar.MINUTE, minute);
-        update();
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_create_edit_meeting, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
 }
