@@ -146,9 +146,6 @@ public class MainActivity extends ActionBarActivity {
         super.onPostCreate(savedInstanceState);
         // Sync the toggle state after onRestoreInstanceState has occurred.
         mDrawerToggle.syncState();
-                          return TestServerConnection.user_post_test();
-                        */
-
     }
 
     @Override
