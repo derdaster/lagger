@@ -45,10 +45,12 @@ public class MainActivity extends ActionBarActivity {
     private Context mContext;
 
     ListView mDrawerList;
+    String responseGET;
     DrawerLayout mDrawerLayout;
     ArrayAdapter<String> mAdapter;
     ActionBarDrawerToggle mDrawerToggle;
     String mActivityTitle;
+    String responsePOST;
 
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
@@ -90,7 +92,7 @@ public class MainActivity extends ActionBarActivity {
             }
         });
     }
-
+//
     private void selectItem(int position) {
         fragmentTransaction = fragmentManager.beginTransaction();
         switch (position) {
@@ -144,6 +146,9 @@ public class MainActivity extends ActionBarActivity {
         super.onPostCreate(savedInstanceState);
         // Sync the toggle state after onRestoreInstanceState has occurred.
         mDrawerToggle.syncState();
+                          return TestServerConnection.user_post_test();
+                        */
+
     }
 
     @Override

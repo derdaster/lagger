@@ -8,9 +8,9 @@
     <string name="title_activity_meetings">MeetingsActivity</string>
     <string name="title_activity_meetings_list">MeetingsListActivity</string>
     <string name="title_activity_create_edit_meeting">CreateEditMeetingActivity</string>
-    <string name="title_activity_menu">MenuActivity</string>
-
-    <string name="title_section1">Section 1</string>
+    <string name="unregistered_user">Unregistered user!</string>
+    <string name="success_login">Success!</string>
+    <string name="incorrect_password">Incorrect password!</string>
     <string name="title_section2">Section 2</string>
     <string name="title_section3">Section 3</string>
 
