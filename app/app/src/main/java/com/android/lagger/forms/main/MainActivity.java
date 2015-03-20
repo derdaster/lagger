@@ -32,7 +32,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.lagger.R;
-import com.android.lagger.forms.login.LoginActivity;
 import com.android.lagger.forms.login.LoginFragment;
 import com.android.lagger.forms.meetings.CreateEditMeetingFragment;
 import com.android.lagger.gpslocation.GPSFragment;
