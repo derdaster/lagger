@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fbutton="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:weightSum="1">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="10dp"
+        android:layout_weight="0.1">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:id="@+id/ivIconAddGuest"
+            android:src="@drawable/icon_add_guest"
+            android:layout_weight="1"/>
+
+        <info.hoang8f.widget.FButton
+            android:layout_weight="4"
+            android:layout_gravity="center_vertical"
+            android:id="@+id/btnAddGuest"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:text="Add"
+            android:textColor="@color/color_silver"
+            fbutton:buttonColor="@color/color_wet_asphalt"
+            fbutton:shadowColor="@color/color_asbestos"
+            fbutton:shadowEnabled="true"
+            fbutton:shadowHeight="4dp"
+            fbutton:cornerRadius="7dp"/>
+    </LinearLayout>
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.8">
+        <ListView
+            android:id="@+id/guestList"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:paddingBottom="10dp">
+        </ListView>
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="10dp"
+        android:layout_weight="0.1">
+        <info.hoang8f.widget.FButton
+            android:layout_weight="1"
+            android:layout_gravity="left"
+            android:id="@+id/btnCancel"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:text="Cancel"
+            android:textColor="@color/color_silver"
+            fbutton:buttonColor="@color/color_carrot"
+            fbutton:shadowColor="@color/color_asbestos"
+            fbutton:shadowEnabled="true"
+            fbutton:shadowHeight="4dp"
+            fbutton:cornerRadius="7dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.2"/>
+        <info.hoang8f.widget.FButton
+            android:layout_weight="1"
+            android:layout_gravity="right"
+            android:id="@+id/btnCreateMeeting"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:text="Create"
+            android:textColor="@color/color_silver"
+            fbutton:buttonColor="@color/color_green_sea"
+            fbutton:shadowColor="@color/color_asbestos"
+            fbutton:shadowEnabled="true"
+            fbutton:shadowHeight="4dp"
+            fbutton:cornerRadius="7dp"/>
+    </LinearLayout>
+</LinearLayout>

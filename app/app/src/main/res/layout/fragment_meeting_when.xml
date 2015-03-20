@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    xmlns:fbutton="http://schemas.android.com/apk/res-auto"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:textColor="@color/color_wet_asphalt"
+        android:textSize="24dp"
+        android:gravity="left"
+        android:text="Meeting name"
+        android:paddingBottom="10dp"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" />
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="10dp">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:id="@+id/ivIconMeeting"
+            android:src="@drawable/icon_meeting"
+            android:layout_weight="1"/>
+
+        <com.wrapp.floatlabelededittext.FloatLabeledEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="20dp"
+            android:layout_weight="4">
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/editTextMeeting"/>
+        </com.wrapp.floatlabelededittext.FloatLabeledEditText>
+    </LinearLayout>
+
+
+
+    <TextView
+        android:textColor="@color/color_wet_asphalt"
+        android:textSize="24dp"
+        android:gravity="left"
+        android:text="When?"
+        android:paddingBottom="10dp"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="5dp">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:id="@+id/ivIconDate"
+            android:src="@drawable/icon_date"
+            android:layout_weight="1"/>
+
+        <info.hoang8f.widget.FButton
+            android:layout_weight="4"
+            android:layout_gravity="center_vertical"
+            android:id="@+id/btnDatePicker"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:text="Date"
+            android:textColor="@color/color_silver"
+            fbutton:buttonColor="@color/color_wet_asphalt"
+            fbutton:shadowColor="@color/color_asbestos"
+            fbutton:shadowEnabled="true"
+            fbutton:shadowHeight="4dp"
+            fbutton:cornerRadius="7dp"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="10dp">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:id="@+id/ivIconTime"
+            android:src="@drawable/icon_time"
+            android:layout_weight="1"/>
+
+        <info.hoang8f.widget.FButton
+            android:layout_weight="4"
+            android:layout_gravity="center_vertical"
+            android:id="@+id/btnTimePicker"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:text="Time"
+            android:textColor="@color/color_silver"
+            fbutton:buttonColor="@color/color_wet_asphalt"
+            fbutton:shadowColor="@color/color_asbestos"
+            fbutton:shadowEnabled="true"
+            fbutton:shadowHeight="4dp"
+            fbutton:cornerRadius="7dp"/>
+    </LinearLayout>
+
+    <TextView
+        android:textColor="@color/color_asbestos"
+        android:textSize="15dp"
+        android:gravity="right"
+        android:paddingBottom="10dp"
+        android:id="@+id/labelDate"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" />
+
+</LinearLayout>

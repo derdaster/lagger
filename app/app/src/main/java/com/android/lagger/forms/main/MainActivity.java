@@ -50,6 +50,7 @@ public class MainActivity extends ActionBarActivity {
     ActionBarDrawerToggle mDrawerToggle;
     String mActivityTitle;
     String responsePOST;
+    private Activity mActivity;
 
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
@@ -62,6 +63,7 @@ public class MainActivity extends ActionBarActivity {
         mDrawerList = (ListView)findViewById(R.id.navList);
         mDrawerLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
         mActivityTitle = getTitle().toString();
+        mActivity = this;
 
         addDrawerItems();
         setupDrawer();
