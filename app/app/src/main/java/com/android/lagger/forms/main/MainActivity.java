@@ -34,6 +34,7 @@ import android.widget.Toast;
 import com.android.lagger.R;
 import com.android.lagger.forms.login.LoginFragment;
 import com.android.lagger.forms.meetings.CreateEditMeetingFragment;
+import com.android.lagger.forms.meetings.MeetingListFragment;
 import com.android.lagger.gpslocation.GPSFragment;
 import com.android.lagger.serverConnection.TestServerConnection;
 
@@ -82,7 +83,7 @@ public class MainActivity extends ActionBarActivity {
 
 
     private void addDrawerItems() {
-        String[] osArray = { "Meetings", "Friends", "Settings", "CreateTest", "LoginTest", "GPSTest"  };
+        String[] osArray = { "Meetings", "Friends", "Settings", "LoginTest", "GPSTest"  };
         mAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, osArray);
         mDrawerList.setAdapter(mAdapter);
 
@@ -99,18 +100,16 @@ public class MainActivity extends ActionBarActivity {
         switch (position) {
 
             case 0:
+                fragmentTransaction.replace(R.id.content_frame, new MeetingListFragment(mContext)).commit();
                 break;
             case 1:
                 break;
             case 2:
                 break;
             case 3:
-                fragmentTransaction.replace(R.id.content_frame, new CreateEditMeetingFragment(mContext)).commit();
-                break;
-            case 4:
                 fragmentTransaction.replace(R.id.content_frame, new LoginFragment(mContext)).commit();
                 break;
-            case 5:
+            case 4:
                 fragmentTransaction.replace(R.id.content_frame, new GPSFragment(mContext)).commit();
                 break;
         }
