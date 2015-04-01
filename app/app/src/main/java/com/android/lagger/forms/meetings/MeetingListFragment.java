@@ -74,25 +74,6 @@ public class MeetingListFragment extends Fragment {
                 R.layout.listview_item_header, R.id.header);
         simpleSectionedGridAdapter.setSections(sections.toArray(new Section[0]));
         mList.setAdapter(simpleSectionedGridAdapter);
-
-/*
-        mList = (ListView) parent.findViewById(R.id.meeting_list);
-        Meeting m1 = new Meeting(1, "Urodziny", "Balonowa 44", "23.4.2015r.", "Jan");
-        Meeting m2 = new Meeting(2, "Urodziny 2", "Balonowa 45", "24.6.2015r.", "Błażej");
-        Meeting m3 = new Meeting(3, "Urodziny 3", "Balonowa 46", "25.7.2015r.", "Wojtek");
-        Meeting m4 = new Meeting(4, "Urodziny 4", "Balonowa 44", "23.4.2015r.", "Jan");
-        Meeting m5 = new Meeting(5, "Urodziny 5", "Balonowa 45", "24.6.2015r.", "Błażej");
-        Meeting m6 = new Meeting(6, "Urodziny 6", "Balonowa 46", "25.7.2015r.", "Wojtek");
-        meetingsList = new ArrayList<Meeting>();
-        meetingsList.add(m1);
-        meetingsList.add(m2);
-        meetingsList.add(m3);
-        meetingsList.add(m4);
-        meetingsList.add(m5);
-        meetingsList.add(m6);
-        adapter = new MeetingListAdapter(mContext, meetingsList);
-        mList.setAdapter(adapter);
-
         mList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -108,7 +89,6 @@ public class MeetingListFragment extends Fragment {
                 fragmentTransaction.replace(R.id.content_frame, new CreateEditMeetingFragment(mContext)).commit();
             }
         });
-        */
         return parent;
     }
 
