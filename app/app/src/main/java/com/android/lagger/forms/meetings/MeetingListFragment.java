@@ -6,12 +6,15 @@ import android.app.FragmentTransaction;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
+import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -23,11 +26,13 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import dev.dworks.libs.astickyheader.SimpleSectionedListAdapter;
+import dev.dworks.libs.astickyheader.SimpleSectionedListAdapter.Section;
 
 /**
  * Created by Kubaa on 2015-04-01.
  */
-public class MeetingListFragment  extends Fragment {
+public class MeetingListFragment extends Fragment {
     private View parent;
     private Context mContext;
     private ListView mList;
@@ -36,6 +41,9 @@ public class MeetingListFragment  extends Fragment {
     ArrayList<Meeting> meetingsList;
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
+    private String[] mHeaderNames = { "Zaproszenia", "Nadchodzące" };
+    private Integer[] mHeaderPositions = { 0, 2 };
+    private ArrayList<Section> sections = new ArrayList<Section>();
 
     public MeetingListFragment(Context context) {
         mContext = context;
@@ -44,6 +52,30 @@ public class MeetingListFragment  extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         parent = inflater.inflate(R.layout.fragment_meeting_list, container, false);
 
+        mList = (ListView) parent.findViewById(R.id.meeting_list);
+        Meeting m1 = new Meeting(1, "Urodziny", "Balonowa 44", "23.4.2015r.", "Jan");
+        Meeting m2 = new Meeting(2, "Urodziny 2", "Balonowa 45", "24.6.2015r.", "Błażej");
+        Meeting m3 = new Meeting(3, "Urodziny 3", "Balonowa 46", "25.7.2015r.", "Wojtek");
+        Meeting m4 = new Meeting(4, "Urodziny 4", "Balonowa 44", "23.4.2015r.", "Jan");
+        Meeting m5 = new Meeting(5, "Urodziny 5", "Balonowa 45", "24.6.2015r.", "Błażej");
+        Meeting m6 = new Meeting(6, "Urodziny 6", "Balonowa 46", "25.7.2015r.", "Wojtek");
+        meetingsList = new ArrayList<Meeting>();
+        meetingsList.add(m1);
+        meetingsList.add(m2);
+        meetingsList.add(m3);
+        meetingsList.add(m4);
+        meetingsList.add(m5);
+        meetingsList.add(m6);
+        adapter = new MeetingListAdapter(mContext, meetingsList);
+        for (int i = 0; i < mHeaderPositions.length; i++) {
+            sections.add(new Section(mHeaderPositions[i], mHeaderNames[i]));
+        }
+        SimpleSectionedListAdapter simpleSectionedGridAdapter = new SimpleSectionedListAdapter(mContext, adapter,
+                R.layout.listview_item_header, R.id.header);
+        simpleSectionedGridAdapter.setSections(sections.toArray(new Section[0]));
+        mList.setAdapter(simpleSectionedGridAdapter);
+
+/*
         mList = (ListView) parent.findViewById(R.id.meeting_list);
         Meeting m1 = new Meeting(1, "Urodziny", "Balonowa 44", "23.4.2015r.", "Jan");
         Meeting m2 = new Meeting(2, "Urodziny 2", "Balonowa 45", "24.6.2015r.", "Błażej");
@@ -76,7 +108,7 @@ public class MeetingListFragment  extends Fragment {
                 fragmentTransaction.replace(R.id.content_frame, new CreateEditMeetingFragment(mContext)).commit();
             }
         });
-
+        */
         return parent;
     }
 

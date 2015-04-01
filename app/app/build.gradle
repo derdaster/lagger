@@ -27,4 +27,5 @@ dependencies {
     compile 'com.wrapp.floatlabelededittext:library:0.0.6'
     compile 'info.hoang8f:fbutton:1.0.5'
     compile 'com.github.citux:datetimepicker:0.1.2'
+    compile 'dev.dworks.libs:astickyheader:0.1.0'
 }

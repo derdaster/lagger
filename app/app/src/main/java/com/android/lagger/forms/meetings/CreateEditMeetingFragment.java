@@ -111,6 +111,10 @@ public class CreateEditMeetingFragment extends Fragment{
         return parent;
     }
 
+    private void initControls() {
+
+    }
+
     public void addButtonsAndListeners()
     {
         btnDate = (Button) parent.findViewById(R.id.btnDatePicker);
