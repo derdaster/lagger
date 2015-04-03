@@ -11,14 +11,14 @@
         android:layout_width="match_parent"
         android:layout_height="fill_parent"
         android:layout_weight="0.9"/>
-    <!--
-        <app.controls.custom.LinePageIndicator
-            android:id="@+id/indicator"
-            android:layout_width="match_parent"
-            android:layout_height="fill_parent"
-            android:gravity="center"
-            android:layout_weight="0.1"
-            android:layout_marginBottom="10dp"
-            android:layout_marginTop="10dp"/>-->
+
+    <com.android.lagger.controls.custom.LinePageIndicator
+        android:id="@+id/indicator"
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent"
+        android:gravity="center"
+        android:layout_weight="0.1"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp"/>
 
 </LinearLayout>

@@ -23,6 +23,7 @@ import com.android.lagger.R;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Locale;
 
 /**
  * Created by Kubaa on 2015-03-20.
@@ -36,9 +37,8 @@ public class MeetingWhenFragment extends Fragment {
     private Calendar calendar;
     private DateFormat dateFormat;
     private TextView labelDate;
-    private ListView guestList;
     private SimpleDateFormat timeFormat;
-    private ArrayAdapter<String> adapter;
+    private static final String TIME_PATTERN = "HH:mm";
 
     public MeetingWhenFragment(ViewPager inParentPager,Context context) {
         parentPager = inParentPager;
@@ -47,34 +47,22 @@ public class MeetingWhenFragment extends Fragment {
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         parent = inflater.inflate(R.layout.fragment_meeting_when, container, false);
-        createGuestList();
         addButtonsAndListeners();
         return parent;
     }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
+        calendar = Calendar.getInstance();
+        dateFormat = DateFormat.getDateInstance(DateFormat.LONG, Locale.getDefault());
+        timeFormat = new SimpleDateFormat(TIME_PATTERN, Locale.getDefault());
+        labelDate = (TextView) getView().findViewById(R.id.labelDate);
+        update();
     }
 
     public void addButtonsAndListeners()
     {
-        guestList = (ListView) parent.findViewById(R.id.guestList);
-        //guestList.setAdapter(adapter);
-        /*
-        guestList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view,
-                                    int position, long id) {
-                int itemPosition     = position;
-                String  itemValue    = (String) guestList.getItemAtPosition(position);
-                Toast.makeText(mContext,
-                        "Position :" + itemPosition + "  ListItem : " + itemValue, Toast.LENGTH_LONG)
-                        .show();
-
-            }
-
-        });*/
         btnDate = (Button) parent.findViewById(R.id.btnDatePicker);
         btnDate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -108,24 +96,4 @@ public class MeetingWhenFragment extends Fragment {
         labelDate.setText(dateFormat.format(calendar.getTime()) + " " + timeFormat.format(calendar.getTime()));
     }
 
-    private void createGuestList(){
-        String[] values = new String[] {
-                "Karol Więcek",
-                "Bożena Walczak",
-                "Grzegorz Kaśków",
-                "Marek Tomczak",
-                "Paweł Nowak",
-                "Ilona Kowalska",
-                "Karol Więcek",
-                "Bożena Walczak",
-                "Grzegorz Kaśków",
-                "Marek Tomczak",
-                "Paweł Nowak",
-                "Ilona Kowalska",
-                "Piotrek Bilon"
-        };
-
-        adapter = new ArrayAdapter<String>(mContext, android.R.layout.simple_list_item_1, android.R.id.text1, values);
-
-    }
 }
