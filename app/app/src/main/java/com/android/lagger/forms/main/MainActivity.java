@@ -32,6 +32,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.lagger.R;
+import com.android.lagger.forms.friends.FriendsListFragment;
 import com.android.lagger.forms.login.LoginFragment;
 import com.android.lagger.forms.meetings.CreateEditMeetingFragment;
 import com.android.lagger.forms.meetings.MeetingListFragment;
@@ -103,6 +104,7 @@ public class MainActivity extends ActionBarActivity {
                 fragmentTransaction.replace(R.id.content_frame, new MeetingListFragment(mContext)).commit();
                 break;
             case 1:
+                fragmentTransaction.replace(R.id.content_frame, new FriendsListFragment(mContext)).commit();
                 break;
             case 2:
                 break;
