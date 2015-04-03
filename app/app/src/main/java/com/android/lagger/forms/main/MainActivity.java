@@ -2,9 +2,11 @@ package com.android.lagger.forms.main;
 
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Color;
@@ -32,6 +34,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.lagger.R;
+import com.android.lagger.controls.basic.SomeDialog;
 import com.android.lagger.forms.friends.FriendsListFragment;
 import com.android.lagger.forms.login.LoginFragment;
 import com.android.lagger.forms.meetings.CreateEditMeetingFragment;

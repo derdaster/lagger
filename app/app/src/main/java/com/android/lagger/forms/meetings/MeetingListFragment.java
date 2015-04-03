@@ -1,9 +1,11 @@
 package com.android.lagger.forms.meetings;
 
+import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.util.SparseArray;
@@ -19,6 +21,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.android.lagger.R;
+import com.android.lagger.controls.basic.SomeDialog;
 import com.android.lagger.logic.adapters.MeetingListAdapter;
 import com.android.lagger.model.entities.Meeting;
 
@@ -41,8 +44,10 @@ public class MeetingListFragment extends Fragment {
     ArrayList<Meeting> meetingsList;
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
+    private int indexOfInvited = 0;
+    private int indexOfUpComing = 2;
     private String[] mHeaderNames = { "Zaproszenia", "Nadchodzące" };
-    private Integer[] mHeaderPositions = { 0, 2 };
+    private Integer[] mHeaderPositions = { indexOfInvited, indexOfUpComing };
     private ArrayList<Section> sections = new ArrayList<Section>();
 
     public MeetingListFragment(Context context) {
@@ -74,13 +79,24 @@ public class MeetingListFragment extends Fragment {
                 R.layout.listview_item_header, R.id.header);
         simpleSectionedGridAdapter.setSections(sections.toArray(new Section[0]));
         mList.setAdapter(simpleSectionedGridAdapter);
+
+        fragmentManager = getFragmentManager();
         mList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                if(i <= indexOfUpComing)
+                {
+                    fragmentTransaction = fragmentManager.beginTransaction();
+                    SomeDialog newFragment = new SomeDialog ();
+                    newFragment.show(fragmentTransaction, "dialog");
 
+                }
             }
         });
-        fragmentManager = getFragmentManager();
+
+
+
+
         btnAdd = (Button) parent.findViewById(R.id.btnAddMeeting);
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
