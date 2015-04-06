@@ -7,18 +7,17 @@ public class GPSCoordinates {
     private double longitude;
     private double latitude;
 
+    public GPSCoordinates(double latitude, double longitude) {
+        this.longitude = longitude;
+        this.latitude = latitude;
+    }
+
     public double getLongitude() {
         return longitude;
     }
 
     public double getLatitude() {
         return latitude;
-    }
-
-
-    public GPSCoordinates(double longitude, double latitude) {
-        this.longitude = longitude;
-        this.latitude = latitude;
     }
 
 }

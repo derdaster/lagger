@@ -39,13 +39,12 @@ import java.util.List;
  */
 public class MapFragment extends Fragment {
 
+    static final LatLng DUBLIN = new LatLng(53.344103999999990000,
+            -6.267493699999932000);
     public static HashMap<Integer,Float> markerColors;
     ProgressDialog pDialog;
     List<LatLng> polyz;
     JSONArray array;
-    static final LatLng DUBLIN = new LatLng(53.344103999999990000,
-            -6.267493699999932000);
-
     MapView mMapView;
     private GoogleMap googleMap;
     private Context mContext;
@@ -58,11 +57,18 @@ public class MapFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         initalizeMarkerColors();
+
+        //test Data, to delete!!!/////////////////////////////////////////////////////////////////
         gpsUsers=new ArrayList<GPSUser>();
         gpsUsers.add(new GPSUser(50.808236, 19.108781));
         gpsUsers.add(new GPSUser(50.808434, 19.128928));
         gpsUsers.add(new GPSUser(50.825787, 19.126696));
         gpsUsers.add(new GPSUser(50.835979, 19.149356));
+        GPSUser tempUser = gpsUsers.get(0);
+        tempUser.addGPSPosition(new GPSCoordinates(50.808236, 19.108781));
+        tempUser.addGPSPosition(new GPSCoordinates(50.808434, 19.128928));
+        tempUser.addGPSPosition(new GPSCoordinates(50.825787, 19.126696));
+
         // inflat and return the layout
         View v = inflater.inflate(R.layout.fragment_test_map, container,
                 false);
@@ -78,21 +84,7 @@ public class MapFragment extends Fragment {
         }
 
         googleMap = mMapView.getMap();
-        // latitude and longitude
-        double latitude = 17.385044;
-        double longitude = 78.486671;
 
-        // create marker
-        MarkerOptions marker = new MarkerOptions().position(
-                new LatLng(50.811146, 19.092879)).title("Hello Maps");
-
-        // Changing marker icon
-        float x= (float) 2.0;
-        marker.icon(BitmapDescriptorFactory
-                .defaultMarker(x));
-
-        // adding marker
-        googleMap.addMarker(marker);
         GPSService gpsService = new GPSService(mContext);
         if(gpsService.canGetLocation()) {
             gpsService.getLatitude();
@@ -108,6 +100,8 @@ public class MapFragment extends Fragment {
         new GetDirection().execute();
         showUserMarkers();
         // Perform any camera updates here
+
+
         return v;
     }
 
@@ -133,6 +127,85 @@ public class MapFragment extends Fragment {
     public void onLowMemory() {
         super.onLowMemory();
         mMapView.onLowMemory();
+    }
+
+    /* Method to decode polyline points */
+    private List<LatLng> decodePoly(String encoded) {
+
+        List<LatLng> poly = new ArrayList<LatLng>();
+        int index = 0, len = encoded.length();
+        int lat = 0, lng = 0;
+
+        while (index < len) {
+            int b, shift = 0, result = 0;
+            do {
+                b = encoded.charAt(index++) - 63;
+                result |= (b & 0x1f) << shift;
+                shift += 5;
+            } while (b >= 0x20);
+            int dlat = ((result & 1) != 0 ? ~(result >> 1) : (result >> 1));
+            lat += dlat;
+
+            shift = 0;
+            result = 0;
+            do {
+                b = encoded.charAt(index++) - 63;
+                result |= (b & 0x1f) << shift;
+                shift += 5;
+            } while (b >= 0x20);
+            int dlng = ((result & 1) != 0 ? ~(result >> 1) : (result >> 1));
+            lng += dlng;
+
+            LatLng p = new LatLng((((double) lat / 1E5)),
+                    (((double) lng / 1E5)));
+            poly.add(p);
+        }
+
+        return poly;
+    }
+
+    public void showUserMarkers() {
+        int i = 0;
+        for (GPSUser user : gpsUsers) {
+            MarkerOptions marker = new MarkerOptions().position(
+                    new LatLng(user.getActualPositition().getLatitude(), user.getActualPositition().getLongitude())).title("Hello Maps");
+
+            // Changing marker icon
+            float x = (float) 2.0;
+            marker.icon(BitmapDescriptorFactory
+                    .defaultMarker(markerColors.get(i)));
+
+            // adding marker
+            googleMap.addMarker(marker);
+            if (!user.getPositionList().isEmpty())
+                drawUserPath(user);
+            i++;
+        }
+    }
+
+    public void drawUserPath(GPSUser user) {
+        List<GPSCoordinates> tempList = user.getPositionList();
+        for (int i = 0; i < user.getPositionList().size() - 1; i++) {
+            Polyline line = googleMap.addPolyline(new PolylineOptions()
+                    .add(new LatLng(tempList.get(i).getLatitude(), tempList.get(i).getLongitude()), new LatLng(tempList.get(i + 1).getLatitude(), tempList.get(i + 1).getLongitude()))
+                    .width(5)
+                    .color(Color.BLACK));
+        }
+
+    }
+
+    private void initalizeMarkerColors() {
+        markerColors = new HashMap<Integer, Float>();
+        markerColors.put(0, (float) 210.0);
+        markerColors.put(1, (float) 240.0);
+        markerColors.put(2, (float) 180.0);
+        markerColors.put(3, (float) 120.0);
+        markerColors.put(4, (float) 300.0);
+        markerColors.put(5, (float) 30.0);
+        markerColors.put(6, (float) 0.0);
+        markerColors.put(7, (float) 330.0);
+        markerColors.put(8, (float) 270.0);
+        markerColors.put(9, (float) 60.0);
     }
 
     class GetDirection extends AsyncTask<String, String, String> {
@@ -194,7 +267,7 @@ public class MapFragment extends Fragment {
 
         protected void onPostExecute(String file_url) {
 
-            if(polyz!=null) {
+            if (polyz != null) {
                 for (int i = 0; i < polyz.size() - 1; i++) {
                     LatLng src = polyz.get(i);
                     LatLng dest = polyz.get(i + 1);
@@ -208,75 +281,6 @@ public class MapFragment extends Fragment {
             }
 
         }
-    }
-
-    /* Method to decode polyline points */
-    private List<LatLng> decodePoly(String encoded) {
-
-        List<LatLng> poly = new ArrayList<LatLng>();
-        int index = 0, len = encoded.length();
-        int lat = 0, lng = 0;
-
-        while (index < len) {
-            int b, shift = 0, result = 0;
-            do {
-                b = encoded.charAt(index++) - 63;
-                result |= (b & 0x1f) << shift;
-                shift += 5;
-            } while (b >= 0x20);
-            int dlat = ((result & 1) != 0 ? ~(result >> 1) : (result >> 1));
-            lat += dlat;
-
-            shift = 0;
-            result = 0;
-            do {
-                b = encoded.charAt(index++) - 63;
-                result |= (b & 0x1f) << shift;
-                shift += 5;
-            } while (b >= 0x20);
-            int dlng = ((result & 1) != 0 ? ~(result >> 1) : (result >> 1));
-            lng += dlng;
-
-            LatLng p = new LatLng((((double) lat / 1E5)),
-                    (((double) lng / 1E5)));
-            poly.add(p);
-        }
-
-        return poly;
-    }
-
-    public void showUserMarkers() {
-        int i = 0;
-        for (GPSUser user : gpsUsers) {
-
-            MarkerOptions marker = new MarkerOptions().position(
-                    new LatLng(user.getActualPositition().getLongitude(), user.getActualPositition().getLatitude())).title("Hello Maps");
-
-            // Changing marker icon
-            float x = (float) 2.0;
-            marker.icon(BitmapDescriptorFactory
-                    .defaultMarker(markerColors.get(i)));
-
-            // adding marker
-            googleMap.addMarker(marker);
-            i++;
-        }
-
-
-    }
-
-    private void initalizeMarkerColors(){
-        markerColors=new HashMap<Integer,Float>();
-        markerColors.put(0,(float)210.0);
-        markerColors.put(1,(float)240.0);
-        markerColors.put(2,(float)180.0);
-        markerColors.put(3,(float)120.0);
-        markerColors.put(4,(float)300.0);
-        markerColors.put(5,(float)30.0);
-        markerColors.put(6,(float)0.0);
-        markerColors.put(7,(float)330.0);
-        markerColors.put(8,(float)270.0);
-        markerColors.put(9,(float)60.0);
     }
 }
 
