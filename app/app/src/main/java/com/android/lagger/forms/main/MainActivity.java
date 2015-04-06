@@ -2,45 +2,26 @@ package com.android.lagger.forms.main;
 
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.res.Configuration;
-import android.graphics.Color;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.provider.SyncStateContract;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ListView;
-import android.widget.TextView;
-import android.content.Context;
-import android.content.res.TypedArray;
-import android.graphics.Color;
-import android.graphics.Typeface;
-import android.support.v4.widget.DrawerLayout.LayoutParams;
-import android.os.Bundle;
-import android.util.DisplayMetrics;
-import android.view.*;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.lagger.R;
-import com.android.lagger.controls.basic.SomeDialog;
 import com.android.lagger.forms.friends.FriendsListFragment;
 import com.android.lagger.forms.login.LoginFragment;
-import com.android.lagger.forms.meetings.CreateEditMeetingFragment;
 import com.android.lagger.forms.meetings.MeetingListFragment;
-import com.android.lagger.gpslocation.GPSFragment;
-import com.android.lagger.serverConnection.TestServerConnection;
+import com.android.lagger.gpslocation.MapFragment;
 
 
 
@@ -115,7 +96,7 @@ public class MainActivity extends ActionBarActivity {
                 fragmentTransaction.replace(R.id.content_frame, new LoginFragment(mContext)).commit();
                 break;
             case 4:
-                fragmentTransaction.replace(R.id.content_frame, new GPSFragment(mContext)).commit();
+                fragmentTransaction.replace(R.id.content_frame, new MapFragment(mContext)).commit();
                 break;
         }
 

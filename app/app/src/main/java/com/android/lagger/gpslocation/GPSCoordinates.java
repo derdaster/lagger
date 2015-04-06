@@ -4,11 +4,11 @@ package com.android.lagger.gpslocation;
  * Created by ADERDA on 13-Mrz-2015.
  */
 public class GPSCoordinates {
-    private double longtitude;
+    private double longitude;
     private double latitude;
 
-    public double getLongtitude() {
-        return longtitude;
+    public double getLongitude() {
+        return longitude;
     }
 
     public double getLatitude() {
@@ -16,8 +16,8 @@ public class GPSCoordinates {
     }
 
 
-    public GPSCoordinates(double longtitude, double latitude) {
-        this.longtitude = longtitude;
+    public GPSCoordinates(double longitude, double latitude) {
+        this.longitude = longitude;
         this.latitude = latitude;
     }
 

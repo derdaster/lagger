@@ -155,11 +155,10 @@ public class GPSService extends Service implements LocationListener {
     public void onLocationChanged(Location arg0) {
         location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
         coordinates = new GPSCoordinates(location.getLatitude(), location.getLongitude());
-        coordinatesList.add(coordinates);
         Toast.makeText(
                 context,
                 "Twoja pozycja -\nX: " + coordinates.getLatitude() + "\nY: "
-                        + coordinates.getLongtitude()+"liczba "+coordinatesList.size(), Toast.LENGTH_LONG).show();
+                        + coordinates.getLongitude()+"liczba "+coordinatesList.size(), Toast.LENGTH_LONG).show();
 
     }
 
