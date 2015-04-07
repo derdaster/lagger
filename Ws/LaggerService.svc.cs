@@ -57,7 +57,7 @@ namespace LaggerServer
             {
                 var response = new LoginUserResponse();
 
-                var user = ctx.Users.Where(x => x.Login.Equals(request.Login)).FirstOrDefault();
+                var user = ctx.Users.Where(x => x.Login.Equals(request.Login) && !x.Blocked).FirstOrDefault();
 
                 if (user != null)
                 {
@@ -79,7 +79,7 @@ namespace LaggerServer
                 return response;
             }
         }
-        
+
         public GetMeetingsResponse GetMeetings(GetMeetingsRequest request)
         {
             using (var ctx = new LaggerDbEntities())
@@ -89,6 +89,8 @@ namespace LaggerServer
                             on e.ID_Event equals ue.IDEvent
                             where ue.IDUser == request.IdUser
                             && ue.Status == (short)UserEventStatus.Accepted
+                            && !e.Blocked
+                            && !ue.Blocked
                             select new Meeting(e)).ToList();
 
                 return new GetMeetingsResponse()
@@ -97,7 +99,7 @@ namespace LaggerServer
                 };
             }
         }
-        
+
         public GetFriendsResponse GetFriends(GetFriendsRequest request)
         {
             using (var ctx = new LaggerDbEntities())
@@ -107,6 +109,8 @@ namespace LaggerServer
                            on uf.IDUser equals u.ID_User
                            where uf.Status == (short)UserFriendStatus.Accepted
                            && uf.IDFriend == request.IdUser
+                           && !u.Blocked
+                           && !uf.Blocked
                            select new Friend(u);
 
                 var list2 = from uf in ctx.UserFriends
@@ -114,6 +118,8 @@ namespace LaggerServer
                             on uf.IDFriend equals u.ID_User
                             where uf.Status == (short)UserFriendStatus.Accepted
                             && uf.IDUser == request.IdUser
+                            && !u.Blocked
+                            && !uf.Blocked
                             select new Friend(u);
 
                 return new GetFriendsResponse()
@@ -122,7 +128,7 @@ namespace LaggerServer
                 };
             }
         }
-        
+
         public GetMeetingInvitationsResponse GetMeetingInvitations(GetMeetingInvitationsRequest request)
         {
             using (var ctx = new LaggerDbEntities())
@@ -132,12 +138,142 @@ namespace LaggerServer
                             on e.ID_Event equals ue.IDEvent
                             where ue.IDUser == request.IdUser
                             && ue.Status == (short)UserEventStatus.NotAccepted
+                            && !e.Blocked
+                            && !ue.Blocked
                             select new Meeting(e)).ToList();
 
                 return new GetMeetingInvitationsResponse()
                 {
                     List = list
                 };
+            }
+        }
+
+
+        public List<Friend> GetFriendsTest(GetFriendsRequest request)
+        {
+            throw new NotImplementedException();
+        }
+
+        public AddFriendResponse AddFriend(AddFriendRequest request)
+        {
+            using (var ctx = new LaggerDbEntities())
+            {
+                var entity = (from uf in ctx.UserFriends
+                              where uf.Status == (short)UserFriendStatus.NotAccepted
+                              && (uf.IDUser == request.IdUser && uf.IDFriend == request.IdFriend
+                              || uf.IDFriend == request.IdUser && uf.IDUser == request.IdFriend)
+                              && !uf.Blocked
+                              select uf).FirstOrDefault();
+
+                if (entity != null)
+                {
+                    entity.Status = (short)UserFriendStatus.Accepted;
+                }
+                else
+                {
+                    entity = new UserFriend()
+                    {
+                        IDUser = request.IdUser,
+                        IDFriend = request.IdFriend,
+                        Status = (short)UserFriendStatus.NotAccepted
+                    };
+
+                    ctx.UserFriends.InsertOnSubmit(entity);
+                }
+
+                ctx.SubmitChanges();
+
+                return new AddFriendResponse();
+            }
+        }
+
+        public RemoveFriendResponse RemoveFriend(RemoveFriendRequest request)
+        {
+            using (var ctx = new LaggerDbEntities())
+            {
+                var entity = (from uf in ctx.UserFriends
+                              where uf.Status == (short)UserFriendStatus.NotAccepted
+                              && (uf.IDUser == request.IdUser && uf.IDFriend == request.IdFriend
+                              || uf.IDFriend == request.IdUser && uf.IDUser == request.IdFriend)
+                              && !uf.Blocked
+                              select uf).FirstOrDefault();
+
+                if (entity != null)
+                {
+                    entity.Status = (short)UserFriendStatus.Refused;
+                }
+                else
+                {
+                    entity = new UserFriend()
+                    {
+                        IDUser = request.IdUser,
+                        IDFriend = request.IdFriend,
+                        Status = (short)UserFriendStatus.Refused
+                    };
+
+                    ctx.UserFriends.InsertOnSubmit(entity);
+                }
+
+                ctx.SubmitChanges();
+
+                return new RemoveFriendResponse();
+            }
+        }
+
+        public AddMeetingResponse AddMeeting(AddMeetingRequest request)
+        {
+            using (var ctx = new LaggerDbEntities())
+            {
+                // IDOrganizatora
+                var entity = new Event()
+                    {
+                        Name = request.Name,
+                        LocationName = request.LocationName,
+                        Latitude = request.Latitude,
+                        Longitude = request.Longitude,
+                        StartTime = request.StartTime,
+                        EndTime = request.EndTime
+                    };
+
+                ctx.Events.InsertOnSubmit(entity);
+                ctx.SubmitChanges();
+
+                foreach (var user in request.UsersList)
+                {
+                    ctx.UserEvents.InsertOnSubmit(new UserEvent()
+                        {
+                            IDEvent = entity.ID_Event,
+                            IDUser = user,
+                            Status = (short)UserEventStatus.NotAccepted
+                        });
+                }
+
+                ctx.SubmitChanges();
+
+                return new AddMeetingResponse() { IdMeeting = entity.ID_Event };
+            }
+        }
+
+        public EditMeetingResponse EditMeeting(EditMeetingRequest request)
+        {
+            using (var ctx = new LaggerDbEntities())
+            {
+                var entity = ctx.Events.Where(x => x.ID_Event == request.IdMeeting).FirstOrDefault();
+
+                if (entity != null)
+                {
+                    entity.Name = request.Name;
+                    entity.LocationName = request.LocationName;
+                    entity.Latitude = request.Latitude;
+                    entity.Longitude = request.Longitude;
+                    entity.StartTime = request.StartTime;
+                    entity.EndTime = request.EndTime;
+                }
+
+                // edycja znajomych
+
+                return new EditMeetingResponse();
             }
         }
     }

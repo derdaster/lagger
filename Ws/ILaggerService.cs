@@ -13,6 +13,7 @@ namespace LaggerServer
     public interface ILaggerService
     {
         [OperationContract]
+        [ServiceKnownType(typeof(LoginUserStatus))]
         [WebInvoke(UriTemplate = "user/login", Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
         LoginUserResponse LoginUser(LoginUserRequest request);
 
@@ -27,6 +28,26 @@ namespace LaggerServer
         [OperationContract]
         [WebInvoke(UriTemplate = "user/friends/get", Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
         GetFriendsResponse GetFriends(GetFriendsRequest request);
+
+        [OperationContract]
+        [WebInvoke(UriTemplate = "user/friends/get/test", Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        List<Friend> GetFriendsTest(GetFriendsRequest request);
+
+        [OperationContract]
+        [WebInvoke(UriTemplate = "user/friends/add", Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        AddFriendResponse AddFriend(AddFriendRequest request);
+
+        [OperationContract]
+        [WebInvoke(UriTemplate = "user/friends/remove", Method = "DELETE", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        RemoveFriendResponse RemoveFriend(RemoveFriendRequest request);
+
+        [OperationContract]
+        [WebInvoke(UriTemplate = "user/meetings/add", Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        AddMeetingResponse AddMeeting(AddMeetingRequest request);
+
+        [OperationContract]
+        [WebInvoke(UriTemplate = "user/meetings/edit", Method = "PUT", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        EditMeetingResponse EditMeeting(EditMeetingRequest request);
 
         #region Testy
 
