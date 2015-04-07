@@ -72,11 +72,17 @@
       <DependentUpon>LaggerDb.dbml</DependentUpon>
     </Compile>
     <Compile Include="Entities.cs" />
+    <Compile Include="Friends\RequestResponse.cs" />
+    <Compile Include="Friends\Friends.cs" />
     <Compile Include="LaggerService.svc.cs">
       <DependentUpon>LaggerService.svc</DependentUpon>
     </Compile>
     <Compile Include="ILaggerService.cs" />
     <Compile Include="LaggerServiceRequestResponse.cs" />
+    <Compile Include="Meetings\Meetings.cs" />
+    <Compile Include="Meetings\RequestResponse.cs" />
+    <Compile Include="Positions\Positions.cs" />
+    <Compile Include="Positions\RequestResponse.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />

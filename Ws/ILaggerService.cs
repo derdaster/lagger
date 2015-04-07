@@ -1,4 +1,7 @@
 ﻿using LaggerServer.Database;
+using LaggerServer.Friends;
+using LaggerServer.Meetings;
+using LaggerServer.Positions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,12 +29,20 @@ namespace LaggerServer
         GetMeetingInvitationsResponse GetMeetingInvitations(GetMeetingInvitationsRequest request);
 
         [OperationContract]
+        [WebInvoke(UriTemplate = "user/meetings/add", Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        AddMeetingResponse AddMeeting(AddMeetingRequest request);
+
+        [OperationContract]
+        [WebInvoke(UriTemplate = "user/meetings/edit", Method = "PUT", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        EditMeetingResponse EditMeeting(EditMeetingRequest request);
+
+        [OperationContract]
         [WebInvoke(UriTemplate = "user/friends/get", Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
         GetFriendsResponse GetFriends(GetFriendsRequest request);
 
         [OperationContract]
-        [WebInvoke(UriTemplate = "user/friends/get/test", Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
-        List<Friend> GetFriendsTest(GetFriendsRequest request);
+        [WebInvoke(UriTemplate = "user/friends/invitation", Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        GetFriendInvitationsResponse GetFriendInvitations(GetFriendInvitationsRequest request);
 
         [OperationContract]
         [WebInvoke(UriTemplate = "user/friends/add", Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
@@ -42,12 +53,13 @@ namespace LaggerServer
         RemoveFriendResponse RemoveFriend(RemoveFriendRequest request);
 
         [OperationContract]
-        [WebInvoke(UriTemplate = "user/meetings/add", Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
-        AddMeetingResponse AddMeeting(AddMeetingRequest request);
+        [WebInvoke(UriTemplate = "user/positions/add", Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        AddPositionResponse AddPosition(AddPositionRequest request);
 
         [OperationContract]
-        [WebInvoke(UriTemplate = "user/meetings/edit", Method = "PUT", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
-        EditMeetingResponse EditMeeting(EditMeetingRequest request);
+        [WebInvoke(UriTemplate = "user/positions/get", Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        GetPositionsResponse GetPositions(GetPositionsRequest request);
+
 
         #region Testy
 

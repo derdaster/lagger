@@ -30,21 +30,21 @@ namespace LaggerServer.Database
 		
     #region Extensibility Method Definitions
     partial void OnCreated();
-    partial void InsertEvent(Event instance);
-    partial void UpdateEvent(Event instance);
-    partial void DeleteEvent(Event instance);
-    partial void InsertUserFriend(UserFriend instance);
-    partial void UpdateUserFriend(UserFriend instance);
-    partial void DeleteUserFriend(UserFriend instance);
     partial void InsertEventDetail(EventDetail instance);
     partial void UpdateEventDetail(EventDetail instance);
     partial void DeleteEventDetail(EventDetail instance);
+    partial void InsertUserFriend(UserFriend instance);
+    partial void UpdateUserFriend(UserFriend instance);
+    partial void DeleteUserFriend(UserFriend instance);
     partial void InsertUser(User instance);
     partial void UpdateUser(User instance);
     partial void DeleteUser(User instance);
     partial void InsertUserEvent(UserEvent instance);
     partial void UpdateUserEvent(UserEvent instance);
     partial void DeleteUserEvent(UserEvent instance);
+    partial void InsertEvent(Event instance);
+    partial void UpdateEvent(Event instance);
+    partial void DeleteEvent(Event instance);
     #endregion
 		
 		public LaggerDbEntities() : 
@@ -77,11 +77,11 @@ namespace LaggerServer.Database
 			OnCreated();
 		}
 		
-		public System.Data.Linq.Table<Event> Events
+		public System.Data.Linq.Table<EventDetail> EventDetails
 		{
 			get
 			{
-				return this.GetTable<Event>();
+				return this.GetTable<EventDetail>();
 			}
 		}
 		
@@ -90,14 +90,6 @@ namespace LaggerServer.Database
 			get
 			{
 				return this.GetTable<UserFriend>();
-			}
-		}
-		
-		public System.Data.Linq.Table<EventDetail> EventDetails
-		{
-			get
-			{
-				return this.GetTable<EventDetail>();
 			}
 		}
 		
@@ -114,6 +106,1268 @@ namespace LaggerServer.Database
 			get
 			{
 				return this.GetTable<UserEvent>();
+			}
+		}
+		
+		public System.Data.Linq.Table<Event> Events
+		{
+			get
+			{
+				return this.GetTable<Event>();
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.EventDetails")]
+	public partial class EventDetail : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _ID_EventDetails;
+		
+		private int _IDUser;
+		
+		private int _IDEvent;
+		
+		private decimal _Latitude;
+		
+		private decimal _Longitude;
+		
+		private System.DateTime _CreationDate;
+		
+		private System.DateTime _LastEditDate;
+		
+		private bool _Blocked;
+		
+		private EntityRef<User> _User;
+		
+		private EntityRef<Event> _Event;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnID_EventDetailsChanging(int value);
+    partial void OnID_EventDetailsChanged();
+    partial void OnIDUserChanging(int value);
+    partial void OnIDUserChanged();
+    partial void OnIDEventChanging(int value);
+    partial void OnIDEventChanged();
+    partial void OnLatitudeChanging(decimal value);
+    partial void OnLatitudeChanged();
+    partial void OnLongitudeChanging(decimal value);
+    partial void OnLongitudeChanged();
+    partial void OnCreationDateChanging(System.DateTime value);
+    partial void OnCreationDateChanged();
+    partial void OnLastEditDateChanging(System.DateTime value);
+    partial void OnLastEditDateChanged();
+    partial void OnBlockedChanging(bool value);
+    partial void OnBlockedChanged();
+    #endregion
+		
+		public EventDetail()
+		{
+			this._User = default(EntityRef<User>);
+			this._Event = default(EntityRef<Event>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ID_EventDetails", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int ID_EventDetails
+		{
+			get
+			{
+				return this._ID_EventDetails;
+			}
+			set
+			{
+				if ((this._ID_EventDetails != value))
+				{
+					this.OnID_EventDetailsChanging(value);
+					this.SendPropertyChanging();
+					this._ID_EventDetails = value;
+					this.SendPropertyChanged("ID_EventDetails");
+					this.OnID_EventDetailsChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IDUser", DbType="Int NOT NULL")]
+		public int IDUser
+		{
+			get
+			{
+				return this._IDUser;
+			}
+			set
+			{
+				if ((this._IDUser != value))
+				{
+					if (this._User.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnIDUserChanging(value);
+					this.SendPropertyChanging();
+					this._IDUser = value;
+					this.SendPropertyChanged("IDUser");
+					this.OnIDUserChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IDEvent", DbType="Int NOT NULL")]
+		public int IDEvent
+		{
+			get
+			{
+				return this._IDEvent;
+			}
+			set
+			{
+				if ((this._IDEvent != value))
+				{
+					if (this._Event.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnIDEventChanging(value);
+					this.SendPropertyChanging();
+					this._IDEvent = value;
+					this.SendPropertyChanged("IDEvent");
+					this.OnIDEventChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Latitude", DbType="Decimal(10,7) NOT NULL")]
+		public decimal Latitude
+		{
+			get
+			{
+				return this._Latitude;
+			}
+			set
+			{
+				if ((this._Latitude != value))
+				{
+					this.OnLatitudeChanging(value);
+					this.SendPropertyChanging();
+					this._Latitude = value;
+					this.SendPropertyChanged("Latitude");
+					this.OnLatitudeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Longitude", DbType="Decimal(10,7) NOT NULL")]
+		public decimal Longitude
+		{
+			get
+			{
+				return this._Longitude;
+			}
+			set
+			{
+				if ((this._Longitude != value))
+				{
+					this.OnLongitudeChanging(value);
+					this.SendPropertyChanging();
+					this._Longitude = value;
+					this.SendPropertyChanged("Longitude");
+					this.OnLongitudeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CreationDate", DbType="DateTime NOT NULL")]
+		public System.DateTime CreationDate
+		{
+			get
+			{
+				return this._CreationDate;
+			}
+			set
+			{
+				if ((this._CreationDate != value))
+				{
+					this.OnCreationDateChanging(value);
+					this.SendPropertyChanging();
+					this._CreationDate = value;
+					this.SendPropertyChanged("CreationDate");
+					this.OnCreationDateChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_LastEditDate", DbType="DateTime NOT NULL")]
+		public System.DateTime LastEditDate
+		{
+			get
+			{
+				return this._LastEditDate;
+			}
+			set
+			{
+				if ((this._LastEditDate != value))
+				{
+					this.OnLastEditDateChanging(value);
+					this.SendPropertyChanging();
+					this._LastEditDate = value;
+					this.SendPropertyChanged("LastEditDate");
+					this.OnLastEditDateChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Blocked", DbType="Bit NOT NULL")]
+		public bool Blocked
+		{
+			get
+			{
+				return this._Blocked;
+			}
+			set
+			{
+				if ((this._Blocked != value))
+				{
+					this.OnBlockedChanging(value);
+					this.SendPropertyChanging();
+					this._Blocked = value;
+					this.SendPropertyChanged("Blocked");
+					this.OnBlockedChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="User_EventDetail", Storage="_User", ThisKey="IDUser", OtherKey="ID_User", IsForeignKey=true)]
+		public User User
+		{
+			get
+			{
+				return this._User.Entity;
+			}
+			set
+			{
+				User previousValue = this._User.Entity;
+				if (((previousValue != value) 
+							|| (this._User.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._User.Entity = null;
+						previousValue.EventDetails.Remove(this);
+					}
+					this._User.Entity = value;
+					if ((value != null))
+					{
+						value.EventDetails.Add(this);
+						this._IDUser = value.ID_User;
+					}
+					else
+					{
+						this._IDUser = default(int);
+					}
+					this.SendPropertyChanged("User");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Event_EventDetail", Storage="_Event", ThisKey="IDEvent", OtherKey="ID_Event", IsForeignKey=true)]
+		public Event Event
+		{
+			get
+			{
+				return this._Event.Entity;
+			}
+			set
+			{
+				Event previousValue = this._Event.Entity;
+				if (((previousValue != value) 
+							|| (this._Event.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Event.Entity = null;
+						previousValue.EventDetails.Remove(this);
+					}
+					this._Event.Entity = value;
+					if ((value != null))
+					{
+						value.EventDetails.Add(this);
+						this._IDEvent = value.ID_Event;
+					}
+					else
+					{
+						this._IDEvent = default(int);
+					}
+					this.SendPropertyChanged("Event");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.UserFriend")]
+	public partial class UserFriend : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _ID_UserFriend;
+		
+		private int _IDUser;
+		
+		private int _IDFriend;
+		
+		private short _Status;
+		
+		private System.DateTime _CreationDate;
+		
+		private System.DateTime _LastEditDate;
+		
+		private bool _Blocked;
+		
+		private EntityRef<User> _User;
+		
+		private EntityRef<User> _User1;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnID_UserFriendChanging(int value);
+    partial void OnID_UserFriendChanged();
+    partial void OnIDUserChanging(int value);
+    partial void OnIDUserChanged();
+    partial void OnIDFriendChanging(int value);
+    partial void OnIDFriendChanged();
+    partial void OnStatusChanging(short value);
+    partial void OnStatusChanged();
+    partial void OnCreationDateChanging(System.DateTime value);
+    partial void OnCreationDateChanged();
+    partial void OnLastEditDateChanging(System.DateTime value);
+    partial void OnLastEditDateChanged();
+    partial void OnBlockedChanging(bool value);
+    partial void OnBlockedChanged();
+    #endregion
+		
+		public UserFriend()
+		{
+			this._User = default(EntityRef<User>);
+			this._User1 = default(EntityRef<User>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ID_UserFriend", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int ID_UserFriend
+		{
+			get
+			{
+				return this._ID_UserFriend;
+			}
+			set
+			{
+				if ((this._ID_UserFriend != value))
+				{
+					this.OnID_UserFriendChanging(value);
+					this.SendPropertyChanging();
+					this._ID_UserFriend = value;
+					this.SendPropertyChanged("ID_UserFriend");
+					this.OnID_UserFriendChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IDUser", DbType="Int NOT NULL")]
+		public int IDUser
+		{
+			get
+			{
+				return this._IDUser;
+			}
+			set
+			{
+				if ((this._IDUser != value))
+				{
+					if (this._User1.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnIDUserChanging(value);
+					this.SendPropertyChanging();
+					this._IDUser = value;
+					this.SendPropertyChanged("IDUser");
+					this.OnIDUserChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IDFriend", DbType="Int NOT NULL")]
+		public int IDFriend
+		{
+			get
+			{
+				return this._IDFriend;
+			}
+			set
+			{
+				if ((this._IDFriend != value))
+				{
+					if (this._User.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnIDFriendChanging(value);
+					this.SendPropertyChanging();
+					this._IDFriend = value;
+					this.SendPropertyChanged("IDFriend");
+					this.OnIDFriendChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Status", DbType="SmallInt NOT NULL")]
+		public short Status
+		{
+			get
+			{
+				return this._Status;
+			}
+			set
+			{
+				if ((this._Status != value))
+				{
+					this.OnStatusChanging(value);
+					this.SendPropertyChanging();
+					this._Status = value;
+					this.SendPropertyChanged("Status");
+					this.OnStatusChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CreationDate", DbType="DateTime NOT NULL")]
+		public System.DateTime CreationDate
+		{
+			get
+			{
+				return this._CreationDate;
+			}
+			set
+			{
+				if ((this._CreationDate != value))
+				{
+					this.OnCreationDateChanging(value);
+					this.SendPropertyChanging();
+					this._CreationDate = value;
+					this.SendPropertyChanged("CreationDate");
+					this.OnCreationDateChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_LastEditDate", DbType="DateTime NOT NULL")]
+		public System.DateTime LastEditDate
+		{
+			get
+			{
+				return this._LastEditDate;
+			}
+			set
+			{
+				if ((this._LastEditDate != value))
+				{
+					this.OnLastEditDateChanging(value);
+					this.SendPropertyChanging();
+					this._LastEditDate = value;
+					this.SendPropertyChanged("LastEditDate");
+					this.OnLastEditDateChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Blocked", DbType="Bit NOT NULL")]
+		public bool Blocked
+		{
+			get
+			{
+				return this._Blocked;
+			}
+			set
+			{
+				if ((this._Blocked != value))
+				{
+					this.OnBlockedChanging(value);
+					this.SendPropertyChanging();
+					this._Blocked = value;
+					this.SendPropertyChanged("Blocked");
+					this.OnBlockedChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="User_UserFriend", Storage="_User", ThisKey="IDFriend", OtherKey="ID_User", IsForeignKey=true)]
+		public User User
+		{
+			get
+			{
+				return this._User.Entity;
+			}
+			set
+			{
+				User previousValue = this._User.Entity;
+				if (((previousValue != value) 
+							|| (this._User.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._User.Entity = null;
+						previousValue.UserFriends.Remove(this);
+					}
+					this._User.Entity = value;
+					if ((value != null))
+					{
+						value.UserFriends.Add(this);
+						this._IDFriend = value.ID_User;
+					}
+					else
+					{
+						this._IDFriend = default(int);
+					}
+					this.SendPropertyChanged("User");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="User_UserFriend1", Storage="_User1", ThisKey="IDUser", OtherKey="ID_User", IsForeignKey=true)]
+		public User User1
+		{
+			get
+			{
+				return this._User1.Entity;
+			}
+			set
+			{
+				User previousValue = this._User1.Entity;
+				if (((previousValue != value) 
+							|| (this._User1.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._User1.Entity = null;
+						previousValue.UserFriends1.Remove(this);
+					}
+					this._User1.Entity = value;
+					if ((value != null))
+					{
+						value.UserFriends1.Add(this);
+						this._IDUser = value.ID_User;
+					}
+					else
+					{
+						this._IDUser = default(int);
+					}
+					this.SendPropertyChanged("User1");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.[User]")]
+	public partial class User : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _ID_User;
+		
+		private string _Login;
+		
+		private string _Password;
+		
+		private string _Email;
+		
+		private string _Phone;
+		
+		private bool _Activated;
+		
+		private System.DateTime _CreationDate;
+		
+		private System.DateTime _LastEditDate;
+		
+		private bool _Blocked;
+		
+		private EntitySet<EventDetail> _EventDetails;
+		
+		private EntitySet<UserFriend> _UserFriends;
+		
+		private EntitySet<UserFriend> _UserFriends1;
+		
+		private EntitySet<UserEvent> _UserEvents;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnID_UserChanging(int value);
+    partial void OnID_UserChanged();
+    partial void OnLoginChanging(string value);
+    partial void OnLoginChanged();
+    partial void OnPasswordChanging(string value);
+    partial void OnPasswordChanged();
+    partial void OnEmailChanging(string value);
+    partial void OnEmailChanged();
+    partial void OnPhoneChanging(string value);
+    partial void OnPhoneChanged();
+    partial void OnActivatedChanging(bool value);
+    partial void OnActivatedChanged();
+    partial void OnCreationDateChanging(System.DateTime value);
+    partial void OnCreationDateChanged();
+    partial void OnLastEditDateChanging(System.DateTime value);
+    partial void OnLastEditDateChanged();
+    partial void OnBlockedChanging(bool value);
+    partial void OnBlockedChanged();
+    #endregion
+		
+		public User()
+		{
+			this._EventDetails = new EntitySet<EventDetail>(new Action<EventDetail>(this.attach_EventDetails), new Action<EventDetail>(this.detach_EventDetails));
+			this._UserFriends = new EntitySet<UserFriend>(new Action<UserFriend>(this.attach_UserFriends), new Action<UserFriend>(this.detach_UserFriends));
+			this._UserFriends1 = new EntitySet<UserFriend>(new Action<UserFriend>(this.attach_UserFriends1), new Action<UserFriend>(this.detach_UserFriends1));
+			this._UserEvents = new EntitySet<UserEvent>(new Action<UserEvent>(this.attach_UserEvents), new Action<UserEvent>(this.detach_UserEvents));
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ID_User", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int ID_User
+		{
+			get
+			{
+				return this._ID_User;
+			}
+			set
+			{
+				if ((this._ID_User != value))
+				{
+					this.OnID_UserChanging(value);
+					this.SendPropertyChanging();
+					this._ID_User = value;
+					this.SendPropertyChanged("ID_User");
+					this.OnID_UserChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Login", DbType="NVarChar(100) NOT NULL", CanBeNull=false)]
+		public string Login
+		{
+			get
+			{
+				return this._Login;
+			}
+			set
+			{
+				if ((this._Login != value))
+				{
+					this.OnLoginChanging(value);
+					this.SendPropertyChanging();
+					this._Login = value;
+					this.SendPropertyChanged("Login");
+					this.OnLoginChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Password", DbType="NVarChar(100) NOT NULL", CanBeNull=false)]
+		public string Password
+		{
+			get
+			{
+				return this._Password;
+			}
+			set
+			{
+				if ((this._Password != value))
+				{
+					this.OnPasswordChanging(value);
+					this.SendPropertyChanging();
+					this._Password = value;
+					this.SendPropertyChanged("Password");
+					this.OnPasswordChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Email", DbType="NVarChar(100)")]
+		public string Email
+		{
+			get
+			{
+				return this._Email;
+			}
+			set
+			{
+				if ((this._Email != value))
+				{
+					this.OnEmailChanging(value);
+					this.SendPropertyChanging();
+					this._Email = value;
+					this.SendPropertyChanged("Email");
+					this.OnEmailChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Phone", DbType="NVarChar(20)")]
+		public string Phone
+		{
+			get
+			{
+				return this._Phone;
+			}
+			set
+			{
+				if ((this._Phone != value))
+				{
+					this.OnPhoneChanging(value);
+					this.SendPropertyChanging();
+					this._Phone = value;
+					this.SendPropertyChanged("Phone");
+					this.OnPhoneChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Activated", DbType="Bit NOT NULL")]
+		public bool Activated
+		{
+			get
+			{
+				return this._Activated;
+			}
+			set
+			{
+				if ((this._Activated != value))
+				{
+					this.OnActivatedChanging(value);
+					this.SendPropertyChanging();
+					this._Activated = value;
+					this.SendPropertyChanged("Activated");
+					this.OnActivatedChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CreationDate", DbType="DateTime NOT NULL")]
+		public System.DateTime CreationDate
+		{
+			get
+			{
+				return this._CreationDate;
+			}
+			set
+			{
+				if ((this._CreationDate != value))
+				{
+					this.OnCreationDateChanging(value);
+					this.SendPropertyChanging();
+					this._CreationDate = value;
+					this.SendPropertyChanged("CreationDate");
+					this.OnCreationDateChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_LastEditDate", DbType="DateTime NOT NULL")]
+		public System.DateTime LastEditDate
+		{
+			get
+			{
+				return this._LastEditDate;
+			}
+			set
+			{
+				if ((this._LastEditDate != value))
+				{
+					this.OnLastEditDateChanging(value);
+					this.SendPropertyChanging();
+					this._LastEditDate = value;
+					this.SendPropertyChanged("LastEditDate");
+					this.OnLastEditDateChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Blocked", DbType="Bit NOT NULL")]
+		public bool Blocked
+		{
+			get
+			{
+				return this._Blocked;
+			}
+			set
+			{
+				if ((this._Blocked != value))
+				{
+					this.OnBlockedChanging(value);
+					this.SendPropertyChanging();
+					this._Blocked = value;
+					this.SendPropertyChanged("Blocked");
+					this.OnBlockedChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="User_EventDetail", Storage="_EventDetails", ThisKey="ID_User", OtherKey="IDUser")]
+		public EntitySet<EventDetail> EventDetails
+		{
+			get
+			{
+				return this._EventDetails;
+			}
+			set
+			{
+				this._EventDetails.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="User_UserFriend", Storage="_UserFriends", ThisKey="ID_User", OtherKey="IDFriend")]
+		public EntitySet<UserFriend> UserFriends
+		{
+			get
+			{
+				return this._UserFriends;
+			}
+			set
+			{
+				this._UserFriends.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="User_UserFriend1", Storage="_UserFriends1", ThisKey="ID_User", OtherKey="IDUser")]
+		public EntitySet<UserFriend> UserFriends1
+		{
+			get
+			{
+				return this._UserFriends1;
+			}
+			set
+			{
+				this._UserFriends1.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="User_UserEvent", Storage="_UserEvents", ThisKey="ID_User", OtherKey="IDUser")]
+		public EntitySet<UserEvent> UserEvents
+		{
+			get
+			{
+				return this._UserEvents;
+			}
+			set
+			{
+				this._UserEvents.Assign(value);
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_EventDetails(EventDetail entity)
+		{
+			this.SendPropertyChanging();
+			entity.User = this;
+		}
+		
+		private void detach_EventDetails(EventDetail entity)
+		{
+			this.SendPropertyChanging();
+			entity.User = null;
+		}
+		
+		private void attach_UserFriends(UserFriend entity)
+		{
+			this.SendPropertyChanging();
+			entity.User = this;
+		}
+		
+		private void detach_UserFriends(UserFriend entity)
+		{
+			this.SendPropertyChanging();
+			entity.User = null;
+		}
+		
+		private void attach_UserFriends1(UserFriend entity)
+		{
+			this.SendPropertyChanging();
+			entity.User1 = this;
+		}
+		
+		private void detach_UserFriends1(UserFriend entity)
+		{
+			this.SendPropertyChanging();
+			entity.User1 = null;
+		}
+		
+		private void attach_UserEvents(UserEvent entity)
+		{
+			this.SendPropertyChanging();
+			entity.User = this;
+		}
+		
+		private void detach_UserEvents(UserEvent entity)
+		{
+			this.SendPropertyChanging();
+			entity.User = null;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.UserEvent")]
+	public partial class UserEvent : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _ID_UserEvent;
+		
+		private int _IDUser;
+		
+		private int _IDEvent;
+		
+		private short _Status;
+		
+		private System.DateTime _CreationDate;
+		
+		private System.DateTime _LastEditDate;
+		
+		private bool _Blocked;
+		
+		private EntityRef<User> _User;
+		
+		private EntityRef<Event> _Event;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnID_UserEventChanging(int value);
+    partial void OnID_UserEventChanged();
+    partial void OnIDUserChanging(int value);
+    partial void OnIDUserChanged();
+    partial void OnIDEventChanging(int value);
+    partial void OnIDEventChanged();
+    partial void OnStatusChanging(short value);
+    partial void OnStatusChanged();
+    partial void OnCreationDateChanging(System.DateTime value);
+    partial void OnCreationDateChanged();
+    partial void OnLastEditDateChanging(System.DateTime value);
+    partial void OnLastEditDateChanged();
+    partial void OnBlockedChanging(bool value);
+    partial void OnBlockedChanged();
+    #endregion
+		
+		public UserEvent()
+		{
+			this._User = default(EntityRef<User>);
+			this._Event = default(EntityRef<Event>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ID_UserEvent", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int ID_UserEvent
+		{
+			get
+			{
+				return this._ID_UserEvent;
+			}
+			set
+			{
+				if ((this._ID_UserEvent != value))
+				{
+					this.OnID_UserEventChanging(value);
+					this.SendPropertyChanging();
+					this._ID_UserEvent = value;
+					this.SendPropertyChanged("ID_UserEvent");
+					this.OnID_UserEventChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IDUser", DbType="Int NOT NULL")]
+		public int IDUser
+		{
+			get
+			{
+				return this._IDUser;
+			}
+			set
+			{
+				if ((this._IDUser != value))
+				{
+					if (this._User.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnIDUserChanging(value);
+					this.SendPropertyChanging();
+					this._IDUser = value;
+					this.SendPropertyChanged("IDUser");
+					this.OnIDUserChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IDEvent", DbType="Int NOT NULL")]
+		public int IDEvent
+		{
+			get
+			{
+				return this._IDEvent;
+			}
+			set
+			{
+				if ((this._IDEvent != value))
+				{
+					if (this._Event.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnIDEventChanging(value);
+					this.SendPropertyChanging();
+					this._IDEvent = value;
+					this.SendPropertyChanged("IDEvent");
+					this.OnIDEventChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Status", DbType="SmallInt NOT NULL")]
+		public short Status
+		{
+			get
+			{
+				return this._Status;
+			}
+			set
+			{
+				if ((this._Status != value))
+				{
+					this.OnStatusChanging(value);
+					this.SendPropertyChanging();
+					this._Status = value;
+					this.SendPropertyChanged("Status");
+					this.OnStatusChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CreationDate", DbType="DateTime NOT NULL")]
+		public System.DateTime CreationDate
+		{
+			get
+			{
+				return this._CreationDate;
+			}
+			set
+			{
+				if ((this._CreationDate != value))
+				{
+					this.OnCreationDateChanging(value);
+					this.SendPropertyChanging();
+					this._CreationDate = value;
+					this.SendPropertyChanged("CreationDate");
+					this.OnCreationDateChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_LastEditDate", DbType="DateTime NOT NULL")]
+		public System.DateTime LastEditDate
+		{
+			get
+			{
+				return this._LastEditDate;
+			}
+			set
+			{
+				if ((this._LastEditDate != value))
+				{
+					this.OnLastEditDateChanging(value);
+					this.SendPropertyChanging();
+					this._LastEditDate = value;
+					this.SendPropertyChanged("LastEditDate");
+					this.OnLastEditDateChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Blocked", DbType="Bit NOT NULL")]
+		public bool Blocked
+		{
+			get
+			{
+				return this._Blocked;
+			}
+			set
+			{
+				if ((this._Blocked != value))
+				{
+					this.OnBlockedChanging(value);
+					this.SendPropertyChanging();
+					this._Blocked = value;
+					this.SendPropertyChanged("Blocked");
+					this.OnBlockedChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="User_UserEvent", Storage="_User", ThisKey="IDUser", OtherKey="ID_User", IsForeignKey=true)]
+		public User User
+		{
+			get
+			{
+				return this._User.Entity;
+			}
+			set
+			{
+				User previousValue = this._User.Entity;
+				if (((previousValue != value) 
+							|| (this._User.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._User.Entity = null;
+						previousValue.UserEvents.Remove(this);
+					}
+					this._User.Entity = value;
+					if ((value != null))
+					{
+						value.UserEvents.Add(this);
+						this._IDUser = value.ID_User;
+					}
+					else
+					{
+						this._IDUser = default(int);
+					}
+					this.SendPropertyChanged("User");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Event_UserEvent", Storage="_Event", ThisKey="IDEvent", OtherKey="ID_Event", IsForeignKey=true)]
+		public Event Event
+		{
+			get
+			{
+				return this._Event.Entity;
+			}
+			set
+			{
+				Event previousValue = this._Event.Entity;
+				if (((previousValue != value) 
+							|| (this._Event.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Event.Entity = null;
+						previousValue.UserEvents.Remove(this);
+					}
+					this._Event.Entity = value;
+					if ((value != null))
+					{
+						value.UserEvents.Add(this);
+						this._IDEvent = value.ID_Event;
+					}
+					else
+					{
+						this._IDEvent = default(int);
+					}
+					this.SendPropertyChanged("Event");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
 		}
 	}
@@ -181,7 +1435,7 @@ namespace LaggerServer.Database
 			OnCreated();
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ID_Event", DbType="Int NOT NULL", IsPrimaryKey=true)]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ID_Event", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
 		public int ID_Event
 		{
 			get
@@ -449,1260 +1703,6 @@ namespace LaggerServer.Database
 		{
 			this.SendPropertyChanging();
 			entity.Event = null;
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.UserFriend")]
-	public partial class UserFriend : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private int _ID_UserFriend;
-		
-		private int _IDUser;
-		
-		private int _IDFriend;
-		
-		private short _Status;
-		
-		private System.DateTime _CreationDate;
-		
-		private System.DateTime _LastEditDate;
-		
-		private bool _Blocked;
-		
-		private EntityRef<User> _User;
-		
-		private EntityRef<User> _User1;
-		
-    #region Extensibility Method Definitions
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnID_UserFriendChanging(int value);
-    partial void OnID_UserFriendChanged();
-    partial void OnIDUserChanging(int value);
-    partial void OnIDUserChanged();
-    partial void OnIDFriendChanging(int value);
-    partial void OnIDFriendChanged();
-    partial void OnStatusChanging(short value);
-    partial void OnStatusChanged();
-    partial void OnCreationDateChanging(System.DateTime value);
-    partial void OnCreationDateChanged();
-    partial void OnLastEditDateChanging(System.DateTime value);
-    partial void OnLastEditDateChanged();
-    partial void OnBlockedChanging(bool value);
-    partial void OnBlockedChanged();
-    #endregion
-		
-		public UserFriend()
-		{
-			this._User = default(EntityRef<User>);
-			this._User1 = default(EntityRef<User>);
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ID_UserFriend", DbType="Int NOT NULL", IsPrimaryKey=true)]
-		public int ID_UserFriend
-		{
-			get
-			{
-				return this._ID_UserFriend;
-			}
-			set
-			{
-				if ((this._ID_UserFriend != value))
-				{
-					this.OnID_UserFriendChanging(value);
-					this.SendPropertyChanging();
-					this._ID_UserFriend = value;
-					this.SendPropertyChanged("ID_UserFriend");
-					this.OnID_UserFriendChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IDUser", DbType="Int NOT NULL")]
-		public int IDUser
-		{
-			get
-			{
-				return this._IDUser;
-			}
-			set
-			{
-				if ((this._IDUser != value))
-				{
-					if (this._User1.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnIDUserChanging(value);
-					this.SendPropertyChanging();
-					this._IDUser = value;
-					this.SendPropertyChanged("IDUser");
-					this.OnIDUserChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IDFriend", DbType="Int NOT NULL")]
-		public int IDFriend
-		{
-			get
-			{
-				return this._IDFriend;
-			}
-			set
-			{
-				if ((this._IDFriend != value))
-				{
-					if (this._User.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnIDFriendChanging(value);
-					this.SendPropertyChanging();
-					this._IDFriend = value;
-					this.SendPropertyChanged("IDFriend");
-					this.OnIDFriendChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Status", DbType="SmallInt NOT NULL")]
-		public short Status
-		{
-			get
-			{
-				return this._Status;
-			}
-			set
-			{
-				if ((this._Status != value))
-				{
-					this.OnStatusChanging(value);
-					this.SendPropertyChanging();
-					this._Status = value;
-					this.SendPropertyChanged("Status");
-					this.OnStatusChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CreationDate", DbType="DateTime NOT NULL")]
-		public System.DateTime CreationDate
-		{
-			get
-			{
-				return this._CreationDate;
-			}
-			set
-			{
-				if ((this._CreationDate != value))
-				{
-					this.OnCreationDateChanging(value);
-					this.SendPropertyChanging();
-					this._CreationDate = value;
-					this.SendPropertyChanged("CreationDate");
-					this.OnCreationDateChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_LastEditDate", DbType="DateTime NOT NULL")]
-		public System.DateTime LastEditDate
-		{
-			get
-			{
-				return this._LastEditDate;
-			}
-			set
-			{
-				if ((this._LastEditDate != value))
-				{
-					this.OnLastEditDateChanging(value);
-					this.SendPropertyChanging();
-					this._LastEditDate = value;
-					this.SendPropertyChanged("LastEditDate");
-					this.OnLastEditDateChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Blocked", DbType="Bit NOT NULL")]
-		public bool Blocked
-		{
-			get
-			{
-				return this._Blocked;
-			}
-			set
-			{
-				if ((this._Blocked != value))
-				{
-					this.OnBlockedChanging(value);
-					this.SendPropertyChanging();
-					this._Blocked = value;
-					this.SendPropertyChanged("Blocked");
-					this.OnBlockedChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="User_UserFriend", Storage="_User", ThisKey="IDFriend", OtherKey="ID_User", IsForeignKey=true)]
-		public User User
-		{
-			get
-			{
-				return this._User.Entity;
-			}
-			set
-			{
-				User previousValue = this._User.Entity;
-				if (((previousValue != value) 
-							|| (this._User.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._User.Entity = null;
-						previousValue.UserFriends.Remove(this);
-					}
-					this._User.Entity = value;
-					if ((value != null))
-					{
-						value.UserFriends.Add(this);
-						this._IDFriend = value.ID_User;
-					}
-					else
-					{
-						this._IDFriend = default(int);
-					}
-					this.SendPropertyChanged("User");
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="User_UserFriend1", Storage="_User1", ThisKey="IDUser", OtherKey="ID_User", IsForeignKey=true)]
-		public User User1
-		{
-			get
-			{
-				return this._User1.Entity;
-			}
-			set
-			{
-				User previousValue = this._User1.Entity;
-				if (((previousValue != value) 
-							|| (this._User1.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._User1.Entity = null;
-						previousValue.UserFriends1.Remove(this);
-					}
-					this._User1.Entity = value;
-					if ((value != null))
-					{
-						value.UserFriends1.Add(this);
-						this._IDUser = value.ID_User;
-					}
-					else
-					{
-						this._IDUser = default(int);
-					}
-					this.SendPropertyChanged("User1");
-				}
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.EventDetails")]
-	public partial class EventDetail : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private int _ID_EventDetails;
-		
-		private int _IDUser;
-		
-		private int _IDEvent;
-		
-		private decimal _Latitude;
-		
-		private decimal _Longitude;
-		
-		private System.DateTime _CreationDate;
-		
-		private System.DateTime _LastEditDate;
-		
-		private bool _Blocked;
-		
-		private EntityRef<Event> _Event;
-		
-		private EntityRef<User> _User;
-		
-    #region Extensibility Method Definitions
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnID_EventDetailsChanging(int value);
-    partial void OnID_EventDetailsChanged();
-    partial void OnIDUserChanging(int value);
-    partial void OnIDUserChanged();
-    partial void OnIDEventChanging(int value);
-    partial void OnIDEventChanged();
-    partial void OnLatitudeChanging(decimal value);
-    partial void OnLatitudeChanged();
-    partial void OnLongitudeChanging(decimal value);
-    partial void OnLongitudeChanged();
-    partial void OnCreationDateChanging(System.DateTime value);
-    partial void OnCreationDateChanged();
-    partial void OnLastEditDateChanging(System.DateTime value);
-    partial void OnLastEditDateChanged();
-    partial void OnBlockedChanging(bool value);
-    partial void OnBlockedChanged();
-    #endregion
-		
-		public EventDetail()
-		{
-			this._Event = default(EntityRef<Event>);
-			this._User = default(EntityRef<User>);
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ID_EventDetails", DbType="Int NOT NULL", IsPrimaryKey=true)]
-		public int ID_EventDetails
-		{
-			get
-			{
-				return this._ID_EventDetails;
-			}
-			set
-			{
-				if ((this._ID_EventDetails != value))
-				{
-					this.OnID_EventDetailsChanging(value);
-					this.SendPropertyChanging();
-					this._ID_EventDetails = value;
-					this.SendPropertyChanged("ID_EventDetails");
-					this.OnID_EventDetailsChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IDUser", DbType="Int NOT NULL")]
-		public int IDUser
-		{
-			get
-			{
-				return this._IDUser;
-			}
-			set
-			{
-				if ((this._IDUser != value))
-				{
-					if (this._User.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnIDUserChanging(value);
-					this.SendPropertyChanging();
-					this._IDUser = value;
-					this.SendPropertyChanged("IDUser");
-					this.OnIDUserChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IDEvent", DbType="Int NOT NULL")]
-		public int IDEvent
-		{
-			get
-			{
-				return this._IDEvent;
-			}
-			set
-			{
-				if ((this._IDEvent != value))
-				{
-					if (this._Event.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnIDEventChanging(value);
-					this.SendPropertyChanging();
-					this._IDEvent = value;
-					this.SendPropertyChanged("IDEvent");
-					this.OnIDEventChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Latitude", DbType="Decimal(18,0) NOT NULL")]
-		public decimal Latitude
-		{
-			get
-			{
-				return this._Latitude;
-			}
-			set
-			{
-				if ((this._Latitude != value))
-				{
-					this.OnLatitudeChanging(value);
-					this.SendPropertyChanging();
-					this._Latitude = value;
-					this.SendPropertyChanged("Latitude");
-					this.OnLatitudeChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Longitude", DbType="Decimal(18,0) NOT NULL")]
-		public decimal Longitude
-		{
-			get
-			{
-				return this._Longitude;
-			}
-			set
-			{
-				if ((this._Longitude != value))
-				{
-					this.OnLongitudeChanging(value);
-					this.SendPropertyChanging();
-					this._Longitude = value;
-					this.SendPropertyChanged("Longitude");
-					this.OnLongitudeChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CreationDate", DbType="DateTime NOT NULL")]
-		public System.DateTime CreationDate
-		{
-			get
-			{
-				return this._CreationDate;
-			}
-			set
-			{
-				if ((this._CreationDate != value))
-				{
-					this.OnCreationDateChanging(value);
-					this.SendPropertyChanging();
-					this._CreationDate = value;
-					this.SendPropertyChanged("CreationDate");
-					this.OnCreationDateChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_LastEditDate", DbType="DateTime NOT NULL")]
-		public System.DateTime LastEditDate
-		{
-			get
-			{
-				return this._LastEditDate;
-			}
-			set
-			{
-				if ((this._LastEditDate != value))
-				{
-					this.OnLastEditDateChanging(value);
-					this.SendPropertyChanging();
-					this._LastEditDate = value;
-					this.SendPropertyChanged("LastEditDate");
-					this.OnLastEditDateChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Blocked", DbType="Bit NOT NULL")]
-		public bool Blocked
-		{
-			get
-			{
-				return this._Blocked;
-			}
-			set
-			{
-				if ((this._Blocked != value))
-				{
-					this.OnBlockedChanging(value);
-					this.SendPropertyChanging();
-					this._Blocked = value;
-					this.SendPropertyChanged("Blocked");
-					this.OnBlockedChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Event_EventDetail", Storage="_Event", ThisKey="IDEvent", OtherKey="ID_Event", IsForeignKey=true)]
-		public Event Event
-		{
-			get
-			{
-				return this._Event.Entity;
-			}
-			set
-			{
-				Event previousValue = this._Event.Entity;
-				if (((previousValue != value) 
-							|| (this._Event.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._Event.Entity = null;
-						previousValue.EventDetails.Remove(this);
-					}
-					this._Event.Entity = value;
-					if ((value != null))
-					{
-						value.EventDetails.Add(this);
-						this._IDEvent = value.ID_Event;
-					}
-					else
-					{
-						this._IDEvent = default(int);
-					}
-					this.SendPropertyChanged("Event");
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="User_EventDetail", Storage="_User", ThisKey="IDUser", OtherKey="ID_User", IsForeignKey=true)]
-		public User User
-		{
-			get
-			{
-				return this._User.Entity;
-			}
-			set
-			{
-				User previousValue = this._User.Entity;
-				if (((previousValue != value) 
-							|| (this._User.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._User.Entity = null;
-						previousValue.EventDetails.Remove(this);
-					}
-					this._User.Entity = value;
-					if ((value != null))
-					{
-						value.EventDetails.Add(this);
-						this._IDUser = value.ID_User;
-					}
-					else
-					{
-						this._IDUser = default(int);
-					}
-					this.SendPropertyChanged("User");
-				}
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.[User]")]
-	public partial class User : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private int _ID_User;
-		
-		private string _Login;
-		
-		private string _Password;
-		
-		private string _Email;
-		
-		private string _Phone;
-		
-		private bool _Activated;
-		
-		private System.DateTime _CreationDate;
-		
-		private System.DateTime _LastEditDate;
-		
-		private bool _Blocked;
-		
-		private EntitySet<UserFriend> _UserFriends;
-		
-		private EntitySet<UserFriend> _UserFriends1;
-		
-		private EntitySet<EventDetail> _EventDetails;
-		
-		private EntitySet<UserEvent> _UserEvents;
-		
-    #region Extensibility Method Definitions
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnID_UserChanging(int value);
-    partial void OnID_UserChanged();
-    partial void OnLoginChanging(string value);
-    partial void OnLoginChanged();
-    partial void OnPasswordChanging(string value);
-    partial void OnPasswordChanged();
-    partial void OnEmailChanging(string value);
-    partial void OnEmailChanged();
-    partial void OnPhoneChanging(string value);
-    partial void OnPhoneChanged();
-    partial void OnActivatedChanging(bool value);
-    partial void OnActivatedChanged();
-    partial void OnCreationDateChanging(System.DateTime value);
-    partial void OnCreationDateChanged();
-    partial void OnLastEditDateChanging(System.DateTime value);
-    partial void OnLastEditDateChanged();
-    partial void OnBlockedChanging(bool value);
-    partial void OnBlockedChanged();
-    #endregion
-		
-		public User()
-		{
-			this._UserFriends = new EntitySet<UserFriend>(new Action<UserFriend>(this.attach_UserFriends), new Action<UserFriend>(this.detach_UserFriends));
-			this._UserFriends1 = new EntitySet<UserFriend>(new Action<UserFriend>(this.attach_UserFriends1), new Action<UserFriend>(this.detach_UserFriends1));
-			this._EventDetails = new EntitySet<EventDetail>(new Action<EventDetail>(this.attach_EventDetails), new Action<EventDetail>(this.detach_EventDetails));
-			this._UserEvents = new EntitySet<UserEvent>(new Action<UserEvent>(this.attach_UserEvents), new Action<UserEvent>(this.detach_UserEvents));
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ID_User", DbType="Int NOT NULL", IsPrimaryKey=true)]
-		public int ID_User
-		{
-			get
-			{
-				return this._ID_User;
-			}
-			set
-			{
-				if ((this._ID_User != value))
-				{
-					this.OnID_UserChanging(value);
-					this.SendPropertyChanging();
-					this._ID_User = value;
-					this.SendPropertyChanged("ID_User");
-					this.OnID_UserChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Login", DbType="NVarChar(100) NOT NULL", CanBeNull=false)]
-		public string Login
-		{
-			get
-			{
-				return this._Login;
-			}
-			set
-			{
-				if ((this._Login != value))
-				{
-					this.OnLoginChanging(value);
-					this.SendPropertyChanging();
-					this._Login = value;
-					this.SendPropertyChanged("Login");
-					this.OnLoginChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Password", DbType="NVarChar(100) NOT NULL", CanBeNull=false)]
-		public string Password
-		{
-			get
-			{
-				return this._Password;
-			}
-			set
-			{
-				if ((this._Password != value))
-				{
-					this.OnPasswordChanging(value);
-					this.SendPropertyChanging();
-					this._Password = value;
-					this.SendPropertyChanged("Password");
-					this.OnPasswordChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Email", DbType="NVarChar(100)")]
-		public string Email
-		{
-			get
-			{
-				return this._Email;
-			}
-			set
-			{
-				if ((this._Email != value))
-				{
-					this.OnEmailChanging(value);
-					this.SendPropertyChanging();
-					this._Email = value;
-					this.SendPropertyChanged("Email");
-					this.OnEmailChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Phone", DbType="NVarChar(20)")]
-		public string Phone
-		{
-			get
-			{
-				return this._Phone;
-			}
-			set
-			{
-				if ((this._Phone != value))
-				{
-					this.OnPhoneChanging(value);
-					this.SendPropertyChanging();
-					this._Phone = value;
-					this.SendPropertyChanged("Phone");
-					this.OnPhoneChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Activated", DbType="Bit NOT NULL")]
-		public bool Activated
-		{
-			get
-			{
-				return this._Activated;
-			}
-			set
-			{
-				if ((this._Activated != value))
-				{
-					this.OnActivatedChanging(value);
-					this.SendPropertyChanging();
-					this._Activated = value;
-					this.SendPropertyChanged("Activated");
-					this.OnActivatedChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CreationDate", DbType="DateTime NOT NULL")]
-		public System.DateTime CreationDate
-		{
-			get
-			{
-				return this._CreationDate;
-			}
-			set
-			{
-				if ((this._CreationDate != value))
-				{
-					this.OnCreationDateChanging(value);
-					this.SendPropertyChanging();
-					this._CreationDate = value;
-					this.SendPropertyChanged("CreationDate");
-					this.OnCreationDateChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_LastEditDate", DbType="DateTime NOT NULL")]
-		public System.DateTime LastEditDate
-		{
-			get
-			{
-				return this._LastEditDate;
-			}
-			set
-			{
-				if ((this._LastEditDate != value))
-				{
-					this.OnLastEditDateChanging(value);
-					this.SendPropertyChanging();
-					this._LastEditDate = value;
-					this.SendPropertyChanged("LastEditDate");
-					this.OnLastEditDateChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Blocked", DbType="Bit NOT NULL")]
-		public bool Blocked
-		{
-			get
-			{
-				return this._Blocked;
-			}
-			set
-			{
-				if ((this._Blocked != value))
-				{
-					this.OnBlockedChanging(value);
-					this.SendPropertyChanging();
-					this._Blocked = value;
-					this.SendPropertyChanged("Blocked");
-					this.OnBlockedChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="User_UserFriend", Storage="_UserFriends", ThisKey="ID_User", OtherKey="IDFriend")]
-		public EntitySet<UserFriend> UserFriends
-		{
-			get
-			{
-				return this._UserFriends;
-			}
-			set
-			{
-				this._UserFriends.Assign(value);
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="User_UserFriend1", Storage="_UserFriends1", ThisKey="ID_User", OtherKey="IDUser")]
-		public EntitySet<UserFriend> UserFriends1
-		{
-			get
-			{
-				return this._UserFriends1;
-			}
-			set
-			{
-				this._UserFriends1.Assign(value);
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="User_EventDetail", Storage="_EventDetails", ThisKey="ID_User", OtherKey="IDUser")]
-		public EntitySet<EventDetail> EventDetails
-		{
-			get
-			{
-				return this._EventDetails;
-			}
-			set
-			{
-				this._EventDetails.Assign(value);
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="User_UserEvent", Storage="_UserEvents", ThisKey="ID_User", OtherKey="IDUser")]
-		public EntitySet<UserEvent> UserEvents
-		{
-			get
-			{
-				return this._UserEvents;
-			}
-			set
-			{
-				this._UserEvents.Assign(value);
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-		
-		private void attach_UserFriends(UserFriend entity)
-		{
-			this.SendPropertyChanging();
-			entity.User = this;
-		}
-		
-		private void detach_UserFriends(UserFriend entity)
-		{
-			this.SendPropertyChanging();
-			entity.User = null;
-		}
-		
-		private void attach_UserFriends1(UserFriend entity)
-		{
-			this.SendPropertyChanging();
-			entity.User1 = this;
-		}
-		
-		private void detach_UserFriends1(UserFriend entity)
-		{
-			this.SendPropertyChanging();
-			entity.User1 = null;
-		}
-		
-		private void attach_EventDetails(EventDetail entity)
-		{
-			this.SendPropertyChanging();
-			entity.User = this;
-		}
-		
-		private void detach_EventDetails(EventDetail entity)
-		{
-			this.SendPropertyChanging();
-			entity.User = null;
-		}
-		
-		private void attach_UserEvents(UserEvent entity)
-		{
-			this.SendPropertyChanging();
-			entity.User = this;
-		}
-		
-		private void detach_UserEvents(UserEvent entity)
-		{
-			this.SendPropertyChanging();
-			entity.User = null;
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.UserEvent")]
-	public partial class UserEvent : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private int _ID_UserEvent;
-		
-		private int _IDUser;
-		
-		private int _IDEvent;
-		
-		private short _Status;
-		
-		private System.DateTime _CreationDate;
-		
-		private System.DateTime _LastEditDate;
-		
-		private bool _Blocked;
-		
-		private EntityRef<Event> _Event;
-		
-		private EntityRef<User> _User;
-		
-    #region Extensibility Method Definitions
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnID_UserEventChanging(int value);
-    partial void OnID_UserEventChanged();
-    partial void OnIDUserChanging(int value);
-    partial void OnIDUserChanged();
-    partial void OnIDEventChanging(int value);
-    partial void OnIDEventChanged();
-    partial void OnStatusChanging(short value);
-    partial void OnStatusChanged();
-    partial void OnCreationDateChanging(System.DateTime value);
-    partial void OnCreationDateChanged();
-    partial void OnLastEditDateChanging(System.DateTime value);
-    partial void OnLastEditDateChanged();
-    partial void OnBlockedChanging(bool value);
-    partial void OnBlockedChanged();
-    #endregion
-		
-		public UserEvent()
-		{
-			this._Event = default(EntityRef<Event>);
-			this._User = default(EntityRef<User>);
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ID_UserEvent", DbType="Int NOT NULL", IsPrimaryKey=true)]
-		public int ID_UserEvent
-		{
-			get
-			{
-				return this._ID_UserEvent;
-			}
-			set
-			{
-				if ((this._ID_UserEvent != value))
-				{
-					this.OnID_UserEventChanging(value);
-					this.SendPropertyChanging();
-					this._ID_UserEvent = value;
-					this.SendPropertyChanged("ID_UserEvent");
-					this.OnID_UserEventChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IDUser", DbType="Int NOT NULL")]
-		public int IDUser
-		{
-			get
-			{
-				return this._IDUser;
-			}
-			set
-			{
-				if ((this._IDUser != value))
-				{
-					if (this._User.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnIDUserChanging(value);
-					this.SendPropertyChanging();
-					this._IDUser = value;
-					this.SendPropertyChanged("IDUser");
-					this.OnIDUserChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IDEvent", DbType="Int NOT NULL")]
-		public int IDEvent
-		{
-			get
-			{
-				return this._IDEvent;
-			}
-			set
-			{
-				if ((this._IDEvent != value))
-				{
-					if (this._Event.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnIDEventChanging(value);
-					this.SendPropertyChanging();
-					this._IDEvent = value;
-					this.SendPropertyChanged("IDEvent");
-					this.OnIDEventChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Status", DbType="SmallInt NOT NULL")]
-		public short Status
-		{
-			get
-			{
-				return this._Status;
-			}
-			set
-			{
-				if ((this._Status != value))
-				{
-					this.OnStatusChanging(value);
-					this.SendPropertyChanging();
-					this._Status = value;
-					this.SendPropertyChanged("Status");
-					this.OnStatusChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CreationDate", DbType="DateTime NOT NULL")]
-		public System.DateTime CreationDate
-		{
-			get
-			{
-				return this._CreationDate;
-			}
-			set
-			{
-				if ((this._CreationDate != value))
-				{
-					this.OnCreationDateChanging(value);
-					this.SendPropertyChanging();
-					this._CreationDate = value;
-					this.SendPropertyChanged("CreationDate");
-					this.OnCreationDateChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_LastEditDate", DbType="DateTime NOT NULL")]
-		public System.DateTime LastEditDate
-		{
-			get
-			{
-				return this._LastEditDate;
-			}
-			set
-			{
-				if ((this._LastEditDate != value))
-				{
-					this.OnLastEditDateChanging(value);
-					this.SendPropertyChanging();
-					this._LastEditDate = value;
-					this.SendPropertyChanged("LastEditDate");
-					this.OnLastEditDateChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Blocked", DbType="Bit NOT NULL")]
-		public bool Blocked
-		{
-			get
-			{
-				return this._Blocked;
-			}
-			set
-			{
-				if ((this._Blocked != value))
-				{
-					this.OnBlockedChanging(value);
-					this.SendPropertyChanging();
-					this._Blocked = value;
-					this.SendPropertyChanged("Blocked");
-					this.OnBlockedChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Event_UserEvent", Storage="_Event", ThisKey="IDEvent", OtherKey="ID_Event", IsForeignKey=true)]
-		public Event Event
-		{
-			get
-			{
-				return this._Event.Entity;
-			}
-			set
-			{
-				Event previousValue = this._Event.Entity;
-				if (((previousValue != value) 
-							|| (this._Event.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._Event.Entity = null;
-						previousValue.UserEvents.Remove(this);
-					}
-					this._Event.Entity = value;
-					if ((value != null))
-					{
-						value.UserEvents.Add(this);
-						this._IDEvent = value.ID_Event;
-					}
-					else
-					{
-						this._IDEvent = default(int);
-					}
-					this.SendPropertyChanged("Event");
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="User_UserEvent", Storage="_User", ThisKey="IDUser", OtherKey="ID_User", IsForeignKey=true)]
-		public User User
-		{
-			get
-			{
-				return this._User.Entity;
-			}
-			set
-			{
-				User previousValue = this._User.Entity;
-				if (((previousValue != value) 
-							|| (this._User.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._User.Entity = null;
-						previousValue.UserEvents.Remove(this);
-					}
-					this._User.Entity = value;
-					if ((value != null))
-					{
-						value.UserEvents.Add(this);
-						this._IDUser = value.ID_User;
-					}
-					else
-					{
-						this._IDUser = default(int);
-					}
-					this.SendPropertyChanged("User");
-				}
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
 		}
 	}
 }

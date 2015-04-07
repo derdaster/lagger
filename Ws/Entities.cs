@@ -66,4 +66,27 @@ namespace LaggerServer
             Phone = entity.Phone;
         }
     }
+
+    [DataContract]
+    public class Position
+    {
+        [DataMember]
+        public int IdUser { get; set; }
+
+        [DataMember]
+        public decimal Latitude { get; set; }
+
+        [DataMember]
+        public decimal Longitude { get; set; }
+
+        //[DataMember]
+        //public DateTime DateTime { get; set; }
+
+        public Position(EventDetail entity)
+        {
+            IdUser = entity.IDUser;
+            Latitude = entity.Latitude;
+            Longitude = entity.Longitude;
+        }
+    }
 }
