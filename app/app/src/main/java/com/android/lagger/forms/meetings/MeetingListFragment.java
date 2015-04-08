@@ -88,9 +88,6 @@ public class MeetingListFragment extends Fragment {
         return parent;
     }
 
-    @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-    }
 
     public List<Meeting> getMeetingsList(){
         final List<Meeting> meetings = new ArrayList<Meeting>();
@@ -146,7 +143,7 @@ public class MeetingListFragment extends Fragment {
                 mHeaderPositions = new Integer[]{INDEX_OF_INVITED, INDEX_OF_UPCOMING};
                 for (int i = 0; i < mHeaderPositions.length; i++) {
             if(sections.size() < 2)
-                sections.add(new Section(mHeaderPositions[i], mHeaderNames[i]));
+                sections.add(new Section(mHeaderPositions[i], HEADER_NAMES[i]));
                 }
                 SimpleSectionedListAdapter simpleSectionedGridAdapter = new SimpleSectionedListAdapter(mContext, adapter,
                         R.layout.listview_item_header, R.id.header);
