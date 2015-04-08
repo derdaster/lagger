@@ -110,13 +110,4 @@
             fbutton:cornerRadius="7dp"/>
     </LinearLayout>
 
-    <TextView
-        android:textColor="@color/color_asbestos"
-        android:textSize="15dp"
-        android:gravity="right"
-        android:paddingBottom="10dp"
-        android:id="@+id/labelDate"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content" />
-
 </LinearLayout>
