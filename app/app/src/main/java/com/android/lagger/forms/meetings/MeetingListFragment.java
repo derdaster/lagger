@@ -154,22 +154,19 @@ public class MeetingListFragment extends Fragment {
                 mList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                        if(i <= INDEX_OF_UPCOMING)
-                        {
+                        if(i <= INDEX_OF_UPCOMING){
                             fragmentTransaction = fragmentManager.beginTransaction();
-                    SomeDialog newFragment = new SomeDialog (mContext, "Confirm", "Do you want to accept this meeting invitation?", true);
+                            SomeDialog newFragment = new SomeDialog (mContext, "Confirm", "Do you want to accept this meeting invitation?", true);
                             newFragment.show(fragmentTransaction, "dialog");
 
                         }
-                else
-                {
-                    fragmentTransaction = fragmentManager.beginTransaction();
-                    fragmentTransaction.addToBackStack(null);
-                    fragmentTransaction.replace(R.id.content_frame, new ViewMeetingFragment(mContext)).commit();
-                }
+                         else{
+                            fragmentTransaction = fragmentManager.beginTransaction();
+                            fragmentTransaction.addToBackStack(null);
+                            fragmentTransaction.replace(R.id.content_frame, new ViewMeetingFragment(mContext)).commit();
+                        }
                     }
                 });
-                fragmentTransaction.addToBackStack(null);
             }
         }.execute();
         return meetings;
