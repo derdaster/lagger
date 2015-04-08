@@ -750,6 +750,8 @@ namespace LaggerServer.Database
 		
 		private EntitySet<UserEvent> _UserEvents;
 		
+		private EntitySet<Event> _Events;
+		
     #region Extensibility Method Definitions
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
@@ -780,6 +782,7 @@ namespace LaggerServer.Database
 			this._UserFriends = new EntitySet<UserFriend>(new Action<UserFriend>(this.attach_UserFriends), new Action<UserFriend>(this.detach_UserFriends));
 			this._UserFriends1 = new EntitySet<UserFriend>(new Action<UserFriend>(this.attach_UserFriends1), new Action<UserFriend>(this.detach_UserFriends1));
 			this._UserEvents = new EntitySet<UserEvent>(new Action<UserEvent>(this.attach_UserEvents), new Action<UserEvent>(this.detach_UserEvents));
+			this._Events = new EntitySet<Event>(new Action<Event>(this.attach_Events), new Action<Event>(this.detach_Events));
 			OnCreated();
 		}
 		
@@ -1015,6 +1018,19 @@ namespace LaggerServer.Database
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="User_Event", Storage="_Events", ThisKey="ID_User", OtherKey="IDOrganizer")]
+		public EntitySet<Event> Events
+		{
+			get
+			{
+				return this._Events;
+			}
+			set
+			{
+				this._Events.Assign(value);
+			}
+		}
+		
 		public event PropertyChangingEventHandler PropertyChanging;
 		
 		public event PropertyChangedEventHandler PropertyChanged;
@@ -1078,6 +1094,18 @@ namespace LaggerServer.Database
 		}
 		
 		private void detach_UserEvents(UserEvent entity)
+		{
+			this.SendPropertyChanging();
+			entity.User = null;
+		}
+		
+		private void attach_Events(Event entity)
+		{
+			this.SendPropertyChanging();
+			entity.User = this;
+		}
+		
+		private void detach_Events(Event entity)
 		{
 			this.SendPropertyChanging();
 			entity.User = null;
@@ -1380,6 +1408,8 @@ namespace LaggerServer.Database
 		
 		private int _ID_Event;
 		
+		private int _IDOrganizer;
+		
 		private string _Name;
 		
 		private string _LocationName;
@@ -1402,12 +1432,16 @@ namespace LaggerServer.Database
 		
 		private EntitySet<UserEvent> _UserEvents;
 		
+		private EntityRef<User> _User;
+		
     #region Extensibility Method Definitions
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
     partial void OnCreated();
     partial void OnID_EventChanging(int value);
     partial void OnID_EventChanged();
+    partial void OnIDOrganizerChanging(int value);
+    partial void OnIDOrganizerChanged();
     partial void OnNameChanging(string value);
     partial void OnNameChanged();
     partial void OnLocationNameChanging(string value);
@@ -1432,6 +1466,7 @@ namespace LaggerServer.Database
 		{
 			this._EventDetails = new EntitySet<EventDetail>(new Action<EventDetail>(this.attach_EventDetails), new Action<EventDetail>(this.detach_EventDetails));
 			this._UserEvents = new EntitySet<UserEvent>(new Action<UserEvent>(this.attach_UserEvents), new Action<UserEvent>(this.detach_UserEvents));
+			this._User = default(EntityRef<User>);
 			OnCreated();
 		}
 		
@@ -1451,6 +1486,30 @@ namespace LaggerServer.Database
 					this._ID_Event = value;
 					this.SendPropertyChanged("ID_Event");
 					this.OnID_EventChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IDOrganizer", DbType="Int NOT NULL")]
+		public int IDOrganizer
+		{
+			get
+			{
+				return this._IDOrganizer;
+			}
+			set
+			{
+				if ((this._IDOrganizer != value))
+				{
+					if (this._User.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnIDOrganizerChanging(value);
+					this.SendPropertyChanging();
+					this._IDOrganizer = value;
+					this.SendPropertyChanged("IDOrganizer");
+					this.OnIDOrganizerChanged();
 				}
 			}
 		}
@@ -1658,6 +1717,40 @@ namespace LaggerServer.Database
 			set
 			{
 				this._UserEvents.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="User_Event", Storage="_User", ThisKey="IDOrganizer", OtherKey="ID_User", IsForeignKey=true)]
+		public User User
+		{
+			get
+			{
+				return this._User.Entity;
+			}
+			set
+			{
+				User previousValue = this._User.Entity;
+				if (((previousValue != value) 
+							|| (this._User.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._User.Entity = null;
+						previousValue.Events.Remove(this);
+					}
+					this._User.Entity = value;
+					if ((value != null))
+					{
+						value.Events.Add(this);
+						this._IDOrganizer = value.ID_User;
+					}
+					else
+					{
+						this._IDOrganizer = default(int);
+					}
+					this.SendPropertyChanged("User");
+				}
 			}
 		}
 		

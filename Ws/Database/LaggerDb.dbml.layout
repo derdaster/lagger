@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 14, 10.625" name="LaggerDb">
+<ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 13.75, 10.625" name="LaggerDb">
   <DataContextMoniker Name="/LaggerDbEntities" />
   <nestedChildShapes>
     <classShape Id="967ca381-2e07-47d2-bd72-72edd298b342" absoluteBounds="6.75, 8, 2, 2.3478011067708335">
@@ -20,21 +20,21 @@
         <elementListCompartment Id="350a6bc6-e1e6-4a36-b86f-b371e2a294a8" absoluteBounds="6.39, 4.585, 1.9700000000000002, 1.9801025390625" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <associationConnector edgePoints="[(7.5625 : 6.6651025390625); (7.5625 : 8)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+    <associationConnector edgePoints="[(7.5625 : 6.6651025390625); (7.5625 : 8)]" fixedFrom="NotFixed" fixedTo="NotFixed">
       <AssociationMoniker Name="/LaggerDbEntities/User/User_EventDetail" />
       <nodes>
         <classShapeMoniker Id="adcb96d1-536a-481c-a324-79b386fdfafd" />
         <classShapeMoniker Id="967ca381-2e07-47d2-bd72-72edd298b342" />
       </nodes>
     </associationConnector>
-    <associationConnector edgePoints="[(6.375 : 5.14024983723958); (3.5 : 5.14024983723958)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+    <associationConnector edgePoints="[(6.375 : 5.14024983723958); (3.5 : 5.14024983723958)]" fixedFrom="NotFixed" fixedTo="NotFixed">
       <AssociationMoniker Name="/LaggerDbEntities/User/User_UserFriend" />
       <nodes>
         <classShapeMoniker Id="adcb96d1-536a-481c-a324-79b386fdfafd" />
         <classShapeMoniker Id="db5d35cd-e152-45e5-a82d-ca819cc48658" />
       </nodes>
     </associationConnector>
-    <associationConnector edgePoints="[(6.375 : 4.57012491861979); (3.5 : 4.57012491861979)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+    <associationConnector edgePoints="[(6.375 : 4.57012491861979); (3.5 : 4.57012491861979)]" fixedFrom="NotFixed" fixedTo="NotFixed">
       <AssociationMoniker Name="/LaggerDbEntities/User/User_UserFriend1" />
       <nodes>
         <classShapeMoniker Id="adcb96d1-536a-481c-a324-79b386fdfafd" />
@@ -47,31 +47,38 @@
         <elementListCompartment Id="9bf9059c-b1e1-496e-825a-670ccd6df657" absoluteBounds="7.8900000000000006, 1.21, 1.9700000000000002, 1.5954996744791665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <associationConnector edgePoints="[(8.125 : 4.125); (8.125 : 2.90549967447917)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+    <associationConnector edgePoints="[(8.125 : 4.125); (8.125 : 2.90549967447917)]" fixedFrom="NotFixed" fixedTo="NotFixed">
       <AssociationMoniker Name="/LaggerDbEntities/User/User_UserEvent" />
       <nodes>
         <classShapeMoniker Id="adcb96d1-536a-481c-a324-79b386fdfafd" />
         <classShapeMoniker Id="afd0f574-a08e-4699-a456-1977355aea6b" />
       </nodes>
     </associationConnector>
-    <classShape Id="05df8c05-3da7-478f-8226-6454e8fcf0d4" absoluteBounds="11.75, 1.5, 2, 2.7324039713541666">
+    <classShape Id="28cd7e64-b7c8-4915-995c-12b96b51c330" absoluteBounds="11.5, 2.375, 2, 2.9247054036458331">
       <DataClassMoniker Name="/LaggerDbEntities/Event" />
       <nestedChildShapes>
-        <elementListCompartment Id="478467d6-0c24-4ca4-b986-7d4cb67f8087" absoluteBounds="11.765, 1.96, 1.9700000000000002, 2.1724039713541665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="794bed62-d105-496c-bf6b-6c3fa08f54b2" absoluteBounds="11.515, 2.835, 1.9700000000000002, 2.364705403645833" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <associationConnector edgePoints="[(12.75 : 4.23240397135417); (12.75 : 9.17390055338542); (8.75 : 9.17390055338542)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+    <associationConnector edgePoints="[(12.5 : 5.29970540364583); (12.5 : 9.17390055338542); (8.75 : 9.17390055338542)]" fixedFrom="Algorithm" fixedTo="Algorithm">
       <AssociationMoniker Name="/LaggerDbEntities/Event/Event_EventDetail" />
       <nodes>
-        <classShapeMoniker Id="05df8c05-3da7-478f-8226-6454e8fcf0d4" />
+        <classShapeMoniker Id="28cd7e64-b7c8-4915-995c-12b96b51c330" />
         <classShapeMoniker Id="967ca381-2e07-47d2-bd72-72edd298b342" />
       </nodes>
     </associationConnector>
-    <associationConnector edgePoints="[(11.75 : 2.20274983723958); (9.875 : 2.20274983723958)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+    <associationConnector edgePoints="[(11.5 : 2.64024983723958); (9.875 : 2.64024983723958)]" fixedFrom="Algorithm" fixedTo="Algorithm">
       <AssociationMoniker Name="/LaggerDbEntities/Event/Event_UserEvent" />
       <nodes>
-        <classShapeMoniker Id="05df8c05-3da7-478f-8226-6454e8fcf0d4" />
+        <classShapeMoniker Id="28cd7e64-b7c8-4915-995c-12b96b51c330" />
         <classShapeMoniker Id="afd0f574-a08e-4699-a456-1977355aea6b" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(8.375 : 4.71235270182292); (11.5 : 4.71235270182292)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/LaggerDbEntities/User/User_Event" />
+      <nodes>
+        <classShapeMoniker Id="adcb96d1-536a-481c-a324-79b386fdfafd" />
+        <classShapeMoniker Id="28cd7e64-b7c8-4915-995c-12b96b51c330" />
       </nodes>
     </associationConnector>
   </nestedChildShapes>

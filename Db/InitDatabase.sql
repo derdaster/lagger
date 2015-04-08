@@ -68,6 +68,7 @@ GO
 CREATE TABLE [Event]
 (
 	[ID_Event] int NOT NULL IDENTITY(1,1),
+	[IDOrganizer] int NOT NULL,
 	[Name] nvarchar(200) NOT NULL,
 	[LocationName] nvarchar(500) NULL,
 	[Latitude] decimal NOT NULL,
@@ -77,7 +78,8 @@ CREATE TABLE [Event]
 	[CreationDate] datetime NOT NULL DEFAULT GETUTCDATE(),
 	[LastEditDate] datetime NOT NULL DEFAULT GETUTCDATE(),
 	[Blocked] bit NOT NULL DEFAULT (0),
-	CONSTRAINT [PK_Event] PRIMARY KEY([ID_Event])
+	CONSTRAINT [PK_Event] PRIMARY KEY([ID_Event]),
+	CONSTRAINT [FK_Event_Organizer] FOREIGN KEY ([IDOrganizer]) REFERENCES [User]([ID_User])
 )
 GO
 
@@ -131,6 +133,6 @@ CREATE TABLE [UserFriend]
 	[Blocked] bit NOT NULL DEFAULT (0),
 	CONSTRAINT [PK_UserFriend] PRIMARY KEY([ID_UserFriend]),
 	CONSTRAINT [FK_UserFriend_User] FOREIGN KEY ([IDUser]) REFERENCES [User]([ID_User]),
-	CONSTRAINT [FK_UserFriend_Event] FOREIGN KEY ([IDFriend]) REFERENCES [User]([ID_User])
+	CONSTRAINT [FK_UserFriend_Friend] FOREIGN KEY ([IDFriend]) REFERENCES [User]([ID_User])
 )
 GO

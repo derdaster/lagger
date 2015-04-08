@@ -16,11 +16,14 @@ namespace LaggerServer
                 var list = (from e in ctx.Events
                             join ue in ctx.UserEvents
                             on e.ID_Event equals ue.IDEvent
+                            join u in ctx.Users
+                            on e.IDOrganizer equals u.ID_User
                             where ue.IDUser == request.IdUser
                             && ue.Status == (short)UserEventStatus.Accepted
                             && !e.Blocked
                             && !ue.Blocked
-                            select new Meeting(e)).ToList();
+                            && !u.Blocked
+                            select new Meeting(e, u)).ToList();
 
                 return new GetMeetingsResponse()
                 {
@@ -36,11 +39,14 @@ namespace LaggerServer
                 var list = (from e in ctx.Events
                             join ue in ctx.UserEvents
                             on e.ID_Event equals ue.IDEvent
+                            join u in ctx.Users
+                            on e.IDOrganizer equals u.ID_User
                             where ue.IDUser == request.IdUser
                             && ue.Status == (short)UserEventStatus.NotAccepted
                             && !e.Blocked
                             && !ue.Blocked
-                            select new Meeting(e)).ToList();
+                            && !u.Blocked
+                            select new Meeting(e, u)).ToList();
 
                 return new GetMeetingInvitationsResponse()
                 {
@@ -53,10 +59,10 @@ namespace LaggerServer
         {
             using (var ctx = new LaggerDbEntities())
             {
-                // IDOrganizatora
                 var entity = new Event()
                 {
                     Name = request.Name,
+                    IDOrganizer = request.IdUser,
                     LocationName = request.LocationName,
                     Latitude = request.Latitude,
                     Longitude = request.Longitude,

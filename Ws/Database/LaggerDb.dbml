@@ -42,6 +42,7 @@
       <Association Name="User_UserFriend" Member="UserFriends" ThisKey="ID_User" OtherKey="IDFriend" Type="UserFriend" />
       <Association Name="User_UserFriend1" Member="UserFriends1" ThisKey="ID_User" OtherKey="IDUser" Type="UserFriend" />
       <Association Name="User_UserEvent" Member="UserEvents" ThisKey="ID_User" OtherKey="IDUser" Type="UserEvent" />
+      <Association Name="User_Event" Member="Events" ThisKey="ID_User" OtherKey="IDOrganizer" Type="Event" />
     </Type>
   </Table>
   <Table Name="dbo.UserEvent" Member="UserEvents">
@@ -60,6 +61,7 @@
   <Table Name="dbo.Event" Member="Events">
     <Type Name="Event">
       <Column Name="ID_Event" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="IDOrganizer" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="Name" Type="System.String" DbType="NVarChar(200) NOT NULL" CanBeNull="false" />
       <Column Name="LocationName" Type="System.String" DbType="NVarChar(500)" CanBeNull="true" />
       <Column Name="Latitude" Type="System.Decimal" DbType="Decimal(18,0) NOT NULL" CanBeNull="false" />
@@ -71,6 +73,7 @@
       <Column Name="Blocked" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
       <Association Name="Event_EventDetail" Member="EventDetails" ThisKey="ID_Event" OtherKey="IDEvent" Type="EventDetail" />
       <Association Name="Event_UserEvent" Member="UserEvents" ThisKey="ID_Event" OtherKey="IDEvent" Type="UserEvent" />
+      <Association Name="User_Event" Member="User" ThisKey="IDOrganizer" OtherKey="ID_User" Type="User" IsForeignKey="true" />
     </Type>
   </Table>
 </Database>

@@ -1,25 +1,32 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Web;
 
 namespace LaggerServer.Friends
 {
+    [DataContract]
     public class GetFriendsRequest : Request
     {
     }
 
-    public class GetFriendsResponse
+    [DataContract]
+    public class GetFriendsResponse : Response
     {
+        [DataMember(Name = "list", Order = 0)]
         public List<Friend> List { get; set; }
     }
 
+    [DataContract]
     public class GetFriendInvitationsRequest : Request
     {
     }
 
-    public class GetFriendInvitationsResponse
+    [DataContract]
+    public class GetFriendInvitationsResponse : Response
     {
+        [DataMember(Name = "list", Order = 0)]
         public List<Friend> List { get; set; }
     }
 
@@ -30,22 +37,28 @@ namespace LaggerServer.Friends
         Refused = 2
     }
 
+    [DataContract]
     public class AddFriendRequest : Request
     {
+        [DataMember(Name = "idFriend", Order = 0)]
         public int IdFriend { get; set; }
     }
 
-    public class AddFriendResponse
+    [DataContract]
+    public class AddFriendResponse : Response
     {
 
     }
 
+    [DataContract]
     public class RemoveFriendRequest : Request
     {
+        [DataMember(Name = "idFriend", Order = 0)]
         public int IdFriend { get; set; }
     }
 
-    public class RemoveFriendResponse
+    [DataContract]
+    public class RemoveFriendResponse : Response
     {
 
     }

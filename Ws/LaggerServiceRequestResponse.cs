@@ -8,10 +8,16 @@ using System.Web.Script.Serialization;
 
 namespace LaggerServer
 {
+    [DataContract]
     public class Request
     {
-        [DataMember(Name = "idUser")]
+        [DataMember(Name = "idUser", Order = 0)]
         public int IdUser { get; set; }
+    }
+
+    [DataContract]
+    public class Response
+    {
     }
 
     #region LoginUser
@@ -19,20 +25,20 @@ namespace LaggerServer
     [DataContract]
     public class LoginUserRequest
     {
-        [DataMember(Name = "login")]
+        [DataMember(Name = "login", Order = 0)]
         public String Login { get; set; }
 
-        [DataMember(Name = "password")]
+        [DataMember(Name = "password", Order = 1)]
         public String Password { get; set; }
     }
 
     [DataContract]
-    public class LoginUserResponse
+    public class LoginUserResponse : Response
     {
-        [DataMember(Name = "idUser")]
+        [DataMember(Name = "idUser", Order = 0)]
         public int IdUser { get; set; }
 
-        [DataMember(Name = "status")]
+        [DataMember(Name = "status", Order = 1)]
         public LoginUserStatus Status { get; set; }
     }
 
@@ -40,11 +46,13 @@ namespace LaggerServer
     public enum LoginUserStatus
     {
         [EnumMember]
-        UnregisteredUser,
+        UnregisteredUser = 0,
+
         [EnumMember]
-        Success,
+        Success = 1,
+
         [EnumMember]
-        IncorrectPassword
+        IncorrectPassword = 2
     }
 
     #endregion

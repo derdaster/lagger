@@ -10,28 +10,31 @@ namespace LaggerServer
     [DataContract]
     public class Meeting
     {
-        [DataMember]
+        [DataMember(Name = "id", Order = 0)]
         public int Id { get; set; }
 
-        [DataMember]
+        [DataMember(Name = "organizer", Order = 1)]
+        public Friend Organizer { get; set; }
+
+        [DataMember(Name = "name", Order = 2)]
         public String Name { get; set; }
 
-        [DataMember]
+        [DataMember(Name = "locationName", Order = 3)]
         public String LocationName { get; set; }
 
-        [DataMember]
+        [DataMember(Name = "latitude", Order = 4)]
         public Decimal Latitude { get; set; }
 
-        [DataMember]
+        [DataMember(Name = "longitude", Order = 5)]
         public Decimal Longitude { get; set; }
 
-        [DataMember]
+        [DataMember(Name = "startTime", Order = 6)]
         public DateTime StartTime { get; set; }
 
-        [DataMember]
+        [DataMember(Name = "endTime", Order = 7)]
         public DateTime EndTime { get; set; }
 
-        public Meeting(Event entity)
+        public Meeting(Event entity, User user)
         {
             Id = entity.ID_Event;
             Name = entity.Name;
@@ -40,22 +43,23 @@ namespace LaggerServer
             Longitude = entity.Longitude;
             StartTime = entity.StartTime;
             EndTime = entity.EndTime;
+            Organizer = new Friend(user);
         }
     }
 
     [DataContract]
     public class Friend
     {
-        [DataMember]
+        [DataMember(Name = "id")]
         public int Id { get; set; }
 
-        [DataMember]
+        [DataMember(Name = "login")]
         public String Login { get; set; }
 
-        [DataMember]
+        [DataMember(Name = "email")]
         public String Email { get; set; }
 
-        [DataMember]
+        [DataMember(Name = "phone")]
         public String Phone { get; set; }
 
         public Friend(User entity)
@@ -70,16 +74,16 @@ namespace LaggerServer
     [DataContract]
     public class Position
     {
-        [DataMember]
+        [DataMember(Name = "idUser")]
         public int IdUser { get; set; }
 
-        [DataMember]
+        [DataMember(Name = "latitude")]
         public decimal Latitude { get; set; }
 
-        [DataMember]
+        [DataMember(Name = "longitude")]
         public decimal Longitude { get; set; }
 
-        //[DataMember]
+        //[DataMember(Name = "dateTime")]
         //public DateTime DateTime { get; set; }
 
         public Position(EventDetail entity)

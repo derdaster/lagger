@@ -19,7 +19,8 @@ GO
 
 SET IDENTITY_INSERT [Event] ON
 
-INSERT [dbo].[Event] ([ID_Event], [Name], [LocationName], [Latitude], [Longitude], [StartTime], [EndTime], [CreationDate], [LastEditDate], [Blocked]) VALUES (1, N'Impreza u Maæka', N'Pub Pod Dêbem', CAST(51 AS Decimal(18, 0)), CAST(17 AS Decimal(18, 0)), CAST(N'2015-03-20 19:00:00.000' AS DateTime), CAST(N'2015-03-20 22:00:00.000' AS DateTime), GETUTCDATE(), GETUTCDATE(), 0)
+INSERT [dbo].[Event] ([ID_Event], [IDOrganizer], [Name], [LocationName], [Latitude], [Longitude], [StartTime], [EndTime], [CreationDate], [LastEditDate], [Blocked]) VALUES (1, 1, N'Impreza u Maæka', N'Pub Pod Dêbem', CAST(51 AS Decimal(18, 0)), CAST(17 AS Decimal(18, 0)), CAST(N'2015-03-20 19:00:00.000' AS DateTime), CAST(N'2015-03-20 22:00:00.000' AS DateTime), GETUTCDATE(), GETUTCDATE(), 0)
+INSERT [dbo].[Event] ([ID_Event], [IDOrganizer], [Name], [LocationName], [Latitude], [Longitude], [StartTime], [EndTime], [CreationDate], [LastEditDate], [Blocked]) VALUES (2, 1, N'Impreza u Zoœki', N'Pub Pod Sosn¹', CAST(51 AS Decimal(18, 0)), CAST(17 AS Decimal(18, 0)), CAST(N'2015-03-25 17:00:00.000' AS DateTime), CAST(N'2015-03-25 19:00:00.000' AS DateTime), GETUTCDATE(), GETUTCDATE(), 0)
 
 SET IDENTITY_INSERT [Event] OFF
 GO
@@ -34,6 +35,7 @@ INSERT [dbo].[UserEvent] ([ID_UserEvent], [IDUser], [IDEvent], [Status], [Creati
 INSERT [dbo].[UserEvent] ([ID_UserEvent], [IDUser], [IDEvent], [Status], [CreationDate], [LastEditDate], [Blocked]) VALUES (3, 3, 1, 1, GETUTCDATE(), GETUTCDATE(), 0)
 INSERT [dbo].[UserEvent] ([ID_UserEvent], [IDUser], [IDEvent], [Status], [CreationDate], [LastEditDate], [Blocked]) VALUES (4, 4, 1, 1, GETUTCDATE(), GETUTCDATE(), 0)
 INSERT [dbo].[UserEvent] ([ID_UserEvent], [IDUser], [IDEvent], [Status], [CreationDate], [LastEditDate], [Blocked]) VALUES (5, 5, 1, 1, GETUTCDATE(), GETUTCDATE(), 0)
+INSERT [dbo].[UserEvent] ([ID_UserEvent], [IDUser], [IDEvent], [Status], [CreationDate], [LastEditDate], [Blocked]) VALUES (6, 1, 2, 1, GETUTCDATE(), GETUTCDATE(), 0)
 
 SET IDENTITY_INSERT [UserEvent] OFF
 GO
