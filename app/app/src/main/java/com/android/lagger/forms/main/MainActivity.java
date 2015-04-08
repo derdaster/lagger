@@ -21,6 +21,7 @@ import com.android.lagger.R;
 import com.android.lagger.forms.friends.FriendsListFragment;
 import com.android.lagger.forms.login.LoginFragment;
 import com.android.lagger.forms.meetings.MeetingListFragment;
+import com.android.lagger.forms.meetings.ViewMeetingFragment;
 import com.android.lagger.gpslocation.MapFragment;
 
 
@@ -81,6 +82,7 @@ public class MainActivity extends ActionBarActivity {
     }
 //
     private void selectItem(int position) {
+        fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
         fragmentTransaction = fragmentManager.beginTransaction();
         switch (position) {
 
@@ -167,6 +169,14 @@ public class MainActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onBackPressed() {
+        if (getFragmentManager().getBackStackEntryCount() == 0) {
+            this.finish();
+        } else {
+            getFragmentManager().popBackStack();
+        }
+    }
 
 
 }
