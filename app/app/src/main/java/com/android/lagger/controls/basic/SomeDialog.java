@@ -69,13 +69,13 @@ public class SomeDialog extends DialogFragment {
             return new AlertDialog.Builder(getActivity())
                     .setTitle(title)
                     .setMessage(message)
-                    .setPositiveButton(android.R.string.yes,  new DialogInterface.OnClickListener() {
+                    .setPositiveButton("Yes",  new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             // do something
                         }
                     })
-                    .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                    .setNegativeButton("No", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             // do nothing (will close dialog)

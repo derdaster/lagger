@@ -92,6 +92,12 @@ public class MeetingListFragment extends Fragment {
                     newFragment.show(fragmentTransaction, "dialog");
 
                 }
+                else
+                {
+                    fragmentTransaction = fragmentManager.beginTransaction();
+                    fragmentTransaction.addToBackStack(null);
+                    fragmentTransaction.replace(R.id.content_frame, new ViewMeetingFragment(mContext)).commit();
+                }
             }
         });
 
