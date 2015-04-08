@@ -14,8 +14,8 @@ namespace LaggerServer.Meetings
     [DataContract]
     public class GetMeetingsResponse : Response
     {
-        [DataMember(Name = "list", Order = 0)]
-        public List<Meeting> List { get; set; }
+        [DataMember(Name = "meetings", Order = 0)]
+        public List<Meeting> Meetings { get; set; }
     }
 
     [DataContract]
@@ -26,8 +26,8 @@ namespace LaggerServer.Meetings
     [DataContract]
     public class GetMeetingInvitationsResponse : Response
     {
-        [DataMember(Name = "list", Order = 0)]
-        public List<Meeting> List { get; set; }
+        [DataMember(Name = "meetingInvitations", Order = 0)]
+        public List<Meeting> MeetingInvitations { get; set; }
     }
 
     public enum UserEventStatus
@@ -100,7 +100,5 @@ namespace LaggerServer.Meetings
     [DataContract]
     public class EditMeetingResponse : Response
     {
-        [DataMember(Name = "list", Order = 0)]
-        public List<Meeting> List { get; set; }
     }
 }

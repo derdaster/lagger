@@ -33,7 +33,7 @@ namespace LaggerServer
 
                 return new GetFriendsResponse()
                 {
-                    List = list.Union(list2).ToList()
+                    Friends = list.Union(list2).ToList()
                 };
             }
         }
@@ -53,7 +53,7 @@ namespace LaggerServer
 
                 return new GetFriendInvitationsResponse()
                 {
-                    List = list.ToList()
+                    FriendInvitations = list.ToList()
                 };
             }
         }
@@ -79,7 +79,10 @@ namespace LaggerServer
                     {
                         IDUser = request.IdUser,
                         IDFriend = request.IdFriend,
-                        Status = (short)UserFriendStatus.NotAccepted
+                        Status = (short)UserFriendStatus.NotAccepted,
+                        LastEditDate = DateTime.UtcNow,
+                        CreationDate = DateTime.UtcNow,
+                        Blocked = false
                     };
 
                     ctx.UserFriends.InsertOnSubmit(entity);
@@ -112,7 +115,10 @@ namespace LaggerServer
                     {
                         IDUser = request.IdUser,
                         IDFriend = request.IdFriend,
-                        Status = (short)UserFriendStatus.Refused
+                        Status = (short)UserFriendStatus.Refused,
+                        LastEditDate = DateTime.UtcNow,
+                        CreationDate = DateTime.UtcNow,
+                        Blocked = false
                     };
 
                     ctx.UserFriends.InsertOnSubmit(entity);

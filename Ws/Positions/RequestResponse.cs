@@ -37,7 +37,7 @@ namespace LaggerServer.Positions
     [DataContract]
     public class GetPositionsResponse : Response
     {
-        [DataMember(Name = "list", Order = 0)]
-        public List<Position> List { get; set; }
+        [DataMember(Name = "positions", Order = 0)]
+        public List<Position> Positions { get; set; }
     }
 }

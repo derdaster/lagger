@@ -41,7 +41,7 @@ namespace LaggerServer
 
                 return new GetPositionsResponse()
                 {
-                    List = list
+                    Positions = list
                 };
             }
         }

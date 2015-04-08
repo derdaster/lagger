@@ -14,8 +14,8 @@ namespace LaggerServer.Friends
     [DataContract]
     public class GetFriendsResponse : Response
     {
-        [DataMember(Name = "list", Order = 0)]
-        public List<Friend> List { get; set; }
+        [DataMember(Name = "friends", Order = 0)]
+        public List<Friend> Friends { get; set; }
     }
 
     [DataContract]
@@ -26,8 +26,8 @@ namespace LaggerServer.Friends
     [DataContract]
     public class GetFriendInvitationsResponse : Response
     {
-        [DataMember(Name = "list", Order = 0)]
-        public List<Friend> List { get; set; }
+        [DataMember(Name = "friendInvitations", Order = 0)]
+        public List<Friend> FriendInvitations { get; set; }
     }
 
     public enum UserFriendStatus

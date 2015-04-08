@@ -27,7 +27,7 @@ namespace LaggerServer
 
                 return new GetMeetingsResponse()
                 {
-                    List = list
+                    Meetings = list
                 };
             }
         }
@@ -50,7 +50,7 @@ namespace LaggerServer
 
                 return new GetMeetingInvitationsResponse()
                 {
-                    List = list
+                    MeetingInvitations = list
                 };
             }
         }
@@ -67,7 +67,10 @@ namespace LaggerServer
                     Latitude = request.Latitude,
                     Longitude = request.Longitude,
                     StartTime = request.StartTime,
-                    EndTime = request.EndTime
+                    EndTime = request.EndTime,
+                    LastEditDate = DateTime.UtcNow,
+                    CreationDate = DateTime.UtcNow,
+                    Blocked = false
                 };
 
                 ctx.Events.InsertOnSubmit(entity);
@@ -79,7 +82,10 @@ namespace LaggerServer
                     {
                         IDEvent = entity.ID_Event,
                         IDUser = user,
-                        Status = (short)UserEventStatus.NotAccepted
+                        Status = (short)UserEventStatus.NotAccepted,
+                        LastEditDate = DateTime.UtcNow,
+                        CreationDate = DateTime.UtcNow,
+                        Blocked = false
                     });
                 }
 
@@ -122,7 +128,10 @@ namespace LaggerServer
                     {
                         IDEvent = entity.ID_Event,
                         IDUser = user,
-                        Status = (short)UserEventStatus.NotAccepted
+                        Status = (short)UserEventStatus.NotAccepted,
+                        LastEditDate = DateTime.UtcNow,
+                        CreationDate = DateTime.UtcNow,
+                        Blocked = false
                     });
                 }
 

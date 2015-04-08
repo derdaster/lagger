@@ -10,10 +10,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
   </PropertyGroup>
   <ItemGroup>
     <File Include="bin/LaggerServer.dll">
-      <publishTime>04/08/2015 17:39:08</publishTime>
+      <publishTime>04/08/2015 21:24:46</publishTime>
     </File>
     <File Include="Database/LaggerDb.dbml">
-      <publishTime>04/08/2015 12:46:51</publishTime>
+      <publishTime>04/08/2015 17:43:13</publishTime>
     </File>
     <File Include="LaggerService.svc">
       <publishTime>03/11/2015 00:26:05</publishTime>
