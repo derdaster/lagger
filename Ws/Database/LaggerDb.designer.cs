@@ -30,21 +30,21 @@ namespace LaggerServer.Database
 		
     #region Extensibility Method Definitions
     partial void OnCreated();
-    partial void InsertEvent(Event instance);
-    partial void UpdateEvent(Event instance);
-    partial void DeleteEvent(Event instance);
-    partial void InsertUserFriend(UserFriend instance);
-    partial void UpdateUserFriend(UserFriend instance);
-    partial void DeleteUserFriend(UserFriend instance);
     partial void InsertEventDetail(EventDetail instance);
     partial void UpdateEventDetail(EventDetail instance);
     partial void DeleteEventDetail(EventDetail instance);
+    partial void InsertUserFriend(UserFriend instance);
+    partial void UpdateUserFriend(UserFriend instance);
+    partial void DeleteUserFriend(UserFriend instance);
     partial void InsertUser(User instance);
     partial void UpdateUser(User instance);
     partial void DeleteUser(User instance);
     partial void InsertUserEvent(UserEvent instance);
     partial void UpdateUserEvent(UserEvent instance);
     partial void DeleteUserEvent(UserEvent instance);
+    partial void InsertEvent(Event instance);
+    partial void UpdateEvent(Event instance);
+    partial void DeleteEvent(Event instance);
     #endregion
 		
 		public LaggerDbEntities() : 
@@ -77,11 +77,11 @@ namespace LaggerServer.Database
 			OnCreated();
 		}
 		
-		public System.Data.Linq.Table<Event> Events
+		public System.Data.Linq.Table<EventDetail> EventDetails
 		{
 			get
 			{
-				return this.GetTable<Event>();
+				return this.GetTable<EventDetail>();
 			}
 		}
 		
@@ -90,14 +90,6 @@ namespace LaggerServer.Database
 			get
 			{
 				return this.GetTable<UserFriend>();
-			}
-		}
-		
-		public System.Data.Linq.Table<EventDetail> EventDetails
-		{
-			get
-			{
-				return this.GetTable<EventDetail>();
 			}
 		}
 		
@@ -116,27 +108,31 @@ namespace LaggerServer.Database
 				return this.GetTable<UserEvent>();
 			}
 		}
+		
+		public System.Data.Linq.Table<Event> Events
+		{
+			get
+			{
+				return this.GetTable<Event>();
+			}
+		}
 	}
 	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Event")]
-	public partial class Event : INotifyPropertyChanging, INotifyPropertyChanged
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.EventDetails")]
+	public partial class EventDetail : INotifyPropertyChanging, INotifyPropertyChanged
 	{
 		
 		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
 		
-		private int _ID_Event;
+		private int _ID_EventDetails;
 		
-		private string _Name;
+		private int _IDUser;
 		
-		private string _LocationName;
+		private int _IDEvent;
 		
 		private decimal _Latitude;
 		
 		private decimal _Longitude;
-		
-		private System.DateTime _StartTime;
-		
-		private System.DateTime _EndTime;
 		
 		private System.DateTime _CreationDate;
 		
@@ -144,28 +140,24 @@ namespace LaggerServer.Database
 		
 		private bool _Blocked;
 		
-		private EntitySet<EventDetail> _EventDetails;
+		private EntityRef<User> _User;
 		
-		private EntitySet<UserEvent> _UserEvents;
+		private EntityRef<Event> _Event;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
     partial void OnCreated();
-    partial void OnID_EventChanging(int value);
-    partial void OnID_EventChanged();
-    partial void OnNameChanging(string value);
-    partial void OnNameChanged();
-    partial void OnLocationNameChanging(string value);
-    partial void OnLocationNameChanged();
+    partial void OnID_EventDetailsChanging(int value);
+    partial void OnID_EventDetailsChanged();
+    partial void OnIDUserChanging(int value);
+    partial void OnIDUserChanged();
+    partial void OnIDEventChanging(int value);
+    partial void OnIDEventChanged();
     partial void OnLatitudeChanging(decimal value);
     partial void OnLatitudeChanged();
     partial void OnLongitudeChanging(decimal value);
     partial void OnLongitudeChanged();
-    partial void OnStartTimeChanging(System.DateTime value);
-    partial void OnStartTimeChanged();
-    partial void OnEndTimeChanging(System.DateTime value);
-    partial void OnEndTimeChanged();
     partial void OnCreationDateChanging(System.DateTime value);
     partial void OnCreationDateChanged();
     partial void OnLastEditDateChanging(System.DateTime value);
@@ -174,74 +166,82 @@ namespace LaggerServer.Database
     partial void OnBlockedChanged();
     #endregion
 		
-		public Event()
+		public EventDetail()
 		{
-			this._EventDetails = new EntitySet<EventDetail>(new Action<EventDetail>(this.attach_EventDetails), new Action<EventDetail>(this.detach_EventDetails));
-			this._UserEvents = new EntitySet<UserEvent>(new Action<UserEvent>(this.attach_UserEvents), new Action<UserEvent>(this.detach_UserEvents));
+			this._User = default(EntityRef<User>);
+			this._Event = default(EntityRef<Event>);
 			OnCreated();
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ID_Event", DbType="Int NOT NULL", IsPrimaryKey=true)]
-		public int ID_Event
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ID_EventDetails", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int ID_EventDetails
 		{
 			get
 			{
-				return this._ID_Event;
+				return this._ID_EventDetails;
 			}
 			set
 			{
-				if ((this._ID_Event != value))
+				if ((this._ID_EventDetails != value))
 				{
-					this.OnID_EventChanging(value);
+					this.OnID_EventDetailsChanging(value);
 					this.SendPropertyChanging();
-					this._ID_Event = value;
-					this.SendPropertyChanged("ID_Event");
-					this.OnID_EventChanged();
+					this._ID_EventDetails = value;
+					this.SendPropertyChanged("ID_EventDetails");
+					this.OnID_EventDetailsChanged();
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Name", DbType="NVarChar(200) NOT NULL", CanBeNull=false)]
-		public string Name
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IDUser", DbType="Int NOT NULL")]
+		public int IDUser
 		{
 			get
 			{
-				return this._Name;
+				return this._IDUser;
 			}
 			set
 			{
-				if ((this._Name != value))
+				if ((this._IDUser != value))
 				{
-					this.OnNameChanging(value);
+					if (this._User.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnIDUserChanging(value);
 					this.SendPropertyChanging();
-					this._Name = value;
-					this.SendPropertyChanged("Name");
-					this.OnNameChanged();
+					this._IDUser = value;
+					this.SendPropertyChanged("IDUser");
+					this.OnIDUserChanged();
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_LocationName", DbType="NVarChar(500)")]
-		public string LocationName
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IDEvent", DbType="Int NOT NULL")]
+		public int IDEvent
 		{
 			get
 			{
-				return this._LocationName;
+				return this._IDEvent;
 			}
 			set
 			{
-				if ((this._LocationName != value))
+				if ((this._IDEvent != value))
 				{
-					this.OnLocationNameChanging(value);
+					if (this._Event.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnIDEventChanging(value);
 					this.SendPropertyChanging();
-					this._LocationName = value;
-					this.SendPropertyChanged("LocationName");
-					this.OnLocationNameChanged();
+					this._IDEvent = value;
+					this.SendPropertyChanged("IDEvent");
+					this.OnIDEventChanged();
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Latitude", DbType="Decimal(18,0) NOT NULL")]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Latitude", DbType="Decimal(10,7) NOT NULL")]
 		public decimal Latitude
 		{
 			get
@@ -261,7 +261,7 @@ namespace LaggerServer.Database
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Longitude", DbType="Decimal(18,0) NOT NULL")]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Longitude", DbType="Decimal(10,7) NOT NULL")]
 		public decimal Longitude
 		{
 			get
@@ -277,46 +277,6 @@ namespace LaggerServer.Database
 					this._Longitude = value;
 					this.SendPropertyChanged("Longitude");
 					this.OnLongitudeChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_StartTime", DbType="DateTime NOT NULL")]
-		public System.DateTime StartTime
-		{
-			get
-			{
-				return this._StartTime;
-			}
-			set
-			{
-				if ((this._StartTime != value))
-				{
-					this.OnStartTimeChanging(value);
-					this.SendPropertyChanging();
-					this._StartTime = value;
-					this.SendPropertyChanged("StartTime");
-					this.OnStartTimeChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EndTime", DbType="DateTime NOT NULL")]
-		public System.DateTime EndTime
-		{
-			get
-			{
-				return this._EndTime;
-			}
-			set
-			{
-				if ((this._EndTime != value))
-				{
-					this.OnEndTimeChanging(value);
-					this.SendPropertyChanging();
-					this._EndTime = value;
-					this.SendPropertyChanged("EndTime");
-					this.OnEndTimeChanged();
 				}
 			}
 		}
@@ -381,29 +341,71 @@ namespace LaggerServer.Database
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Event_EventDetail", Storage="_EventDetails", ThisKey="ID_Event", OtherKey="IDEvent")]
-		public EntitySet<EventDetail> EventDetails
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="User_EventDetail", Storage="_User", ThisKey="IDUser", OtherKey="ID_User", IsForeignKey=true)]
+		public User User
 		{
 			get
 			{
-				return this._EventDetails;
+				return this._User.Entity;
 			}
 			set
 			{
-				this._EventDetails.Assign(value);
+				User previousValue = this._User.Entity;
+				if (((previousValue != value) 
+							|| (this._User.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._User.Entity = null;
+						previousValue.EventDetails.Remove(this);
+					}
+					this._User.Entity = value;
+					if ((value != null))
+					{
+						value.EventDetails.Add(this);
+						this._IDUser = value.ID_User;
+					}
+					else
+					{
+						this._IDUser = default(int);
+					}
+					this.SendPropertyChanged("User");
+				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Event_UserEvent", Storage="_UserEvents", ThisKey="ID_Event", OtherKey="IDEvent")]
-		public EntitySet<UserEvent> UserEvents
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Event_EventDetail", Storage="_Event", ThisKey="IDEvent", OtherKey="ID_Event", IsForeignKey=true)]
+		public Event Event
 		{
 			get
 			{
-				return this._UserEvents;
+				return this._Event.Entity;
 			}
 			set
 			{
-				this._UserEvents.Assign(value);
+				Event previousValue = this._Event.Entity;
+				if (((previousValue != value) 
+							|| (this._Event.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Event.Entity = null;
+						previousValue.EventDetails.Remove(this);
+					}
+					this._Event.Entity = value;
+					if ((value != null))
+					{
+						value.EventDetails.Add(this);
+						this._IDEvent = value.ID_Event;
+					}
+					else
+					{
+						this._IDEvent = default(int);
+					}
+					this.SendPropertyChanged("Event");
+				}
 			}
 		}
 		
@@ -425,30 +427,6 @@ namespace LaggerServer.Database
 			{
 				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
-		}
-		
-		private void attach_EventDetails(EventDetail entity)
-		{
-			this.SendPropertyChanging();
-			entity.Event = this;
-		}
-		
-		private void detach_EventDetails(EventDetail entity)
-		{
-			this.SendPropertyChanging();
-			entity.Event = null;
-		}
-		
-		private void attach_UserEvents(UserEvent entity)
-		{
-			this.SendPropertyChanging();
-			entity.Event = this;
-		}
-		
-		private void detach_UserEvents(UserEvent entity)
-		{
-			this.SendPropertyChanging();
-			entity.Event = null;
 		}
 	}
 	
@@ -503,7 +481,7 @@ namespace LaggerServer.Database
 			OnCreated();
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ID_UserFriend", DbType="Int NOT NULL", IsPrimaryKey=true)]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ID_UserFriend", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
 		public int ID_UserFriend
 		{
 			get
@@ -740,318 +718,6 @@ namespace LaggerServer.Database
 		}
 	}
 	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.EventDetails")]
-	public partial class EventDetail : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private int _ID_EventDetails;
-		
-		private int _IDUser;
-		
-		private int _IDEvent;
-		
-		private decimal _Latitude;
-		
-		private decimal _Longitude;
-		
-		private System.DateTime _CreationDate;
-		
-		private System.DateTime _LastEditDate;
-		
-		private bool _Blocked;
-		
-		private EntityRef<Event> _Event;
-		
-		private EntityRef<User> _User;
-		
-    #region Extensibility Method Definitions
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnID_EventDetailsChanging(int value);
-    partial void OnID_EventDetailsChanged();
-    partial void OnIDUserChanging(int value);
-    partial void OnIDUserChanged();
-    partial void OnIDEventChanging(int value);
-    partial void OnIDEventChanged();
-    partial void OnLatitudeChanging(decimal value);
-    partial void OnLatitudeChanged();
-    partial void OnLongitudeChanging(decimal value);
-    partial void OnLongitudeChanged();
-    partial void OnCreationDateChanging(System.DateTime value);
-    partial void OnCreationDateChanged();
-    partial void OnLastEditDateChanging(System.DateTime value);
-    partial void OnLastEditDateChanged();
-    partial void OnBlockedChanging(bool value);
-    partial void OnBlockedChanged();
-    #endregion
-		
-		public EventDetail()
-		{
-			this._Event = default(EntityRef<Event>);
-			this._User = default(EntityRef<User>);
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ID_EventDetails", DbType="Int NOT NULL", IsPrimaryKey=true)]
-		public int ID_EventDetails
-		{
-			get
-			{
-				return this._ID_EventDetails;
-			}
-			set
-			{
-				if ((this._ID_EventDetails != value))
-				{
-					this.OnID_EventDetailsChanging(value);
-					this.SendPropertyChanging();
-					this._ID_EventDetails = value;
-					this.SendPropertyChanged("ID_EventDetails");
-					this.OnID_EventDetailsChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IDUser", DbType="Int NOT NULL")]
-		public int IDUser
-		{
-			get
-			{
-				return this._IDUser;
-			}
-			set
-			{
-				if ((this._IDUser != value))
-				{
-					if (this._User.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnIDUserChanging(value);
-					this.SendPropertyChanging();
-					this._IDUser = value;
-					this.SendPropertyChanged("IDUser");
-					this.OnIDUserChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IDEvent", DbType="Int NOT NULL")]
-		public int IDEvent
-		{
-			get
-			{
-				return this._IDEvent;
-			}
-			set
-			{
-				if ((this._IDEvent != value))
-				{
-					if (this._Event.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnIDEventChanging(value);
-					this.SendPropertyChanging();
-					this._IDEvent = value;
-					this.SendPropertyChanged("IDEvent");
-					this.OnIDEventChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Latitude", DbType="Decimal(18,0) NOT NULL")]
-		public decimal Latitude
-		{
-			get
-			{
-				return this._Latitude;
-			}
-			set
-			{
-				if ((this._Latitude != value))
-				{
-					this.OnLatitudeChanging(value);
-					this.SendPropertyChanging();
-					this._Latitude = value;
-					this.SendPropertyChanged("Latitude");
-					this.OnLatitudeChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Longitude", DbType="Decimal(18,0) NOT NULL")]
-		public decimal Longitude
-		{
-			get
-			{
-				return this._Longitude;
-			}
-			set
-			{
-				if ((this._Longitude != value))
-				{
-					this.OnLongitudeChanging(value);
-					this.SendPropertyChanging();
-					this._Longitude = value;
-					this.SendPropertyChanged("Longitude");
-					this.OnLongitudeChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CreationDate", DbType="DateTime NOT NULL")]
-		public System.DateTime CreationDate
-		{
-			get
-			{
-				return this._CreationDate;
-			}
-			set
-			{
-				if ((this._CreationDate != value))
-				{
-					this.OnCreationDateChanging(value);
-					this.SendPropertyChanging();
-					this._CreationDate = value;
-					this.SendPropertyChanged("CreationDate");
-					this.OnCreationDateChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_LastEditDate", DbType="DateTime NOT NULL")]
-		public System.DateTime LastEditDate
-		{
-			get
-			{
-				return this._LastEditDate;
-			}
-			set
-			{
-				if ((this._LastEditDate != value))
-				{
-					this.OnLastEditDateChanging(value);
-					this.SendPropertyChanging();
-					this._LastEditDate = value;
-					this.SendPropertyChanged("LastEditDate");
-					this.OnLastEditDateChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Blocked", DbType="Bit NOT NULL")]
-		public bool Blocked
-		{
-			get
-			{
-				return this._Blocked;
-			}
-			set
-			{
-				if ((this._Blocked != value))
-				{
-					this.OnBlockedChanging(value);
-					this.SendPropertyChanging();
-					this._Blocked = value;
-					this.SendPropertyChanged("Blocked");
-					this.OnBlockedChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Event_EventDetail", Storage="_Event", ThisKey="IDEvent", OtherKey="ID_Event", IsForeignKey=true)]
-		public Event Event
-		{
-			get
-			{
-				return this._Event.Entity;
-			}
-			set
-			{
-				Event previousValue = this._Event.Entity;
-				if (((previousValue != value) 
-							|| (this._Event.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._Event.Entity = null;
-						previousValue.EventDetails.Remove(this);
-					}
-					this._Event.Entity = value;
-					if ((value != null))
-					{
-						value.EventDetails.Add(this);
-						this._IDEvent = value.ID_Event;
-					}
-					else
-					{
-						this._IDEvent = default(int);
-					}
-					this.SendPropertyChanged("Event");
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="User_EventDetail", Storage="_User", ThisKey="IDUser", OtherKey="ID_User", IsForeignKey=true)]
-		public User User
-		{
-			get
-			{
-				return this._User.Entity;
-			}
-			set
-			{
-				User previousValue = this._User.Entity;
-				if (((previousValue != value) 
-							|| (this._User.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._User.Entity = null;
-						previousValue.EventDetails.Remove(this);
-					}
-					this._User.Entity = value;
-					if ((value != null))
-					{
-						value.EventDetails.Add(this);
-						this._IDUser = value.ID_User;
-					}
-					else
-					{
-						this._IDUser = default(int);
-					}
-					this.SendPropertyChanged("User");
-				}
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-	}
-	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.[User]")]
 	public partial class User : INotifyPropertyChanging, INotifyPropertyChanged
 	{
@@ -1076,13 +742,15 @@ namespace LaggerServer.Database
 		
 		private bool _Blocked;
 		
+		private EntitySet<EventDetail> _EventDetails;
+		
 		private EntitySet<UserFriend> _UserFriends;
 		
 		private EntitySet<UserFriend> _UserFriends1;
 		
-		private EntitySet<EventDetail> _EventDetails;
-		
 		private EntitySet<UserEvent> _UserEvents;
+		
+		private EntitySet<Event> _Events;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -1110,14 +778,15 @@ namespace LaggerServer.Database
 		
 		public User()
 		{
+			this._EventDetails = new EntitySet<EventDetail>(new Action<EventDetail>(this.attach_EventDetails), new Action<EventDetail>(this.detach_EventDetails));
 			this._UserFriends = new EntitySet<UserFriend>(new Action<UserFriend>(this.attach_UserFriends), new Action<UserFriend>(this.detach_UserFriends));
 			this._UserFriends1 = new EntitySet<UserFriend>(new Action<UserFriend>(this.attach_UserFriends1), new Action<UserFriend>(this.detach_UserFriends1));
-			this._EventDetails = new EntitySet<EventDetail>(new Action<EventDetail>(this.attach_EventDetails), new Action<EventDetail>(this.detach_EventDetails));
 			this._UserEvents = new EntitySet<UserEvent>(new Action<UserEvent>(this.attach_UserEvents), new Action<UserEvent>(this.detach_UserEvents));
+			this._Events = new EntitySet<Event>(new Action<Event>(this.attach_Events), new Action<Event>(this.detach_Events));
 			OnCreated();
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ID_User", DbType="Int NOT NULL", IsPrimaryKey=true)]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ID_User", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
 		public int ID_User
 		{
 			get
@@ -1297,6 +966,19 @@ namespace LaggerServer.Database
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="User_EventDetail", Storage="_EventDetails", ThisKey="ID_User", OtherKey="IDUser")]
+		public EntitySet<EventDetail> EventDetails
+		{
+			get
+			{
+				return this._EventDetails;
+			}
+			set
+			{
+				this._EventDetails.Assign(value);
+			}
+		}
+		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="User_UserFriend", Storage="_UserFriends", ThisKey="ID_User", OtherKey="IDFriend")]
 		public EntitySet<UserFriend> UserFriends
 		{
@@ -1323,19 +1005,6 @@ namespace LaggerServer.Database
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="User_EventDetail", Storage="_EventDetails", ThisKey="ID_User", OtherKey="IDUser")]
-		public EntitySet<EventDetail> EventDetails
-		{
-			get
-			{
-				return this._EventDetails;
-			}
-			set
-			{
-				this._EventDetails.Assign(value);
-			}
-		}
-		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="User_UserEvent", Storage="_UserEvents", ThisKey="ID_User", OtherKey="IDUser")]
 		public EntitySet<UserEvent> UserEvents
 		{
@@ -1346,6 +1015,19 @@ namespace LaggerServer.Database
 			set
 			{
 				this._UserEvents.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="User_Event", Storage="_Events", ThisKey="ID_User", OtherKey="IDOrganizer")]
+		public EntitySet<Event> Events
+		{
+			get
+			{
+				return this._Events;
+			}
+			set
+			{
+				this._Events.Assign(value);
 			}
 		}
 		
@@ -1367,6 +1049,18 @@ namespace LaggerServer.Database
 			{
 				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
+		}
+		
+		private void attach_EventDetails(EventDetail entity)
+		{
+			this.SendPropertyChanging();
+			entity.User = this;
+		}
+		
+		private void detach_EventDetails(EventDetail entity)
+		{
+			this.SendPropertyChanging();
+			entity.User = null;
 		}
 		
 		private void attach_UserFriends(UserFriend entity)
@@ -1393,18 +1087,6 @@ namespace LaggerServer.Database
 			entity.User1 = null;
 		}
 		
-		private void attach_EventDetails(EventDetail entity)
-		{
-			this.SendPropertyChanging();
-			entity.User = this;
-		}
-		
-		private void detach_EventDetails(EventDetail entity)
-		{
-			this.SendPropertyChanging();
-			entity.User = null;
-		}
-		
 		private void attach_UserEvents(UserEvent entity)
 		{
 			this.SendPropertyChanging();
@@ -1412,6 +1094,18 @@ namespace LaggerServer.Database
 		}
 		
 		private void detach_UserEvents(UserEvent entity)
+		{
+			this.SendPropertyChanging();
+			entity.User = null;
+		}
+		
+		private void attach_Events(Event entity)
+		{
+			this.SendPropertyChanging();
+			entity.User = this;
+		}
+		
+		private void detach_Events(Event entity)
 		{
 			this.SendPropertyChanging();
 			entity.User = null;
@@ -1438,9 +1132,9 @@ namespace LaggerServer.Database
 		
 		private bool _Blocked;
 		
-		private EntityRef<Event> _Event;
-		
 		private EntityRef<User> _User;
+		
+		private EntityRef<Event> _Event;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -1464,12 +1158,12 @@ namespace LaggerServer.Database
 		
 		public UserEvent()
 		{
-			this._Event = default(EntityRef<Event>);
 			this._User = default(EntityRef<User>);
+			this._Event = default(EntityRef<Event>);
 			OnCreated();
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ID_UserEvent", DbType="Int NOT NULL", IsPrimaryKey=true)]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ID_UserEvent", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
 		public int ID_UserEvent
 		{
 			get
@@ -1617,40 +1311,6 @@ namespace LaggerServer.Database
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Event_UserEvent", Storage="_Event", ThisKey="IDEvent", OtherKey="ID_Event", IsForeignKey=true)]
-		public Event Event
-		{
-			get
-			{
-				return this._Event.Entity;
-			}
-			set
-			{
-				Event previousValue = this._Event.Entity;
-				if (((previousValue != value) 
-							|| (this._Event.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._Event.Entity = null;
-						previousValue.UserEvents.Remove(this);
-					}
-					this._Event.Entity = value;
-					if ((value != null))
-					{
-						value.UserEvents.Add(this);
-						this._IDEvent = value.ID_Event;
-					}
-					else
-					{
-						this._IDEvent = default(int);
-					}
-					this.SendPropertyChanged("Event");
-				}
-			}
-		}
-		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="User_UserEvent", Storage="_User", ThisKey="IDUser", OtherKey="ID_User", IsForeignKey=true)]
 		public User User
 		{
@@ -1685,6 +1345,40 @@ namespace LaggerServer.Database
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Event_UserEvent", Storage="_Event", ThisKey="IDEvent", OtherKey="ID_Event", IsForeignKey=true)]
+		public Event Event
+		{
+			get
+			{
+				return this._Event.Entity;
+			}
+			set
+			{
+				Event previousValue = this._Event.Entity;
+				if (((previousValue != value) 
+							|| (this._Event.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Event.Entity = null;
+						previousValue.UserEvents.Remove(this);
+					}
+					this._Event.Entity = value;
+					if ((value != null))
+					{
+						value.UserEvents.Add(this);
+						this._IDEvent = value.ID_Event;
+					}
+					else
+					{
+						this._IDEvent = default(int);
+					}
+					this.SendPropertyChanged("Event");
+				}
+			}
+		}
+		
 		public event PropertyChangingEventHandler PropertyChanging;
 		
 		public event PropertyChangedEventHandler PropertyChanged;
@@ -1703,6 +1397,405 @@ namespace LaggerServer.Database
 			{
 				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Event")]
+	public partial class Event : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _ID_Event;
+		
+		private int _IDOrganizer;
+		
+		private string _Name;
+		
+		private string _LocationName;
+		
+		private decimal _Latitude;
+		
+		private decimal _Longitude;
+		
+		private System.DateTime _StartTime;
+		
+		private System.DateTime _EndTime;
+		
+		private System.DateTime _CreationDate;
+		
+		private System.DateTime _LastEditDate;
+		
+		private bool _Blocked;
+		
+		private EntitySet<EventDetail> _EventDetails;
+		
+		private EntitySet<UserEvent> _UserEvents;
+		
+		private EntityRef<User> _User;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnID_EventChanging(int value);
+    partial void OnID_EventChanged();
+    partial void OnIDOrganizerChanging(int value);
+    partial void OnIDOrganizerChanged();
+    partial void OnNameChanging(string value);
+    partial void OnNameChanged();
+    partial void OnLocationNameChanging(string value);
+    partial void OnLocationNameChanged();
+    partial void OnLatitudeChanging(decimal value);
+    partial void OnLatitudeChanged();
+    partial void OnLongitudeChanging(decimal value);
+    partial void OnLongitudeChanged();
+    partial void OnStartTimeChanging(System.DateTime value);
+    partial void OnStartTimeChanged();
+    partial void OnEndTimeChanging(System.DateTime value);
+    partial void OnEndTimeChanged();
+    partial void OnCreationDateChanging(System.DateTime value);
+    partial void OnCreationDateChanged();
+    partial void OnLastEditDateChanging(System.DateTime value);
+    partial void OnLastEditDateChanged();
+    partial void OnBlockedChanging(bool value);
+    partial void OnBlockedChanged();
+    #endregion
+		
+		public Event()
+		{
+			this._EventDetails = new EntitySet<EventDetail>(new Action<EventDetail>(this.attach_EventDetails), new Action<EventDetail>(this.detach_EventDetails));
+			this._UserEvents = new EntitySet<UserEvent>(new Action<UserEvent>(this.attach_UserEvents), new Action<UserEvent>(this.detach_UserEvents));
+			this._User = default(EntityRef<User>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ID_Event", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int ID_Event
+		{
+			get
+			{
+				return this._ID_Event;
+			}
+			set
+			{
+				if ((this._ID_Event != value))
+				{
+					this.OnID_EventChanging(value);
+					this.SendPropertyChanging();
+					this._ID_Event = value;
+					this.SendPropertyChanged("ID_Event");
+					this.OnID_EventChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IDOrganizer", DbType="Int NOT NULL")]
+		public int IDOrganizer
+		{
+			get
+			{
+				return this._IDOrganizer;
+			}
+			set
+			{
+				if ((this._IDOrganizer != value))
+				{
+					if (this._User.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnIDOrganizerChanging(value);
+					this.SendPropertyChanging();
+					this._IDOrganizer = value;
+					this.SendPropertyChanged("IDOrganizer");
+					this.OnIDOrganizerChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Name", DbType="NVarChar(200) NOT NULL", CanBeNull=false)]
+		public string Name
+		{
+			get
+			{
+				return this._Name;
+			}
+			set
+			{
+				if ((this._Name != value))
+				{
+					this.OnNameChanging(value);
+					this.SendPropertyChanging();
+					this._Name = value;
+					this.SendPropertyChanged("Name");
+					this.OnNameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_LocationName", DbType="NVarChar(500)")]
+		public string LocationName
+		{
+			get
+			{
+				return this._LocationName;
+			}
+			set
+			{
+				if ((this._LocationName != value))
+				{
+					this.OnLocationNameChanging(value);
+					this.SendPropertyChanging();
+					this._LocationName = value;
+					this.SendPropertyChanged("LocationName");
+					this.OnLocationNameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Latitude", DbType="Decimal(18,0) NOT NULL")]
+		public decimal Latitude
+		{
+			get
+			{
+				return this._Latitude;
+			}
+			set
+			{
+				if ((this._Latitude != value))
+				{
+					this.OnLatitudeChanging(value);
+					this.SendPropertyChanging();
+					this._Latitude = value;
+					this.SendPropertyChanged("Latitude");
+					this.OnLatitudeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Longitude", DbType="Decimal(18,0) NOT NULL")]
+		public decimal Longitude
+		{
+			get
+			{
+				return this._Longitude;
+			}
+			set
+			{
+				if ((this._Longitude != value))
+				{
+					this.OnLongitudeChanging(value);
+					this.SendPropertyChanging();
+					this._Longitude = value;
+					this.SendPropertyChanged("Longitude");
+					this.OnLongitudeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_StartTime", DbType="DateTime NOT NULL")]
+		public System.DateTime StartTime
+		{
+			get
+			{
+				return this._StartTime;
+			}
+			set
+			{
+				if ((this._StartTime != value))
+				{
+					this.OnStartTimeChanging(value);
+					this.SendPropertyChanging();
+					this._StartTime = value;
+					this.SendPropertyChanged("StartTime");
+					this.OnStartTimeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EndTime", DbType="DateTime NOT NULL")]
+		public System.DateTime EndTime
+		{
+			get
+			{
+				return this._EndTime;
+			}
+			set
+			{
+				if ((this._EndTime != value))
+				{
+					this.OnEndTimeChanging(value);
+					this.SendPropertyChanging();
+					this._EndTime = value;
+					this.SendPropertyChanged("EndTime");
+					this.OnEndTimeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CreationDate", DbType="DateTime NOT NULL")]
+		public System.DateTime CreationDate
+		{
+			get
+			{
+				return this._CreationDate;
+			}
+			set
+			{
+				if ((this._CreationDate != value))
+				{
+					this.OnCreationDateChanging(value);
+					this.SendPropertyChanging();
+					this._CreationDate = value;
+					this.SendPropertyChanged("CreationDate");
+					this.OnCreationDateChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_LastEditDate", DbType="DateTime NOT NULL")]
+		public System.DateTime LastEditDate
+		{
+			get
+			{
+				return this._LastEditDate;
+			}
+			set
+			{
+				if ((this._LastEditDate != value))
+				{
+					this.OnLastEditDateChanging(value);
+					this.SendPropertyChanging();
+					this._LastEditDate = value;
+					this.SendPropertyChanged("LastEditDate");
+					this.OnLastEditDateChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Blocked", DbType="Bit NOT NULL")]
+		public bool Blocked
+		{
+			get
+			{
+				return this._Blocked;
+			}
+			set
+			{
+				if ((this._Blocked != value))
+				{
+					this.OnBlockedChanging(value);
+					this.SendPropertyChanging();
+					this._Blocked = value;
+					this.SendPropertyChanged("Blocked");
+					this.OnBlockedChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Event_EventDetail", Storage="_EventDetails", ThisKey="ID_Event", OtherKey="IDEvent")]
+		public EntitySet<EventDetail> EventDetails
+		{
+			get
+			{
+				return this._EventDetails;
+			}
+			set
+			{
+				this._EventDetails.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Event_UserEvent", Storage="_UserEvents", ThisKey="ID_Event", OtherKey="IDEvent")]
+		public EntitySet<UserEvent> UserEvents
+		{
+			get
+			{
+				return this._UserEvents;
+			}
+			set
+			{
+				this._UserEvents.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="User_Event", Storage="_User", ThisKey="IDOrganizer", OtherKey="ID_User", IsForeignKey=true)]
+		public User User
+		{
+			get
+			{
+				return this._User.Entity;
+			}
+			set
+			{
+				User previousValue = this._User.Entity;
+				if (((previousValue != value) 
+							|| (this._User.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._User.Entity = null;
+						previousValue.Events.Remove(this);
+					}
+					this._User.Entity = value;
+					if ((value != null))
+					{
+						value.Events.Add(this);
+						this._IDOrganizer = value.ID_User;
+					}
+					else
+					{
+						this._IDOrganizer = default(int);
+					}
+					this.SendPropertyChanged("User");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_EventDetails(EventDetail entity)
+		{
+			this.SendPropertyChanging();
+			entity.Event = this;
+		}
+		
+		private void detach_EventDetails(EventDetail entity)
+		{
+			this.SendPropertyChanging();
+			entity.Event = null;
+		}
+		
+		private void attach_UserEvents(UserEvent entity)
+		{
+			this.SendPropertyChanging();
+			entity.Event = this;
+		}
+		
+		private void detach_UserEvents(UserEvent entity)
+		{
+			this.SendPropertyChanging();
+			entity.Event = null;
 		}
 	}
 }

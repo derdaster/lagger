@@ -1,8 +1,67 @@
 ﻿<?xml version="1.0" encoding="utf-8"?><Database Name="Lagger" Class="LaggerDbEntities" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
   <Connection Mode="WebSettings" ConnectionString="Data Source=192.168.1.37;Initial Catalog=Lagger;Persist Security Info=True;User ID=sa" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="LaggerConnectionString" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.EventDetails" Member="EventDetails">
+    <Type Name="EventDetail">
+      <Column Name="ID_EventDetails" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="IDUser" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="IDEvent" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Latitude" Type="System.Decimal" DbType="Decimal(10,7) NOT NULL" CanBeNull="false" />
+      <Column Name="Longitude" Type="System.Decimal" DbType="Decimal(10,7) NOT NULL" CanBeNull="false" />
+      <Column Name="CreationDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="LastEditDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="Blocked" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Association Name="User_EventDetail" Member="User" ThisKey="IDUser" OtherKey="ID_User" Type="User" IsForeignKey="true" />
+      <Association Name="Event_EventDetail" Member="Event" ThisKey="IDEvent" OtherKey="ID_Event" Type="Event" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.UserFriend" Member="UserFriends">
+    <Type Name="UserFriend">
+      <Column Name="ID_UserFriend" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="IDUser" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="IDFriend" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Status" Type="System.Int16" DbType="SmallInt NOT NULL" CanBeNull="false" />
+      <Column Name="CreationDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="LastEditDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="Blocked" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Association Name="User_UserFriend" Member="User" ThisKey="IDFriend" OtherKey="ID_User" Type="User" IsForeignKey="true" />
+      <Association Name="User_UserFriend1" Member="User1" ThisKey="IDUser" OtherKey="ID_User" Type="User" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.[User]" Member="Users">
+    <Type Name="User">
+      <Column Name="ID_User" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Login" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="Password" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="Email" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="Phone" Type="System.String" DbType="NVarChar(20)" CanBeNull="true" />
+      <Column Name="Activated" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="CreationDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="LastEditDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="Blocked" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Association Name="User_EventDetail" Member="EventDetails" ThisKey="ID_User" OtherKey="IDUser" Type="EventDetail" />
+      <Association Name="User_UserFriend" Member="UserFriends" ThisKey="ID_User" OtherKey="IDFriend" Type="UserFriend" />
+      <Association Name="User_UserFriend1" Member="UserFriends1" ThisKey="ID_User" OtherKey="IDUser" Type="UserFriend" />
+      <Association Name="User_UserEvent" Member="UserEvents" ThisKey="ID_User" OtherKey="IDUser" Type="UserEvent" />
+      <Association Name="User_Event" Member="Events" ThisKey="ID_User" OtherKey="IDOrganizer" Type="Event" />
+    </Type>
+  </Table>
+  <Table Name="dbo.UserEvent" Member="UserEvents">
+    <Type Name="UserEvent">
+      <Column Name="ID_UserEvent" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="IDUser" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="IDEvent" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Status" Type="System.Int16" DbType="SmallInt NOT NULL" CanBeNull="false" />
+      <Column Name="CreationDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="LastEditDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="Blocked" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Association Name="User_UserEvent" Member="User" ThisKey="IDUser" OtherKey="ID_User" Type="User" IsForeignKey="true" />
+      <Association Name="Event_UserEvent" Member="Event" ThisKey="IDEvent" OtherKey="ID_Event" Type="Event" IsForeignKey="true" />
+    </Type>
+  </Table>
   <Table Name="dbo.Event" Member="Events">
     <Type Name="Event">
-      <Column Name="ID_Event" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="ID_Event" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="IDOrganizer" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="Name" Type="System.String" DbType="NVarChar(200) NOT NULL" CanBeNull="false" />
       <Column Name="LocationName" Type="System.String" DbType="NVarChar(500)" CanBeNull="true" />
       <Column Name="Latitude" Type="System.Decimal" DbType="Decimal(18,0) NOT NULL" CanBeNull="false" />
@@ -14,63 +73,7 @@
       <Column Name="Blocked" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
       <Association Name="Event_EventDetail" Member="EventDetails" ThisKey="ID_Event" OtherKey="IDEvent" Type="EventDetail" />
       <Association Name="Event_UserEvent" Member="UserEvents" ThisKey="ID_Event" OtherKey="IDEvent" Type="UserEvent" />
-    </Type>
-  </Table>
-  <Table Name="dbo.UserFriend" Member="UserFriends">
-    <Type Name="UserFriend">
-      <Column Name="ID_UserFriend" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="IDUser" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="IDFriend" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="Status" Type="System.Int16" DbType="SmallInt NOT NULL" CanBeNull="false" />
-      <Column Name="CreationDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
-      <Column Name="LastEditDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
-      <Column Name="Blocked" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
-      <Association Name="User_UserFriend" Member="User" ThisKey="IDFriend" OtherKey="ID_User" Type="User" IsForeignKey="true" />
-      <Association Name="User_UserFriend1" Member="User1" ThisKey="IDUser" OtherKey="ID_User" Type="User" IsForeignKey="true" />
-    </Type>
-  </Table>
-  <Table Name="dbo.EventDetails" Member="EventDetails">
-    <Type Name="EventDetail">
-      <Column Name="ID_EventDetails" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="IDUser" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="IDEvent" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="Latitude" Type="System.Decimal" DbType="Decimal(18,0) NOT NULL" CanBeNull="false" />
-      <Column Name="Longitude" Type="System.Decimal" DbType="Decimal(18,0) NOT NULL" CanBeNull="false" />
-      <Column Name="CreationDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
-      <Column Name="LastEditDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
-      <Column Name="Blocked" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
-      <Association Name="Event_EventDetail" Member="Event" ThisKey="IDEvent" OtherKey="ID_Event" Type="Event" IsForeignKey="true" />
-      <Association Name="User_EventDetail" Member="User" ThisKey="IDUser" OtherKey="ID_User" Type="User" IsForeignKey="true" />
-    </Type>
-  </Table>
-  <Table Name="dbo.[User]" Member="Users">
-    <Type Name="User">
-      <Column Name="ID_User" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="Login" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
-      <Column Name="Password" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
-      <Column Name="Email" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
-      <Column Name="Phone" Type="System.String" DbType="NVarChar(20)" CanBeNull="true" />
-      <Column Name="Activated" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
-      <Column Name="CreationDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
-      <Column Name="LastEditDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
-      <Column Name="Blocked" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
-      <Association Name="User_UserFriend" Member="UserFriends" ThisKey="ID_User" OtherKey="IDFriend" Type="UserFriend" />
-      <Association Name="User_UserFriend1" Member="UserFriends1" ThisKey="ID_User" OtherKey="IDUser" Type="UserFriend" />
-      <Association Name="User_EventDetail" Member="EventDetails" ThisKey="ID_User" OtherKey="IDUser" Type="EventDetail" />
-      <Association Name="User_UserEvent" Member="UserEvents" ThisKey="ID_User" OtherKey="IDUser" Type="UserEvent" />
-    </Type>
-  </Table>
-  <Table Name="dbo.UserEvent" Member="UserEvents">
-    <Type Name="UserEvent">
-      <Column Name="ID_UserEvent" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="IDUser" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="IDEvent" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="Status" Type="System.Int16" DbType="SmallInt NOT NULL" CanBeNull="false" />
-      <Column Name="CreationDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
-      <Column Name="LastEditDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
-      <Column Name="Blocked" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
-      <Association Name="Event_UserEvent" Member="Event" ThisKey="IDEvent" OtherKey="ID_Event" Type="Event" IsForeignKey="true" />
-      <Association Name="User_UserEvent" Member="User" ThisKey="IDUser" OtherKey="ID_User" Type="User" IsForeignKey="true" />
+      <Association Name="User_Event" Member="User" ThisKey="IDOrganizer" OtherKey="ID_User" Type="User" IsForeignKey="true" />
     </Type>
   </Table>
 </Database>

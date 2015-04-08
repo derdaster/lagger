@@ -2,7 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     xmlns:fbutton="http://schemas.android.com/apk/res-auto"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:padding="10dp">
 
     <TextView
         android:textColor="@color/color_wet_asphalt"
@@ -108,14 +109,5 @@
             fbutton:shadowHeight="4dp"
             fbutton:cornerRadius="7dp"/>
     </LinearLayout>
-
-    <TextView
-        android:textColor="@color/color_asbestos"
-        android:textSize="15dp"
-        android:gravity="right"
-        android:paddingBottom="10dp"
-        android:id="@+id/labelDate"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content" />
 
 </LinearLayout>

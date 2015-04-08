@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    xmlns:fbutton="http://schemas.android.com/apk/res-auto"
+    android:layout_height="match_parent"
+    android:padding="10dp">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        android:paddingBottom="10dp"
+        android:layout_weight="1">
+        <TextView
+            android:id="@+id/tvMeetingName"
+            android:textColor="@color/color_midnight_blue"
+            android:textSize="26dp"
+            android:gravity="left"
+            android:text="Jakub&apos;s Party"
+            android:paddingBottom="10dp"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/tvWhen"
+            android:textColor="@color/color_wet_asphalt"
+            android:textSize="20dp"
+            android:gravity="left"
+            android:text="When?"
+            android:paddingBottom="10dp"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:textColor="@color/color_asbestos"
+            android:textSize="16dp"
+            android:gravity="right"
+            android:paddingBottom="10dp"
+            android:id="@+id/labelWhen"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/tvWhere"
+            android:textColor="@color/color_wet_asphalt"
+            android:textSize="20dp"
+            android:gravity="left"
+            android:text="Where?"
+            android:paddingBottom="10dp"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:textColor="@color/color_asbestos"
+            android:textSize="16dp"
+            android:gravity="right"
+            android:paddingBottom="10dp"
+            android:id="@+id/labelWhere"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" />
+
+        <com.google.android.gms.maps.MapView
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/mapView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/tvOrganizer"
+            android:textColor="@color/color_wet_asphalt"
+            android:textSize="20dp"
+            android:gravity="left"
+            android:text="Organizer:"
+            android:paddingBottom="10dp"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:textColor="@color/color_asbestos"
+            android:textSize="16dp"
+            android:gravity="right"
+            android:paddingBottom="10dp"
+            android:id="@+id/labelOrganizer"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_gravity="bottom"
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="1">
+        <info.hoang8f.widget.FButton
+            android:layout_weight="0.4"
+            android:layout_gravity="left"
+            android:id="@+id/btnRefuseMeeting"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:text="Refuse"
+            android:textColor="@color/color_silver"
+            fbutton:buttonColor="@color/color_carrot"
+            fbutton:shadowColor="@color/color_asbestos"
+            fbutton:shadowEnabled="true"
+            fbutton:shadowHeight="4dp"
+            fbutton:cornerRadius="7dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.2"/>
+        <info.hoang8f.widget.FButton
+            android:layout_weight="0.4"
+            android:layout_gravity="right"
+            android:id="@+id/btnAcceptMeeting"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:text="Accept"
+            android:textColor="@color/color_silver"
+            fbutton:buttonColor="@color/color_green_sea"
+            fbutton:shadowColor="@color/color_asbestos"
+            fbutton:shadowEnabled="true"
+            fbutton:shadowHeight="4dp"
+            fbutton:cornerRadius="7dp"/>
+    </LinearLayout>
+
+</LinearLayout>

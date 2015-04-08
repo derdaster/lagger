@@ -36,7 +36,6 @@ public class MeetingWhenFragment extends Fragment {
     private Button btnTime;
     private Calendar calendar;
     private DateFormat dateFormat;
-    private TextView labelDate;
     private SimpleDateFormat timeFormat;
     private static final String TIME_PATTERN = "HH:mm";
 
@@ -56,8 +55,6 @@ public class MeetingWhenFragment extends Fragment {
         calendar = Calendar.getInstance();
         dateFormat = DateFormat.getDateInstance(DateFormat.LONG, Locale.getDefault());
         timeFormat = new SimpleDateFormat(TIME_PATTERN, Locale.getDefault());
-        labelDate = (TextView) getView().findViewById(R.id.labelDate);
-        update();
     }
 
     public void addButtonsAndListeners()
@@ -71,7 +68,7 @@ public class MeetingWhenFragment extends Fragment {
                     @Override
                     public void onDateSet(DatePickerDialog dialog, int year, int monthOfYear, int dayOfMonth) {
                         calendar.set(year, monthOfYear, dayOfMonth);
-                        update();
+                        btnDate.setText(dateFormat.format(calendar.getTime()));
                     }
                 }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)).show(getFragmentManager(), "datePicker");
             }
@@ -85,15 +82,10 @@ public class MeetingWhenFragment extends Fragment {
                     public void onTimeSet(RadialPickerLayout view, int hourOfDay, int minute) {
                         calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
                         calendar.set(Calendar.MINUTE, minute);
-                        update();
+                        btnTime.setText(timeFormat.format(calendar.getTime()));
                     }
                 }, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), true).show(getFragmentManager(), "timePicker");
             }
         });
     }
-
-    private void update() {
-        labelDate.setText(dateFormat.format(calendar.getTime()) + " " + timeFormat.format(calendar.getTime()));
-    }
-
 }

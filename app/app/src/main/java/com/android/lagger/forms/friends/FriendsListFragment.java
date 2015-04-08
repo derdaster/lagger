@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.ListView;
 
 import com.android.lagger.R;
+import com.android.lagger.controls.basic.SomeDialog;
 import com.android.lagger.logic.adapters.FriendsListAdapter;
 import com.android.lagger.model.entities.Friend;
 
@@ -32,8 +33,10 @@ public class FriendsListFragment extends Fragment {
     ArrayList<Friend> friendsList;
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
+    private int indexOfInvited = 0;
+    private int indexOfNormal = 2;
     private String[] mHeaderNames = { "Zaproszenia", "Wszyscy" };
-    private Integer[] mHeaderPositions = { 0, 2 };
+    private Integer[] mHeaderPositions = { indexOfInvited, indexOfNormal };
     private ArrayList<SimpleSectionedListAdapter.Section> sections = new ArrayList<SimpleSectionedListAdapter.Section>();
 
     public FriendsListFragment(Context context) {
@@ -72,7 +75,13 @@ public class FriendsListFragment extends Fragment {
         mList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                if(i <= indexOfNormal)
+                {
+                    fragmentTransaction = fragmentManager.beginTransaction();
+                    SomeDialog newFragment = new SomeDialog (mContext, "Confirm", "Do you want to accept this friend invitation?", false);
+                    newFragment.show(fragmentTransaction, "dialog");
 
+                }
             }
         });
         fragmentManager = getFragmentManager();

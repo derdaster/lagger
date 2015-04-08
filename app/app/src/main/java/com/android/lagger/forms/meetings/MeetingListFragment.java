@@ -11,7 +11,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.android.lagger.R;
 import com.android.lagger.controls.basic.SomeDialog;
@@ -24,8 +26,11 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Calendar;
 
 import dev.dworks.libs.astickyheader.SimpleSectionedListAdapter;
 import dev.dworks.libs.astickyheader.SimpleSectionedListAdapter.Section;
@@ -74,6 +79,7 @@ public class MeetingListFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.addToBackStack(null);
                 fragmentTransaction.replace(R.id.content_frame, new CreateEditMeetingFragment(mContext)).commit();
             }
         });
@@ -139,7 +145,8 @@ public class MeetingListFragment extends Fragment {
                 final int INDEX_OF_UPCOMING = invitations.size();
                 mHeaderPositions = new Integer[]{INDEX_OF_INVITED, INDEX_OF_UPCOMING};
                 for (int i = 0; i < mHeaderPositions.length; i++) {
-                    sections.add(new Section(mHeaderPositions[i], HEADER_NAMES[i]));
+            if(sections.size() < 2)
+                sections.add(new Section(mHeaderPositions[i], mHeaderNames[i]));
                 }
                 SimpleSectionedListAdapter simpleSectionedGridAdapter = new SimpleSectionedListAdapter(mContext, adapter,
                         R.layout.listview_item_header, R.id.header);
@@ -153,14 +160,25 @@ public class MeetingListFragment extends Fragment {
                         if(i <= INDEX_OF_UPCOMING)
                         {
                             fragmentTransaction = fragmentManager.beginTransaction();
-                            SomeDialog newFragment = new SomeDialog ();
+                    SomeDialog newFragment = new SomeDialog (mContext, "Confirm", "Do you want to accept this meeting invitation?", true);
                             newFragment.show(fragmentTransaction, "dialog");
 
                         }
+                else
+                {
+                    fragmentTransaction = fragmentManager.beginTransaction();
+                    fragmentTransaction.addToBackStack(null);
+                    fragmentTransaction.replace(R.id.content_frame, new ViewMeetingFragment(mContext)).commit();
+                }
                     }
                 });
+                fragmentTransaction.addToBackStack(null);
             }
         }.execute();
         return meetings;
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
     }
 }
