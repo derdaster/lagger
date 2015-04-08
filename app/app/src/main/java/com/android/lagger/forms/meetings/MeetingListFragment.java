@@ -73,7 +73,8 @@ public class MeetingListFragment extends Fragment {
         meetingsList.add(m6);
         adapter = new MeetingListAdapter(mContext, meetingsList);
         for (int i = 0; i < mHeaderPositions.length; i++) {
-            sections.add(new Section(mHeaderPositions[i], mHeaderNames[i]));
+            if(sections.size() < 2)
+                sections.add(new Section(mHeaderPositions[i], mHeaderNames[i]));
         }
         SimpleSectionedListAdapter simpleSectionedGridAdapter = new SimpleSectionedListAdapter(mContext, adapter,
                 R.layout.listview_item_header, R.id.header);
@@ -87,7 +88,7 @@ public class MeetingListFragment extends Fragment {
                 if(i <= indexOfUpComing)
                 {
                     fragmentTransaction = fragmentManager.beginTransaction();
-                    SomeDialog newFragment = new SomeDialog ();
+                    SomeDialog newFragment = new SomeDialog (mContext, "Confirm", "Do you want to accept this meeting invitation?", true);
                     newFragment.show(fragmentTransaction, "dialog");
 
                 }
@@ -95,13 +96,12 @@ public class MeetingListFragment extends Fragment {
         });
 
 
-
-
         btnAdd = (Button) parent.findViewById(R.id.btnAddMeeting);
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.addToBackStack(null);
                 fragmentTransaction.replace(R.id.content_frame, new CreateEditMeetingFragment(mContext)).commit();
             }
         });
