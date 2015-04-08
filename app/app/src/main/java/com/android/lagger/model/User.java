@@ -19,53 +19,38 @@ import com.google.gson.JsonObject;
 */
 public class User {
 
-    private Integer ID_User;
-    private String Login;
-    private String Password;
+    private Integer id;
+    private String login;
+    private String password;
     private String email;
-    private Boolean activated;
-    private Boolean blocked;
+    private String phone;
 
     public User(){
-
     }
 
     public User(String login, String password){
-        this.Login = login;
-        this.Password = password;
-    }
-    public User(Integer ID_User, String login, String password, String email, Boolean activated, Boolean blocked) {
-        this(login, password);
-        this.ID_User = ID_User;
-//        this.Login = login;
-//        this.Password = password;
-        this.email = email;
-        this.activated = activated;
-        this.blocked = blocked;
+        this.login = login;
+        this.password = password;
     }
 
-    public Integer getID_User() {
-        return ID_User;
-    }
-
-    public void setID_User(Integer ID_User) {
-        this.ID_User = ID_User;
+    public Integer getId() {
+        return id;
     }
 
     public String getLogin() {
-        return Login;
+        return login;
     }
 
     public void setLogin(String login) {
-        this.Login = login;
+        this.login = login;
     }
 
     public String getPassword() {
-        return Password;
+        return password;
     }
 
     public void setPassword(String password) {
-        this.Password = password;
+        this.password = password;
     }
 
     public String getEmail() {
@@ -76,26 +61,31 @@ public class User {
         this.email = email;
     }
 
-    public Boolean getActivated() {
-        return activated;
+    public String getPhone() {
+        return phone;
     }
 
-    public void setActivated(Boolean activated) {
-        this.activated = activated;
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
-    public Boolean getBlocked() {
-        return blocked;
-    }
-
-    public void setBlocked(Boolean blocked) {
-        this.blocked = blocked;
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", login='" + login + '\'' +
+                ", password='" + password + '\'' +
+                ", email='" + email + '\'' +
+                ", phone='" + phone + '\'' +
+                '}';
     }
 
     public JsonObject createLoginJson(){
          JsonObject jsonObject = new JsonObject();
-         jsonObject.addProperty("Login", this.Login);
-         jsonObject.addProperty("Password", this.Password);
+         jsonObject.addProperty("login", this.login);
+         jsonObject.addProperty("password", this.password);
         return jsonObject;
     }
+
+
 }

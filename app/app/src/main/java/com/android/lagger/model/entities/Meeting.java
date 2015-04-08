@@ -1,33 +1,104 @@
 package com.android.lagger.model.entities;
 
+import com.android.lagger.model.User;
+
+import java.util.Date;
+
 /**
- * Created by Kubaa on 2015-04-01.
+ * Created by Ewelina Klisowska on 2015-04-08.
  */
-public class Meeting extends Entity {
+public class Meeting {
 
-    private String title;
-    private String where;
-    private String when;
-    private String organizer;
+    private Integer id;
+    private String name;
+    private String locationName;
+    private String startTime;
+    private String endTime;
+    private Double latitude;
+    private Double longitude;
+    private User organizer;
 
-    public Meeting(int inID, String inTitle, String inWhere, String inWhen, String inOrganizer) {
-        super(inID);
-        title = inTitle;
-        when = inWhen;
-        where = inWhere;
-        organizer = inOrganizer;
+    public Meeting(String name, String locationName, String startTime, String endTime, Double latitude, Double longitude, User organizer) {
+        this.name = name;
+        this.locationName = locationName;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.organizer = organizer;
     }
 
-    public String getTitle() {
-        return title;
+    public Integer getId() {
+        return id;
     }
-    public String getWhere() {
-        return where;
+
+    public String getName() {
+        return name;
     }
-    public String getWhen() {
-        return when;
+
+    public void setName(String name) {
+        this.name = name;
     }
-    public String getOrganizer() {
+
+    public String getLocationName() {
+        return locationName;
+    }
+
+    public void setLocationName(String locationName) {
+        this.locationName = locationName;
+    }
+
+    public String getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(String startTime) {
+        this.startTime = startTime;
+    }
+
+    public String getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(String endTime) {
+        this.endTime = endTime;
+    }
+
+    public Double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(Double latitude) {
+        this.latitude = latitude;
+    }
+
+    public Double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(Double longitude) {
+        this.longitude = longitude;
+    }
+
+    public User getOrganizer() {
         return organizer;
+    }
+
+    public void setOrganizer(User organizer) {
+        this.organizer = organizer;
+    }
+
+    @Override
+    public String toString() {
+        return "Meeting{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", locationName='" + locationName + '\'' +
+                ", startTime='" + startTime + '\'' +
+                ", endTime='" + endTime + '\'' +
+                ", latitude=" + latitude +
+                ", longitude=" + longitude +
+                ", organizerName=" + organizer.toString() +
+                '}';
     }
 }

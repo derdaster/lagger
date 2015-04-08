@@ -67,7 +67,7 @@ public class LoginFragment extends Fragment {
                         JsonParser parser = new JsonParser();
                         JsonObject responseJson = (JsonObject)parser.parse(result);
 
-                        int status = responseJson.get("Status").getAsInt();
+                        int status = responseJson.get("status").getAsInt();
                         if(status == 1){
                             Intent intent = new Intent(mContext, MainActivity.class);
                             startActivity(intent);

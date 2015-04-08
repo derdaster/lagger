@@ -22,11 +22,11 @@ public class MeetingListAdapter extends BaseAdapter {
 
     private Context mContext;
     private List<Meeting> data;
-    private static LayoutInflater inflater=null;
+    private static LayoutInflater inflater = null;
 
     public MeetingListAdapter(Context inContext, List<Meeting> d) {
         mContext = inContext;
-        data=d;
+        data = d;
         inflater = (LayoutInflater)inContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
@@ -43,8 +43,8 @@ public class MeetingListAdapter extends BaseAdapter {
     }
 
     public View getView(int position, View convertView, ViewGroup parent) {
-        View vi=convertView;
-        if(convertView==null)
+        View vi = convertView;
+        if(convertView == null)
             vi = inflater.inflate(R.layout.listview_row_meeting, null);
 
         TextView title = (TextView)vi.findViewById(R.id.tvTitleMeeting);
@@ -52,11 +52,10 @@ public class MeetingListAdapter extends BaseAdapter {
         TextView when = (TextView)vi.findViewById(R.id.tvWhen);
         TextView organizer = (TextView)vi.findViewById(R.id.tvOrganizer);
 
-        title.setText(data.get(position).getTitle());
-        where.setText(data.get(position).getWhere());
-        when.setText(data.get(position).getWhen());
-        organizer.setText(data.get(position).getOrganizer());
-
+        title.setText(data.get(position).getName());
+        where.setText(data.get(position).getLocationName());
+        when.setText(data.get(position).getStartTime());
+        organizer.setText(data.get(position).getOrganizer().getLogin());
 
         return vi;
     }

@@ -25,6 +25,8 @@ import java.io.UnsupportedEncodingException;
 public class ServerConnection {
 
     public static final String LOGIN_URL = "http://abecadlo.zapto.org:9999/LaggerService.svc/user/login";
+    public static final String GET_MEETINGS_URL= "http://abecadlo.zapto.org:9999/LaggerService.svc/user/meetings/get";
+    public static final String GET_INVITATIONS_URL = "http://abecadlo.zapto.org:9999/LaggerService.svc/user/meetings/invitation";
 
     public static String GET(String url){
         InputStream inputStream = null;
