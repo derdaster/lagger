@@ -17,9 +17,12 @@ import android.widget.TextView;
 
 import com.android.lagger.R;
 import com.android.lagger.controls.basic.SomeDialog;
+import com.android.lagger.forms.login.LoginFragment;
+import com.android.lagger.forms.main.MainActivity;
 import com.android.lagger.logic.adapters.MeetingListAdapter;
 import com.android.lagger.model.entities.Meeting;
 import com.android.lagger.serverConnection.ServerConnection;
+import com.android.lagger.settings.State;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -97,8 +100,14 @@ public class MeetingListFragment extends Fragment {
             @Override
             protected String doInBackground(String... urls) {
                 JsonObject userIdJson = new JsonObject();
-                //FIXME id user only for tests
-                userIdJson.addProperty("idUser", 1);
+
+
+                //FIXME set userId only for tests
+                int userId = 1;
+                if( State.loggedUser != null) {
+                   userId = State.loggedUser.getId();
+                }
+                userIdJson.addProperty("idUser", userId);
 
                 String meetings = ServerConnection.POST(ServerConnection.GET_MEETINGS_URL, userIdJson);
                 String invitations = ServerConnection.POST(ServerConnection.GET_INVITATIONS_URL, userIdJson);

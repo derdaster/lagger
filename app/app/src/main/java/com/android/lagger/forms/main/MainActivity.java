@@ -23,7 +23,7 @@ import com.android.lagger.forms.login.LoginFragment;
 import com.android.lagger.forms.meetings.MeetingListFragment;
 import com.android.lagger.forms.meetings.ViewMeetingFragment;
 import com.android.lagger.gpslocation.MapFragment;
-
+import com.android.lagger.model.User;
 
 
 public class MainActivity extends ActionBarActivity {
@@ -65,6 +65,7 @@ public class MainActivity extends ActionBarActivity {
         MainFragment fragment = new MainFragment(mContext);
         fragmentTransaction.replace(R.id.content_frame, fragment);
         fragmentTransaction.commit();
+
     }
 
 

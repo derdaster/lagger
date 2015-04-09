@@ -16,6 +16,7 @@ import com.android.lagger.R;
 import com.android.lagger.forms.main.MainActivity;
 import com.android.lagger.model.User;
 import com.android.lagger.serverConnection.ServerConnection;
+import com.android.lagger.settings.State;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
@@ -29,6 +30,8 @@ public class LoginFragment extends Fragment {
     private TextView passwordTextView;
     View parent;
 
+    State state;
+
     public LoginFragment(Context context){
         mContext = context;
     }
@@ -37,6 +40,8 @@ public class LoginFragment extends Fragment {
         parent =  inflater.inflate(R.layout.fragment_login, container, false);
         setFields();
         addListenerOnLoginButton();
+
+       state = new State();
         return parent;
     }
     @Override
@@ -63,12 +68,15 @@ public class LoginFragment extends Fragment {
                     // onPostExecute displays the results of the AsyncTask.
                     @Override
                     protected void onPostExecute(String result) {
-//                        loginTextView.setText(responseJsonObject.toString());
                         JsonParser parser = new JsonParser();
                         JsonObject responseJson = (JsonObject)parser.parse(result);
 
                         int status = responseJson.get("status").getAsInt();
                         if(status == 1){
+                            int userId = responseJson.get("idUser").getAsInt();
+                            State.loggedUser = new User();
+                            State.loggedUser.setId(userId);
+
                             Intent intent = new Intent(mContext, MainActivity.class);
                             startActivity(intent);
                         }
@@ -78,9 +86,6 @@ public class LoginFragment extends Fragment {
                                 case 0:
                                     message = getString(R.string.unregistered_user);
                                     break;
-//                                case 1:
-//                                    message = getString(R.string.success_login);
-//                                    break;
                                 case 2:
                                     message = getString(R.string.incorrect_password);
                                     break;
