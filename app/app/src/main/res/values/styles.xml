@@ -5,7 +5,7 @@
         <!-- Customize your theme here. -->
     </style>
     <style name="AppTheme.Lagger" parent="Theme.AppCompat.Light">
-        <item name="android:windowBackground">@drawable/bg2</item>
+        <!--<item name="android:windowBackground">@drawable/bg2</item>-->
     </style>
 
     <style name="StyledIndicators" parent="@android:style/Theme.Light">
