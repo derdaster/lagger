@@ -30,6 +30,8 @@ public class MainFragment extends Fragment {
     String responsePOST;
 
 
+    public MainFragment(){}
+
     public MainFragment(Context context){
         mContext = context;
     }

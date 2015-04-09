@@ -13,6 +13,8 @@ import android.widget.TextView;
 import com.android.lagger.R;
 import com.android.lagger.model.entities.Meeting;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -54,10 +56,19 @@ public class MeetingListAdapter extends BaseAdapter {
 
         title.setText(data.get(position).getName());
         where.setText(data.get(position).getLocationName());
-        when.setText(data.get(position).getStartTime());
+
+        Date startDate = data.get(position).getStartTime();
+        when.setText(parseDate(startDate));
+
         organizer.setText(data.get(position).getOrganizer().getLogin());
 
         return vi;
+    }
+
+    private String parseDate(Date date){
+        SimpleDateFormat form = new SimpleDateFormat("dd/MM/yyyy hh:mm");
+
+       return form.format(date);
     }
 
 }

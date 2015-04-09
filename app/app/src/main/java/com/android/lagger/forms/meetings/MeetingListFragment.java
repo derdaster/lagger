@@ -21,6 +21,7 @@ import com.android.lagger.forms.login.LoginFragment;
 import com.android.lagger.forms.main.MainActivity;
 import com.android.lagger.logic.adapters.MeetingListAdapter;
 import com.android.lagger.model.entities.Meeting;
+import com.android.lagger.serverConnection.GsonHelper;
 import com.android.lagger.serverConnection.ServerConnection;
 import com.android.lagger.settings.State;
 import com.google.gson.Gson;
@@ -49,8 +50,8 @@ public class MeetingListFragment extends Fragment {
     private MeetingListAdapter adapter;
     private Button btnAdd;
 
-    List<Meeting> meetingsList;
-    List<Meeting> invitationList;
+//    List<Meeting> meetingsList;
+//    List<Meeting> invitationList;
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
 
@@ -73,8 +74,8 @@ public class MeetingListFragment extends Fragment {
 
         mList = (ListView) parent.findViewById(R.id.meeting_list);
 
-        meetingsList = new ArrayList<Meeting>();
-        invitationList = new ArrayList<Meeting>();
+//        meetingsList = new ArrayList<Meeting>();
+//        invitationList = new ArrayList<Meeting>();
 
 
         btnAdd = (Button) parent.findViewById(R.id.btnAddMeeting);
@@ -87,7 +88,8 @@ public class MeetingListFragment extends Fragment {
             }
         });
 
-      getMeetingsList();
+        getMeetingsList();
+
         return parent;
     }
 
@@ -132,7 +134,7 @@ public class MeetingListFragment extends Fragment {
                 meetingsResp = responseJson.get("meetings").getAsJsonArray();
                 invitationsResp = responseJson.get("meetingInvitations").getAsJsonArray();
 
-                Gson gson = new Gson();
+                Gson gson = new GsonHelper().getGson();
                 for(JsonElement meetingJsonElem: meetingsResp) {
                     Meeting meeting = gson.fromJson(meetingJsonElem, Meeting.class);
                     meetings.add(meeting);
@@ -151,8 +153,9 @@ public class MeetingListFragment extends Fragment {
                 final int INDEX_OF_UPCOMING = invitations.size();
                 mHeaderPositions = new Integer[]{INDEX_OF_INVITED, INDEX_OF_UPCOMING};
                 for (int i = 0; i < mHeaderPositions.length; i++) {
-            if(sections.size() < 2)
-                sections.add(new Section(mHeaderPositions[i], HEADER_NAMES[i]));
+                    if(sections.size() < 2) {
+                        sections.add(new Section(mHeaderPositions[i], HEADER_NAMES[i]));
+                    }
                 }
                 SimpleSectionedListAdapter simpleSectionedGridAdapter = new SimpleSectionedListAdapter(mContext, adapter,
                         R.layout.listview_item_header, R.id.header);

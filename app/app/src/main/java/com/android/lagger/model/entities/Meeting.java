@@ -3,6 +3,7 @@ package com.android.lagger.model.entities;
 import com.android.lagger.model.User;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by Ewelina Klisowska on 2015-04-08.
@@ -12,13 +13,16 @@ public class Meeting {
     private Integer id;
     private String name;
     private String locationName;
-    private String startTime;
-    private String endTime;
+    private Date startTime;
+    private Date endTime;
     private Double latitude;
     private Double longitude;
     private User organizer;
 
-    public Meeting(String name, String locationName, String startTime, String endTime, Double latitude, Double longitude, User organizer) {
+    private List<User> userList;
+
+    public Meeting(String name, String locationName, Date startTime, Date endTime,
+                   Double latitude, Double longitude, User organizer) {
         this.name = name;
         this.locationName = locationName;
         this.startTime = startTime;
@@ -26,6 +30,12 @@ public class Meeting {
         this.latitude = latitude;
         this.longitude = longitude;
         this.organizer = organizer;
+    }
+
+    public Meeting(String name, String locationName, Date startTime, Date endTime,
+                   Double latitude, Double longitude, User organizer, List<User> userList) {
+        this(name, locationName, startTime, endTime, latitude, longitude, organizer);
+        this.userList = userList;
     }
 
     public Integer getId() {
@@ -48,19 +58,19 @@ public class Meeting {
         this.locationName = locationName;
     }
 
-    public String getStartTime() {
+    public Date getStartTime() {
         return startTime;
     }
 
-    public void setStartTime(String startTime) {
+    public void setStartTime(Date startTime) {
         this.startTime = startTime;
     }
 
-    public String getEndTime() {
+    public Date getEndTime() {
         return endTime;
     }
 
-    public void setEndTime(String endTime) {
+    public void setEndTime(Date endTime) {
         this.endTime = endTime;
     }
 
@@ -88,17 +98,26 @@ public class Meeting {
         this.organizer = organizer;
     }
 
+    public List<User> getUserList() {
+        return userList;
+    }
+
+    public void setUserList(List<User> userList) {
+        this.userList = userList;
+    }
+
     @Override
     public String toString() {
         return "Meeting{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", locationName='" + locationName + '\'' +
-                ", startTime='" + startTime + '\'' +
-                ", endTime='" + endTime + '\'' +
+                ", startTime='" + startTime.toString() + '\'' +
+                ", endTime='" + endTime.toString() + '\'' +
                 ", latitude=" + latitude +
                 ", longitude=" + longitude +
-                ", organizerName=" + organizer.toString() +
+                ", organizer=" + organizer +
+                ", userList=" + userList +
                 '}';
     }
 }

@@ -8,6 +8,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.android.lagger.R;
+import com.android.lagger.model.User;
 import com.android.lagger.model.entities.Friend;
 
 import java.util.List;
@@ -18,12 +19,12 @@ import java.util.List;
 public class FriendsListAdapter extends BaseAdapter {
 
     private Context mContext;
-    private List<Friend> data;
+    private List<User> data;
     private static LayoutInflater inflater=null;
 
-    public FriendsListAdapter(Context inContext, List<Friend> d) {
+    public FriendsListAdapter(Context inContext, List<User> d) {
         mContext = inContext;
-        data=d;
+        data = d;
         inflater = (LayoutInflater)inContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
@@ -41,11 +42,11 @@ public class FriendsListAdapter extends BaseAdapter {
 
     public View getView(int position, View convertView, ViewGroup parent) {
         View vi=convertView;
-        if(convertView==null)
+        if(convertView == null)
             vi = inflater.inflate(R.layout.listview_row_friends, null);
 
         TextView name = (TextView)vi.findViewById(R.id.tvName);
-        name.setText(data.get(position).getFirstName() + " " + data.get(position).getLastName());
+        name.setText(data.get(position).getLogin() + " (" + data.get(position).getEmail()+")");
 
         return vi;
     }

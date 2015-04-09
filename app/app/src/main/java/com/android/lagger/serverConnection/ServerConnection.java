@@ -27,6 +27,8 @@ public class ServerConnection {
     public static final String LOGIN_URL = "http://abecadlo.zapto.org:9999/LaggerService.svc/user/login";
     public static final String GET_MEETINGS_URL= "http://abecadlo.zapto.org:9999/LaggerService.svc/user/meetings/get";
     public static final String GET_INVITATIONS_URL = "http://abecadlo.zapto.org:9999/LaggerService.svc/user/meetings/invitation";
+    public static final String GET_FRIENDS_URL ="http://abecadlo.zapto.org:9999/LaggerService.svc/user/friends/get";
+    public static final String GET_INVITATION_FROM_FRIENDS_URL = "http://abecadlo.zapto.org:9999/LaggerService.svc/user/friends/invitation";
 
     public static String GET(String url){
         InputStream inputStream = null;
@@ -68,7 +70,10 @@ public class ServerConnection {
             HttpPost httpPost = new HttpPost(url);
 
             // 3. convert JSONObject to JSON to String
-            String json = jsonObject.toString();
+            Gson gson = new GsonHelper().getGson();
+            String json = gson.toJson(jsonObject);
+//            String json = jsonObject.toString();
+
             // 3. build gson object
 //            Gson g = new Gson();
 //            JsonObject jsonObject = new JsonObject();

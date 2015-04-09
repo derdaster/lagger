@@ -17,6 +17,7 @@ import com.android.datetimepicker.date.DatePickerDialog;
 import com.android.datetimepicker.time.RadialPickerLayout;
 import com.android.datetimepicker.time.TimePickerDialog;
 import com.android.lagger.R;
+import com.android.lagger.model.entities.Meeting;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -34,11 +35,12 @@ public class ViewMeetingFragment extends Fragment {
     private TextView labelWhen;
     private TextView labelWhere;
     private TextView labelOrganizer;
+//    private int idMeeting;
 
     public ViewMeetingFragment(Context context) {
         mContext = context;
+//        this.idMeeting = idMeeting;
     }
-
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         parent = inflater.inflate(R.layout.fragment_view_meeting, container, false);
         addButtonsAndListeners();
