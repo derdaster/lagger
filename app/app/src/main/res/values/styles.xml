@@ -4,20 +4,20 @@
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
     </style>
-    <style name="AppTheme.Lagger" parent="Theme.AppCompat.Light">
-        <!--<item name="android:windowBackground">@drawable/bg2</item>-->
+    <style name="AppTheme.Lagger" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="android:windowBackground">@drawable/bg</item>
     </style>
 
-    <style name="StyledIndicators" parent="@android:style/Theme.Light">
-        <item name="vpiLinePageIndicatorStyle">@style/CustomLinePageIndicator</item>
+     <style name="StyledIndicators" parent="@android:style/Theme.Light">
+         <item name="vpiLinePageIndicatorStyle">@style/CustomLinePageIndicator</item>
 
-    </style>
+     </style>
 
-    <style name="CustomLinePageIndicator">
-        <item name="strokeWidth">4dp</item>
-        <item name="lineWidth">30dp</item>
-        <item name="unselectedColor">#FF888888</item>
-        <item name="selectedColor">#FF880000</item>
-    </style>
+     <style name="CustomLinePageIndicator">
+         <item name="strokeWidth">4dp</item>
+         <item name="lineWidth">30dp</item>
+         <item name="unselectedColor">#FF888888</item>
+         <item name="selectedColor">#FF880000</item>
+     </style>
 
-</resources>
+ </resources>

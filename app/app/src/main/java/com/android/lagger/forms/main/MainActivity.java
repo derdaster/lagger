@@ -6,6 +6,7 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.res.Configuration;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
@@ -23,7 +24,10 @@ import com.android.lagger.forms.login.LoginFragment;
 import com.android.lagger.forms.meetings.MeetingListFragment;
 import com.android.lagger.forms.meetings.ViewMeetingFragment;
 import com.android.lagger.gpslocation.MapFragment;
+import com.android.lagger.logic.adapters.DrawerListAdapter;
 import com.android.lagger.model.User;
+
+import java.util.ArrayList;
 
 
 public class MainActivity extends ActionBarActivity {
@@ -33,7 +37,7 @@ public class MainActivity extends ActionBarActivity {
     ListView mDrawerList;
     String responseGET;
     DrawerLayout mDrawerLayout;
-    ArrayAdapter<String> mAdapter;
+    DrawerListAdapter mAdapter;
     ActionBarDrawerToggle mDrawerToggle;
     String mActivityTitle;
     String responsePOST;
@@ -70,8 +74,13 @@ public class MainActivity extends ActionBarActivity {
 
 
     private void addDrawerItems() {
-        String[] osArray = { "Meetings", "Friends", "Settings", "LoginTest", "GPSTest"  };
-        mAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, osArray);
+        ArrayList<String> osArray = new ArrayList<>();
+        osArray.add("Meetings");
+        osArray.add("Friends");
+        osArray.add("Settings");
+        osArray.add("LoginTest");
+        osArray.add("GPSTest");
+        mAdapter = new DrawerListAdapter(mContext, osArray);
         mDrawerList.setAdapter(mAdapter);
 
         mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -110,7 +119,6 @@ public class MainActivity extends ActionBarActivity {
 
     private void setupDrawer() {
         mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.string.navigation_drawer_open, R.string.navigation_drawer_close) {
-
             /** Called when a drawer has settled in a completely open state. */
             public void onDrawerOpened(View drawerView) {
                 super.onDrawerOpened(drawerView);
@@ -125,7 +133,6 @@ public class MainActivity extends ActionBarActivity {
                 invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
             }
         };
-
         mDrawerToggle.setDrawerIndicatorEnabled(true);
         mDrawerLayout.setDrawerListener(mDrawerToggle);
     }
