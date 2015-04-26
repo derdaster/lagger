@@ -1,5 +1,7 @@
 package com.android.lagger.gpslocation;
 
+import com.google.android.gms.maps.model.LatLng;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,26 +9,26 @@ import java.util.List;
  * Created by ADERDA on 06-Apr-2015.
  */
 public class GPSUser {
-    private GPSCoordinates actualPositition;
-    private List<GPSCoordinates> positionList;
+    private LatLng actualPositition;
+    private List<LatLng> positionList;
     public GPSUser(double longitude, double latitude){
-        positionList=new ArrayList<GPSCoordinates>();
-        actualPositition=new GPSCoordinates(longitude,latitude);
+        positionList = new ArrayList<LatLng>();
+        actualPositition = new LatLng(longitude, latitude);
     }
 
-    public void setActualPositition(GPSCoordinates actualPositition) {
+    public void setActualPositition(LatLng actualPositition) {
         this.actualPositition = actualPositition;
     }
 
-    public GPSCoordinates getActualPositition() {
+    public LatLng getActualPositition() {
         return actualPositition;
     }
 
-    public List<GPSCoordinates> getPositionList() {
+    public List<LatLng> getPositionList() {
         return positionList;
     }
 
-    public void addGPSPosition(GPSCoordinates position){
+    public void addGPSPosition(LatLng position) {
         positionList.add(position);
     }
 }
