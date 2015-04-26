@@ -42,12 +42,13 @@ import java.util.List;
 public class MapFragment extends Fragment {
 
     public static HashMap<Integer,Float> markerColors;
-    ProgressDialog pDialog;
-    List<LatLng> polyz;
-    MapView mMapView;
+    private ProgressDialog pDialog;
+    private List<LatLng> polyz;
+    private MapView mMapView;
     private GoogleMap googleMap;
     private Context mContext;
     private List<GPSUser> gpsUsers;
+    private LatLng chosenPositon;
 
     public MapFragment(Context context){
         mContext = context;
@@ -87,6 +88,7 @@ public class MapFragment extends Fragment {
 
             @Override
             public void onMapClick(LatLng latLng) {
+                chosenPositon = latLng;
                 // Creating a marker
                 MarkerOptions markerOptions = new MarkerOptions();
 
@@ -190,21 +192,34 @@ public class MapFragment extends Fragment {
     public void showUserMarkers() {
         int i = 0;
         for (GPSUser user : gpsUsers) {
-            MarkerOptions marker = new MarkerOptions().position(
-                    new LatLng(user.getActualPositition().latitude, user.getActualPositition().longitude)).title("Hello Maps");
+            showNamedMarker(user.getActualPositition(), user.getName());
 
-            // Changing marker icon
-            marker.icon(BitmapDescriptorFactory
-                    .defaultMarker(markerColors.get(i)));
-
-            // adding marker
-            googleMap.addMarker(marker);
             if (!user.getPositionList().isEmpty())
                 drawUserPath(user);
             i++;
         }
     }
 
+    public void showMarker(LatLng latLng) {
+        MarkerOptions marker = new MarkerOptions().position(
+                latLng).title("Position");
+
+        drawMarker(marker);
+    }
+
+    public void showNamedMarker(LatLng latLng, String name) {
+        MarkerOptions marker = new MarkerOptions().position(latLng).title(name);
+
+        drawMarker(marker);
+    }
+
+    public void drawMarker(MarkerOptions marker) {
+
+        marker.icon(BitmapDescriptorFactory
+                .defaultMarker(MarkerColors.getMarkerColor()));
+
+        googleMap.addMarker(marker);
+    }
     public void drawUserPath(GPSUser user) {
         List<LatLng> tempList = user.getPositionList();
         for (int i = 0; i < user.getPositionList().size() - 1; i++) {
@@ -325,6 +340,39 @@ public class MapFragment extends Fragment {
                 pDialog.dismiss();
             }
 
+        }
+    }
+
+    public LatLng getChosenPositon() {
+        return chosenPositon;
+    }
+
+    public static class MarkerColors {
+        private static HashMap<Integer, Float> markerColors;
+        private static int counter;
+
+        static {
+            counter = -1;
+            markerColors = new HashMap<Integer, Float>();
+            markerColors.put(0, (float) 210.0);
+            markerColors.put(1, (float) 240.0);
+            markerColors.put(2, (float) 180.0);
+            markerColors.put(3, (float) 120.0);
+            markerColors.put(4, (float) 300.0);
+            markerColors.put(5, (float) 30.0);
+            markerColors.put(6, (float) 0.0);
+            markerColors.put(7, (float) 330.0);
+            markerColors.put(8, (float) 270.0);
+            markerColors.put(9, (float) 60.0);
+        }
+
+        public static float getMarkerColor() {
+
+            if (counter < 9)
+                counter += 1;
+            else
+                counter = 0;
+            return markerColors.get(counter);
         }
     }
 }
