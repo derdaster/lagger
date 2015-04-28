@@ -94,6 +94,7 @@ namespace LaggerServer
             IdUser = entity.IDUser;
             Latitude = entity.Latitude;
             Longitude = entity.Longitude;
+            DateTime = entity.CreationDate;
         }
     }
 }
