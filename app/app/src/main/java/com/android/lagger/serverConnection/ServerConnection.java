@@ -1,8 +1,6 @@
 package com.android.lagger.serverConnection;
 
-import com.android.lagger.model.User;
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
@@ -29,6 +27,7 @@ public class ServerConnection {
     public static final String GET_INVITATIONS_URL = "http://abecadlo.zapto.org:9999/LaggerService.svc/user/meetings/invitation";
     public static final String GET_FRIENDS_URL ="http://abecadlo.zapto.org:9999/LaggerService.svc/user/friends/get";
     public static final String GET_INVITATION_FROM_FRIENDS_URL = "http://abecadlo.zapto.org:9999/LaggerService.svc/user/friends/invitation";
+    public static final String ADD_POSITION_URL = "http://http://abecadlo.zapto.org:9999/LaggerService.svc/user/positions/add";
 
     public static String GET(String url){
         InputStream inputStream = null;
