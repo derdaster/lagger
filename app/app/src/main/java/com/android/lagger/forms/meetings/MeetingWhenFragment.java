@@ -39,9 +39,8 @@ public class MeetingWhenFragment extends Fragment {
     private SimpleDateFormat timeFormat;
     private static final String TIME_PATTERN = "HH:mm";
 
-    public MeetingWhenFragment(ViewPager inParentPager,Context context) {
+    public MeetingWhenFragment(ViewPager inParentPager) {
         parentPager = inParentPager;
-        mContext = context;
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -52,9 +51,11 @@ public class MeetingWhenFragment extends Fragment {
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
+        mContext = getActivity().getApplicationContext();
         calendar = Calendar.getInstance();
         dateFormat = DateFormat.getDateInstance(DateFormat.LONG, Locale.getDefault());
         timeFormat = new SimpleDateFormat(TIME_PATTERN, Locale.getDefault());
+
     }
 
     public void addButtonsAndListeners()

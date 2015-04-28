@@ -36,14 +36,13 @@ public class MeetingWhoFragment extends Fragment {
     private FriendsListAdapter adapter;
     List<User> guestList;
 
-    public MeetingWhoFragment(ViewPager inParentPager,Context context) {
-        mContext = context;
+    public MeetingWhoFragment(ViewPager inParentPager) {
         parentPager = inParentPager;
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         parent = inflater.inflate(R.layout.fragment_meeting_who, container, false);
-
+        mContext = getActivity().getApplicationContext();
 
         addButtonsAndListeners();
         return parent;
@@ -51,6 +50,7 @@ public class MeetingWhoFragment extends Fragment {
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
+
     }
 
     public void addButtonsAndListeners() {

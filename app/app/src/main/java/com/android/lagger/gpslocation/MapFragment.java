@@ -50,8 +50,8 @@ public class MapFragment extends Fragment {
     private List<GPSUser> gpsUsers;
     private LatLng chosenPositon;
 
-    public MapFragment(Context context){
-        mContext = context;
+    public MapFragment(){
+
     }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -128,6 +128,11 @@ public class MapFragment extends Fragment {
 
 
         return v;
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        mContext = getActivity().getApplicationContext();
     }
 
     @Override

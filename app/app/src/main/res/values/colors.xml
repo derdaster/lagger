@@ -1,5 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <color name="colorPrimary">#091520</color>
+    <color name="colorPrimaryDark">#091520</color>
+    <color name="textColorPrimary">#FFFFFF</color>
+    <color name="windowBackground">#FFFFFF</color>
+    <color name="navigationBarColor">#000000</color>
+    <color name="colorAccent">#30454d</color>
+
+
     <color name="color_turquoise">#1abc9c</color>
     <color name="color_green_sea">#16a085</color>
     <color name="color_emerald">#2ecc71</color>

@@ -24,8 +24,7 @@ public class CreateEditMeetingFragment extends Fragment{
     ViewPager pager;
     LinePageIndicator mIndicator;
 
-    public CreateEditMeetingFragment(Context context){
-        mContext = context;
+    public CreateEditMeetingFragment(){
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -33,9 +32,9 @@ public class CreateEditMeetingFragment extends Fragment{
 
         pager = (ViewPager)parent.findViewById(R.id.pager);
         pageAdapter = new PagerAdapter(getFragmentManager());
-        pageAdapter.addItem(new MeetingWhenFragment(pager, mContext));
-        pageAdapter.addItem(new MeetingWhereFragment(pager, mContext));
-        pageAdapter.addItem(new MeetingWhoFragment(pager, mContext));
+        pageAdapter.addItem(new MeetingWhenFragment(pager));
+        pageAdapter.addItem(new MeetingWhereFragment(pager));
+        pageAdapter.addItem(new MeetingWhoFragment(pager));
 
 
         pager.setPageTransformer(true, new ZoomOutPageTransformer());
@@ -88,6 +87,7 @@ public class CreateEditMeetingFragment extends Fragment{
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
 
+        mContext = getActivity().getApplicationContext();
     }
 
 
