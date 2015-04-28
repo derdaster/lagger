@@ -6,29 +6,23 @@
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="70dp"
-        android:weightSum="1">
+        android:layout_height="50dp">
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:id="@+id/ivIconFriend"
-            android:layout_weight="0.1"
+            android:layout_width="70dp"
+            android:layout_height="30dp"
+            android:id="@+id/ivIconDrawer"
             android:layout_gravity="center_vertical"
-            android:layout_marginRight="10dp"
-            android:src="@drawable/icon_user" />
+            android:src="@drawable/settings" />
         <TextView
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:gravity="left"
-            android:textSize="20dp"
+            android:textSize="18dp"
             android:text="asdasdasdasdasdasdas"
-            android:textColor="@color/color_wet_asphalt"
+            android:textColor="@color/color_white"
             android:typeface="sans"
             android:layout_gravity="center_vertical"
-            android:id="@+id/tvName"
-            android:layout_marginBottom="5dp"
-            android:textStyle="bold"
-            android:layout_weight="0.9"/>
-        </LinearLayout>
+            android:id="@+id/tvDrawerName"/>
+    </LinearLayout>
 
 </LinearLayout>

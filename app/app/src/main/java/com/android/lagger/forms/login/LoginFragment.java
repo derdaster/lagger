@@ -32,8 +32,7 @@ public class LoginFragment extends Fragment {
 
     State state;
 
-    public LoginFragment(Context context){
-        mContext = context;
+    public LoginFragment(){
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -46,7 +45,7 @@ public class LoginFragment extends Fragment {
     }
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
-
+        mContext = getActivity().getApplicationContext();
     }
 
     public void addListenerOnLoginButton() {

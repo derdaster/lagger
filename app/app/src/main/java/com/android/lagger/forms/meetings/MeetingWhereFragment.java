@@ -23,9 +23,8 @@ public class MeetingWhereFragment extends Fragment {
     private ViewPager parentPager;
     private Button btnLocation;
 
-    public MeetingWhereFragment(ViewPager inParentPager,Context context) {
+    public MeetingWhereFragment(ViewPager inParentPager) {
         parentPager = inParentPager;
-        mContext = context;
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -36,6 +35,7 @@ public class MeetingWhereFragment extends Fragment {
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
+        mContext = getActivity().getApplicationContext();
     }
 
     public void addButtonsAndListeners() {

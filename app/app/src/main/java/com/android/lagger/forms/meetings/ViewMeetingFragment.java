@@ -1,5 +1,6 @@
 package com.android.lagger.forms.meetings;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.app.Fragment;
 import android.content.Context;
@@ -37,8 +38,7 @@ public class ViewMeetingFragment extends Fragment {
     private TextView labelOrganizer;
 //    private int idMeeting;
 
-    public ViewMeetingFragment(Context context) {
-        mContext = context;
+    public ViewMeetingFragment() {
 //        this.idMeeting = idMeeting;
     }
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -49,6 +49,7 @@ public class ViewMeetingFragment extends Fragment {
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
+        mContext = getActivity().getApplicationContext();
         labelWhen = (TextView) getView().findViewById(R.id.labelWhen);
         labelWhere = (TextView) getView().findViewById(R.id.labelWhere);
         labelOrganizer = (TextView) getView().findViewById(R.id.labelOrganizer);
@@ -74,4 +75,13 @@ public class ViewMeetingFragment extends Fragment {
     }
 
 
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+    }
 }

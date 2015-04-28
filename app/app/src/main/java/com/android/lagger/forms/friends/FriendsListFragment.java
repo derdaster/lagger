@@ -15,6 +15,7 @@ import android.widget.ListView;
 
 import com.android.lagger.R;
 import com.android.lagger.controls.basic.SomeDialog;
+import com.android.lagger.forms.main.MainActivity;
 import com.android.lagger.forms.meetings.ViewMeetingFragment;
 import com.android.lagger.logic.adapters.FriendsListAdapter;
 import com.android.lagger.logic.adapters.MeetingListAdapter;
@@ -55,10 +56,8 @@ public class FriendsListFragment extends Fragment {
     private JsonArray invitationsFromFriendsResp;
     private JsonArray friendsListResp;
 
-    public FriendsListFragment(Context context) {
-        mContext = context;
-        HEADER_NAMES = new String[]{mContext.getResources().getString(R.string.invitationsFromFriends),
-                mContext.getResources().getString(R.string.allFriends)};
+    public FriendsListFragment() {
+
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -73,16 +72,21 @@ public class FriendsListFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.replace(R.id.container_body, new FriendsAddFragment()).commit();
             }
         });
 
-       getFriendList();
+        getFriendList();
 
         return parent;
     }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
+        mContext = getActivity().getApplicationContext();
+        HEADER_NAMES = new String[]{mContext.getResources().getString(R.string.invitationsFromFriends),
+                mContext.getResources().getString(R.string.allFriends)};
     }
 
     private void getFriendList(){
@@ -143,7 +147,9 @@ public class FriendsListFragment extends Fragment {
                 mHeaderPositions = new Integer[]{INDEX_OF_INVITED, INDEX_OF_INVITATION_END};
 
                 for (int i = 0; i < mHeaderPositions.length; i++) {
-                    sections.add(new SimpleSectionedListAdapter.Section(mHeaderPositions[i], HEADER_NAMES[i]));
+                    if(sections.size() < 2) {
+                        sections.add(new SimpleSectionedListAdapter.Section(mHeaderPositions[i], HEADER_NAMES[i]));
+                    }
                 }
                 SimpleSectionedListAdapter simpleSectionedGridAdapter = new SimpleSectionedListAdapter(mContext, adapter,
                         R.layout.listview_item_header, R.id.header);

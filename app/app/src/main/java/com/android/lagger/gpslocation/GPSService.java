@@ -13,6 +13,8 @@ import android.os.IBinder;
 import android.provider.Settings;
 import android.widget.Toast;
 
+import com.google.android.gms.maps.model.LatLng;
+
 import java.util.ArrayList;
 
 public class GPSService extends Service implements LocationListener {
@@ -27,13 +29,13 @@ public class GPSService extends Service implements LocationListener {
     Location location;
     double latitude;
     double longitude;
-    private GPSCoordinates coordinates;
-    private ArrayList<GPSCoordinates> coordinatesList;
+    private LatLng coordinates;
+    private ArrayList<LatLng> coordinatesList;
 
     public GPSService(Context context) {
         this.context = context;
         getLocation();
-        coordinatesList = new ArrayList<GPSCoordinates>();
+        coordinatesList = new ArrayList<LatLng>();
     }
 
     public Location getLocation() {
@@ -64,7 +66,8 @@ public class GPSService extends Service implements LocationListener {
                                 .getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
 
                         if (location != null) {
-                            coordinates = new GPSCoordinates(location.getLatitude(), location.getLongitude());
+
+                            coordinates = new LatLng(location.getLatitude(), location.getLongitude());
                             coordinatesList.add(coordinates);
                         }
                     }
@@ -82,7 +85,7 @@ public class GPSService extends Service implements LocationListener {
                             location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 
                             if (location != null) {
-                                coordinates = new GPSCoordinates(location.getLatitude(), location.getLongitude());
+                                coordinates = new LatLng(location.getLatitude(), location.getLongitude());
                                 coordinatesList.add(coordinates);
                             }
                         }
@@ -154,11 +157,11 @@ public class GPSService extends Service implements LocationListener {
     @Override
     public void onLocationChanged(Location arg0) {
         location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-        coordinates = new GPSCoordinates(location.getLatitude(), location.getLongitude());
+        coordinates = new LatLng(location.getLatitude(), location.getLongitude());
         Toast.makeText(
                 context,
-                "Twoja pozycja -\nX: " + coordinates.getLatitude() + "\nY: "
-                        + coordinates.getLongitude()+"liczba "+coordinatesList.size(), Toast.LENGTH_LONG).show();
+                "Twoja pozycja -\nX: " + coordinates.latitude + "\nY: "
+                        + coordinates.longitude + "liczba " + coordinatesList.size(), Toast.LENGTH_LONG).show();
 
     }
 

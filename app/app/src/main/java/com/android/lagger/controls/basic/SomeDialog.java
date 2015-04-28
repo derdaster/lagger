@@ -59,7 +59,7 @@ public class SomeDialog extends DialogFragment {
                         public void onClick(DialogInterface dialog, int which) {
                             fragmentTransaction = fragmentManager.beginTransaction();
                             fragmentTransaction.addToBackStack(null);
-                            fragmentTransaction.replace(R.id.content_frame, new ViewMeetingFragment(mContext)).commit();
+                            fragmentTransaction.replace(R.id.container_body, new ViewMeetingFragment()).commit();
                         }
                     })
                     .create();

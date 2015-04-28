@@ -20,15 +20,17 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -39,19 +41,17 @@ import java.util.List;
  */
 public class MapFragment extends Fragment {
 
-    static final LatLng DUBLIN = new LatLng(53.344103999999990000,
-            -6.267493699999932000);
     public static HashMap<Integer,Float> markerColors;
-    ProgressDialog pDialog;
-    List<LatLng> polyz;
-    JSONArray array;
-    MapView mMapView;
+    private ProgressDialog pDialog;
+    private List<LatLng> polyz;
+    private MapView mMapView;
     private GoogleMap googleMap;
     private Context mContext;
-    private View parent;
     private List<GPSUser> gpsUsers;
-    public MapFragment(Context context){
-        mContext = context;
+    private LatLng chosenPositon;
+
+    public MapFragment(){
+
     }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -65,9 +65,9 @@ public class MapFragment extends Fragment {
         gpsUsers.add(new GPSUser(50.825787, 19.126696));
         gpsUsers.add(new GPSUser(50.835979, 19.149356));
         GPSUser tempUser = gpsUsers.get(0);
-        tempUser.addGPSPosition(new GPSCoordinates(50.808236, 19.108781));
-        tempUser.addGPSPosition(new GPSCoordinates(50.808434, 19.128928));
-        tempUser.addGPSPosition(new GPSCoordinates(50.825787, 19.126696));
+        tempUser.addGPSPosition(new LatLng(50.808236, 19.108781));
+        tempUser.addGPSPosition(new LatLng(50.808434, 19.128928));
+        tempUser.addGPSPosition(new LatLng(50.825787, 19.126696));
 
         // inflat and return the layout
         View v = inflater.inflate(R.layout.fragment_test_map, container,
@@ -84,25 +84,55 @@ public class MapFragment extends Fragment {
         }
 
         googleMap = mMapView.getMap();
+        googleMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
 
+            @Override
+            public void onMapClick(LatLng latLng) {
+                chosenPositon = latLng;
+                // Creating a marker
+                MarkerOptions markerOptions = new MarkerOptions();
+
+                // Setting the position for the marker
+                markerOptions.position(latLng);
+
+                // Setting the title for the marker.
+                // This will be displayed on taping the marker
+                markerOptions.title(latLng.latitude + " : " + latLng.longitude);
+
+                // Clears the previously touched position
+                googleMap.clear();
+
+                // Animating to the touched position
+                googleMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
+
+                // Placing a marker on the touched position
+                googleMap.addMarker(markerOptions);
+            }
+        });
         GPSService gpsService = new GPSService(mContext);
         if(gpsService.canGetLocation()) {
             gpsService.getLatitude();
 
             CameraPosition cameraPosition = new CameraPosition.Builder()
-                    .target(new LatLng(50.811146, 19.092879)).zoom(12).build();
+                    .target(new LatLng(gpsService.getLatitude(), gpsService.getLongitude())).zoom(12).build();
             googleMap.animateCamera(CameraUpdateFactory
                     .newCameraPosition(cameraPosition));
+            googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
         }
-        googleMap.animateCamera(CameraUpdateFactory.zoomTo(10), 2000, null);
+
         googleMap.setMyLocationEnabled(true);
         googleMap.getUiSettings().setZoomControlsEnabled(true);
-        new GetDirection().execute();
+        //new GetDirection().execute();
         showUserMarkers();
         // Perform any camera updates here
 
 
         return v;
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        mContext = getActivity().getApplicationContext();
     }
 
     @Override
@@ -167,27 +197,39 @@ public class MapFragment extends Fragment {
     public void showUserMarkers() {
         int i = 0;
         for (GPSUser user : gpsUsers) {
-            MarkerOptions marker = new MarkerOptions().position(
-                    new LatLng(user.getActualPositition().getLatitude(), user.getActualPositition().getLongitude())).title("Hello Maps");
+            showNamedMarker(user.getActualPositition(), user.getName());
 
-            // Changing marker icon
-            float x = (float) 2.0;
-            marker.icon(BitmapDescriptorFactory
-                    .defaultMarker(markerColors.get(i)));
-
-            // adding marker
-            googleMap.addMarker(marker);
             if (!user.getPositionList().isEmpty())
                 drawUserPath(user);
             i++;
         }
     }
 
+    public void showMarker(LatLng latLng) {
+        MarkerOptions marker = new MarkerOptions().position(
+                latLng).title("Position");
+
+        drawMarker(marker);
+    }
+
+    public void showNamedMarker(LatLng latLng, String name) {
+        MarkerOptions marker = new MarkerOptions().position(latLng).title(name);
+
+        drawMarker(marker);
+    }
+
+    public void drawMarker(MarkerOptions marker) {
+
+        marker.icon(BitmapDescriptorFactory
+                .defaultMarker(MarkerColors.getMarkerColor()));
+
+        googleMap.addMarker(marker);
+    }
     public void drawUserPath(GPSUser user) {
-        List<GPSCoordinates> tempList = user.getPositionList();
+        List<LatLng> tempList = user.getPositionList();
         for (int i = 0; i < user.getPositionList().size() - 1; i++) {
-            Polyline line = googleMap.addPolyline(new PolylineOptions()
-                    .add(new LatLng(tempList.get(i).getLatitude(), tempList.get(i).getLongitude()), new LatLng(tempList.get(i + 1).getLatitude(), tempList.get(i + 1).getLongitude()))
+            googleMap.addPolyline(new PolylineOptions()
+                    .add(new LatLng(tempList.get(i).latitude, tempList.get(i).longitude), new LatLng(tempList.get(i + 1).latitude, tempList.get(i + 1).longitude))
                     .width(5)
                     .color(Color.BLACK));
         }
@@ -228,25 +270,48 @@ public class MapFragment extends Fragment {
             //połączenie z internetem musi być
             String stringUrl = "https://maps.googleapis.com/maps/api/directions/json?origin=Czestochowa&destination=Wroclaw";
             StringBuilder response = new StringBuilder();
+
+            URL url = null;
             try {
-                URL url = new URL(stringUrl);
-                HttpURLConnection httpconn = (HttpURLConnection) url
-                        .openConnection();
-                if (httpconn.getResponseCode() == HttpURLConnection.HTTP_OK) {
-                    BufferedReader input = new BufferedReader(
-                            new InputStreamReader(httpconn.getInputStream()),
-                            8192);
-                    String strLine = null;
+                url = new URL(stringUrl);
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            }
+            HttpURLConnection httpconn = null;
 
-                    while ((strLine = input.readLine()) != null) {
-                        response.append(strLine);
-                    }
-                    input.close();
+            try {
+                if (url != null) {
+                    httpconn = (HttpURLConnection) url
+                            .openConnection();
                 }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 
-                String jsonOutput = response.toString();
+            try {
+                if (httpconn != null) {
+                    if (httpconn.getResponseCode() == HttpURLConnection.HTTP_OK) {
+                        BufferedReader input = new BufferedReader(
+                                new InputStreamReader(httpconn.getInputStream()),
+                                8192);
+                        String strLine;
 
-                JSONObject jsonObject = new JSONObject(jsonOutput);
+                        while ((strLine = input.readLine()) != null) {
+                            response.append(strLine);
+                        }
+                        input.close();
+                    }
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            String jsonOutput = response.toString();
+
+            JSONObject jsonObject;
+            try {
+                jsonObject = new JSONObject(jsonOutput);
+
 
                 // routesArray contains ALL routes
                 JSONArray routesArray = jsonObject.getJSONArray("routes");
@@ -257,8 +322,8 @@ public class MapFragment extends Fragment {
                 String polyline = poly.getString("points");
                 polyz = decodePoly(polyline);
 
-            } catch (Exception e) {
-
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
 
             return null;
@@ -271,7 +336,7 @@ public class MapFragment extends Fragment {
                 for (int i = 0; i < polyz.size() - 1; i++) {
                     LatLng src = polyz.get(i);
                     LatLng dest = polyz.get(i + 1);
-                    Polyline line = googleMap.addPolyline(new PolylineOptions()
+                    googleMap.addPolyline(new PolylineOptions()
                             .add(new LatLng(src.latitude, src.longitude),
                                     new LatLng(dest.latitude, dest.longitude))
                             .width(2).color(Color.RED).geodesic(true));
@@ -280,6 +345,39 @@ public class MapFragment extends Fragment {
                 pDialog.dismiss();
             }
 
+        }
+    }
+
+    public LatLng getChosenPositon() {
+        return chosenPositon;
+    }
+
+    public static class MarkerColors {
+        private static HashMap<Integer, Float> markerColors;
+        private static int counter;
+
+        static {
+            counter = -1;
+            markerColors = new HashMap<Integer, Float>();
+            markerColors.put(0, (float) 210.0);
+            markerColors.put(1, (float) 240.0);
+            markerColors.put(2, (float) 180.0);
+            markerColors.put(3, (float) 120.0);
+            markerColors.put(4, (float) 300.0);
+            markerColors.put(5, (float) 30.0);
+            markerColors.put(6, (float) 0.0);
+            markerColors.put(7, (float) 330.0);
+            markerColors.put(8, (float) 270.0);
+            markerColors.put(9, (float) 60.0);
+        }
+
+        public static float getMarkerColor() {
+
+            if (counter < 9)
+                counter += 1;
+            else
+                counter = 0;
+            return markerColors.get(counter);
         }
     }
 }
