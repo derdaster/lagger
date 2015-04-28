@@ -2,7 +2,7 @@
     <string name="app_name">Lagger</string>
 
     <string name="hello_world">Hello world!</string>
-    <string name="action_settings">Settings</string>
+    <string name="action_settings">Ustawienia</string>
     <string name="title_activity_login">LoginActivity</string>
     <string name="title_activity_friends">FriendsActivity</string>
     <string name="title_activity_meetings">MeetingsActivity</string>
@@ -29,9 +29,7 @@
 
 
 
-
-    <string name="yes">Yes</string>
-    <string name="no">No</string>
-    <string name="view">View</string>
-
+    <string name="yes">Tak</string>
+    <string name="no">Nie</string>
+    <string name="view">Podgląd</string>
 </resources>
