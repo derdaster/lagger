@@ -83,14 +83,18 @@ namespace LaggerServer
         [DataMember(Name = "longitude")]
         public decimal Longitude { get; set; }
 
-        //[DataMember(Name = "dateTime")]
-        //public DateTime DateTime { get; set; }
+        [DataMember(Name = "dateTime")]
+        public DateTime DateTime { get; set; }
+
+        [DataMember(Name = "arrivalTime")]
+        public int ArrivalTime { get; set; }
 
         public Position(EventDetail entity)
         {
             IdUser = entity.IDUser;
             Latitude = entity.Latitude;
             Longitude = entity.Longitude;
+            DateTime = entity.CreationDate;
         }
     }
 }

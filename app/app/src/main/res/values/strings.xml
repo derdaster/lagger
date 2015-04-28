@@ -46,4 +46,12 @@
     <string name="upcoming">Upcoming</string>
     <string name="invitationsFromFriends">Invitations from friends</string>
     <string name="allFriends">Friends</string>
+
+
+
+
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="view">View</string>
+
 </resources>

@@ -42,19 +42,19 @@ public class SomeDialog extends DialogFragment {
             return new AlertDialog.Builder(getActivity())
                     .setTitle(title)
                     .setMessage(message)
-                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             // do something
                         }
                     })
-                    .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             // do nothing (will close dialog)
                         }
                     })
-                    .setNeutralButton("View", new DialogInterface.OnClickListener() {
+                    .setNeutralButton(R.string.view, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             fragmentTransaction = fragmentManager.beginTransaction();
@@ -69,13 +69,13 @@ public class SomeDialog extends DialogFragment {
             return new AlertDialog.Builder(getActivity())
                     .setTitle(title)
                     .setMessage(message)
-                    .setPositiveButton("Yes",  new DialogInterface.OnClickListener() {
+                    .setPositiveButton(R.string.yes,  new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             // do something
                         }
                     })
-                    .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             // do nothing (will close dialog)
