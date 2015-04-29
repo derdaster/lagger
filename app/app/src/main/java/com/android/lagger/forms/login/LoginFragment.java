@@ -15,7 +15,8 @@ import android.widget.Toast;
 import com.android.lagger.R;
 import com.android.lagger.forms.main.MainActivity;
 import com.android.lagger.model.User;
-import com.android.lagger.serverConnection.ServerConnection;
+import com.android.lagger.serverConnection.HttpRequest;
+import com.android.lagger.serverConnection.URL;
 import com.android.lagger.settings.State;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -62,7 +63,7 @@ public class LoginFragment extends Fragment {
                         User user = new User(login, password);
                         JsonObject userJson = user.createLoginJson();
                         //TODO refactoring
-                        return ServerConnection.POST(ServerConnection.LOGIN_URL, userJson);
+                        return HttpRequest.POST(URL.LOGIN_URL, userJson);
                     }
                     // onPostExecute displays the results of the AsyncTask.
                     @Override

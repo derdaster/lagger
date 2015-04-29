@@ -15,13 +15,10 @@ import android.widget.ListView;
 
 import com.android.lagger.R;
 import com.android.lagger.controls.basic.SomeDialog;
-import com.android.lagger.forms.main.MainActivity;
-import com.android.lagger.forms.meetings.ViewMeetingFragment;
 import com.android.lagger.logic.adapters.FriendsListAdapter;
-import com.android.lagger.logic.adapters.MeetingListAdapter;
 import com.android.lagger.model.User;
-import com.android.lagger.model.entities.Meeting;
-import com.android.lagger.serverConnection.ServerConnection;
+import com.android.lagger.serverConnection.HttpRequest;
+import com.android.lagger.serverConnection.URL;
 import com.android.lagger.settings.State;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -105,8 +102,8 @@ public class FriendsListFragment extends Fragment {
                 }
                 userIdJson.addProperty("idUser", userId);
 
-                String invitations = ServerConnection.POST(ServerConnection.GET_INVITATION_FROM_FRIENDS_URL, userIdJson);
-                String friends = ServerConnection.POST(ServerConnection.GET_FRIENDS_URL, userIdJson);
+                String invitations = HttpRequest.POST(URL.GET_INVITATION_FROM_FRIENDS_URL, userIdJson);
+                String friends = HttpRequest.POST(URL.GET_FRIENDS_URL, userIdJson);
 
                 invitations = invitations.substring(0, invitations.length() - 1);
                 friends = friends.substring(1, friends.length());

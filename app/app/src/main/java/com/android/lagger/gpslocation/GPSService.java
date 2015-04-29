@@ -14,7 +14,8 @@ import android.os.IBinder;
 import android.provider.Settings;
 import android.widget.Toast;
 
-import com.android.lagger.serverConnection.ServerConnection;
+import com.android.lagger.serverConnection.HttpRequest;
+import com.android.lagger.serverConnection.URL;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.gson.JsonObject;
 
@@ -176,7 +177,7 @@ public void sendLocation(){
             String meetingId = String.valueOf(1);
             JsonObject userJson = createGPSJSON(userId,meetingId);
             //TODO refactoring
-            return ServerConnection.POST(ServerConnection.ADD_POSITION_URL, userJson);
+            return HttpRequest.POST(URL.ADD_POSITION_URL, userJson);
         }
         // onPostExecute displays the results of the AsyncTask.
         @Override
