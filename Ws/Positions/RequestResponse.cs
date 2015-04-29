@@ -18,7 +18,7 @@ namespace LaggerServer.Positions
         [DataMember(Name = "longitude", Order = 2)]
         public decimal Longitude { get; set; }
 
-        [DataMember(Name = "dateTime")]
+        [DataMember(Name = "dateTime", Order = 3)]
         public DateTime DateTime { get; set; }
     }
 
@@ -37,7 +37,7 @@ namespace LaggerServer.Positions
     [DataContract]
     public class GetPositionsResponse : Response
     {
-        [DataMember(Name = "positions", Order = 0)]
-        public List<Position> Positions { get; set; }
+        [DataMember(Name = "usersPositions", Order = 0)]
+        public List<PositionDetails> UsersPositions { get; set; }
     }
 }

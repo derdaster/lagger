@@ -74,9 +74,6 @@ namespace LaggerServer
     [DataContract]
     public class Position
     {
-        [DataMember(Name = "idUser")]
-        public int IdUser { get; set; }
-
         [DataMember(Name = "latitude")]
         public decimal Latitude { get; set; }
 
@@ -86,15 +83,25 @@ namespace LaggerServer
         [DataMember(Name = "dateTime")]
         public DateTime DateTime { get; set; }
 
-        [DataMember(Name = "arrivalTime")]
-        public int ArrivalTime { get; set; }
-
         public Position(EventDetail entity)
         {
-            IdUser = entity.IDUser;
             Latitude = entity.Latitude;
             Longitude = entity.Longitude;
             DateTime = entity.CreationDate;
         }
     }
+
+    [DataContract]
+    public class PositionDetails
+    {
+        [DataMember(Name = "idUser")]
+        public int IdUser { get; set; }
+
+        [DataMember(Name = "arrivalTime")]
+        public int ArrivalTime { get; set; }
+
+        [DataMember(Name = "positions")]
+        public List<Position> Positions { get; set; }
+    }
+
 }
