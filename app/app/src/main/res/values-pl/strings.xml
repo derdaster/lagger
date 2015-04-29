@@ -22,14 +22,18 @@
 
 <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="invitations">Invitations</string>
+    <string name="invitations">Zaproszenia</string>
     <string name="upcoming">Upcoming</string>
     <string name="invitationsFromFriends">Invitations from friends</string>
-    <string name="allFriends">Friends</string>
+    <string name="allFriends">Znajomi</string>
 
 
 
     <string name="yes">Tak</string>
     <string name="no">Nie</string>
     <string name="view">Podgląd</string>
+    <string name="accept_meeting">Zaakceptowano zaproszenie na spotkanie.</string>
+    <string name="title_friends">Znajomi</string>
+    <string name="title_meetings">Spotkania</string>
+    <string name="refuse_meeting">Odrzucono zaproszenie na spotkanie.</string>
 </resources>
