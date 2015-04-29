@@ -167,8 +167,8 @@ public class MeetingListFragment extends Fragment {
 
         INDEX_OF_UPCOMING = invitations.size();
 
-        meetingAndinvitations.addAll(meetings);
         meetingAndinvitations.addAll(invitations);
+        meetingAndinvitations.addAll(meetings);
 
         return meetingAndinvitations;
     }
@@ -194,9 +194,9 @@ public class MeetingListFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 if (i <= INDEX_OF_UPCOMING) {
-                    showInvitationDialog(allMeetings.get(i));
+                    showInvitationDialog(allMeetings.get(i - 1));
                 } else {
-                    showMeetingDetails(allMeetings.get(i));
+                    showMeetingDetails(allMeetings.get(i - 1));
                 }
             }
         });
