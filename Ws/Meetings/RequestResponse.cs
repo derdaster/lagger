@@ -30,6 +30,21 @@ namespace LaggerServer.Meetings
         public List<Meeting> MeetingInvitations { get; set; }
     }
 
+    [DataContract]
+    public class MeetingInvitationAcceptRequest : Request
+    {
+        [DataMember(Name = "idMeeting", Order = 0)]
+        public int IdMeeting { get; set; }
+
+        [DataMember(Name = "accept", Order = 1)]
+        public bool Accept { get; set; }
+    }
+
+    [DataContract]
+    public class MeetingInvitationAcceptResponse : Response
+    {
+    }
+
     public enum UserEventStatus
     {
         NotAccepted = 0,

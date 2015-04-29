@@ -29,6 +29,10 @@ namespace LaggerServer
         GetMeetingInvitationsResponse GetMeetingInvitations(GetMeetingInvitationsRequest request);
 
         [OperationContract]
+        [WebInvoke(UriTemplate = "user/meetings/invitation/accept", Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        MeetingInvitationAcceptResponse MeetingInvitationAccept(MeetingInvitationAcceptRequest request);
+
+        [OperationContract]
         [WebInvoke(UriTemplate = "user/meetings/add", Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
         AddMeetingResponse AddMeeting(AddMeetingRequest request);
 

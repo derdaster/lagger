@@ -109,7 +109,7 @@ public class MapFragment extends Fragment {
                 googleMap.addMarker(markerOptions);
             }
         });
-        GPSService gpsService = new GPSService(mContext);
+        GPSService gpsService = new GPSService(this.getActivity().getApplicationContext());
         if(gpsService.canGetLocation()) {
             gpsService.getLatitude();
 

@@ -8,12 +8,16 @@ import android.content.Intent;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.provider.Settings;
 import android.widget.Toast;
 
+import com.android.lagger.serverConnection.HttpRequest;
+import com.android.lagger.serverConnection.URL;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.gson.JsonObject;
 
 import java.util.ArrayList;
 
@@ -158,13 +162,56 @@ public class GPSService extends Service implements LocationListener {
     public void onLocationChanged(Location arg0) {
         location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
         coordinates = new LatLng(location.getLatitude(), location.getLongitude());
-        Toast.makeText(
-                context,
-                "Twoja pozycja -\nX: " + coordinates.latitude + "\nY: "
-                        + coordinates.longitude + "liczba " + coordinatesList.size(), Toast.LENGTH_LONG).show();
+        sendLocation();
+//        Toast.makeText(
+//                context,
+//                "Twoja pozycja -\nX: " + coordinates.latitude + "\nY: "
+//                        + coordinates.longitude + "liczba " + coordinatesList.size(), Toast.LENGTH_LONG).show();
 
     }
+public void sendLocation(){
+    new AsyncTask<String, Void, String>() {
+        @Override
+        protected String doInBackground(String... urls) {
+            String userId = String.valueOf(1);
+            String meetingId = String.valueOf(1);
+            JsonObject userJson = createGPSJSON(userId,meetingId);
+            //TODO refactoring
+            return HttpRequest.POST(URL.ADD_POSITION_URL, userJson);
+        }
+        // onPostExecute displays the results of the AsyncTask.
+        @Override
+        protected void onPostExecute(String result) {
 
+//            JsonParser parser = new JsonParser();
+//            JsonObject responseJson = (JsonObject)parser.parse(result);
+//
+//            int status = responseJson.get("status").getAsInt();
+//            if(status == 1){
+//                int userId = responseJson.get("idUser").getAsInt();
+//                State.loggedUser = new User();
+//                State.loggedUser.setId(userId);
+//
+//                Intent intent = new Intent(context, MainActivity.class);
+//                startActivity(intent);
+//            }
+//            else {
+//                String message = "";
+//                switch (status) {
+//                    case 0:
+//                        message = getString(R.string.unregistered_user);
+//                        break;
+//                    case 2:
+//                        message = getString(R.string.incorrect_password);
+//                        break;
+//                }
+//
+//                Toast.makeText(context, message,
+//                        Toast.LENGTH_SHORT).show();
+//            }
+        }
+    }.execute();
+}
     @Override
     public void onProviderDisabled(String arg0) {
         Toast.makeText(context, "Wyłączono GPS",
@@ -191,4 +238,12 @@ public class GPSService extends Service implements LocationListener {
         return null;
     }
 
+    public JsonObject createGPSJSON(String userId,String meetingId){
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty("idUser", userId);
+        jsonObject.addProperty("idMeeting", meetingId);
+        jsonObject.addProperty("latitude", String.valueOf(this.latitude));
+        jsonObject.addProperty("longitude", String.valueOf(this.longitude));
+        return jsonObject;
+    }
 }

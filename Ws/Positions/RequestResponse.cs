@@ -18,8 +18,8 @@ namespace LaggerServer.Positions
         [DataMember(Name = "longitude", Order = 2)]
         public decimal Longitude { get; set; }
 
-        //[DataMember(Name = "dateTime")]
-        //public DateTime DateTime { get; set; }
+        [DataMember(Name = "dateTime")]
+        public DateTime DateTime { get; set; }
     }
 
     [DataContract]

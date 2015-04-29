@@ -1,8 +1,6 @@
 package com.android.lagger.serverConnection;
 
-import com.android.lagger.model.User;
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
@@ -22,13 +20,7 @@ import java.io.UnsupportedEncodingException;
 /**
  * Created by Ewelina Klisowska on 2015-03-19.
  */
-public class ServerConnection {
-
-    public static final String LOGIN_URL = "http://abecadlo.zapto.org:9999/LaggerService.svc/user/login";
-    public static final String GET_MEETINGS_URL= "http://abecadlo.zapto.org:9999/LaggerService.svc/user/meetings/get";
-    public static final String GET_INVITATIONS_URL = "http://abecadlo.zapto.org:9999/LaggerService.svc/user/meetings/invitation";
-    public static final String GET_FRIENDS_URL ="http://abecadlo.zapto.org:9999/LaggerService.svc/user/friends/get";
-    public static final String GET_INVITATION_FROM_FRIENDS_URL = "http://abecadlo.zapto.org:9999/LaggerService.svc/user/friends/invitation";
+public class HttpRequest {
 
     public static String GET(String url){
         InputStream inputStream = null;
@@ -57,7 +49,6 @@ public class ServerConnection {
             Exception ex = e;
         }
 
-        // 11. return result
         return result;
     }
 
@@ -102,7 +93,7 @@ public class ServerConnection {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        // 11. return result
+
         return result;
     }
 

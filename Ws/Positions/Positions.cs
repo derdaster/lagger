@@ -31,7 +31,7 @@ namespace LaggerServer
         }
 
         public GetPositionsResponse GetPositions(GetPositionsRequest request)
-        {
+        {// dodac szacowany czas
             using (var ctx = new LaggerDbEntities())
             {
                 var list = (from ed in ctx.EventDetails

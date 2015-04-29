@@ -55,6 +55,29 @@ namespace LaggerServer
             }
         }
 
+        public MeetingInvitationAcceptResponse MeetingInvitationAccept(MeetingInvitationAcceptRequest request)
+        {
+            using (var ctx = new LaggerDbEntities())
+            {
+                var invitation = (from ue in ctx.UserEvents
+                            where ue.IDUser == request.IdUser
+                            && ue.IDEvent == request.IdMeeting
+                            && ue.Status == (short)UserEventStatus.NotAccepted
+                            && !ue.Blocked
+                            select ue).FirstOrDefault();
+
+                if (invitation != null)
+                {
+                    invitation.Status = (short)(request.Accept ? UserEventStatus.Accepted : UserEventStatus.Refused);
+                    ctx.SubmitChanges();
+                }
+
+                return new MeetingInvitationAcceptResponse()
+                {
+                };
+            }
+        }
+
         public AddMeetingResponse AddMeeting(AddMeetingRequest request)
         {
             using (var ctx = new LaggerDbEntities())

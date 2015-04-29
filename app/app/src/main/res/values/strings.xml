@@ -46,4 +46,14 @@
     <string name="upcoming">Upcoming</string>
     <string name="invitationsFromFriends">Invitations from friends</string>
     <string name="allFriends">Friends</string>
+
+
+
+
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="view">View</string>
+    <string name="accept_meeting">Accepted meeting invitation.</string>
+    <string name="refuse_meeting">Refused meeting invitation.</string>
+
 </resources>
