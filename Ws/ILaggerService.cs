@@ -87,6 +87,14 @@ namespace LaggerServer
         [WebGet(ResponseFormat = WebMessageFormat.Json, UriTemplate = "Test/{id}")]
         User GetUser(string id);
 
+        [OperationContract]
+        [WebGet(ResponseFormat = WebMessageFormat.Json, UriTemplate = "test/resetInvitation/{id}")]
+        String ResetInvitation(string id);
+
+        [OperationContract]
+        [WebGet(ResponseFormat = WebMessageFormat.Xml, UriTemplate = "test/showMeetings/{id}")]
+        String ShowMeetings(string id);
+
         #endregion
     }
 
