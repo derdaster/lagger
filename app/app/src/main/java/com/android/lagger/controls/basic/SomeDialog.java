@@ -112,17 +112,18 @@ public class SomeDialog extends DialogFragment {
                 //FIXME change idUser to dynamic
                 invitationAcceptJson.addProperty("idUser", 1);
                 invitationAcceptJson.addProperty("idMeeting", id);
-                invitationAcceptJson.addProperty("accept:", isAccepted);
+                invitationAcceptJson.addProperty("accept", isAccepted);
 
                 return  HttpRequest.POST(URL.ACCEPT_MEETING_INVITATION_URL, invitationAcceptJson);
             }
 
             @Override
             protected void onPostExecute(String result) {
-                dismiss();
-                showInfo(isAccepted);
+//                dismiss();
+//                showInfo(isAccepted);
             }
         }.execute();
+        showInfo(isAccepted);
     }
 
     private void showInfo(final boolean isAccepted){
