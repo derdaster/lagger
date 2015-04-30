@@ -12,9 +12,12 @@ import android.os.Bundle;
 import android.widget.Toast;
 
 import com.android.lagger.R;
+import com.android.lagger.forms.meetings.MeetingListFragment;
 import com.android.lagger.forms.meetings.ViewMeetingFragment;
+import com.android.lagger.model.entities.Meeting;
 import com.android.lagger.serverConnection.HttpRequest;
 import com.android.lagger.serverConnection.URL;
+import com.android.lagger.services.MeetingService;
 import com.google.gson.JsonObject;
 
 /**
@@ -28,6 +31,7 @@ public class SomeDialog extends DialogFragment {
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
     Context mContext;
+    private Meeting meeting;
 
     public SomeDialog() {
 
@@ -51,19 +55,35 @@ public class SomeDialog extends DialogFragment {
     }
 
     private AlertDialog createMeetingDialog(){
+        Bundle extras = getArguments();
+        meeting = extras.getParcelable("meeting");
+
         return new AlertDialog.Builder(getActivity())
                 .setTitle(title)
                 .setMessage(message)
                 .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        acceptMeeting(true);
+                        MeetingService.acceptMeeting(meeting.getId(), true);
+//                        fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+//                        fragmentTransaction.remove();
+//                        showInfo(true);
+//                        fragmentTransaction.replace(R.id.container_body, new MeetingListFragment()).commit();
+                        fragmentTransaction = getFragmentManager().beginTransaction();
+                        fragmentTransaction.replace(R.id.container_body, new MeetingListFragment()).commit();
+                        showInfo(true);
+
                     }
                 })
                 .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        acceptMeeting(false);
+                        MeetingService.acceptMeeting(meeting.getId(), false);
+//                        showInfo(false);
+//                        fragmentTransaction.replace(R.id.container_body, new MeetingListFragment()).commit();
+                        fragmentTransaction = getFragmentManager().beginTransaction();
+                        fragmentTransaction.replace(R.id.container_body, new MeetingListFragment()).commit();
+                        showInfo(false);
                     }
                 })
                 .setNeutralButton(R.string.view, new DialogInterface.OnClickListener() {
@@ -99,34 +119,18 @@ public class SomeDialog extends DialogFragment {
     private void showMeetingDetails(){
         fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.addToBackStack(null);
-        fragmentTransaction.replace(R.id.container_body, new ViewMeetingFragment()).commit();
+
+        Bundle details = new Bundle();
+        details.putParcelable("meeting", meeting);
+
+        ViewMeetingFragment detailsMeetingFragment = new ViewMeetingFragment(mContext, false);
+        detailsMeetingFragment.setArguments(details);
+
+        fragmentTransaction.replace(R.id.container_body, detailsMeetingFragment).commit();
     }
 
-    private void acceptMeeting(final boolean isAccepted){
-        final int id = getArguments().getInt("id");
 
-        new AsyncTask<String, Void, String>() {
-            @Override
-            protected String doInBackground(String... urls) {
-                JsonObject invitationAcceptJson = new JsonObject();
-                //FIXME change idUser to dynamic
-                invitationAcceptJson.addProperty("idUser", 1);
-                invitationAcceptJson.addProperty("idMeeting", id);
-                invitationAcceptJson.addProperty("accept", isAccepted);
-
-                return  HttpRequest.POST(URL.ACCEPT_MEETING_INVITATION_URL, invitationAcceptJson);
-            }
-
-            @Override
-            protected void onPostExecute(String result) {
-//                dismiss();
-//                showInfo(isAccepted);
-            }
-        }.execute();
-        showInfo(isAccepted);
-    }
-
-    private void showInfo(final boolean isAccepted){
+    private  void showInfo(final boolean isAccepted){
         String messageText;
         if(isAccepted){
             messageText = getResources().getString(R.string.accept_meeting);
@@ -134,6 +138,6 @@ public class SomeDialog extends DialogFragment {
         else{
             messageText = getResources().getString(R.string.refuse_meeting);
         }
-        Toast.makeText(mContext,messageText, Toast.LENGTH_SHORT).show();
+        Toast.makeText(mContext, messageText, Toast.LENGTH_SHORT).show();
     }
 }

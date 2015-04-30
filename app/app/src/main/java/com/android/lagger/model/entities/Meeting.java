@@ -1,5 +1,8 @@
 package com.android.lagger.model.entities;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.android.lagger.model.User;
 
 import java.util.Date;
@@ -8,7 +11,7 @@ import java.util.List;
 /**
  * Created by Ewelina Klisowska on 2015-04-08.
  */
-public class Meeting {
+public class Meeting implements Parcelable{
 
     private Integer id;
     private String name;
@@ -119,5 +122,44 @@ public class Meeting {
                 ", organizer=" + organizer +
                 ", userList=" + userList +
                 '}';
+    }
+
+
+    public static final Parcelable.Creator<Meeting> CREATOR = new Parcelable.Creator<Meeting>() {
+        public Meeting createFromParcel(Parcel in) {
+            return new Meeting(in);
+        }
+
+        public Meeting[] newArray(int size) {
+            return new Meeting[size];
+        }
+    };
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(id);
+        dest.writeString(name);
+        dest.writeString(locationName);
+        dest.writeSerializable(startTime);
+        dest.writeSerializable(endTime);
+        dest.writeDouble(latitude);
+        dest.writeDouble(longitude);
+        dest.writeParcelable(organizer, 0);
+    }
+
+    private Meeting(Parcel in) {
+        id = in.readInt();
+        name = in.readString();
+        locationName = in.readString();;
+        startTime = (java.util.Date) in.readSerializable();
+        endTime = (java.util.Date) in.readSerializable();
+        latitude = in.readDouble();
+        longitude = in.readDouble();
+        organizer = in.readParcelable(User.class.getClassLoader());
     }
 }

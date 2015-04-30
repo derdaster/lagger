@@ -59,13 +59,11 @@ public class MeetingListFragment extends Fragment {
     Context mContext;
 
     public MeetingListFragment() {
-        // Required empty public constructor
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
 
     @Override
@@ -196,7 +194,7 @@ public class MeetingListFragment extends Fragment {
                 if (i <= INDEX_OF_UPCOMING) {
                     showInvitationDialog(allMeetings.get(i - 1));
                 } else {
-                    showMeetingDetails(allMeetings.get(i - 1));
+                    showMeetingDetails(allMeetings.get(i - 2), true);
                 }
             }
         });
@@ -208,15 +206,23 @@ public class MeetingListFragment extends Fragment {
         SomeDialog newFragment = new SomeDialog(mContext, "Confirm", "Do you want to accept this meeting invitation?", true);
         newFragment.show(fragmentTransaction, "dialog");
 
-        Bundle args = new Bundle();
-        args.putInt("id", meeting.getId());
-        newFragment.setArguments(args);
+        Bundle details = new Bundle();
+        details.putParcelable("meeting", meeting);
+
+        newFragment.setArguments(details);
     }
 
-    private void showMeetingDetails(Meeting meeting){
+    private void showMeetingDetails(Meeting meeting, Boolean isReadOnly){
         fragmentTransaction = getFragmentManager().beginTransaction();
         fragmentTransaction.addToBackStack(null);
-        fragmentTransaction.replace(R.id.container_body, new ViewMeetingFragment()).commit();
+
+        Bundle details = new Bundle();
+        details.putParcelable("meeting", meeting);
+
+        ViewMeetingFragment detailsMeetingFragment = new ViewMeetingFragment(mContext, isReadOnly);
+        detailsMeetingFragment.setArguments(details);
+
+        fragmentTransaction.replace(R.id.container_body, detailsMeetingFragment).commit();
     }
 
     @Override

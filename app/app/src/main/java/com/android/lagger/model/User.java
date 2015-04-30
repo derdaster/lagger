@@ -1,23 +1,16 @@
 package com.android.lagger.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
 /**
  * Created by Ewelina Klisowska on 2015-03-19.
  */
- /*
-  In database table user:
-    <Column Name="ID_User" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-    <Column Name="Login" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
-    <Column Name="Password" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
-    <Column Name="Email" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
-    <Column Name="Activated" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
-    <Column Name="CreationDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
-    <Column Name="LastEditDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
-    <Column Name="Blocked" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
-*/
-public class User {
+
+public class User implements Parcelable{
 
     private Integer id;
     private String login;
@@ -92,4 +85,36 @@ public class User {
     }
 
 
+    public static final Parcelable.Creator<User> CREATOR = new Parcelable.Creator<User>() {
+        public User createFromParcel(Parcel in) {
+            return new User(in);
+        }
+
+        public User[] newArray(int size) {
+            return new User[size];
+        }
+    };
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(id);
+        dest.writeString(login);
+        dest.writeString(password);
+        dest.writeString(email);
+        dest.writeString(phone);
+
+    }
+
+    private User(Parcel in) {
+        id = in.readInt();
+        login = in.readString();
+        password = in.readString();
+        email = in.readString();
+        phone = in.readString();
+    }
 }
