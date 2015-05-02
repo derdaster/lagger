@@ -4,6 +4,7 @@ import android.os.AsyncTask;
 
 import com.android.lagger.serverConnection.HttpRequest;
 import com.android.lagger.serverConnection.URL;
+import com.android.lagger.settings.State;
 import com.google.gson.JsonObject;
 
 /**
@@ -18,11 +19,15 @@ public class MeetingService {
             protected String doInBackground(String... urls) {
                 JsonObject invitationAcceptJson = new JsonObject();
                 //FIXME change idUser to dynamic
-                invitationAcceptJson.addProperty("idUser", 1);
+                int userId = 1;
+                if (State.loggedUser != null) {
+                    userId = State.loggedUser.getId();
+                }
+                invitationAcceptJson.addProperty("idUser", userId);
                 invitationAcceptJson.addProperty("idMeeting", meetingId);
                 invitationAcceptJson.addProperty("accept", isAccepted);
 //              Fixme REFACTOR
-//                AcceptMeetingRequest acceptMeetingRequest = new AcceptMeetingRequest(1, meetingId, isAccepted);
+//                AcceptMeetingRequest acceptMeetingRequest = new AcceptMeetingRequest(userId, meetingId, isAccepted);
 
                 return  HttpRequest.POST(URL.ACCEPT_MEETING_INVITATION, invitationAcceptJson);
             }

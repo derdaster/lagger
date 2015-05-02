@@ -1,4 +1,4 @@
-package com.android.lagger.RequestObjects;
+package com.android.lagger.requestObjects;
 
 import com.android.lagger.model.entities.User;
 

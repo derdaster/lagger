@@ -1,4 +1,4 @@
-package com.android.lagger.ResponseObjects;
+package com.android.lagger.responseObjects;
 
 import com.android.lagger.model.navigation.UserPosition;
 

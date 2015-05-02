@@ -144,7 +144,7 @@ public class MeetingListFragment extends Fragment {
     private List<Meeting> parseMeetings(final String result){
         final List<Meeting> meetings = new ArrayList<Meeting>();
         final List<Meeting> invitations = new ArrayList<Meeting>();
-        List<Meeting> meetingAndinvitations = new ArrayList<>();
+        List<Meeting> meetingAndInvitations = new ArrayList<>();
 
         JsonParser parser = new JsonParser();
         JsonObject responseJson = (JsonObject) parser.parse(result);
@@ -165,10 +165,10 @@ public class MeetingListFragment extends Fragment {
 
         INDEX_OF_UPCOMING = invitations.size();
 
-        meetingAndinvitations.addAll(invitations);
-        meetingAndinvitations.addAll(meetings);
+        meetingAndInvitations.addAll(invitations);
+        meetingAndInvitations.addAll(meetings);
 
-        return meetingAndinvitations;
+        return meetingAndInvitations;
     }
 
     private void addSections(){
