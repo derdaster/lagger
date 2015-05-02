@@ -1,9 +1,8 @@
-package com.android.lagger.model;
+package com.android.lagger.model.entities;
 
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
 /**

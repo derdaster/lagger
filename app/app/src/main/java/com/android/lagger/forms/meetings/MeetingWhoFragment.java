@@ -2,38 +2,19 @@ package com.android.lagger.forms.meetings;
 
 import android.app.Fragment;
 import android.content.Context;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.Toast;
 
-import com.android.datetimepicker.date.DatePickerDialog;
 import com.android.lagger.R;
 import com.android.lagger.logic.adapters.FriendsListAdapter;
-import com.android.lagger.logic.adapters.MeetingListAdapter;
-import com.android.lagger.model.User;
-import com.android.lagger.model.entities.Friend;
-import com.android.lagger.serverConnection.GsonHelper;
-import com.android.lagger.serverConnection.HttpRequest;
-import com.android.lagger.serverConnection.URL;
-import com.android.lagger.settings.State;
-import com.google.gson.Gson;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-
-import org.json.JSONArray;
+import com.android.lagger.model.entities.User;
 
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 /**

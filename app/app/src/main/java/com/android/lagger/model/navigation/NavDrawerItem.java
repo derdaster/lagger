@@ -1,4 +1,4 @@
-package com.android.lagger.model.items;
+package com.android.lagger.model.navigation;
 
 import android.graphics.drawable.Drawable;
 

@@ -3,8 +3,6 @@ package com.android.lagger.model.entities;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.android.lagger.model.User;
-
 import java.util.Date;
 import java.util.List;
 

@@ -21,6 +21,8 @@ public class MeetingService {
                 invitationAcceptJson.addProperty("idUser", 1);
                 invitationAcceptJson.addProperty("idMeeting", meetingId);
                 invitationAcceptJson.addProperty("accept", isAccepted);
+//              Fixme REFACTOR
+//                AcceptMeetingRequest acceptMeetingRequest = new AcceptMeetingRequest(1, meetingId, isAccepted);
 
                 return  HttpRequest.POST(URL.ACCEPT_MEETING_INVITATION, invitationAcceptJson);
             }
@@ -31,7 +33,7 @@ public class MeetingService {
 //                showInfo(isAccepted);
             }
         }.execute();
-        //FIXME pokazywanie toastu dopiero PO otrzymaniu odp od serwera
+        //FIXME pokazywanie toastu
 //        showInfo(isAccepted);
     }
 

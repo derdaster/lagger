@@ -1,14 +1,10 @@
 package com.android.lagger.forms.meetings;
 
 import android.app.Activity;
-import android.app.Dialog;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.v4.view.ViewPager;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,20 +12,10 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.datetimepicker.date.DatePickerDialog;
-import com.android.datetimepicker.time.RadialPickerLayout;
-import com.android.datetimepicker.time.TimePickerDialog;
 import com.android.lagger.R;
-import com.android.lagger.model.User;
+import com.android.lagger.model.entities.User;
 import com.android.lagger.model.entities.Meeting;
 import com.android.lagger.services.MeetingService;
-
-import org.w3c.dom.Text;
-
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Locale;
 
 /**
  * Created by Kubaa on 2015-04-08.

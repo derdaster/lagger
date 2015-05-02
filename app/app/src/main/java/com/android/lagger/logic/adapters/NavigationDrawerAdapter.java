@@ -9,7 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.lagger.R;
-import com.android.lagger.model.items.NavDrawerItem;
+import com.android.lagger.model.navigation.NavDrawerItem;
 
 import java.util.Collections;
 import java.util.List;

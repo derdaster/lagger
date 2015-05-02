@@ -14,7 +14,7 @@ import android.widget.Toast;
 
 import com.android.lagger.R;
 import com.android.lagger.forms.main.MainActivity;
-import com.android.lagger.model.User;
+import com.android.lagger.model.entities.User;
 import com.android.lagger.serverConnection.HttpRequest;
 import com.android.lagger.serverConnection.URL;
 import com.android.lagger.settings.State;

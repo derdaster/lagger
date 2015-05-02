@@ -8,8 +8,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.android.lagger.R;
-import com.android.lagger.model.User;
-import com.android.lagger.model.entities.Friend;
+import com.android.lagger.model.entities.User;
 
 import java.util.List;
 
