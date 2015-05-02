@@ -177,7 +177,7 @@ public void sendLocation(){
             String meetingId = String.valueOf(1);
             JsonObject userJson = createGPSJSON(userId,meetingId);
             //TODO refactoring
-            return HttpRequest.POST(URL.ADD_POSITION_URL, userJson);
+            return HttpRequest.POST(URL.ADD_POSITION, userJson);
         }
         // onPostExecute displays the results of the AsyncTask.
         @Override

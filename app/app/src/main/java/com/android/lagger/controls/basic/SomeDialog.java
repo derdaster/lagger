@@ -65,10 +65,7 @@ public class SomeDialog extends DialogFragment {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         MeetingService.acceptMeeting(meeting.getId(), true);
-//                        fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-//                        fragmentTransaction.remove();
-//                        showInfo(true);
-//                        fragmentTransaction.replace(R.id.container_body, new MeetingListFragment()).commit();
+
                         fragmentTransaction = getFragmentManager().beginTransaction();
                         fragmentTransaction.replace(R.id.container_body, new MeetingListFragment()).commit();
                         showInfo(true);
@@ -79,8 +76,7 @@ public class SomeDialog extends DialogFragment {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         MeetingService.acceptMeeting(meeting.getId(), false);
-//                        showInfo(false);
-//                        fragmentTransaction.replace(R.id.container_body, new MeetingListFragment()).commit();
+
                         fragmentTransaction = getFragmentManager().beginTransaction();
                         fragmentTransaction.replace(R.id.container_body, new MeetingListFragment()).commit();
                         showInfo(false);

@@ -112,8 +112,8 @@ public class MeetingListFragment extends Fragment {
                 }
                 userIdJson.addProperty("idUser", userId);
 
-                String meetings = HttpRequest.POST(URL.GET_MEETINGS_URL, userIdJson);
-                String invitations = HttpRequest.POST(URL.GET_INVITATIONS_URL, userIdJson);
+                String meetings = HttpRequest.POST(URL.GET_MEETINGS, userIdJson);
+                String invitations = HttpRequest.POST(URL.GET_INVITATIONS, userIdJson);
 
                 meetings = meetings.substring(0, meetings.length() - 1);
                 invitations = invitations.substring(1, invitations.length());

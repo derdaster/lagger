@@ -63,7 +63,7 @@ public class LoginFragment extends Fragment {
                         User user = new User(login, password);
                         JsonObject userJson = user.createLoginJson();
                         //TODO refactoring
-                        return HttpRequest.POST(URL.LOGIN_URL, userJson);
+                        return HttpRequest.POST(URL.LOGIN, userJson);
                     }
                     // onPostExecute displays the results of the AsyncTask.
                     @Override

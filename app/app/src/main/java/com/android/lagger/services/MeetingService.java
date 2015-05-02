@@ -1,10 +1,7 @@
 package com.android.lagger.services;
 
-import android.content.Context;
 import android.os.AsyncTask;
-import android.widget.Toast;
 
-import com.android.lagger.R;
 import com.android.lagger.serverConnection.HttpRequest;
 import com.android.lagger.serverConnection.URL;
 import com.google.gson.JsonObject;
@@ -25,7 +22,7 @@ public class MeetingService {
                 invitationAcceptJson.addProperty("idMeeting", meetingId);
                 invitationAcceptJson.addProperty("accept", isAccepted);
 
-                return  HttpRequest.POST(URL.ACCEPT_MEETING_INVITATION_URL, invitationAcceptJson);
+                return  HttpRequest.POST(URL.ACCEPT_MEETING_INVITATION, invitationAcceptJson);
             }
 
             @Override
