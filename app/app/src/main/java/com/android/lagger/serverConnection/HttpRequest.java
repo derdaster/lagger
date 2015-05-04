@@ -194,7 +194,7 @@ public class HttpRequest {
             // convert inputstream to jsonObject
             if(inputStream != null) {
                 //  result = convertInputStreamToJsonObject(inputStream);
-                String response = convertInputStreamToString(inputStream);
+//                String response = convertInputStreamToString(inputStream);
                 result = convertInputStreamToResponseObj(inputStream);
             }
 //             else
@@ -208,7 +208,7 @@ public class HttpRequest {
 
     private static ResponseObject convertInputStreamToResponseObj(InputStream inputStream) throws IOException {
         ResponseObject responseObj = null;
-        String jsonToParse = inputStream.toString();
+        String jsonToParse = convertInputStreamToString(inputStream);
 
         Gson gson = new GsonHelper().getGson();
         responseObj = gson.fromJson(jsonToParse, ResponseObject.class);

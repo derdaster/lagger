@@ -15,8 +15,11 @@ import android.widget.Toast;
 import com.android.lagger.R;
 import com.android.lagger.forms.main.MainActivity;
 import com.android.lagger.model.entities.User;
+import com.android.lagger.requestObjects.LoginRequest;
+import com.android.lagger.responseObjects.LoginResponse;
 import com.android.lagger.serverConnection.HttpRequest;
 import com.android.lagger.serverConnection.URL;
+import com.android.lagger.services.HttpClient;
 import com.android.lagger.settings.State;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -54,7 +57,34 @@ public class LoginFragment extends Fragment {
 
             @Override
             public void onClick(View arg0) {
+                //FIXME
+               /*  String login = loginTextView.getText().toString();
+                String password = passwordTextView.getText().toString();
+                LoginRequest loginReq = new LoginRequest(login, password);
+                LoginResponse loginResp = HttpClient.login(loginReq);
 
+                final Integer status = loginResp.getStatus();
+                if(status == 1){
+                    final Integer userId = loginResp.getIdUser();
+                    State.loggedUser = new User(userId);
+
+                    Intent intent = new Intent(mContext, MainActivity.class);
+                    startActivity(intent);
+                }
+                else {
+                    String message = "";
+                    switch (status) {
+                        case 0:
+                            message = getString(R.string.unregistered_user);
+                            break;
+                        case 2:
+                            message = getString(R.string.incorrect_password);
+                            break;
+                    }
+                    Toast.makeText(mContext, message,
+                            Toast.LENGTH_SHORT).show();
+                }
+            }*/
                 new AsyncTask<String, Void, String>() {
                     @Override
                     protected String doInBackground(String... urls) {
@@ -96,7 +126,6 @@ public class LoginFragment extends Fragment {
                         }
                     }
                 }.execute();
-
             }
 
         });

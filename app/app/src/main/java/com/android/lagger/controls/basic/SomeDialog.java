@@ -7,7 +7,6 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.widget.Toast;
 
@@ -15,12 +14,10 @@ import com.android.lagger.R;
 import com.android.lagger.forms.meetings.MeetingListFragment;
 import com.android.lagger.forms.meetings.ViewMeetingFragment;
 import com.android.lagger.model.entities.Meeting;
+import com.android.lagger.requestObjects.AcceptFriendRequest;
 import com.android.lagger.requestObjects.AcceptMeetingRequest;
-import com.android.lagger.serverConnection.HttpRequest;
-import com.android.lagger.serverConnection.URL;
-import com.android.lagger.services.MeetingService;
+import com.android.lagger.services.HttpClient;
 import com.android.lagger.settings.State;
-import com.google.gson.JsonObject;
 
 /**
  * Created by Kubaa on 2015-04-03.
@@ -69,7 +66,7 @@ public class SomeDialog extends DialogFragment {
 
                         AcceptMeetingRequest acceptMeetingRequest = new AcceptMeetingRequest(State.getLoggedUserId(),
                                 meeting.getId(), true);
-                        MeetingService.acceptMeeting(acceptMeetingRequest);
+                        HttpClient.acceptMeeting(acceptMeetingRequest);
 
                         fragmentTransaction = getFragmentManager().beginTransaction();
                         fragmentTransaction.replace(R.id.container_body, new MeetingListFragment()).commit();
@@ -82,7 +79,7 @@ public class SomeDialog extends DialogFragment {
                     public void onClick(DialogInterface dialog, int which) {
                         AcceptMeetingRequest acceptMeetingRequest = new AcceptMeetingRequest(State.getLoggedUserId(),
                                 meeting.getId(), false);
-                        MeetingService.acceptMeeting(acceptMeetingRequest);
+                        HttpClient.acceptMeeting(acceptMeetingRequest);
 
                         fragmentTransaction = getFragmentManager().beginTransaction();
                         fragmentTransaction.replace(R.id.container_body, new MeetingListFragment()).commit();
@@ -105,15 +102,21 @@ public class SomeDialog extends DialogFragment {
                 .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        //TODO
-                        //acceptFriend(true);
+                        //TODO change idFriend to dynamic!
+                        Integer idFriend = 1;
+                        AcceptFriendRequest acceptFriendRequest = new AcceptFriendRequest(State.getLoggedUserId(),
+                                idFriend, true);
+                        HttpClient.acceptInviationFromFriend(acceptFriendRequest);
                     }
                 })
                 .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        //TODO
-                       // acceptFriend(false);
+                        //TODO change idFriend to dynamic!
+                        Integer idFriend = 1;
+                        AcceptFriendRequest acceptFriendRequest = new AcceptFriendRequest(State.getLoggedUserId(),
+                                idFriend, false);
+                        HttpClient.acceptInviationFromFriend(acceptFriendRequest);
                     }
                 })
                 .create();

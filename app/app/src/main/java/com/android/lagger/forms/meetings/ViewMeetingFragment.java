@@ -16,7 +16,7 @@ import com.android.lagger.R;
 import com.android.lagger.model.entities.User;
 import com.android.lagger.model.entities.Meeting;
 import com.android.lagger.requestObjects.AcceptMeetingRequest;
-import com.android.lagger.services.MeetingService;
+import com.android.lagger.services.HttpClient;
 import com.android.lagger.settings.State;
 
 /**
@@ -92,7 +92,7 @@ public class ViewMeetingFragment extends Fragment {
             public void onClick(View v) {
 
                 AcceptMeetingRequest acceptMeetingRequest = new AcceptMeetingRequest(State.getLoggedUserId(), meeting.getId(), true);
-                MeetingService.acceptMeeting(acceptMeetingRequest);
+                HttpClient.acceptMeeting(acceptMeetingRequest);
 
                 fragmentTransaction = getFragmentManager().beginTransaction();
                 fragmentTransaction.replace(R.id.container_body, new MeetingListFragment()).commit();
@@ -105,7 +105,7 @@ public class ViewMeetingFragment extends Fragment {
             public void onClick(View v) {
 
                 AcceptMeetingRequest acceptMeetingRequest = new AcceptMeetingRequest(State.getLoggedUserId(), meeting.getId(), false);
-                MeetingService.acceptMeeting(acceptMeetingRequest);
+                HttpClient.acceptMeeting(acceptMeetingRequest);
 
                 fragmentTransaction = getFragmentManager().beginTransaction();
                 fragmentTransaction.replace(R.id.container_body, new MeetingListFragment()).commit();
