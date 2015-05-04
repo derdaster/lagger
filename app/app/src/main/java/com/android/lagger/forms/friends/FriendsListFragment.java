@@ -95,12 +95,7 @@ public class FriendsListFragment extends Fragment {
             protected String doInBackground(String... urls) {
                 JsonObject userIdJson = new JsonObject();
 
-                //FIXME set userId only for tests
-                int userId = 1;
-                if( State.loggedUser != null) {
-                    userId = State.loggedUser.getId();
-                }
-                userIdJson.addProperty("idUser", userId);
+                userIdJson.addProperty("idUser", State.getLoggedUserId());
 
                 String invitations = HttpRequest.POST(URL.GET_INVITATION_FROM_FRIENDS, userIdJson);
                 String friends = HttpRequest.POST(URL.GET_FRIENDS, userIdJson);

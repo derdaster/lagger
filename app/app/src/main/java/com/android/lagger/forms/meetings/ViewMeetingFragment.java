@@ -15,7 +15,9 @@ import android.widget.Toast;
 import com.android.lagger.R;
 import com.android.lagger.model.entities.User;
 import com.android.lagger.model.entities.Meeting;
+import com.android.lagger.requestObjects.AcceptMeetingRequest;
 import com.android.lagger.services.MeetingService;
+import com.android.lagger.settings.State;
 
 /**
  * Created by Kubaa on 2015-04-08.
@@ -88,7 +90,9 @@ public class ViewMeetingFragment extends Fragment {
         btnAccept.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MeetingService.acceptMeeting(meeting.getId(), true);
+
+                AcceptMeetingRequest acceptMeetingRequest = new AcceptMeetingRequest(State.getLoggedUserId(), meeting.getId(), true);
+                MeetingService.acceptMeeting(acceptMeetingRequest);
 
                 fragmentTransaction = getFragmentManager().beginTransaction();
                 fragmentTransaction.replace(R.id.container_body, new MeetingListFragment()).commit();
@@ -99,7 +103,9 @@ public class ViewMeetingFragment extends Fragment {
         btnRefuse.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MeetingService.acceptMeeting(meeting.getId(), false);
+
+                AcceptMeetingRequest acceptMeetingRequest = new AcceptMeetingRequest(State.getLoggedUserId(), meeting.getId(), false);
+                MeetingService.acceptMeeting(acceptMeetingRequest);
 
                 fragmentTransaction = getFragmentManager().beginTransaction();
                 fragmentTransaction.replace(R.id.container_body, new MeetingListFragment()).commit();

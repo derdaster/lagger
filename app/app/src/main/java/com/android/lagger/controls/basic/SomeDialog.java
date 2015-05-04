@@ -15,9 +15,11 @@ import com.android.lagger.R;
 import com.android.lagger.forms.meetings.MeetingListFragment;
 import com.android.lagger.forms.meetings.ViewMeetingFragment;
 import com.android.lagger.model.entities.Meeting;
+import com.android.lagger.requestObjects.AcceptMeetingRequest;
 import com.android.lagger.serverConnection.HttpRequest;
 import com.android.lagger.serverConnection.URL;
 import com.android.lagger.services.MeetingService;
+import com.android.lagger.settings.State;
 import com.google.gson.JsonObject;
 
 /**
@@ -64,7 +66,10 @@ public class SomeDialog extends DialogFragment {
                 .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        MeetingService.acceptMeeting(meeting.getId(), true);
+
+                        AcceptMeetingRequest acceptMeetingRequest = new AcceptMeetingRequest(State.getLoggedUserId(),
+                                meeting.getId(), true);
+                        MeetingService.acceptMeeting(acceptMeetingRequest);
 
                         fragmentTransaction = getFragmentManager().beginTransaction();
                         fragmentTransaction.replace(R.id.container_body, new MeetingListFragment()).commit();
@@ -75,7 +80,9 @@ public class SomeDialog extends DialogFragment {
                 .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        MeetingService.acceptMeeting(meeting.getId(), false);
+                        AcceptMeetingRequest acceptMeetingRequest = new AcceptMeetingRequest(State.getLoggedUserId(),
+                                meeting.getId(), false);
+                        MeetingService.acceptMeeting(acceptMeetingRequest);
 
                         fragmentTransaction = getFragmentManager().beginTransaction();
                         fragmentTransaction.replace(R.id.container_body, new MeetingListFragment()).commit();

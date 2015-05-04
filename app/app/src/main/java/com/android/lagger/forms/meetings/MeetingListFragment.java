@@ -105,12 +105,7 @@ public class MeetingListFragment extends Fragment {
             protected String doInBackground(String... urls) {
                 JsonObject userIdJson = new JsonObject();
 
-                //FIXME set userId only for tests
-                int userId = 1;
-                if (State.loggedUser != null) {
-                    userId = State.loggedUser.getId();
-                }
-                userIdJson.addProperty("idUser", userId);
+                userIdJson.addProperty("idUser", State.getLoggedUserId());
 
                 String meetings = HttpRequest.POST(URL.GET_MEETINGS, userIdJson);
                 String invitations = HttpRequest.POST(URL.GET_INVITATIONS, userIdJson);

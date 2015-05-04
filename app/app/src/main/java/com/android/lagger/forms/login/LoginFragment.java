@@ -74,8 +74,8 @@ public class LoginFragment extends Fragment {
                         int status = responseJson.get("status").getAsInt();
                         if(status == 1){
                             int userId = responseJson.get("idUser").getAsInt();
-                            State.loggedUser = new User();
-                            State.loggedUser.setId(userId);
+                            State.loggedUser = new User(userId);
+//                            State.loggedUser.setId(userId);
 
                             Intent intent = new Intent(mContext, MainActivity.class);
                             startActivity(intent);
