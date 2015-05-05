@@ -7,6 +7,7 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.widget.Toast;
 
@@ -16,24 +17,27 @@ import com.android.lagger.forms.meetings.ViewMeetingFragment;
 import com.android.lagger.model.entities.Meeting;
 import com.android.lagger.requestObjects.AcceptFriendRequest;
 import com.android.lagger.requestObjects.AcceptMeetingRequest;
+import com.android.lagger.requestObjects.LoginRequest;
+import com.android.lagger.responseObjects.LoginResponse;
+import com.android.lagger.responseObjects.ResponseObject;
 import com.android.lagger.services.HttpClient;
 import com.android.lagger.settings.State;
+import com.android.lagger.tasks.AcceptMeetingTask;
 
 /**
  * Created by Kubaa on 2015-04-03.
  */
 public class SomeDialog extends DialogFragment {
 
-    String title;
-    String message;
-    Boolean isMeetingInvitation;
-    FragmentManager fragmentManager;
-    FragmentTransaction fragmentTransaction;
-    Context mContext;
-    private Meeting meeting;
+    private String title;
+    private String message;
+    private Boolean isMeetingInvitation;
+    private FragmentManager fragmentManager;
+    private FragmentTransaction fragmentTransaction;
+    private Context mContext;
+//    private HttpClient client;
 
     public SomeDialog() {
-
     }
 
     public SomeDialog(Context inContext, String inTitle, String inMessage, Boolean inIsMeetingInvitation) {
@@ -41,6 +45,7 @@ public class SomeDialog extends DialogFragment {
         message = inMessage;
         mContext = inContext;
         isMeetingInvitation = inIsMeetingInvitation;
+//        client = new HttpClient();
     }
 
     @Override
@@ -55,7 +60,7 @@ public class SomeDialog extends DialogFragment {
 
     private AlertDialog createMeetingDialog(){
         Bundle extras = getArguments();
-        meeting = extras.getParcelable("meeting");
+        final Meeting meeting = extras.getParcelable("meeting");
 
         return new AlertDialog.Builder(getActivity())
                 .setTitle(title)
@@ -63,37 +68,32 @@ public class SomeDialog extends DialogFragment {
                 .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-
-                        AcceptMeetingRequest acceptMeetingRequest = new AcceptMeetingRequest(State.getLoggedUserId(),
-                                meeting.getId(), true);
-                        HttpClient.acceptMeeting(acceptMeetingRequest);
+                        AcceptMeetingTask.acceptMeeting(meeting.getId(), true, mContext);
 
                         fragmentTransaction = getFragmentManager().beginTransaction();
                         fragmentTransaction.replace(R.id.container_body, new MeetingListFragment()).commit();
-                        showInfo(true);
-
                     }
                 })
                 .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        AcceptMeetingRequest acceptMeetingRequest = new AcceptMeetingRequest(State.getLoggedUserId(),
-                                meeting.getId(), false);
-                        HttpClient.acceptMeeting(acceptMeetingRequest);
+                        AcceptMeetingTask.acceptMeeting(meeting.getId(), false, mContext);
 
                         fragmentTransaction = getFragmentManager().beginTransaction();
                         fragmentTransaction.replace(R.id.container_body, new MeetingListFragment()).commit();
-                        showInfo(false);
                     }
                 })
                 .setNeutralButton(R.string.view, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        showMeetingDetails();
+                        showMeetingDetails(meeting);
+
                     }
                 })
                 .create();
     }
+
+
 
     private AlertDialog createFriendDialog(){
         return new AlertDialog.Builder(getActivity())
@@ -122,7 +122,7 @@ public class SomeDialog extends DialogFragment {
                 .create();
     }
 
-    private void showMeetingDetails(){
+    private void showMeetingDetails(final Meeting meeting){
         fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.addToBackStack(null);
 
@@ -133,17 +133,5 @@ public class SomeDialog extends DialogFragment {
         detailsMeetingFragment.setArguments(details);
 
         fragmentTransaction.replace(R.id.container_body, detailsMeetingFragment).commit();
-    }
-
-
-    private  void showInfo(final boolean isAccepted){
-        String messageText;
-        if(isAccepted){
-            messageText = getResources().getString(R.string.accept_meeting);
-        }
-        else{
-            messageText = getResources().getString(R.string.refuse_meeting);
-        }
-        Toast.makeText(mContext, messageText, Toast.LENGTH_SHORT).show();
     }
 }

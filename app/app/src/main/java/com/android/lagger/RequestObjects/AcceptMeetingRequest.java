@@ -13,4 +13,7 @@ public class AcceptMeetingRequest extends UserRequest {
         this.accept = accept;
     }
 
+    public Boolean getAccept() {
+        return accept;
+    }
 }

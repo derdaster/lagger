@@ -9,4 +9,12 @@ import java.util.List;
  */
 public class MeetingsResponse extends ResponseObject{
     private List<Meeting> meetings;
+
+    public MeetingsResponse(List<Meeting> meetings) {
+        this.meetings = meetings;
+    }
+
+    public List<Meeting> getMeetings() {
+        return meetings;
+    }
 }

@@ -71,7 +71,7 @@ public class FriendsListFragment extends Fragment {
             public void onClick(View v) {
                 fragmentTransaction = fragmentManager.beginTransaction();
                 fragmentTransaction.addToBackStack(null);
-                fragmentTransaction.replace(R.id.container_body, new FriendsAddFragment()).commit();
+                fragmentTransaction.replace(R.id.container_body, new FriendsAddFragment(mContext)).commit();
             }
         });
 

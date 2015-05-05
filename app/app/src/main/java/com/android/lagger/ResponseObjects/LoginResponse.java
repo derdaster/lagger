@@ -20,4 +20,12 @@ public class LoginResponse extends ResponseObject {
     public Integer getStatus() {
         return status;
     }
+
+    @Override
+    public String toString() {
+        return "{" +
+                "idUser=" + idUser +
+                ", status=" + status +
+                '}';
+    }
 }

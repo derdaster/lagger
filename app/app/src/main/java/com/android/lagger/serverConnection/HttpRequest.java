@@ -1,6 +1,7 @@
 package com.android.lagger.serverConnection;
 
 import com.android.lagger.requestObjects.RequestObject;
+import com.android.lagger.responseObjects.LoginResponse;
 import com.android.lagger.responseObjects.ResponseObject;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -140,8 +141,8 @@ public class HttpRequest {
 
 
     ///////////////////TODO new method
-    public static ResponseObject POST(String url, RequestObject requestObject){
-        ResponseObject result = null;
+    public static String POST(String url, RequestObject requestObject){
+        String result = null;
         // 1. create HttpClient
         HttpClient httpclient = new DefaultHttpClient();
 
@@ -186,8 +187,8 @@ public class HttpRequest {
     }
 
 
-    private static ResponseObject getResponseFromHttp(HttpResponse httpResponse){
-        ResponseObject result = null;
+    private static String getResponseFromHttp(HttpResponse httpResponse){
+        String result = null;
         try{
             InputStream inputStream = httpResponse.getEntity().getContent();
 
@@ -195,7 +196,7 @@ public class HttpRequest {
             if(inputStream != null) {
                 //  result = convertInputStreamToJsonObject(inputStream);
 //                String response = convertInputStreamToString(inputStream);
-                result = convertInputStreamToResponseObj(inputStream);
+                result = convertInputStreamToString(inputStream);
             }
 //             else
 //                result = "Did not work!";
@@ -206,16 +207,14 @@ public class HttpRequest {
         return result;
     }
 
-    private static ResponseObject convertInputStreamToResponseObj(InputStream inputStream) throws IOException {
-        ResponseObject responseObj = null;
-        String jsonToParse = convertInputStreamToString(inputStream);
-
-        Gson gson = new GsonHelper().getGson();
-        responseObj = gson.fromJson(jsonToParse, ResponseObject.class);
-
-        return responseObj;
-    }
-
-
+//    private static ResponseObject convertInputStreamToResponseObj(InputStream inputStream) throws IOException {
+//        ResponseObject responseObj = null;
+//        String jsonToParse = convertInputStreamToString(inputStream);
+//
+//        Gson gson = new GsonHelper().getGson();
+//        responseObj = gson.fromJson(jsonToParse, ResponseObject.class);
+//
+//        return responseObj;
+//    }
 
 }

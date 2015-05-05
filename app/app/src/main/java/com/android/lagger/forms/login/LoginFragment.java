@@ -17,12 +17,8 @@ import com.android.lagger.forms.main.MainActivity;
 import com.android.lagger.model.entities.User;
 import com.android.lagger.requestObjects.LoginRequest;
 import com.android.lagger.responseObjects.LoginResponse;
-import com.android.lagger.serverConnection.HttpRequest;
-import com.android.lagger.serverConnection.URL;
 import com.android.lagger.services.HttpClient;
 import com.android.lagger.settings.State;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 
 /**
  * Created by Kubaa on 2015-03-20.
@@ -32,21 +28,26 @@ public class LoginFragment extends Fragment {
     private Button loginBtn;
     private TextView loginTextView;
     private TextView passwordTextView;
-    View parent;
-
-    State state;
+    private View parent;
+    private HttpClient client;
 
     public LoginFragment(){
+        client = new HttpClient();
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         parent =  inflater.inflate(R.layout.fragment_login, container, false);
         setFields();
         addListenerOnLoginButton();
-
-       state = new State();
         return parent;
     }
+
+    private void setFields(){
+        loginBtn = (Button) parent.findViewById(R.id.buttonLogin);
+        loginTextView = (TextView) parent.findViewById(R.id.editTextEmail);
+        passwordTextView = (TextView) parent.findViewById(R.id.editTextPassword);
+    }
+
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         mContext = getActivity().getApplicationContext();
@@ -57,83 +58,66 @@ public class LoginFragment extends Fragment {
 
             @Override
             public void onClick(View arg0) {
-                //FIXME
-               /*  String login = loginTextView.getText().toString();
-                String password = passwordTextView.getText().toString();
-                LoginRequest loginReq = new LoginRequest(login, password);
-                LoginResponse loginResp = HttpClient.login(loginReq);
-
-                final Integer status = loginResp.getStatus();
-                if(status == 1){
-                    final Integer userId = loginResp.getIdUser();
-                    State.loggedUser = new User(userId);
-
-                    Intent intent = new Intent(mContext, MainActivity.class);
-                    startActivity(intent);
-                }
-                else {
-                    String message = "";
-                    switch (status) {
-                        case 0:
-                            message = getString(R.string.unregistered_user);
-                            break;
-                        case 2:
-                            message = getString(R.string.incorrect_password);
-                            break;
-                    }
-                    Toast.makeText(mContext, message,
-                            Toast.LENGTH_SHORT).show();
-                }
-            }*/
-                new AsyncTask<String, Void, String>() {
-                    @Override
-                    protected String doInBackground(String... urls) {
-                        String login = loginTextView.getText().toString();
-                        String password = passwordTextView.getText().toString();
-                        User user = new User(login, password);
-                        JsonObject userJson = user.createLoginJson();
-                        //TODO refactoring
-                        return HttpRequest.POST(URL.LOGIN, userJson);
-                    }
-                    // onPostExecute displays the results of the AsyncTask.
-                    @Override
-                    protected void onPostExecute(String result) {
-                        JsonParser parser = new JsonParser();
-                        JsonObject responseJson = (JsonObject)parser.parse(result);
-
-                        int status = responseJson.get("status").getAsInt();
-                        if(status == 1){
-                            int userId = responseJson.get("idUser").getAsInt();
-                            State.loggedUser = new User(userId);
-//                            State.loggedUser.setId(userId);
-
-                            Intent intent = new Intent(mContext, MainActivity.class);
-                            startActivity(intent);
-                        }
-                        else {
-                            String message = "";
-                            switch (status) {
-                                case 0:
-                                    message = getString(R.string.unregistered_user);
-                                    break;
-                                case 2:
-                                    message = getString(R.string.incorrect_password);
-                                    break;
-                            }
-
-                            Toast.makeText(mContext, message,
-                                    Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                }.execute();
+                login();
             }
-
         });
     }
 
-    private void setFields(){
-        loginBtn = (Button) parent.findViewById(R.id.buttonLogin);
-        loginTextView = (TextView) parent.findViewById(R.id.editTextEmail);
-        passwordTextView = (TextView) parent.findViewById(R.id.editTextPassword);
+    private void login(){
+        String login = loginTextView.getText().toString();
+        String password = passwordTextView.getText().toString();
+        LoginRequest loginReq = new LoginRequest(login, password);
+
+        LoginUserTask loginUserTask = new LoginUserTask(mContext);
+        loginUserTask.execute(loginReq);
     }
+
+    private class LoginUserTask extends AsyncTask<LoginRequest, Void, LoginResponse> {
+        private Context context;
+
+        public LoginUserTask(Context context) {
+            this.context = context;
+        }
+
+        protected LoginResponse doInBackground(LoginRequest... loginReq) {
+            return client.login(loginReq[0]);
+        }
+
+        protected void onPostExecute(LoginResponse loginResp) {
+            checkUserAndShowResult(loginResp);
+        }
+
+        private void checkUserAndShowResult(final LoginResponse loginResp){
+            final Integer status = loginResp.getStatus();
+            if(status == 1){
+                enableAccess(loginResp);
+            }
+            else {
+                incorrectData(status);
+            }
+        }
+
+        private void enableAccess(final LoginResponse loginResp){
+            final Integer userId = loginResp.getIdUser();
+            State.loggedUser = new User(userId);
+
+            Intent intent = new Intent(context, MainActivity.class);
+            startActivity(intent);
+        }
+
+        private void incorrectData(final Integer status){
+            String message = "";
+            switch (status) {
+                case 0:
+                    message = getString(R.string.unregistered_user);
+                    break;
+                case 2:
+                    message = getString(R.string.incorrect_password);
+                    break;
+            }
+            Toast.makeText(context, message,
+                    Toast.LENGTH_SHORT).show();
+        }
+    }
+
 }

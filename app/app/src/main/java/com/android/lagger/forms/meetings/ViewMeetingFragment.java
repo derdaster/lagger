@@ -18,6 +18,7 @@ import com.android.lagger.model.entities.Meeting;
 import com.android.lagger.requestObjects.AcceptMeetingRequest;
 import com.android.lagger.services.HttpClient;
 import com.android.lagger.settings.State;
+import com.android.lagger.tasks.AcceptMeetingTask;
 
 /**
  * Created by Kubaa on 2015-04-08.
@@ -86,45 +87,27 @@ public class ViewMeetingFragment extends Fragment {
 
     public void addButtonsAndListeners()
     {
-
         btnAccept.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                AcceptMeetingRequest acceptMeetingRequest = new AcceptMeetingRequest(State.getLoggedUserId(), meeting.getId(), true);
-                HttpClient.acceptMeeting(acceptMeetingRequest);
+                AcceptMeetingTask.acceptMeeting(meeting.getId(), true, mContext);
 
                 fragmentTransaction = getFragmentManager().beginTransaction();
                 fragmentTransaction.replace(R.id.container_body, new MeetingListFragment()).commit();
-                showInfo(true);
+
             }
         });
 
         btnRefuse.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                AcceptMeetingRequest acceptMeetingRequest = new AcceptMeetingRequest(State.getLoggedUserId(), meeting.getId(), false);
-                HttpClient.acceptMeeting(acceptMeetingRequest);
+                AcceptMeetingTask.acceptMeeting(meeting.getId(), false, mContext);
 
                 fragmentTransaction = getFragmentManager().beginTransaction();
                 fragmentTransaction.replace(R.id.container_body, new MeetingListFragment()).commit();
-                showInfo(false);
             }
         });
 
-    }
-
-    //FIXME wydzielić do innej klasy
-    private  void showInfo(final boolean isAccepted){
-        String messageText;
-        if(isAccepted){
-            messageText = getResources().getString(R.string.accept_meeting);
-        }
-        else{
-            messageText = getResources().getString(R.string.refuse_meeting);
-        }
-        Toast.makeText(mContext, messageText, Toast.LENGTH_SHORT).show();
     }
 
     @Override
