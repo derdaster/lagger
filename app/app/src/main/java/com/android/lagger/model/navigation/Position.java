@@ -15,4 +15,33 @@ public class Position {
         this.latitude = latitude;
         this.longitude = longitude;
     }
+
+    public Position(Double latitude, Double longitude) {
+        this.dateTime = new Date();
+        this.latitude = latitude;
+        this.longitude = longitude;
+    }
+    public Date getDateTime() {
+        return dateTime;
+    }
+
+    public void setDateTime(Date dateTime) {
+        this.dateTime = dateTime;
+    }
+
+    public Double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(Double latitude) {
+        this.latitude = latitude;
+    }
+
+    public Double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(Double longitude) {
+        this.longitude = longitude;
+    }
 }

@@ -107,4 +107,7 @@ public class MeetingWhereFragment extends Fragment {
            }
         });
     }
+    public LatLng getChosenPositon() {
+        return chosenPositon;
+    }
 }

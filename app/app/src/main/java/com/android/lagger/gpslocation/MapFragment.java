@@ -12,6 +12,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.android.lagger.R;
+import com.android.lagger.model.navigation.Position;
+import com.android.lagger.serverConnection.GsonHelper;
+import com.android.lagger.serverConnection.HttpRequest;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
@@ -21,6 +24,11 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -59,15 +67,15 @@ public class MapFragment extends Fragment {
         initalizeMarkerColors();
 
         //test Data, to delete!!!/////////////////////////////////////////////////////////////////
-        gpsUsers=new ArrayList<GPSUser>();
-        gpsUsers.add(new GPSUser(50.808236, 19.108781));
-        gpsUsers.add(new GPSUser(50.808434, 19.128928));
-        gpsUsers.add(new GPSUser(50.825787, 19.126696));
-        gpsUsers.add(new GPSUser(50.835979, 19.149356));
-        GPSUser tempUser = gpsUsers.get(0);
-        tempUser.addGPSPosition(new LatLng(50.808236, 19.108781));
-        tempUser.addGPSPosition(new LatLng(50.808434, 19.128928));
-        tempUser.addGPSPosition(new LatLng(50.825787, 19.126696));
+        gpsUsers=new ArrayList();
+//        gpsUsers.add(new GPSUser(50.808236, 19.108781));
+//        gpsUsers.add(new GPSUser(50.808434, 19.128928));
+//        gpsUsers.add(new GPSUser(50.825787, 19.126696));
+//        gpsUsers.add(new GPSUser(50.835979, 19.149356));
+//        GPSUser tempUser = gpsUsers.get(0);
+//        tempUser.addGPSPosition(new LatLng(50.808236, 19.108781));
+//        tempUser.addGPSPosition(new LatLng(50.808434, 19.128928));
+//        tempUser.addGPSPosition(new LatLng(50.825787, 19.126696));
 
         // inflat and return the layout
         View v = inflater.inflate(R.layout.fragment_test_map, container,
@@ -107,6 +115,7 @@ public class MapFragment extends Fragment {
 
                 // Placing a marker on the touched position
                 googleMap.addMarker(markerOptions);
+                getLocations();
             }
         });
         GPSService gpsService = new GPSService(this.getActivity().getApplicationContext());
@@ -123,7 +132,7 @@ public class MapFragment extends Fragment {
         googleMap.setMyLocationEnabled(true);
         googleMap.getUiSettings().setZoomControlsEnabled(true);
         //new GetDirection().execute();
-        showUserMarkers();
+//        showUserMarkers();
         // Perform any camera updates here
 
 
@@ -162,7 +171,7 @@ public class MapFragment extends Fragment {
     /* Method to decode polyline points */
     private List<LatLng> decodePoly(String encoded) {
 
-        List<LatLng> poly = new ArrayList<LatLng>();
+        List<LatLng> poly = new ArrayList();
         int index = 0, len = encoded.length();
         int lat = 0, lng = 0;
 
@@ -195,13 +204,13 @@ public class MapFragment extends Fragment {
     }
 
     public void showUserMarkers() {
-        int i = 0;
+
         for (GPSUser user : gpsUsers) {
-            showNamedMarker(user.getActualPositition(), user.getName());
+            showNamedMarker(user.getActualPositition(), String.valueOf(user.getIdUser()));
 
             if (!user.getPositionList().isEmpty())
                 drawUserPath(user);
-            i++;
+
         }
     }
 
@@ -226,16 +235,63 @@ public class MapFragment extends Fragment {
         googleMap.addMarker(marker);
     }
     public void drawUserPath(GPSUser user) {
-        List<LatLng> tempList = user.getPositionList();
+        List tempList = user.getPositionList();
         for (int i = 0; i < user.getPositionList().size() - 1; i++) {
             googleMap.addPolyline(new PolylineOptions()
-                    .add(new LatLng(tempList.get(i).latitude, tempList.get(i).longitude), new LatLng(tempList.get(i + 1).latitude, tempList.get(i + 1).longitude))
+                    .add(new LatLng(((Position) tempList.get(i)).getLatitude(),((Position) tempList.get(i)).getLongitude()), new LatLng(((Position) tempList.get(i+1)).getLatitude(),((Position) tempList.get(i+1)).getLongitude()))
                     .width(5)
                     .color(Color.BLACK));
         }
 
     }
+    public void getLocations(){
+        new AsyncTask<String, Void, String>() {
+            @Override
+            protected String doInBackground(String... urls) {
+                String userId = String.valueOf(1);
+                String meetingId = String.valueOf(1);
+                JsonObject userJson = createGPSJSON(userId,meetingId);
+                //TODO refactoring
+                return HttpRequest.POST(com.android.lagger.serverConnection.URL.GET_POSITIONS, userJson);
+            }
+            // onPostExecute displays the results of the AsyncTask.
+            @Override
+            protected void onPostExecute(String result) {
 
+            JsonParser parser = new JsonParser();
+            JsonObject responseJson = (JsonObject)parser.parse(result);
+
+            JsonArray usersPositions = responseJson.get("usersPositions").getAsJsonArray();
+
+
+                Gson gson = new GsonHelper().getGson();
+                for (JsonElement userPositionJsonElem : usersPositions) {
+                    GPSUser user = gson.fromJson(userPositionJsonElem, GPSUser.class);
+                    gpsUsers.add(user);
+                    JsonObject object=userPositionJsonElem.getAsJsonObject();
+                    JsonArray positions = object.getAsJsonArray("positions");
+                    List tempPositionList = new ArrayList();
+                    for (JsonElement positionJsonElem : positions) {
+                        Position position = gson.fromJson(positionJsonElem, Position.class);
+                        tempPositionList.add(position);
+                    }
+                    user.setPositionList(tempPositionList);
+                }
+
+//                for (JsonElement positionJsonElem : positions) {
+//                    Position position = gson.fromJson(positionJsonElem, Position.class);
+//                    positionList.add(position);
+//                }
+                showUserMarkers();
+            }
+        }.execute();
+    }
+    public JsonObject createGPSJSON(String userId,String meetingId){
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty("idUser", userId);
+        jsonObject.addProperty("idMeeting", meetingId);
+        return jsonObject;
+    }
     private void initalizeMarkerColors() {
         markerColors = new HashMap<Integer, Float>();
         markerColors.put(0, (float) 210.0);
