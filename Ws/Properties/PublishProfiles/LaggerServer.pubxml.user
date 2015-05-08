@@ -10,13 +10,22 @@ by editing this MSBuild file. In order to learn more about this please visit htt
   </PropertyGroup>
   <ItemGroup>
     <File Include="bin/LaggerServer.dll">
-      <publishTime>04/30/2015 00:28:15</publishTime>
+      <publishTime>05/08/2015 22:26:46</publishTime>
+    </File>
+    <File Include="bin/NLog.config">
+      <publishTime>05/08/2015 19:50:25</publishTime>
+    </File>
+    <File Include="bin/NLog.dll">
+      <publishTime>04/22/2015 12:36:50</publishTime>
     </File>
     <File Include="Database/LaggerDb.dbml">
       <publishTime>04/08/2015 17:43:13</publishTime>
     </File>
     <File Include="LaggerService.svc">
       <publishTime>03/11/2015 00:26:05</publishTime>
+    </File>
+    <File Include="NLog.config">
+      <publishTime>05/08/2015 19:50:25</publishTime>
     </File>
     <File Include="Web.config">
       <publishTime>04/08/2015 17:38:41</publishTime>

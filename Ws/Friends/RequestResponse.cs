@@ -62,4 +62,18 @@ namespace LaggerServer.Friends
     {
 
     }
+
+    [DataContract]
+    public class FindFriendRequest : Request
+    {
+        [DataMember(Name = "pattern", Order = 0)]
+        public String Pattern { get; set; }
+    }
+
+    [DataContract]
+    public class FindFriendResponse : Response
+    {
+        [DataMember(Name = "users", Order = 0)]
+        public List<Friend> Users { get; set; }
+    }
 }

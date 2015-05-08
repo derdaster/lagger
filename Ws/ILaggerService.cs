@@ -57,6 +57,10 @@ namespace LaggerServer
         RemoveFriendResponse RemoveFriend(RemoveFriendRequest request);
 
         [OperationContract]
+        [WebInvoke(UriTemplate = "user/friends/find", Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        FindFriendResponse FindFriend(FindFriendRequest request);
+
+        [OperationContract]
         [WebInvoke(UriTemplate = "user/positions/add", Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
         AddPositionResponse AddPosition(AddPositionRequest request);
 

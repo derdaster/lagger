@@ -11,156 +11,206 @@ namespace LaggerServer
     {
         public GetMeetingsResponse GetMeetings(GetMeetingsRequest request)
         {
-            using (var ctx = new LaggerDbEntities())
+            try
             {
-                var list = (from e in ctx.Events
-                            join ue in ctx.UserEvents
-                            on e.ID_Event equals ue.IDEvent
-                            join u in ctx.Users
-                            on e.IDOrganizer equals u.ID_User
-                            where ue.IDUser == request.IdUser
-                            && ue.Status == (short)UserEventStatus.Accepted
-                            && !e.Blocked
-                            && !ue.Blocked
-                            && !u.Blocked
-                            select new Meeting(e, u)).ToList();
+                LogDiagnostic("GetMeetings", request.IdUser);
 
-                return new GetMeetingsResponse()
+                using (var ctx = new LaggerDbEntities())
                 {
-                    Meetings = list
-                };
+                    var list = (from e in ctx.Events
+                                join ue in ctx.UserEvents
+                                on e.ID_Event equals ue.IDEvent
+                                join u in ctx.Users
+                                on e.IDOrganizer equals u.ID_User
+                                where ue.IDUser == request.IdUser
+                                && ue.Status == (short)UserEventStatus.Accepted
+                                && !e.Blocked
+                                && !ue.Blocked
+                                && !u.Blocked
+                                select new Meeting(e, u)).ToList();
+
+                    return new GetMeetingsResponse()
+                    {
+                        Meetings = list
+                    };
+                }
+            }
+            catch (Exception ex)
+            {
+                SetError("GetMettings Error", ex);
+                return null;
             }
         }
 
         public GetMeetingInvitationsResponse GetMeetingInvitations(GetMeetingInvitationsRequest request)
         {
-            using (var ctx = new LaggerDbEntities())
+            try
             {
-                var list = (from e in ctx.Events
-                            join ue in ctx.UserEvents
-                            on e.ID_Event equals ue.IDEvent
-                            join u in ctx.Users
-                            on e.IDOrganizer equals u.ID_User
-                            where ue.IDUser == request.IdUser
-                            && ue.Status == (short)UserEventStatus.NotAccepted
-                            && !e.Blocked
-                            && !ue.Blocked
-                            && !u.Blocked
-                            select new Meeting(e, u)).ToList();
+                LogDiagnostic("GetMeetingInvitations", request.IdUser);
 
-                return new GetMeetingInvitationsResponse()
+                using (var ctx = new LaggerDbEntities())
                 {
-                    MeetingInvitations = list
-                };
+                    var list = (from e in ctx.Events
+                                join ue in ctx.UserEvents
+                                on e.ID_Event equals ue.IDEvent
+                                join u in ctx.Users
+                                on e.IDOrganizer equals u.ID_User
+                                where ue.IDUser == request.IdUser
+                                && ue.Status == (short)UserEventStatus.NotAccepted
+                                && !e.Blocked
+                                && !ue.Blocked
+                                && !u.Blocked
+                                select new Meeting(e, u)).ToList();
+
+                    return new GetMeetingInvitationsResponse()
+                    {
+                        MeetingInvitations = list
+                    };
+                }
+            }
+            catch (Exception ex)
+            {
+                SetError("GetMeetingInvitations Error", ex);
+                return null;
             }
         }
 
         public MeetingInvitationAcceptResponse MeetingInvitationAccept(MeetingInvitationAcceptRequest request)
         {
-            using (var ctx = new LaggerDbEntities())
+            try
             {
-                var invitation = (from ue in ctx.UserEvents
-                            where ue.IDUser == request.IdUser
-                            && ue.IDEvent == request.IdMeeting
-                            && ue.Status == (short)UserEventStatus.NotAccepted
-                            && !ue.Blocked
-                            select ue).FirstOrDefault();
+                LogDiagnostic("MeetingInvitationAccept", request.IdUser);
 
-                if (invitation != null)
+                using (var ctx = new LaggerDbEntities())
                 {
-                    invitation.Status = (short)(request.Accept ? UserEventStatus.Accepted : UserEventStatus.Refused);
-                    ctx.SubmitChanges();
+                    var invitation = (from ue in ctx.UserEvents
+                                      where ue.IDUser == request.IdUser
+                                      && ue.IDEvent == request.IdMeeting
+                                      && ue.Status == (short)UserEventStatus.NotAccepted
+                                      && !ue.Blocked
+                                      select ue).FirstOrDefault();
+
+                    if (invitation != null)
+                    {
+                        invitation.Status = (short)(request.Accept ? UserEventStatus.Accepted : UserEventStatus.Refused);
+                        ctx.SubmitChanges();
+                    }
+
+                    return new MeetingInvitationAcceptResponse()
+                    {
+                    };
                 }
-
-                return new MeetingInvitationAcceptResponse()
-                {
-                };
+            }
+            catch (Exception ex)
+            {
+                SetError("MeetingInvitationAccept Error", ex);
+                return null;
             }
         }
 
         public AddMeetingResponse AddMeeting(AddMeetingRequest request)
         {
-            using (var ctx = new LaggerDbEntities())
+            try
             {
-                var entity = new Event()
-                {
-                    Name = request.Name,
-                    IDOrganizer = request.IdUser,
-                    LocationName = request.LocationName,
-                    Latitude = request.Latitude,
-                    Longitude = request.Longitude,
-                    StartTime = request.StartTime,
-                    EndTime = request.EndTime,
-                    LastEditDate = DateTime.UtcNow,
-                    CreationDate = DateTime.UtcNow,
-                    Blocked = false
-                };
+                LogDiagnostic("AddMeeting", request.IdUser);
 
-                ctx.Events.InsertOnSubmit(entity);
-                ctx.SubmitChanges();
-
-                foreach (var user in request.UsersList)
+                using (var ctx = new LaggerDbEntities())
                 {
-                    ctx.UserEvents.InsertOnSubmit(new UserEvent()
+                    var entity = new Event()
                     {
-                        IDEvent = entity.ID_Event,
-                        IDUser = user,
-                        Status = (short)UserEventStatus.NotAccepted,
+                        Name = request.Name,
+                        IDOrganizer = request.IdUser,
+                        LocationName = request.LocationName,
+                        Latitude = request.Latitude,
+                        Longitude = request.Longitude,
+                        StartTime = request.StartTime,
+                        EndTime = request.EndTime,
                         LastEditDate = DateTime.UtcNow,
                         CreationDate = DateTime.UtcNow,
                         Blocked = false
-                    });
+                    };
+
+                    ctx.Events.InsertOnSubmit(entity);
+                    ctx.SubmitChanges();
+
+                    foreach (var user in request.UsersList)
+                    {
+                        ctx.UserEvents.InsertOnSubmit(new UserEvent()
+                        {
+                            IDEvent = entity.ID_Event,
+                            IDUser = user,
+                            Status = (short)UserEventStatus.NotAccepted,
+                            LastEditDate = DateTime.UtcNow,
+                            CreationDate = DateTime.UtcNow,
+                            Blocked = false
+                        });
+                    }
+
+                    ctx.SubmitChanges();
+
+                    return new AddMeetingResponse() { IdMeeting = entity.ID_Event };
                 }
-
-                ctx.SubmitChanges();
-
-                return new AddMeetingResponse() { IdMeeting = entity.ID_Event };
+            }
+            catch (Exception ex)
+            {
+                SetError("AddMeeting Error", ex);
+                return null;
             }
         }
 
         public EditMeetingResponse EditMeeting(EditMeetingRequest request)
         {
-            using (var ctx = new LaggerDbEntities())
+            try
             {
-                var entity = ctx.Events.Where(x => x.ID_Event == request.IdMeeting).FirstOrDefault();
+                LogDiagnostic("EditMeeting", request.IdUser);
 
-                if (entity != null)
+                using (var ctx = new LaggerDbEntities())
                 {
-                    entity.Name = request.Name;
-                    entity.LocationName = request.LocationName;
-                    entity.Latitude = request.Latitude;
-                    entity.Longitude = request.Longitude;
-                    entity.StartTime = request.StartTime;
-                    entity.EndTime = request.EndTime;
-                }
+                    var entity = ctx.Events.Where(x => x.ID_Event == request.IdMeeting).FirstOrDefault();
 
-                var listUserMeeting = ctx.UserEvents.Where(x => x.IDEvent == request.IdMeeting && !x.Blocked);
-
-                var listToRemove = listUserMeeting.Where(x => !request.UsersList.Contains(x.IDUser));
-
-                foreach (var userEvent in listToRemove)
-                {
-                    userEvent.Blocked = true;
-                }
-
-                var listToAdd = request.UsersList.Where(x => !listUserMeeting.Select(y => y.IDUser).Contains(x));
-
-                foreach (var user in listToAdd)
-                {
-                    ctx.UserEvents.InsertOnSubmit(new UserEvent()
+                    if (entity != null)
                     {
-                        IDEvent = entity.ID_Event,
-                        IDUser = user,
-                        Status = (short)UserEventStatus.NotAccepted,
-                        LastEditDate = DateTime.UtcNow,
-                        CreationDate = DateTime.UtcNow,
-                        Blocked = false
-                    });
+                        entity.Name = request.Name;
+                        entity.LocationName = request.LocationName;
+                        entity.Latitude = request.Latitude;
+                        entity.Longitude = request.Longitude;
+                        entity.StartTime = request.StartTime;
+                        entity.EndTime = request.EndTime;
+                    }
+
+                    var listUserMeeting = ctx.UserEvents.Where(x => x.IDEvent == request.IdMeeting && !x.Blocked);
+
+                    var listToRemove = listUserMeeting.Where(x => !request.UsersList.Contains(x.IDUser));
+
+                    foreach (var userEvent in listToRemove)
+                    {
+                        userEvent.Blocked = true;
+                    }
+
+                    var listToAdd = request.UsersList.Where(x => !listUserMeeting.Select(y => y.IDUser).Contains(x));
+
+                    foreach (var user in listToAdd)
+                    {
+                        ctx.UserEvents.InsertOnSubmit(new UserEvent()
+                        {
+                            IDEvent = entity.ID_Event,
+                            IDUser = user,
+                            Status = (short)UserEventStatus.NotAccepted,
+                            LastEditDate = DateTime.UtcNow,
+                            CreationDate = DateTime.UtcNow,
+                            Blocked = false
+                        });
+                    }
+
+                    ctx.SubmitChanges();
+
+                    return new EditMeetingResponse();
                 }
-
-                ctx.SubmitChanges();
-
-                return new EditMeetingResponse();
+            }
+            catch (Exception ex)
+            {
+                SetError("EditMeeting Error", ex);
+                return null;
             }
         }
     }

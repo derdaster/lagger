@@ -1,8 +1,10 @@
 ﻿using LaggerServer.Database;
 using LaggerServer.Meetings;
+using LaggerServer.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Runtime.Serialization;
 using System.ServiceModel;
 using System.ServiceModel.Web;
@@ -27,7 +29,15 @@ namespace LaggerServer
 
         public string TestConnection()
         {
-            return "Connected success.";
+            try
+            {
+                return "Connected success.";
+            }
+            catch (Exception ex)
+            {
+                SetError("TestConnection Error", ex);
+                return null;
+            }
         }
 
         public string TestConnectionValue(string value)
@@ -129,32 +139,63 @@ namespace LaggerServer
 
         public LoginUserResponse LoginUser(LoginUserRequest request)
         {
-            using (var ctx = new LaggerDbEntities())
+            try
             {
-                var response = new LoginUserResponse();
+                LogDiagnostic("LoginUser");
 
-                var user = ctx.Users.Where(x => x.Login.Equals(request.Login) && !x.Blocked).FirstOrDefault();
-
-                if (user != null)
+                using (var ctx = new LaggerDbEntities())
                 {
-                    if (user.Password.Equals(request.Password))
+                    var response = new LoginUserResponse();
+
+                    var user = ctx.Users.Where(x => x.Login.Equals(request.Login) && !x.Blocked).FirstOrDefault();
+
+                    if (user != null)
                     {
-                        response.IdUser = user.ID_User;
-                        response.Status = LoginUserStatus.Success;
+                        if (user.Password.Equals(request.Password))
+                        {
+                            response.IdUser = user.ID_User;
+                            response.Status = LoginUserStatus.Success;
+                        }
+                        else
+                        {
+                            response.Status = LoginUserStatus.IncorrectPassword;
+                        }
                     }
                     else
                     {
-                        response.Status = LoginUserStatus.IncorrectPassword;
+                        response.Status = LoginUserStatus.UnregisteredUser;
                     }
-                }
-                else
-                {
-                    response.Status = LoginUserStatus.UnregisteredUser;
-                }
 
-                return response;
+                    return response;
+                }
+            }
+            catch (Exception ex)
+            {
+                SetError("LoginUser Error", ex);
+                return null;
             }
         }
 
+
+        private void SetError(String message, Exception ex = null)
+        {
+            Log.LogError(message, ex);
+
+            var messageError = "[" + message + "]";
+
+            if (ex != null)
+            {
+                messageError += " " + ex.Message.Replace("\"", "").Replace("\r", "").Replace("\n", "");
+            }
+
+            OutgoingWebResponseContext response = WebOperationContext.Current.OutgoingResponse;
+            response.StatusCode = HttpStatusCode.BadRequest;
+            response.StatusDescription = messageError;
+        }
+
+        private void LogDiagnostic(String tag, int? idUser = null)
+        {
+            Log.LogInfo(String.Format("[{0}][User: {1}]", tag, idUser.HasValue ? idUser.Value.ToString() : "null"));
+        }
     }
 }

@@ -40,6 +40,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="NLog">
+      <HintPath>lib\NLog.dll</HintPath>
+    </Reference>
     <Reference Include="System.Data.Linq" />
     <Reference Include="System.Device" />
     <Reference Include="System.Web.DynamicData" />
@@ -80,6 +83,7 @@
     </Compile>
     <Compile Include="ILaggerService.cs" />
     <Compile Include="LaggerServiceRequestResponse.cs" />
+    <Compile Include="Utils\Log.cs" />
     <Compile Include="Meetings\Meetings.cs" />
     <Compile Include="Meetings\RequestResponse.cs" />
     <Compile Include="Positions\Positions.cs" />
@@ -92,6 +96,9 @@
       <Generator>MSLinqToSQLGenerator</Generator>
       <LastGenOutput>LaggerDb.designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
+    </Content>
+    <Content Include="NLog.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <None Include="Properties\PublishProfiles\LaggerServer.pubxml" />
   </ItemGroup>

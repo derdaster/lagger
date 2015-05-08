@@ -52,6 +52,11 @@ public class HttpRequest {
         return result;
     }
 
+    class MojaDupa
+    {
+        int idUsers;
+    }
+
     public static String POST(String url, JsonObject jsonObject){
         String result = null;
             // 1. create HttpClient

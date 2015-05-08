@@ -13,86 +13,106 @@ namespace LaggerServer
     {
         public AddPositionResponse AddPosition(AddPositionRequest request)
         {
-            using (var ctx = new LaggerDbEntities())
+            try
             {
-                ctx.EventDetails.InsertOnSubmit(new EventDetail
-                    {
-                        IDEvent = request.IdMeeting,
-                        IDUser = request.IdUser,
-                        Latitude = request.Latitude,
-                        Longitude = request.Longitude,
-                        CreationDate = DateTime.UtcNow,
-                        LastEditDate = DateTime.UtcNow,
-                        Blocked = false
-                    });
+                LogDiagnostic("AddPosition", request.IdUser);
 
-                ctx.SubmitChanges();
+                using (var ctx = new LaggerDbEntities())
+                {
+                    ctx.EventDetails.InsertOnSubmit(new EventDetail
+                        {
+                            IDEvent = request.IdMeeting,
+                            IDUser = request.IdUser,
+                            Latitude = request.Latitude,
+                            Longitude = request.Longitude,
+                            CreationDate = DateTime.UtcNow,
+                            LastEditDate = DateTime.UtcNow,
+                            Blocked = false
+                        });
 
-                return new AddPositionResponse();
+                    ctx.SubmitChanges();
+
+                    return new AddPositionResponse();
+                }
+            }
+            catch (Exception ex)
+            {
+                SetError("AddPosition Error", ex);
+                return null;
             }
         }
 
         public GetPositionsResponse GetPositions(GetPositionsRequest request)
         {
-            using (var ctx = new LaggerDbEntities())
+            try
             {
-                var usersPositions = new List<PositionDetails>();
+                LogDiagnostic("GetPositions", request.IdUser);
 
-                var direction = (from e in ctx.Events
-                                 where e.ID_Event == request.IdMeeting
-                                 && !e.Blocked
-                                 select e).FirstOrDefault();
-
-                var eventDetails = (from ed in ctx.EventDetails
-                                    where ed.IDEvent == request.IdMeeting
-                                    && !ed.Blocked
-                                    select ed).ToList();
-
-                var users = eventDetails.Select(x => x.IDUser).Distinct();
-
-                foreach (var u in users)
+                using (var ctx = new LaggerDbEntities())
                 {
-                    var positions = eventDetails.Where(x => x.IDUser == u).OrderBy(x => x.CreationDate);
+                    var usersPositions = new List<PositionDetails>();
 
-                    if (positions.Any())
+                    var direction = (from e in ctx.Events
+                                     where e.ID_Event == request.IdMeeting
+                                     && !e.Blocked
+                                     select e).FirstOrDefault();
+
+                    var eventDetails = (from ed in ctx.EventDetails
+                                        where ed.IDEvent == request.IdMeeting
+                                        && !ed.Blocked
+                                        select ed).ToList();
+
+                    var users = eventDetails.Select(x => x.IDUser).Distinct();
+
+                    foreach (var u in users)
                     {
-                        var distance = 0d;
-                        var time = new TimeSpan();
+                        var positions = eventDetails.Where(x => x.IDUser == u).OrderBy(x => x.CreationDate);
 
-                        var lastPosition = positions.First();
-
-                        foreach (var pos in positions)
+                        if (positions.Any())
                         {
-                            distance += (new GeoCoordinate((double)lastPosition.Latitude, (double)lastPosition.Longitude))
-                                .GetDistanceTo(new GeoCoordinate((double)pos.Latitude, (double)pos.Longitude));
+                            var distance = 0d;
+                            var time = new TimeSpan();
 
-                            time += pos.CreationDate - lastPosition.CreationDate;
+                            var lastPosition = positions.First();
 
-                            lastPosition = pos;
+                            foreach (var pos in positions)
+                            {
+                                distance += (new GeoCoordinate((double)lastPosition.Latitude, (double)lastPosition.Longitude))
+                                    .GetDistanceTo(new GeoCoordinate((double)pos.Latitude, (double)pos.Longitude));
+
+                                time += pos.CreationDate - lastPosition.CreationDate;
+
+                                lastPosition = pos;
+                            }
+
+                            var leftLat = (double)Math.Abs(lastPosition.Latitude - direction.Latitude);
+                            var leftLon = (double)Math.Abs(lastPosition.Longitude - direction.Longitude);
+
+                            var leftMeters = (new GeoCoordinate(0, 0)).GetDistanceTo(new GeoCoordinate(leftLat, leftLon));
+
+                            var velocity = distance / (double)time.TotalMinutes;
+
+                            var arrivalTime = (int)Math.Round(leftMeters / velocity);
+
+                            usersPositions.Add(new PositionDetails()
+                            {
+                                IdUser = u,
+                                ArrivalTime = arrivalTime,
+                                Positions = positions.Select(x => new Position(x)).ToList()
+                            });
                         }
-
-                        var leftLat = (double)Math.Abs(lastPosition.Latitude - direction.Latitude);
-                        var leftLon = (double)Math.Abs(lastPosition.Longitude - direction.Longitude);
-
-                        var leftMeters = (new GeoCoordinate(0, 0)).GetDistanceTo(new GeoCoordinate(leftLat, leftLon));
-
-                        var velocity = distance / (double)time.TotalMinutes;
-
-                        var arrivalTime = (int)Math.Round(leftMeters / velocity);
-
-                        usersPositions.Add(new PositionDetails()
-                        {
-                            IdUser = u,
-                            ArrivalTime = arrivalTime,
-                            Positions = positions.Select(x => new Position(x)).ToList()
-                        });
                     }
-                }
 
-                return new GetPositionsResponse()
-                {
-                    UsersPositions = usersPositions
-                };
+                    return new GetPositionsResponse()
+                    {
+                        UsersPositions = usersPositions
+                    };
+                }
+            }
+            catch (Exception ex)
+            {
+                SetError("GetPositions", ex);
+                return null;
             }
         }
     }
