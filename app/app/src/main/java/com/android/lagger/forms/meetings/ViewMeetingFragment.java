@@ -1,14 +1,10 @@
 package com.android.lagger.forms.meetings;
 
 import android.app.Activity;
-import android.app.Dialog;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.v4.view.ViewPager;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,20 +12,13 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.datetimepicker.date.DatePickerDialog;
-import com.android.datetimepicker.time.RadialPickerLayout;
-import com.android.datetimepicker.time.TimePickerDialog;
 import com.android.lagger.R;
-import com.android.lagger.model.User;
+import com.android.lagger.model.entities.User;
 import com.android.lagger.model.entities.Meeting;
-import com.android.lagger.services.MeetingService;
-
-import org.w3c.dom.Text;
-
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Locale;
+import com.android.lagger.requestObjects.AcceptMeetingRequest;
+import com.android.lagger.services.HttpClient;
+import com.android.lagger.settings.State;
+import com.android.lagger.tasks.AcceptMeetingTask;
 
 /**
  * Created by Kubaa on 2015-04-08.
@@ -98,41 +87,27 @@ public class ViewMeetingFragment extends Fragment {
 
     public void addButtonsAndListeners()
     {
-
         btnAccept.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MeetingService.acceptMeeting(meeting.getId(), true);
+                AcceptMeetingTask.acceptMeeting(meeting.getId(), true, mContext);
 
                 fragmentTransaction = getFragmentManager().beginTransaction();
                 fragmentTransaction.replace(R.id.container_body, new MeetingListFragment()).commit();
-                showInfo(true);
+
             }
         });
 
         btnRefuse.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MeetingService.acceptMeeting(meeting.getId(), false);
+                AcceptMeetingTask.acceptMeeting(meeting.getId(), false, mContext);
 
                 fragmentTransaction = getFragmentManager().beginTransaction();
                 fragmentTransaction.replace(R.id.container_body, new MeetingListFragment()).commit();
-                showInfo(false);
             }
         });
 
-    }
-
-    //FIXME wydzielić do innej klasy
-    private  void showInfo(final boolean isAccepted){
-        String messageText;
-        if(isAccepted){
-            messageText = getResources().getString(R.string.accept_meeting);
-        }
-        else{
-            messageText = getResources().getString(R.string.refuse_meeting);
-        }
-        Toast.makeText(mContext, messageText, Toast.LENGTH_SHORT).show();
     }
 
     @Override

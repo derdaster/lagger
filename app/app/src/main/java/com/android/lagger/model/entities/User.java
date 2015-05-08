@@ -1,9 +1,8 @@
-package com.android.lagger.model;
+package com.android.lagger.model.entities;
 
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
 /**
@@ -19,6 +18,10 @@ public class User implements Parcelable{
     private String phone;
 
     public User(){
+    }
+
+    public User(Integer id){
+        this.id = id;
     }
 
     public User(String login, String password){

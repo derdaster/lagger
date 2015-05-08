@@ -6,30 +6,21 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.res.Configuration;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.android.lagger.R;
 import com.android.lagger.forms.drawer.FragmentDrawer;
 import com.android.lagger.forms.friends.FriendsListFragment;
 import com.android.lagger.forms.login.LoginFragment;
-import com.android.lagger.forms.meetings.CreateEditMeetingFragment;
 import com.android.lagger.forms.meetings.MeetingListFragment;
-import com.android.lagger.forms.meetings.ViewMeetingFragment;
 import com.android.lagger.gpslocation.MapFragment;
-import com.android.lagger.model.User;
-
-import java.util.ArrayList;
 
 
 public class MainActivity extends ActionBarActivity implements FragmentDrawer.FragmentDrawerListener {

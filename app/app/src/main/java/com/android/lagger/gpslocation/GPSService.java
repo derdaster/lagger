@@ -24,7 +24,7 @@ import java.util.ArrayList;
 public class GPSService extends Service implements LocationListener {
 
     private static final long MIN_DISTANCE_CHANGE_FOR_UPDATES = 0;
-    private static final long MIN_TIME_BW_UPDATES = 1000 * 5 * 1;
+    private static final long MIN_TIME_BW_UPDATES = 1000 * 20 * 1;
     private final Context context;
     protected LocationManager locationManager;
     boolean isGPSEnabled = false;
@@ -39,7 +39,8 @@ public class GPSService extends Service implements LocationListener {
     public GPSService(Context context) {
         this.context = context;
         getLocation();
-        coordinatesList = new ArrayList<LatLng>();
+        coordinatesList = new ArrayList();
+        sendLocation();
     }
 
     public Location getLocation() {
@@ -177,7 +178,7 @@ public void sendLocation(){
             String meetingId = String.valueOf(1);
             JsonObject userJson = createGPSJSON(userId,meetingId);
             //TODO refactoring
-            return HttpRequest.POST(URL.ADD_POSITION_URL, userJson);
+            return HttpRequest.POST(URL.ADD_POSITION, userJson);
         }
         // onPostExecute displays the results of the AsyncTask.
         @Override
@@ -241,6 +242,7 @@ public void sendLocation(){
     public JsonObject createGPSJSON(String userId,String meetingId){
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty("idUser", userId);
+        jsonObject.addProperty("dateTime", "\\/Date(928142400000+0200)\\/");
         jsonObject.addProperty("idMeeting", meetingId);
         jsonObject.addProperty("latitude", String.valueOf(this.latitude));
         jsonObject.addProperty("longitude", String.valueOf(this.longitude));

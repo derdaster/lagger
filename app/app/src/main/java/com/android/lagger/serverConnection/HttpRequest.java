@@ -1,5 +1,8 @@
 package com.android.lagger.serverConnection;
 
+import com.android.lagger.requestObjects.RequestObject;
+import com.android.lagger.responseObjects.LoginResponse;
+import com.android.lagger.responseObjects.ResponseObject;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -139,5 +142,84 @@ public class HttpRequest {
         inputStream.close();
         return result;
     }
+
+
+
+    ///////////////////TODO new method
+    public static String POST(String url, RequestObject requestObject){
+        String result = null;
+        // 1. create HttpClient
+        HttpClient httpclient = new DefaultHttpClient();
+
+        // 2. make POST request to the given URL
+        HttpPost httpPost = new HttpPost(url);
+
+        // 3. convert JSONObject to JSON to String
+        Gson gson = new GsonHelper().getGson();
+        String json = gson.toJson(requestObject);
+//            String json = jsonObject.toString();
+
+        // 3. build gson object
+//            Gson g = new Gson();
+//            JsonObject jsonObject = new JsonObject();
+//            jsonObject.addProperty("Login", "john");
+//            jsonObject.addProperty("Password", "4321");
+
+//             4. convert JSONObject to JSON to String
+//            json = g.toJson(jsonObject).toString();
+        try {
+            // 5. set json to StringEntity
+            StringEntity se = new StringEntity(json);
+
+            // 6. set httpPost Entity
+            httpPost.setEntity(se);
+
+            // 7. Set some headers to inform server about the type of the content
+            httpPost.setHeader("Accept", "application/json");
+            httpPost.setHeader("Content-type", "application/json");
+
+            // 8. Execute POST request to the given URL
+            HttpResponse httpResponse = httpclient.execute(httpPost);
+            result = getResponseFromHttp(httpResponse);
+        }
+        catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return result;
+    }
+
+
+    private static String getResponseFromHttp(HttpResponse httpResponse){
+        String result = null;
+        try{
+            InputStream inputStream = httpResponse.getEntity().getContent();
+
+            // convert inputstream to jsonObject
+            if(inputStream != null) {
+                //  result = convertInputStreamToJsonObject(inputStream);
+//                String response = convertInputStreamToString(inputStream);
+                result = convertInputStreamToString(inputStream);
+            }
+//             else
+//                result = "Did not work!";
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+//    private static ResponseObject convertInputStreamToResponseObj(InputStream inputStream) throws IOException {
+//        ResponseObject responseObj = null;
+//        String jsonToParse = convertInputStreamToString(inputStream);
+//
+//        Gson gson = new GsonHelper().getGson();
+//        responseObj = gson.fromJson(jsonToParse, ResponseObject.class);
+//
+//        return responseObj;
+//    }
 
 }

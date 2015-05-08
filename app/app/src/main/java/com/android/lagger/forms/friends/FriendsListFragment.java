@@ -16,7 +16,7 @@ import android.widget.ListView;
 import com.android.lagger.R;
 import com.android.lagger.controls.basic.SomeDialog;
 import com.android.lagger.logic.adapters.FriendsListAdapter;
-import com.android.lagger.model.User;
+import com.android.lagger.model.entities.User;
 import com.android.lagger.serverConnection.HttpRequest;
 import com.android.lagger.serverConnection.URL;
 import com.android.lagger.settings.State;
@@ -45,11 +45,12 @@ public class FriendsListFragment extends Fragment {
     FragmentTransaction fragmentTransaction;
 
     private final int INDEX_OF_INVITED = 0;
+    private int INDEX_OF_INVITATION_END;
     private String[] HEADER_NAMES;
     private Integer[] mHeaderPositions;
     private ArrayList<SimpleSectionedListAdapter.Section> sections = new ArrayList<SimpleSectionedListAdapter.Section>();
 
-//    private List<User> friendsList;
+    private List<User> allFriendsList;
     private JsonArray invitationsFromFriendsResp;
     private JsonArray friendsListResp;
 
@@ -70,7 +71,7 @@ public class FriendsListFragment extends Fragment {
             public void onClick(View v) {
                 fragmentTransaction = fragmentManager.beginTransaction();
                 fragmentTransaction.addToBackStack(null);
-                fragmentTransaction.replace(R.id.container_body, new FriendsAddFragment()).commit();
+                fragmentTransaction.replace(R.id.container_body, new FriendsAddFragment(mContext)).commit();
             }
         });
 
@@ -87,23 +88,17 @@ public class FriendsListFragment extends Fragment {
     }
 
     private void getFriendList(){
-        final List<User> invitationsFromFriends = new ArrayList<User>();
-        final List<User> friendsList = new ArrayList<User>();
+        allFriendsList = new ArrayList<User>();
 
         new AsyncTask<String, Void, String>() {
             @Override
             protected String doInBackground(String... urls) {
                 JsonObject userIdJson = new JsonObject();
 
-                //FIXME set userId only for tests
-                int userId = 1;
-                if( State.loggedUser != null) {
-                    userId = State.loggedUser.getId();
-                }
-                userIdJson.addProperty("idUser", userId);
+                userIdJson.addProperty("idUser", State.getLoggedUserId());
 
-                String invitations = HttpRequest.POST(URL.GET_INVITATION_FROM_FRIENDS_URL, userIdJson);
-                String friends = HttpRequest.POST(URL.GET_FRIENDS_URL, userIdJson);
+                String invitations = HttpRequest.POST(URL.GET_INVITATION_FROM_FRIENDS, userIdJson);
+                String friends = HttpRequest.POST(URL.GET_FRIENDS, userIdJson);
 
                 invitations = invitations.substring(0, invitations.length() - 1);
                 friends = friends.substring(1, friends.length());
@@ -119,28 +114,10 @@ public class FriendsListFragment extends Fragment {
             @Override
             protected void onPostExecute(String result) {
 
-                JsonParser parser = new JsonParser();
-                JsonObject responseJson = (JsonObject)parser.parse(result);
+                allFriendsList = parseFriends(result);
 
-                friendsListResp = responseJson.get("friends").getAsJsonArray();
-                invitationsFromFriendsResp = responseJson.get("friendInvitations").getAsJsonArray();
+                adapter = new FriendsListAdapter(mContext, allFriendsList);
 
-                Gson gson = new Gson();
-                for(JsonElement friendJsonElem: friendsListResp) {
-                    User friend = gson.fromJson(friendJsonElem, User.class);
-                    friendsList.add(friend);
-                }
-
-                for(JsonElement invitationJsonElem: invitationsFromFriendsResp) {
-                    User friend = gson.fromJson(invitationJsonElem, User.class);
-                    invitationsFromFriends.add(friend);
-                }
-
-                List<User> allFriends = new ArrayList<User>(invitationsFromFriends);
-                allFriends.addAll(friendsList);
-
-                adapter = new FriendsListAdapter(mContext, allFriends);
-                final int INDEX_OF_INVITATION_END = invitationsFromFriends.size();
                 mHeaderPositions = new Integer[]{INDEX_OF_INVITED, INDEX_OF_INVITATION_END};
 
                 for (int i = 0; i < mHeaderPositions.length; i++) {
@@ -157,9 +134,7 @@ public class FriendsListFragment extends Fragment {
                     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                         if(i <= INDEX_OF_INVITATION_END)
                         {
-                            fragmentTransaction = fragmentManager.beginTransaction();
-                            SomeDialog newFragment = new SomeDialog (mContext, "Confirm", "Do you want to accept this friend invitation?", false);
-                            newFragment.show(fragmentTransaction, "dialog");
+                            showFriendInvitationDialog(allFriendsList.get(i - 1));
 
                         }
                     }
@@ -168,5 +143,41 @@ public class FriendsListFragment extends Fragment {
         }.execute();
 
 
+    }
+
+    private List<User> parseFriends(String result){
+        List<User> usersFromResponse = new ArrayList<User>();
+        List<User> invitationsFromFriends = new ArrayList<User>();
+        List<User> friendsList = new ArrayList<User>();
+
+        JsonParser parser = new JsonParser();
+        JsonObject responseJson = (JsonObject)parser.parse(result);
+
+        friendsListResp = responseJson.get("friends").getAsJsonArray();
+        invitationsFromFriendsResp = responseJson.get("friendInvitations").getAsJsonArray();
+
+        Gson gson = new Gson();
+        for(JsonElement friendJsonElem: friendsListResp) {
+            User friend = gson.fromJson(friendJsonElem, User.class);
+            friendsList.add(friend);
+        }
+
+        for(JsonElement invitationJsonElem: invitationsFromFriendsResp) {
+            User friend = gson.fromJson(invitationJsonElem, User.class);
+            invitationsFromFriends.add(friend);
+        }
+
+        INDEX_OF_INVITATION_END = invitationsFromFriends.size();
+
+        usersFromResponse.addAll(invitationsFromFriends);
+        usersFromResponse.addAll(friendsList);
+
+        return usersFromResponse;
+    }
+
+    private void showFriendInvitationDialog(User friend){
+        fragmentTransaction = fragmentManager.beginTransaction();
+        SomeDialog newFragment = new SomeDialog (mContext, "Confirm", "Do you want to accept this friend invitation?", false);
+        newFragment.show(fragmentTransaction, "dialog");
     }
 }

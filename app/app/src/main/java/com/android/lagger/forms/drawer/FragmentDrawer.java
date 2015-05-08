@@ -5,7 +5,6 @@ package com.android.lagger.forms.drawer;
  */
 import android.app.Fragment;
 import android.content.Context;
-import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
@@ -18,12 +17,10 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.android.lagger.R;
 import com.android.lagger.logic.adapters.NavigationDrawerAdapter;
-import com.android.lagger.model.items.NavDrawerItem;
+import com.android.lagger.model.navigation.NavDrawerItem;
 
 import java.util.ArrayList;
 import java.util.List;

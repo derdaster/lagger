@@ -53,7 +53,7 @@
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="view">View</string>
-    <string name="accept_meeting">Accepted meeting invitation.</string>
-    <string name="refuse_meeting">Refused meeting invitation.</string>
+    <string name="accept_meeting">Accepted meeting invitation</string>
+    <string name="refuse_meeting">Refused meeting invitation</string>
 
 </resources>

@@ -5,23 +5,16 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.Toast;
 
-import com.android.datetimepicker.date.DatePickerDialog;
 import com.android.lagger.R;
 import com.android.lagger.logic.adapters.FriendsListAdapter;
-import com.android.lagger.model.User;
-import com.android.lagger.model.entities.Friend;
+import com.android.lagger.model.entities.User;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -84,7 +77,48 @@ public class MeetingWhoFragment extends Fragment {
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+              /*new AsyncTask<String, Void, String>() {
+                    @Override
+                    protected String doInBackground(String... urls) {
 
+
+
+                        JsonObject newMeeting = new JsonObject();
+
+                        //FIXME set userId only for tests
+                        int userId = 1;
+                        if (State.loggedUser != null) {
+                            userId = State.loggedUser.getId();
+                        }
+//                        JsonElement elem = gson.
+                        newMeeting.addProperty("idUser", userId);
+                        newMeeting.addProperty("name", "testName");
+                        newMeeting.addProperty("locationName", "testLocationName");
+                        newMeeting.addProperty("latitude", 51.34243);
+                        newMeeting.addProperty("longitude", 70.324234);
+                        newMeeting.addProperty("startTime", new Date().getTime());
+                        newMeeting.addProperty("endTime", new Date().getTime() + 60 * 60);
+                        JSONArray userList =  new JSONArray();
+                        userList.put(1);
+                        userList.put(2);
+                        userList.put(3);
+                        userList.put(4);
+                        newMeeting.addProperty("userList", userList.toString());
+
+                        Gson gson = new GsonHelper().getGson();
+                        String JSON = gson.toJson(newMeeting);
+
+                        return HttpRequest.POST(URL.ADD_MEETING, );
+
+                    }
+
+                    // onPostExecute displays the results of the AsyncTask.
+                    @Override
+                    protected void onPostExecute(String result) {
+
+                    }
+                }.execute();
+                */
             }
         });
     }

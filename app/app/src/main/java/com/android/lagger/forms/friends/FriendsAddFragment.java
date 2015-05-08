@@ -24,8 +24,8 @@ public class FriendsAddFragment extends Fragment {
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
 
-    public FriendsAddFragment() {
-
+    public FriendsAddFragment(Context context) {
+        mContext = context;
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

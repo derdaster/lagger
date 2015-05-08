@@ -105,15 +105,10 @@ public class MeetingListFragment extends Fragment {
             protected String doInBackground(String... urls) {
                 JsonObject userIdJson = new JsonObject();
 
-                //FIXME set userId only for tests
-                int userId = 1;
-                if (State.loggedUser != null) {
-                    userId = State.loggedUser.getId();
-                }
-                userIdJson.addProperty("idUser", userId);
+                userIdJson.addProperty("idUser", State.getLoggedUserId());
 
-                String meetings = HttpRequest.POST(URL.GET_MEETINGS_URL, userIdJson);
-                String invitations = HttpRequest.POST(URL.GET_INVITATIONS_URL, userIdJson);
+                String meetings = HttpRequest.POST(URL.GET_MEETINGS, userIdJson);
+                String invitations = HttpRequest.POST(URL.GET_INVITATIONS, userIdJson);
 
                 meetings = meetings.substring(0, meetings.length() - 1);
                 invitations = invitations.substring(1, invitations.length());
@@ -144,7 +139,7 @@ public class MeetingListFragment extends Fragment {
     private List<Meeting> parseMeetings(final String result){
         final List<Meeting> meetings = new ArrayList<Meeting>();
         final List<Meeting> invitations = new ArrayList<Meeting>();
-        List<Meeting> meetingAndinvitations = new ArrayList<>();
+        List<Meeting> meetingAndInvitations = new ArrayList<>();
 
         JsonParser parser = new JsonParser();
         JsonObject responseJson = (JsonObject) parser.parse(result);
@@ -165,10 +160,10 @@ public class MeetingListFragment extends Fragment {
 
         INDEX_OF_UPCOMING = invitations.size();
 
-        meetingAndinvitations.addAll(invitations);
-        meetingAndinvitations.addAll(meetings);
+        meetingAndInvitations.addAll(invitations);
+        meetingAndInvitations.addAll(meetings);
 
-        return meetingAndinvitations;
+        return meetingAndInvitations;
     }
 
     private void addSections(){
