@@ -32,8 +32,10 @@ public class MeetingWhenFragment extends Fragment {
     private View parent;
     private Context mContext;
     private ViewPager parentPager;
-    private Button btnDate;
-    private Button btnTime;
+    private Button btnDateStart;
+    private Button btnTimeStart;
+    private Button btnDateEnd;
+    private Button btnTimeEnd;
     private Calendar calendar;
     private DateFormat dateFormat;
     private SimpleDateFormat timeFormat;
@@ -61,21 +63,21 @@ public class MeetingWhenFragment extends Fragment {
     public void addButtonsAndListeners()
     {
 
-        btnDate = (Button) parent.findViewById(R.id.btnDatePicker);
-        btnDate.setOnClickListener(new View.OnClickListener() {
+        btnDateStart = (Button) parent.findViewById(R.id.btnDatePickerStart);
+        btnDateStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 DatePickerDialog.newInstance(new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePickerDialog dialog, int year, int monthOfYear, int dayOfMonth) {
                         calendar.set(year, monthOfYear, dayOfMonth);
-                        btnDate.setText(dateFormat.format(calendar.getTime()));
+                        btnDateStart.setText(dateFormat.format(calendar.getTime()));
                     }
                 }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)).show(getFragmentManager(), "datePicker");
             }
         });
-        btnTime = (Button) parent.findViewById(R.id.btnTimePicker);
-        btnTime.setOnClickListener(new View.OnClickListener() {
+        btnTimeStart = (Button) parent.findViewById(R.id.btnTimePickerStart);
+        btnTimeStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 TimePickerDialog.newInstance(new TimePickerDialog.OnTimeSetListener() {
@@ -83,7 +85,35 @@ public class MeetingWhenFragment extends Fragment {
                     public void onTimeSet(RadialPickerLayout view, int hourOfDay, int minute) {
                         calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
                         calendar.set(Calendar.MINUTE, minute);
-                        btnTime.setText(timeFormat.format(calendar.getTime()));
+                        btnTimeStart.setText(timeFormat.format(calendar.getTime()));
+                    }
+                }, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), true).show(getFragmentManager(), "timePicker");
+            }
+        });
+
+        btnDateEnd = (Button) parent.findViewById(R.id.btnDatePickerStart);
+        btnDateEnd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DatePickerDialog.newInstance(new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePickerDialog dialog, int year, int monthOfYear, int dayOfMonth) {
+                        calendar.set(year, monthOfYear, dayOfMonth);
+                        btnDateEnd.setText(dateFormat.format(calendar.getTime()));
+                    }
+                }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)).show(getFragmentManager(), "datePicker");
+            }
+        });
+        btnTimeEnd = (Button) parent.findViewById(R.id.btnTimePickerStart);
+        btnTimeEnd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TimePickerDialog.newInstance(new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(RadialPickerLayout view, int hourOfDay, int minute) {
+                        calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
+                        calendar.set(Calendar.MINUTE, minute);
+                        btnTimeEnd.setText(timeFormat.format(calendar.getTime()));
                     }
                 }, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), true).show(getFragmentManager(), "timePicker");
             }

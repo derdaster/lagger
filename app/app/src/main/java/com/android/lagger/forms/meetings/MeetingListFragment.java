@@ -189,7 +189,7 @@ public class MeetingListFragment extends Fragment {
                 if (i <= INDEX_OF_UPCOMING) {
                     showInvitationDialog(allMeetings.get(i - 1));
                 } else {
-                    showMeetingDetails(allMeetings.get(i - 2), true);
+                    showMeetingDialog(allMeetings.get(i - 2));
                 }
             }
         });
@@ -198,7 +198,19 @@ public class MeetingListFragment extends Fragment {
     private void showInvitationDialog(Meeting meeting){
 
         fragmentTransaction = getFragmentManager().beginTransaction();
-        SomeDialog newFragment = new SomeDialog(mContext, "Confirm", "Do you want to accept this meeting invitation?", true);
+        SomeDialog newFragment = new SomeDialog(mContext, "Confirm", "Do you want to accept this meeting invitation?", "meetingInvitation");
+        newFragment.show(fragmentTransaction, "dialog");
+
+        Bundle details = new Bundle();
+        details.putParcelable("meeting", meeting);
+
+        newFragment.setArguments(details);
+    }
+
+    private void showMeetingDialog(Meeting meeting){
+
+        fragmentTransaction = getFragmentManager().beginTransaction();
+        SomeDialog newFragment = new SomeDialog(mContext, "Confirm", "What do you want to do with this meeting?", "meeting");
         newFragment.show(fragmentTransaction, "dialog");
 
         Bundle details = new Bundle();

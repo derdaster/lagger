@@ -137,6 +137,10 @@ public class FriendsListFragment extends Fragment {
                             showFriendInvitationDialog(allFriendsList.get(i - 1));
 
                         }
+                        else
+                        {
+                            showFriendDeleteDialog(allFriendsList.get(i - 1));
+                        }
                     }
                 });
             }
@@ -177,7 +181,12 @@ public class FriendsListFragment extends Fragment {
 
     private void showFriendInvitationDialog(User friend){
         fragmentTransaction = fragmentManager.beginTransaction();
-        SomeDialog newFragment = new SomeDialog (mContext, "Confirm", "Do you want to accept this friend invitation?", false);
+        SomeDialog newFragment = new SomeDialog (mContext, "Confirm", "Do you want to accept this friend invitation?", "friend");
+        newFragment.show(fragmentTransaction, "dialog");
+    }
+    private void showFriendDeleteDialog(User friend){
+        fragmentTransaction = fragmentManager.beginTransaction();
+        SomeDialog newFragment = new SomeDialog (mContext, "Confirm", "Do you want to delete this friend?", "friend");
         newFragment.show(fragmentTransaction, "dialog");
     }
 }

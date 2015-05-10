@@ -31,7 +31,7 @@ public class SomeDialog extends DialogFragment {
 
     private String title;
     private String message;
-    private Boolean isMeetingInvitation;
+    private String dialogType;
     private FragmentManager fragmentManager;
     private FragmentTransaction fragmentTransaction;
     private Context mContext;
@@ -40,25 +40,34 @@ public class SomeDialog extends DialogFragment {
     public SomeDialog() {
     }
 
-    public SomeDialog(Context inContext, String inTitle, String inMessage, Boolean inIsMeetingInvitation) {
+    public SomeDialog(Context inContext, String inTitle, String inMessage, String inDialogType) {
         title = inTitle;
         message = inMessage;
         mContext = inContext;
-        isMeetingInvitation = inIsMeetingInvitation;
+        dialogType = inDialogType;
 //        client = new HttpClient();
     }
 
     @Override
     public Dialog onCreateDialog(final Bundle savedInstanceState) {
         fragmentManager = getFragmentManager();
-        if (isMeetingInvitation) {
-            return createMeetingDialog();
-        } else {
-            return createFriendDialog();
+        Dialog dialog = null;
+        switch (dialogType)
+        {
+            case "meetingInvitation":
+                dialog = createInvitationMeetingDialog();
+                break;
+            case "meeting":
+                dialog = createMeetingDialog();
+                break;
+            case "friend":
+                dialog = createFriendDialog();
+                break;
         }
+        return dialog;
     }
 
-    private AlertDialog createMeetingDialog(){
+    private AlertDialog createInvitationMeetingDialog(){
         Bundle extras = getArguments();
         final Meeting meeting = extras.getParcelable("meeting");
 
@@ -92,7 +101,28 @@ public class SomeDialog extends DialogFragment {
                 })
                 .create();
     }
+    private AlertDialog createMeetingDialog(){
+        Bundle extras = getArguments();
+        final Meeting meeting = extras.getParcelable("meeting");
 
+        return new AlertDialog.Builder(getActivity())
+                .setTitle(title)
+                .setMessage(message)
+                .setNegativeButton("Delete", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                })
+                .setNeutralButton(R.string.view, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        showMeetingDetails(meeting);
+
+                    }
+                })
+                .create();
+    }
 
 
     private AlertDialog createFriendDialog(){
