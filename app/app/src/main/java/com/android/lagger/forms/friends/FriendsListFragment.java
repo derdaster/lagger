@@ -25,6 +25,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.melnykov.fab.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,7 +40,7 @@ public class FriendsListFragment extends Fragment {
     private Context mContext;
     private ListView mList;
     private FriendsListAdapter adapter;
-    private Button btnAdd;
+    private FloatingActionButton btnAdd;
 
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
@@ -65,7 +66,7 @@ public class FriendsListFragment extends Fragment {
 //        friendsList = new ArrayList<User>();
 
         fragmentManager = getFragmentManager();
-        btnAdd = (Button) parent.findViewById(R.id.btnAddFriend);
+        btnAdd = (FloatingActionButton) parent.findViewById(R.id.btnAddFriend);
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -73,7 +73,6 @@ public class MeetingWhoFragment extends Fragment {
             }
 
         });*/
-        btnAdd = (Button) parent.findViewById(R.id.btnAddGuest);
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
