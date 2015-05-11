@@ -4,10 +4,12 @@ import android.os.AsyncTask;
 
 import com.android.lagger.requestObjects.AcceptFriendRequest;
 import com.android.lagger.requestObjects.AcceptMeetingRequest;
+import com.android.lagger.requestObjects.FindFriendRequest;
 import com.android.lagger.requestObjects.InviteFriendRequest;
 import com.android.lagger.requestObjects.LoginRequest;
 import com.android.lagger.requestObjects.RequestObject;
 import com.android.lagger.requestObjects.UserRequest;
+import com.android.lagger.responseObjects.FindFriendResponse;
 import com.android.lagger.responseObjects.LoginResponse;
 import com.android.lagger.responseObjects.MeetingsResponse;
 import com.android.lagger.responseObjects.ResponseObject;
@@ -32,6 +34,15 @@ public class HttpClient {
         String response = HttpRequest.POST(URL.ACCEPT_MEETING_INVITATION, acceptMeetingReq);
         resp = gson.fromJson(response, ResponseObject.class);
 
+        return resp;
+    }
+
+    public FindFriendResponse findFriends(final FindFriendRequest findFriendRequest){
+        FindFriendResponse resp = null;
+
+        String response = HttpRequest.POST(URL.FIND_FRIENDS, findFriendRequest);
+        resp = gson.fromJson(response, FindFriendResponse.class);
+        //TODO implement Method
         return resp;
     }
 
