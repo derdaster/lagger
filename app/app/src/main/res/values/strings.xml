@@ -28,9 +28,9 @@
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
-    <string name="unregistered_user">Unregistered user!</string>
-    <string name="success_login">Success!</string>
-    <string name="incorrect_password">Incorrect password!</string>
+    <string name="unregistered_user">Unregistered user</string>
+    <string name="success_login">Success</string>
+    <string name="incorrect_password">Incorrect password</string>
     <string name="title_section2" translatable="false">Section 2</string>
     <string name="title_section3">Section 3</string>
 
