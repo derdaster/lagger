@@ -6,6 +6,7 @@ import android.widget.Toast;
 
 import com.android.lagger.R;
 import com.android.lagger.requestObjects.AcceptMeetingRequest;
+import com.android.lagger.responseObjects.AcceptMeetingResponse;
 import com.android.lagger.responseObjects.ResponseObject;
 import com.android.lagger.services.HttpClient;
 import com.android.lagger.settings.State;
@@ -13,7 +14,7 @@ import com.android.lagger.settings.State;
 /**
  * Created by Ewelina Klisowska on 2015-05-05.
  */
-public class AcceptMeetingTask extends AsyncTask<AcceptMeetingRequest, Void, ResponseObject> {
+public class AcceptMeetingTask extends AsyncTask<AcceptMeetingRequest, Void, AcceptMeetingResponse> {
     private Context context;
     private HttpClient client;
     private Boolean isAccepted;
@@ -24,7 +25,7 @@ public class AcceptMeetingTask extends AsyncTask<AcceptMeetingRequest, Void, Res
         client = new HttpClient();
     }
 
-    protected ResponseObject doInBackground(AcceptMeetingRequest... acceptMeetingReq) {
+    protected AcceptMeetingResponse doInBackground(AcceptMeetingRequest... acceptMeetingReq) {
         isAccepted = acceptMeetingReq[0].getAccept();
         return client.acceptMeeting(acceptMeetingReq[0]);
     }

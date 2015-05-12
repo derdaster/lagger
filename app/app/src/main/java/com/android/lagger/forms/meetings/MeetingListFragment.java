@@ -199,7 +199,7 @@ public class MeetingListFragment extends Fragment {
     private void showInvitationDialog(Meeting meeting){
 
         fragmentTransaction = getFragmentManager().beginTransaction();
-        SomeDialog newFragment = new SomeDialog(mContext, "Confirm", "Do you want to accept this meeting invitation?", "meetingInvitation");
+        SomeDialog newFragment = new SomeDialog(mContext, "Confirm", "Do you want to accept this meeting invitation?", SomeDialog.MEETING_INVITATION_TYPE);
         newFragment.show(fragmentTransaction, "dialog");
 
         Bundle details = new Bundle();
@@ -211,7 +211,7 @@ public class MeetingListFragment extends Fragment {
     private void showMeetingDialog(Meeting meeting){
 
         fragmentTransaction = getFragmentManager().beginTransaction();
-        SomeDialog newFragment = new SomeDialog(mContext, "Confirm", "What do you want to do with this meeting?", "meeting");
+        SomeDialog newFragment = new SomeDialog(mContext, "Confirm", "What do you want to do with this meeting?", SomeDialog.MEETING_TYPE);
         newFragment.show(fragmentTransaction, "dialog");
 
         Bundle details = new Bundle();

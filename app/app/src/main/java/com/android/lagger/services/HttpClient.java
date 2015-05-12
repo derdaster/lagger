@@ -5,9 +5,12 @@ import com.android.lagger.requestObjects.AcceptMeetingRequest;
 import com.android.lagger.requestObjects.AddFriendRequest;
 import com.android.lagger.requestObjects.FindFriendRequest;
 import com.android.lagger.requestObjects.LoginRequest;
+import com.android.lagger.requestObjects.RemoveFriendRequest;
+import com.android.lagger.responseObjects.AcceptMeetingResponse;
 import com.android.lagger.responseObjects.AddFriendResponse;
 import com.android.lagger.responseObjects.FindFriendResponse;
 import com.android.lagger.responseObjects.LoginResponse;
+import com.android.lagger.responseObjects.RemoveFriendResponse;
 import com.android.lagger.responseObjects.ResponseObject;
 import com.android.lagger.serverConnection.GsonHelper;
 import com.android.lagger.serverConnection.HttpRequest;
@@ -24,11 +27,11 @@ public class HttpClient {
         gson = new GsonHelper().getGson();
     }
 
-    public ResponseObject acceptMeeting(final AcceptMeetingRequest acceptMeetingReq){
-        ResponseObject resp = null;
+    public AcceptMeetingResponse acceptMeeting(final AcceptMeetingRequest acceptMeetingReq){
+        AcceptMeetingResponse resp = null;
 
         String response = HttpRequest.POST(URL.ACCEPT_MEETING_INVITATION, acceptMeetingReq);
-        resp = gson.fromJson(response, ResponseObject.class);
+        resp = gson.fromJson(response, AcceptMeetingResponse.class);
 
         return resp;
     }
@@ -52,9 +55,12 @@ public class HttpClient {
         return resp;
     }
 
-    //FIXME
-    public static ResponseObject acceptInviationFromFriend(final AcceptFriendRequest acceptFriendRequest) {
-        return  new ResponseObject();//getPostRespFromAsyncTask(URL.ACCEPT_FRIEND, acceptFriendRequest);
+    public RemoveFriendResponse removeFriend(final RemoveFriendRequest removeFriendRequest) {
+        RemoveFriendResponse resp = null;
+        String response = HttpRequest.DELETE(URL.REMOVE_FRIEND, removeFriendRequest);
+        resp = gson.fromJson(response, RemoveFriendResponse.class);
+
+        return resp;
     }
 
     public LoginResponse login(final LoginRequest loginReq) {

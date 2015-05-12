@@ -63,7 +63,6 @@ public class FriendsListFragment extends Fragment {
         parent = inflater.inflate(R.layout.fragment_friends_list, container, false);
 
         mList = (ListView) parent.findViewById(R.id.friends_list);
-//        friendsList = new ArrayList<User>();
 
         fragmentManager = getFragmentManager();
         btnAdd = (FloatingActionButton) parent.findViewById(R.id.btnAddFriend);
@@ -133,13 +132,11 @@ public class FriendsListFragment extends Fragment {
                 mList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                        if(i <= INDEX_OF_INVITATION_END)
-                        {
+                        if(i <= INDEX_OF_INVITATION_END){
                             showFriendInvitationDialog(allFriendsList.get(i - 1));
 
                         }
-                        else
-                        {
+                        else{
                             showFriendDeleteDialog(allFriendsList.get(i - 1));
                         }
                     }
@@ -181,13 +178,19 @@ public class FriendsListFragment extends Fragment {
     }
 
     private void showFriendInvitationDialog(User friend){
+
         fragmentTransaction = fragmentManager.beginTransaction();
-        SomeDialog newFragment = new SomeDialog (mContext, "Confirm", "Do you want to accept this friend invitation?", "friend");
-        newFragment.show(fragmentTransaction, "dialog");
+        SomeDialog friendInvitationDialog = new SomeDialog (mContext, "Confirm", "Do you want to accept this friend invitation?", SomeDialog.FRIEND_INVITATION_TYPE);
+        friendInvitationDialog.show(fragmentTransaction, "dialog");
+
+        Bundle details = new Bundle();
+        details.putParcelable("friend", friend);
+
+        friendInvitationDialog.setArguments(details);
     }
     private void showFriendDeleteDialog(User friend){
         fragmentTransaction = fragmentManager.beginTransaction();
-        SomeDialog newFragment = new SomeDialog (mContext, "Confirm", "Do you want to delete this friend?", "friend");
+        SomeDialog newFragment = new SomeDialog (mContext, "Confirm", "Do you want to delete this friend?", SomeDialog.FRIEND_TYPE);
         newFragment.show(fragmentTransaction, "dialog");
     }
 }

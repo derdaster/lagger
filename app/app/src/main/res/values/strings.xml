@@ -57,5 +57,6 @@
     <string name="refuse_meeting">Refused meeting invitation</string>
     <string name="invited_a_new_friend">Invited a new friend</string>
     <string name="choose_email">Choose email from list</string>
+    <string name="removed_a_friend">Removed a friend</string>
 
 </resources>
