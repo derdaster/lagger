@@ -6,11 +6,13 @@ import com.android.lagger.requestObjects.AddFriendRequest;
 import com.android.lagger.requestObjects.FindFriendRequest;
 import com.android.lagger.requestObjects.LoginRequest;
 import com.android.lagger.requestObjects.RemoveFriendRequest;
+import com.android.lagger.requestObjects.RemoveMeetingRequest;
 import com.android.lagger.responseObjects.AcceptMeetingResponse;
 import com.android.lagger.responseObjects.AddFriendResponse;
 import com.android.lagger.responseObjects.FindFriendResponse;
 import com.android.lagger.responseObjects.LoginResponse;
 import com.android.lagger.responseObjects.RemoveFriendResponse;
+import com.android.lagger.responseObjects.RemoveMeetingResponse;
 import com.android.lagger.responseObjects.ResponseObject;
 import com.android.lagger.serverConnection.GsonHelper;
 import com.android.lagger.serverConnection.HttpRequest;
@@ -59,6 +61,14 @@ public class HttpClient {
         RemoveFriendResponse resp = null;
         String response = HttpRequest.POST(URL.REMOVE_FRIEND, removeFriendRequest);
         resp = gson.fromJson(response, RemoveFriendResponse.class);
+
+        return resp;
+    }
+
+    public RemoveMeetingResponse removeMeeting(final RemoveMeetingRequest removeMeetingRequest) {
+        RemoveMeetingResponse resp = null;
+        String response = HttpRequest.POST(URL.REMOVE_MEETING, removeMeetingRequest);
+        resp = gson.fromJson(response, RemoveMeetingResponse.class);
 
         return resp;
     }
