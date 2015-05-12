@@ -79,7 +79,7 @@ namespace LaggerServer
         {
             try
             {
-                LogDiagnostic("MeetingInvitationAccept", request.IdUser);
+                LogDiagnostic("MeetingInvitationAccept: " + request.IdMeeting, request.IdUser);
 
                 using (var ctx = new LaggerDbEntities())
                 {
@@ -162,7 +162,7 @@ namespace LaggerServer
         {
             try
             {
-                LogDiagnostic("EditMeeting", request.IdUser);
+                LogDiagnostic("EditMeeting: " + request.IdMeeting, request.IdUser);
 
                 using (var ctx = new LaggerDbEntities())
                 {
@@ -219,7 +219,7 @@ namespace LaggerServer
         {
             try
             {
-                LogDiagnostic("RemoveMeeting", request.IdUser);
+                LogDiagnostic("RemoveMeeting: " + request.IdMeeting, request.IdUser);
 
                 using (var ctx = new LaggerDbEntities())
                 {
