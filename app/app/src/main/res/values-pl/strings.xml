@@ -36,4 +36,8 @@
     <string name="title_friends">Znajomi</string>
     <string name="title_meetings">Spotkania</string>
     <string name="refuse_meeting">Odrzucono zaproszenie na spotkanie</string>
+    <string name="nav_item_friends">Znajomi</string>
+    <string name="invited_a_new_friend">Zaproszono nowego znajomego</string>
+    <string name="choose_email">Wybierz email z listy</string>
+    <string name="removed_a_friend">Usunięto przyjaciela</string>
 </resources>

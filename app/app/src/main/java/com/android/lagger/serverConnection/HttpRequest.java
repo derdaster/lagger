@@ -1,24 +1,27 @@
 package com.android.lagger.serverConnection;
 
 import com.android.lagger.requestObjects.RequestObject;
-import com.android.lagger.responseObjects.LoginResponse;
-import com.android.lagger.responseObjects.ResponseObject;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.params.BasicHttpParams;
+import org.apache.http.params.HttpParams;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
+import java.net.*;
+import java.net.URL;
 
 /**
  * Created by Ewelina Klisowska on 2015-03-19.
@@ -55,9 +58,61 @@ public class HttpRequest {
         return result;
     }
 
-    class MojaDupa
-    {
-        int idUsers;
+    public static String DELETE(String url, RequestObject requestObject){
+        String result = null;
+/*
+        HttpClient httpclient = new DefaultHttpClient();
+
+        // 2. make POST request to the given URL
+        HttpDelete httpDelete = new HttpDelete(url);
+
+        // 3. convert JSONObject to JSON to String
+        Gson gson = new GsonHelper().getGson();
+        String json = gson.toJson(requestObject);
+
+        try {
+            // 5. set json to StringEntity
+            HttpParams hp = new  {
+            };
+
+            // 6. set httpPost Entity
+            httpDelete.setParams(hp);
+
+            // 7. Set some headers to inform server about the type of the content
+            httpDelete.setHeader("Accept", "application/json");
+            httpDelete.setHeader("Content-type", "application/json");
+
+            // 8. Execute POST request to the given URL
+            HttpResponse httpResponse = httpclient.execute(httpDelete);
+            result = getResponseFromHttp(httpResponse);
+        }
+        catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+*/
+        java.net.URL urlObject = null;
+        try {
+            urlObject = new URL(url);
+        } catch (MalformedURLException exception) {
+            exception.printStackTrace();
+        }
+        HttpURLConnection httpURLConnection = null;
+        try {
+            httpURLConnection = (HttpURLConnection) urlObject.openConnection();
+            httpURLConnection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+            httpURLConnection.setRequestMethod("DELETE");
+            //FIXME convert response object to String;
+           result = httpURLConnection.getResponseMessage();
+        } catch (IOException exception) {
+            exception.printStackTrace();
+        } finally {
+            if (httpURLConnection != null) {
+                httpURLConnection.disconnect();
+            }
+        }
+        return result;
     }
 
     public static String POST(String url, JsonObject jsonObject){
@@ -145,7 +200,7 @@ public class HttpRequest {
 
 
 
-    ///////////////////TODO new method
+    //POST with RequestObject in parameter
     public static String POST(String url, RequestObject requestObject){
         String result = null;
         // 1. create HttpClient
@@ -157,16 +212,7 @@ public class HttpRequest {
         // 3. convert JSONObject to JSON to String
         Gson gson = new GsonHelper().getGson();
         String json = gson.toJson(requestObject);
-//            String json = jsonObject.toString();
 
-        // 3. build gson object
-//            Gson g = new Gson();
-//            JsonObject jsonObject = new JsonObject();
-//            jsonObject.addProperty("Login", "john");
-//            jsonObject.addProperty("Password", "4321");
-
-//             4. convert JSONObject to JSON to String
-//            json = g.toJson(jsonObject).toString();
         try {
             // 5. set json to StringEntity
             StringEntity se = new StringEntity(json);

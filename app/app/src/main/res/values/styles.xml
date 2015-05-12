@@ -6,7 +6,7 @@
     </style>
 
     <style name="LaggerTheme.Base" parent="Theme.AppCompat.Light.DarkActionBar">
-        <item name="android:windowBackground">@drawable/bg</item>
+        <item name="android:windowBackground">@drawable/bg4</item>
         <item name="android:windowNoTitle">true</item>
         <item name="windowActionBar">false</item>
         <item name="colorPrimary">@color/colorPrimary</item>

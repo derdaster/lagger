@@ -31,7 +31,7 @@
     <string name="unregistered_user">Unregistered user!</string>
     <string name="success_login">Success!</string>
     <string name="incorrect_password">Incorrect password!</string>
-    <string name="title_section2">Section 2</string>
+    <string name="title_section2" translatable="false">Section 2</string>
     <string name="title_section3">Section 3</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
@@ -55,5 +55,8 @@
     <string name="view">View</string>
     <string name="accept_meeting">Accepted meeting invitation</string>
     <string name="refuse_meeting">Refused meeting invitation</string>
+    <string name="invited_a_new_friend">Invited a new friend</string>
+    <string name="choose_email">Choose email from list</string>
+    <string name="removed_a_friend">Removed a friend</string>
 
 </resources>

@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.android.lagger.R;
 import com.android.lagger.controls.basic.SomeDialog;
@@ -25,6 +26,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.melnykov.fab.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,7 +41,7 @@ public class FriendsListFragment extends Fragment {
     private Context mContext;
     private ListView mList;
     private FriendsListAdapter adapter;
-    private Button btnAdd;
+    private FloatingActionButton btnAdd;
 
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
@@ -62,10 +64,9 @@ public class FriendsListFragment extends Fragment {
         parent = inflater.inflate(R.layout.fragment_friends_list, container, false);
 
         mList = (ListView) parent.findViewById(R.id.friends_list);
-//        friendsList = new ArrayList<User>();
 
         fragmentManager = getFragmentManager();
-        btnAdd = (Button) parent.findViewById(R.id.btnAddFriend);
+        btnAdd = (FloatingActionButton) parent.findViewById(R.id.btnAddFriend);
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -132,10 +133,12 @@ public class FriendsListFragment extends Fragment {
                 mList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                        if(i <= INDEX_OF_INVITATION_END)
-                        {
+                        if(i <= INDEX_OF_INVITATION_END){
                             showFriendInvitationDialog(allFriendsList.get(i - 1));
 
+                        }
+                        else{
+                            showFriendDeleteDialog(allFriendsList.get(i - 2));
                         }
                     }
                 });
@@ -176,8 +179,26 @@ public class FriendsListFragment extends Fragment {
     }
 
     private void showFriendInvitationDialog(User friend){
+
         fragmentTransaction = fragmentManager.beginTransaction();
-        SomeDialog newFragment = new SomeDialog (mContext, "Confirm", "Do you want to accept this friend invitation?", false);
-        newFragment.show(fragmentTransaction, "dialog");
+        SomeDialog friendInvitationDialog = new SomeDialog (mContext, "Confirm", "Do you want to accept this friend invitation?", SomeDialog.FRIEND_INVITATION_TYPE);
+        friendInvitationDialog.show(fragmentTransaction, "dialog");
+
+        Bundle details = new Bundle();
+        details.putParcelable("friend", friend);
+
+        friendInvitationDialog.setArguments(details);
+        Toast.makeText(mContext, "invitation from " + friend.getEmail(), Toast.LENGTH_SHORT).show();
+    }
+    private void showFriendDeleteDialog(User friend){
+        fragmentTransaction = fragmentManager.beginTransaction();
+        SomeDialog friendDeleteDialog = new SomeDialog (mContext, "Confirm", "Do you want to delete this friend?", SomeDialog.FRIEND_TYPE);
+
+        Bundle details = new Bundle();
+        details.putParcelable("friend", friend);
+        friendDeleteDialog.setArguments(details);
+
+        friendDeleteDialog.show(fragmentTransaction, "dialog");
+//        Toast.makeText(mContext, "delete " + friend.getEmail(), Toast.LENGTH_SHORT).show();
     }
 }

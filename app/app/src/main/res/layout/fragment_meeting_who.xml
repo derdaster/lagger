@@ -6,34 +6,6 @@
     android:padding="10dp">
 
     <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:paddingBottom="10dp"
-        android:weightSum="1">
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:id="@+id/ivIconAddGuest"
-            android:src="@drawable/icon_add_guest"
-            android:layout_weight="0.1"/>
-
-        <info.hoang8f.widget.FButton
-            android:layout_weight="0.9"
-            android:layout_gravity="center_vertical"
-            android:id="@+id/btnAddGuest"
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:text="Add"
-            android:textColor="@color/color_silver"
-            fbutton:buttonColor="@color/color_wet_asphalt"
-            fbutton:shadowColor="@color/color_asbestos"
-            fbutton:shadowEnabled="true"
-            fbutton:shadowHeight="4dp"
-            fbutton:cornerRadius="7dp"/>
-    </LinearLayout>
-    <LinearLayout
         android:orientation="vertical"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"

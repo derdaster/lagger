@@ -26,6 +26,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.melnykov.fab.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,7 +46,7 @@ public class MeetingListFragment extends Fragment {
     private String[] HEADER_NAMES;
     private ListView mList;
     private MeetingListAdapter adapter;
-    private Button btnAdd;
+    private FloatingActionButton btnAdd;
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
 
@@ -74,7 +75,7 @@ public class MeetingListFragment extends Fragment {
 
         mList = (ListView) rootView.findViewById(R.id.meeting_list);
 
-        btnAdd = (Button) rootView.findViewById(R.id.btnAddMeeting);
+        btnAdd = (FloatingActionButton) rootView.findViewById(R.id.btnAddMeeting);
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -189,7 +190,7 @@ public class MeetingListFragment extends Fragment {
                 if (i <= INDEX_OF_UPCOMING) {
                     showInvitationDialog(allMeetings.get(i - 1));
                 } else {
-                    showMeetingDetails(allMeetings.get(i - 2), true);
+                    showMeetingDialog(allMeetings.get(i - 2));
                 }
             }
         });
@@ -198,7 +199,19 @@ public class MeetingListFragment extends Fragment {
     private void showInvitationDialog(Meeting meeting){
 
         fragmentTransaction = getFragmentManager().beginTransaction();
-        SomeDialog newFragment = new SomeDialog(mContext, "Confirm", "Do you want to accept this meeting invitation?", true);
+        SomeDialog newFragment = new SomeDialog(mContext, "Confirm", "Do you want to accept this meeting invitation?", SomeDialog.MEETING_INVITATION_TYPE);
+        newFragment.show(fragmentTransaction, "dialog");
+
+        Bundle details = new Bundle();
+        details.putParcelable("meeting", meeting);
+
+        newFragment.setArguments(details);
+    }
+
+    private void showMeetingDialog(Meeting meeting){
+
+        fragmentTransaction = getFragmentManager().beginTransaction();
+        SomeDialog newFragment = new SomeDialog(mContext, "Confirm", "What do you want to do with this meeting?", SomeDialog.MEETING_TYPE);
         newFragment.show(fragmentTransaction, "dialog");
 
         Bundle details = new Bundle();
