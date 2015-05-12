@@ -27,6 +27,7 @@ public class ViewMeetingFragment extends Fragment {
     private View parent;
     private Context mContext;
     private Button btnAccept;
+    private Button btnEdit;
     private Button btnRefuse;
 
     private TextView labelWhen;
@@ -34,7 +35,8 @@ public class ViewMeetingFragment extends Fragment {
     private TextView labelMeetingName;
     private TextView labelWhere;
 
-    private boolean isReadOnly;
+    private Boolean isReadOnly;
+    private Boolean isOrganizer;
     private Meeting meeting;
     private User user;
 
@@ -46,10 +48,12 @@ public class ViewMeetingFragment extends Fragment {
         this.mContext = mContext;
         this.isReadOnly = isReadOnly;
     }
+
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         parent = inflater.inflate(R.layout.fragment_view_meeting, container, false);
         btnAccept = (Button) parent.findViewById(R.id.btnAcceptMeeting);
         btnRefuse = (Button) parent.findViewById(R.id.btnRefuseMeeting);
+        btnEdit = (Button) parent.findViewById(R.id.btnEditMeeting);
 
         if(isReadOnly){
             btnAccept.setVisibility(View.INVISIBLE);
@@ -77,6 +81,10 @@ public class ViewMeetingFragment extends Fragment {
         meeting = extras.getParcelable("meeting");
         user = meeting.getOrganizer();
 
+        isOrganizer = State.getLoggedUserId() == meeting.getOrganizer().getId();
+        if(!isOrganizer){
+            btnEdit.setVisibility(View.INVISIBLE);
+        }
         labelMeetingName.setText(meeting.getName());
         labelWhen.setText(meeting.getStartTime().toString());
         labelWhere.setText(meeting.getLocationName());
