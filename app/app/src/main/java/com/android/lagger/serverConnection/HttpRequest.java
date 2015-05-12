@@ -101,7 +101,8 @@ public class HttpRequest {
         HttpURLConnection httpURLConnection = null;
         try {
             httpURLConnection = (HttpURLConnection) urlObject.openConnection();
-            httpURLConnection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+
+            httpURLConnection.setRequestProperty("Content-Type", "application/json");
             httpURLConnection.setRequestMethod("DELETE");
             //FIXME convert response object to String;
            result = httpURLConnection.getResponseMessage();

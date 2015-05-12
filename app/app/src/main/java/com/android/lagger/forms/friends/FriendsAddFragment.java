@@ -33,7 +33,7 @@ public class FriendsAddFragment extends Fragment {
     private Button btnAdd;
     private AutoCompleteTextView autoCompleteTextView;
     private ArrayAdapter<AdapterUser> adapter;
-    private final Integer NUMBER_CHAR_TO_SEARCH = 2;
+    private final Integer NUMBER_CHAR_TO_SEARCH = 3;
     private AdapterUser chosenUser = null;
 
     FragmentManager fragmentManager;
@@ -79,7 +79,7 @@ public class FriendsAddFragment extends Fragment {
         });
 
         autoCompleteTextView.setAdapter(adapter);
-        autoCompleteTextView.setThreshold(NUMBER_CHAR_TO_SEARCH);
+        autoCompleteTextView.setThreshold(NUMBER_CHAR_TO_SEARCH - 1);
 
         autoCompleteTextView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -116,7 +116,7 @@ public class FriendsAddFragment extends Fragment {
 
     private void updateArrayAdapter(String searchText){
         FindFriendRequest findFriendRequest = new FindFriendRequest(State.getLoggedUserId(), searchText);
-        FindFriendsTask findFriendsTask = new FindFriendsTask(mContext, adapter);
+        FindFriendsTask findFriendsTask = new FindFriendsTask(mContext, autoCompleteTextView);
         findFriendsTask.execute(findFriendRequest);
     }
 
