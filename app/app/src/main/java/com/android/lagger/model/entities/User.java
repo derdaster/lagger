@@ -3,6 +3,7 @@ package com.android.lagger.model.entities;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.android.lagger.model.AdapterUser;
 import com.google.gson.JsonObject;
 
 /**
@@ -119,5 +120,9 @@ public class User implements Parcelable{
         password = in.readString();
         email = in.readString();
         phone = in.readString();
+    }
+
+    public AdapterUser convertToAdapterUser(){
+        return new AdapterUser(id, email);
     }
 }

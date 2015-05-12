@@ -6,6 +6,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
 import com.android.lagger.R;
+import com.android.lagger.model.AdapterUser;
 import com.android.lagger.model.entities.User;
 import com.android.lagger.requestObjects.AcceptMeetingRequest;
 import com.android.lagger.requestObjects.FindFriendRequest;
@@ -21,9 +22,9 @@ import java.util.List;
 public class FindFriendsTask extends AsyncTask<FindFriendRequest, Void, FindFriendResponse> {
     private Context context;
     private HttpClient client;
-    private ArrayAdapter arrayAdapter;
+    private ArrayAdapter<AdapterUser> arrayAdapter;
 
-    public FindFriendsTask(Context context, ArrayAdapter arrayAdapter) {
+    public FindFriendsTask(Context context, ArrayAdapter<AdapterUser> arrayAdapter) {
         this.context = context;
         this.arrayAdapter = arrayAdapter;
         client = new HttpClient();
@@ -34,29 +35,27 @@ public class FindFriendsTask extends AsyncTask<FindFriendRequest, Void, FindFrie
     }
 
     protected void onPostExecute(final FindFriendResponse resp) {
-
-        //TODO refactor and test
-        final String[] emailsList = getEmailList(resp);
+        //TODO TESTING
+        final AdapterUser[] emailsList = getEmailList(resp);
         setAutoAdapter(emailsList);
-//        showInfo(resp.getUsers().toString());
     }
 
-    private String[] getEmailList(final FindFriendResponse resp){
-        String[] emailList = null;
+    private AdapterUser[] getEmailList(final FindFriendResponse resp){
+        AdapterUser[] emailList = null;
         if(resp != null) {
             List<User> users = resp.getUsers();
-            emailList = new String[users.size()];
+            emailList = new AdapterUser[users.size()];
             if (users != null) {
                 int i = 0;
                 for (User user : users) {
-                    emailList[i] = user.getEmail();
+                    emailList[i] = user.convertToAdapterUser();
                     i++;
                 }
             }
         }
         return emailList;
     }
-   private void setAutoAdapter(final String[] EMAIL_LIST){
+   private void setAutoAdapter(final AdapterUser[] EMAIL_LIST){
        arrayAdapter.clear();
        if (EMAIL_LIST != null)
            for (int i = 0; i < EMAIL_LIST.length; i++) {
@@ -66,7 +65,6 @@ public class FindFriendsTask extends AsyncTask<FindFriendRequest, Void, FindFrie
 
    }
     private void showInfo(String info) {
-
         Toast.makeText(context, info, Toast.LENGTH_SHORT).show();
     }
 
