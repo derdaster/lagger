@@ -96,11 +96,10 @@ public class FriendsAddFragment extends Fragment {
         if(chosenUser != null && (chosenUser.toString()).equals(autoCompleteTextView.getText().toString())){
             final Integer friendId = chosenUser.getId();
             AddFriendRequest addFriendRequest = new AddFriendRequest(State.getLoggedUserId(), friendId);
-            AddFriendTask addFriendTask = new AddFriendTask(mContext);
+            AddFriendTask addFriendTask = new AddFriendTask(mContext, true);
             addFriendTask.execute(addFriendRequest);
 
             fragmentTransaction = fragmentManager.beginTransaction();
-
             fragmentTransaction.replace(R.id.container_body, new FriendsListFragment()).commit();
 
         }

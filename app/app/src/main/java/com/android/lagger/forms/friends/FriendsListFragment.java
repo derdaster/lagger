@@ -191,7 +191,7 @@ public class FriendsListFragment extends Fragment {
         details.putParcelable("friend", friend);
 
         friendInvitationDialog.setArguments(details);
-        Toast.makeText(mContext, "invitation from " + friend.getEmail(), Toast.LENGTH_SHORT).show();
+//        Toast.makeText(mContext, "invitation from " + friend.getEmail(), Toast.LENGTH_SHORT).show();
     }
     private void showFriendDeleteDialog(User friend){
         SomeDialog friendDeleteDialog = new SomeDialog (mContext, "Confirm", "Do you want to delete this friend?", SomeDialog.FRIEND_TYPE);

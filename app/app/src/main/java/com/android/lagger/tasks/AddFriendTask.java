@@ -16,9 +16,11 @@ import com.android.lagger.services.HttpClient;
 public class AddFriendTask extends AsyncTask<AddFriendRequest, Void, AddFriendResponse> {
     private Context context;
     private HttpClient client;
+    private Boolean isInvitation;
 
-    public AddFriendTask(Context context) {
+    public AddFriendTask(Context context, Boolean isInvitation) {
         this.context = context;
+        this.isInvitation = isInvitation;
         client = new HttpClient();
     }
 
@@ -28,7 +30,10 @@ public class AddFriendTask extends AsyncTask<AddFriendRequest, Void, AddFriendRe
     }
 
     protected void onPostExecute(final AddFriendResponse resp) {
-        String info = context.getString(R.string.invited_a_new_friend);
+        String info = context.getString(R.string.accepted_invitation);
+        if(isInvitation) {
+            info = context.getString(R.string.invited_a_new_friend);
+        }
         showInfo(info);
     }
 
