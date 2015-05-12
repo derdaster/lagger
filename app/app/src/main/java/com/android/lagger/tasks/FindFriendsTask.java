@@ -48,7 +48,7 @@ public class FindFriendsTask extends AsyncTask<FindFriendRequest, Void, FindFrie
             if (users != null) {
                 int i = 0;
                 for (User user : users) {
-                    emailList[i] = user.convertToAdapterUser();
+                    emailList[i] = new AdapterUser(user);
                     i++;
                 }
             }
