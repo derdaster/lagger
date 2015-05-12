@@ -7,8 +7,10 @@ using System.Linq;
 using System.Net;
 using System.Runtime.Serialization;
 using System.ServiceModel;
+using System.ServiceModel.Channels;
 using System.ServiceModel.Web;
 using System.Text;
+using System.Web;
 using System.Web.UI;
 
 namespace LaggerServer
@@ -31,7 +33,8 @@ namespace LaggerServer
         {
             try
             {
-                return "Connected success.";
+                var ip = GetIP();
+                return "Connected success. Your IP: " + ip;
             }
             catch (Exception ex)
             {
@@ -195,7 +198,49 @@ namespace LaggerServer
 
         private void LogDiagnostic(String tag, int? idUser = null)
         {
-            Log.LogInfo(String.Format("[{0}][User: {1}]", tag, idUser.HasValue ? idUser.Value.ToString() : "null"));
+            Log.LogInfo(String.Format("[{2}][{0}][User: {1}]", tag, idUser.HasValue ? idUser.Value.ToString() : "null", GetIP()));
+        }
+
+        private string GetIP()
+        {
+            string ip = "";
+
+            try
+            {
+                string CustomerIP = "";
+
+                if (HttpContext.Current.Request.ServerVariables["HTTP_VIA"] != null)
+                {
+
+                    CustomerIP = HttpContext.Current.Request.ServerVariables["HTTP_X_FORWARDED_FOR"].ToString();
+
+                }
+
+                else
+                {
+
+                    CustomerIP = HttpContext.Current.Request.ServerVariables["REMOTE_ADDR"].ToString();
+
+                }
+
+                ip = CustomerIP;
+
+                
+
+                //ip = HttpContext.Current.Request.UserHostAddress;
+
+                //OperationContext context = OperationContext.Current;
+                //MessageProperties prop = context.IncomingMessageProperties;
+                //RemoteEndpointMessageProperty endpoint =
+                //    prop[RemoteEndpointMessageProperty.Name] as RemoteEndpointMessageProperty;
+                //ip = endpoint.Address;
+            }
+            catch
+            {
+
+            }
+
+            return ip;
         }
     }
 }

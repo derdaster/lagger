@@ -116,4 +116,16 @@ namespace LaggerServer.Meetings
     public class EditMeetingResponse : Response
     {
     }
+
+    [DataContract]
+    public class RemoveMeetingRequest : Request
+    {
+        [DataMember(Name = "idMeeting", Order = 0)]
+        public int IdMeeting { get; set; }
+    }
+
+    [DataContract]
+    public class RemoveMeetingResponse : Response
+    {
+    }
 }
