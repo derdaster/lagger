@@ -35,7 +35,6 @@ public class FindFriendsTask extends AsyncTask<FindFriendRequest, Void, FindFrie
     }
 
     protected void onPostExecute(final FindFriendResponse resp) {
-        //TODO TESTING
         final AdapterUser[] emailsList = getEmailList(resp);
         setAutoAdapter(emailsList);
     }

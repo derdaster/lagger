@@ -101,9 +101,10 @@ public class FriendsListFragment extends Fragment {
                 String invitations = HttpRequest.POST(URL.GET_INVITATION_FROM_FRIENDS, userIdJson);
                 String friends = HttpRequest.POST(URL.GET_FRIENDS, userIdJson);
 
-                invitations = invitations.substring(0, invitations.length() - 1);
-                friends = friends.substring(1, friends.length());
-
+                if(invitations != "" && friends != ""){
+                    invitations = invitations.substring(0, invitations.length() - 1);
+                    friends = friends.substring(1, friends.length());
+                }
                 StringBuilder sb = new StringBuilder();
                 sb.append(invitations);
                 sb.append(",");
@@ -149,25 +150,27 @@ public class FriendsListFragment extends Fragment {
     }
 
     private List<User> parseFriends(String result){
-        List<User> usersFromResponse = new ArrayList<User>();
-        List<User> invitationsFromFriends = new ArrayList<User>();
-        List<User> friendsList = new ArrayList<User>();
 
-        JsonParser parser = new JsonParser();
-        JsonObject responseJson = (JsonObject)parser.parse(result);
+            List<User> usersFromResponse = new ArrayList<User>();
+            List<User> invitationsFromFriends = new ArrayList<User>();
+            List<User> friendsList = new ArrayList<User>();
+        if(!result.equals(",")) {
+            JsonParser parser = new JsonParser();
+            JsonObject responseJson = (JsonObject) parser.parse(result);
 
-        friendsListResp = responseJson.get("friends").getAsJsonArray();
-        invitationsFromFriendsResp = responseJson.get("friendInvitations").getAsJsonArray();
+            friendsListResp = responseJson.get("friends").getAsJsonArray();
+            invitationsFromFriendsResp = responseJson.get("friendInvitations").getAsJsonArray();
 
-        Gson gson = new Gson();
-        for(JsonElement friendJsonElem: friendsListResp) {
-            User friend = gson.fromJson(friendJsonElem, User.class);
-            friendsList.add(friend);
-        }
+            Gson gson = new Gson();
+            for (JsonElement friendJsonElem : friendsListResp) {
+                User friend = gson.fromJson(friendJsonElem, User.class);
+                friendsList.add(friend);
+            }
 
-        for(JsonElement invitationJsonElem: invitationsFromFriendsResp) {
-            User friend = gson.fromJson(invitationJsonElem, User.class);
-            invitationsFromFriends.add(friend);
+            for (JsonElement invitationJsonElem : invitationsFromFriendsResp) {
+                User friend = gson.fromJson(invitationJsonElem, User.class);
+                invitationsFromFriends.add(friend);
+            }
         }
 
         INDEX_OF_INVITATION_END = invitationsFromFriends.size();
@@ -199,6 +202,5 @@ public class FriendsListFragment extends Fragment {
 
         fragmentTransaction = fragmentManager.beginTransaction();
         friendDeleteDialog.show(fragmentTransaction, "dialog");
-//        Toast.makeText(mContext, "delete " + friend.getEmail(), Toast.LENGTH_SHORT).show();
     }
 }
