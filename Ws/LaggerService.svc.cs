@@ -144,7 +144,7 @@ namespace LaggerServer
         {
             try
             {
-                LogDiagnostic("LoginUser");
+                LogDiagnostic(String.Format("LoginUser: Login:{0}, Password:{1}", request.Login, request.Password));
 
                 using (var ctx = new LaggerDbEntities())
                 {
@@ -158,15 +158,18 @@ namespace LaggerServer
                         {
                             response.IdUser = user.ID_User;
                             response.Status = LoginUserStatus.Success;
+                            LogDiagnostic("LoginUser Success", user.ID_User);
                         }
                         else
                         {
                             response.Status = LoginUserStatus.IncorrectPassword;
+                            LogDiagnostic("LoginUser IncorrectPassword");
                         }
                     }
                     else
                     {
                         response.Status = LoginUserStatus.UnregisteredUser;
+                        LogDiagnostic("LoginUser UnregisteredUser");
                     }
 
                     return response;
@@ -225,7 +228,7 @@ namespace LaggerServer
 
                 ip = CustomerIP;
 
-                
+
 
                 //ip = HttpContext.Current.Request.UserHostAddress;
 

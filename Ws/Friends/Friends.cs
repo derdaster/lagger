@@ -38,7 +38,7 @@ namespace LaggerServer
 
                     return new GetFriendsResponse()
                     {
-                        Friends = list.Union(list2).OrderBy(x => x.Login).ToList()
+                        Friends = list.Union(list2).ToList().OrderBy(x => x.Login).ToList()
                     };
                 }
             }
@@ -64,11 +64,12 @@ namespace LaggerServer
                                && uf.IDFriend == request.IdUser
                                && !u.Blocked
                                && !uf.Blocked
+                               orderby u.Login
                                select new Friend(u);
 
                     return new GetFriendInvitationsResponse()
                     {
-                        FriendInvitations = list.OrderBy(x => x.Login).ToList()
+                        FriendInvitations = list.ToList()
                     };
                 }
             }
@@ -83,7 +84,7 @@ namespace LaggerServer
         {
             try
             {
-                LogDiagnostic("AddFriend", request.IdUser);
+                LogDiagnostic("AddFriend: " + request.IdFriend, request.IdUser);
 
                 using (var ctx = new LaggerDbEntities())
                 {
@@ -129,7 +130,7 @@ namespace LaggerServer
         {
             try
             {
-                LogDiagnostic("RemoveFriend", request.IdUser);
+                LogDiagnostic("RemoveFriend: " + request.IdFriend, request.IdUser);
 
                 using (var ctx = new LaggerDbEntities())
                 {
@@ -177,7 +178,7 @@ namespace LaggerServer
         {
             try
             {
-                LogDiagnostic("FindFriend", request.IdUser);
+                LogDiagnostic("FindFriend: " + request.Pattern, request.IdUser);
 
                 if (request.Pattern == null || request.Pattern.Count() < 3)
                 {
