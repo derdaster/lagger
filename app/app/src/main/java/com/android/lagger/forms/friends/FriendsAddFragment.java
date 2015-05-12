@@ -101,6 +101,8 @@ public class FriendsAddFragment extends Fragment {
 
             fragmentTransaction = fragmentManager.beginTransaction();
 
+            fragmentTransaction.replace(R.id.container_body, new FriendsListFragment()).commit();
+
         }
         else{
             showError();
