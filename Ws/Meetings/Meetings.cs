@@ -213,5 +213,42 @@ namespace LaggerServer
                 return null;
             }
         }
+
+
+        public RemoveMeetingResponse RemoveMeeting(RemoveMeetingRequest request)
+        {
+            try
+            {
+                LogDiagnostic("RemoveMeeting", request.IdUser);
+
+                using (var ctx = new LaggerDbEntities())
+                {
+                    var entity = (from e in ctx.Events
+                                  where e.ID_Event == request.IdMeeting
+                                  select e).FirstOrDefault();
+
+                    if (entity == null)
+                    {
+                        throw new Exception("Nie ma takiego wydarzenia.");
+                    }
+
+                    if (entity.IDOrganizer != request.IdUser)
+                    {
+                        throw new Exception("Użytkownik nie jest organizatorem tego wydarzenia.");
+                    }
+
+                    entity.Blocked = true;
+
+                    ctx.SubmitChanges();
+
+                    return new RemoveMeetingResponse();
+                }
+            }
+            catch (Exception ex)
+            {
+                SetError("RemoveMeeting Error", ex);
+                return null;
+            }
+        }
     }
 }

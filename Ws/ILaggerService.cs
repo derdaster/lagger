@@ -37,8 +37,12 @@ namespace LaggerServer
         AddMeetingResponse AddMeeting(AddMeetingRequest request);
 
         [OperationContract]
-        [WebInvoke(UriTemplate = "user/meetings/edit", Method = "PUT", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        [WebInvoke(UriTemplate = "user/meetings/edit", Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
         EditMeetingResponse EditMeeting(EditMeetingRequest request);
+
+        [OperationContract]
+        [WebInvoke(UriTemplate = "user/meetings/remove", Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        RemoveMeetingResponse RemoveMeeting(RemoveMeetingRequest request);
 
         [OperationContract]
         [WebInvoke(UriTemplate = "user/friends/get", Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
@@ -53,7 +57,7 @@ namespace LaggerServer
         AddFriendResponse AddFriend(AddFriendRequest request);
 
         [OperationContract]
-        [WebInvoke(UriTemplate = "user/friends/remove", Method = "DELETE", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        [WebInvoke(UriTemplate = "user/friends/remove", Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
         RemoveFriendResponse RemoveFriend(RemoveFriendRequest request);
 
         [OperationContract]
