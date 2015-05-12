@@ -123,6 +123,6 @@ public class User implements Parcelable{
     }
 
     public AdapterUser convertToAdapterUser(){
-        return new AdapterUser(id, email);
+        return new AdapterUser(id, email, login);
     }
 }

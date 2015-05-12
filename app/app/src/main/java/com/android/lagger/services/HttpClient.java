@@ -57,7 +57,7 @@ public class HttpClient {
 
     public RemoveFriendResponse removeFriend(final RemoveFriendRequest removeFriendRequest) {
         RemoveFriendResponse resp = null;
-        String response = HttpRequest.DELETE(URL.REMOVE_FRIEND, removeFriendRequest);
+        String response = HttpRequest.POST(URL.REMOVE_FRIEND, removeFriendRequest);
         resp = gson.fromJson(response, RemoveFriendResponse.class);
 
         return resp;

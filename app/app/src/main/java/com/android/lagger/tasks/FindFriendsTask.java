@@ -3,15 +3,13 @@ package com.android.lagger.tasks;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Toast;
 
-import com.android.lagger.R;
 import com.android.lagger.model.AdapterUser;
 import com.android.lagger.model.entities.User;
-import com.android.lagger.requestObjects.AcceptMeetingRequest;
 import com.android.lagger.requestObjects.FindFriendRequest;
 import com.android.lagger.responseObjects.FindFriendResponse;
-import com.android.lagger.responseObjects.ResponseObject;
 import com.android.lagger.services.HttpClient;
 
 import java.util.List;
@@ -23,10 +21,12 @@ public class FindFriendsTask extends AsyncTask<FindFriendRequest, Void, FindFrie
     private Context context;
     private HttpClient client;
     private ArrayAdapter<AdapterUser> arrayAdapter;
+    private AutoCompleteTextView autoCompleteTextView;
 
-    public FindFriendsTask(Context context, ArrayAdapter<AdapterUser> arrayAdapter) {
+    public FindFriendsTask(Context context, AutoCompleteTextView autoCompleteTextView) {
         this.context = context;
-        this.arrayAdapter = arrayAdapter;
+        this.autoCompleteTextView = autoCompleteTextView;
+        this.arrayAdapter = (ArrayAdapter<AdapterUser>) autoCompleteTextView.getAdapter();
         client = new HttpClient();
     }
 
@@ -62,6 +62,7 @@ public class FindFriendsTask extends AsyncTask<FindFriendRequest, Void, FindFrie
                arrayAdapter.add(EMAIL_LIST[i]);
        }
        arrayAdapter.notifyDataSetChanged();
+       autoCompleteTextView.showDropDown();
 
    }
     private void showInfo(String info) {
