@@ -106,7 +106,7 @@ public class SomeDialog extends DialogFragment {
                 .setNeutralButton(R.string.view, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        showMeetingDetails(meeting);
+                        showMeetingDetails(meeting, false);
 
                     }
                 })
@@ -128,7 +128,7 @@ public class SomeDialog extends DialogFragment {
                 .setNeutralButton(R.string.view, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        showMeetingDetails(meeting);
+                        showMeetingDetails(meeting, true);
 
                     }
                 })
@@ -195,14 +195,14 @@ public class SomeDialog extends DialogFragment {
             removeFriendTask.execute(removeFriendRequest);
     }
 
-    private void showMeetingDetails(final Meeting meeting){
+    private void showMeetingDetails(final Meeting meeting, Boolean isReadonly){
         fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.addToBackStack(null);
 
         Bundle details = new Bundle();
         details.putParcelable("meeting", meeting);
 
-        ViewMeetingFragment detailsMeetingFragment = new ViewMeetingFragment(mContext, false);
+        ViewMeetingFragment detailsMeetingFragment = new ViewMeetingFragment(mContext, isReadonly);
         detailsMeetingFragment.setArguments(details);
 
         fragmentTransaction.replace(R.id.container_body, detailsMeetingFragment).commit();

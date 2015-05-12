@@ -19,6 +19,7 @@ import com.android.lagger.serverConnection.URL;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.gson.JsonObject;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 
 public class GPSService extends Service implements LocationListener {
@@ -184,32 +185,7 @@ public void sendLocation(){
         @Override
         protected void onPostExecute(String result) {
 
-//            JsonParser parser = new JsonParser();
-//            JsonObject responseJson = (JsonObject)parser.parse(result);
-//
-//            int status = responseJson.get("status").getAsInt();
-//            if(status == 1){
-//                int userId = responseJson.get("idUser").getAsInt();
-//                State.loggedUser = new User();
-//                State.loggedUser.setId(userId);
-//
-//                Intent intent = new Intent(context, MainActivity.class);
-//                startActivity(intent);
-//            }
-//            else {
-//                String message = "";
-//                switch (status) {
-//                    case 0:
-//                        message = getString(R.string.unregistered_user);
-//                        break;
-//                    case 2:
-//                        message = getString(R.string.incorrect_password);
-//                        break;
-//                }
-//
-//                Toast.makeText(context, message,
-//                        Toast.LENGTH_SHORT).show();
-//            }
+            //Toast.makeText(context,result, Toast.LENGTH_LONG).show();
         }
     }.execute();
 }
@@ -242,10 +218,16 @@ public void sendLocation(){
     public JsonObject createGPSJSON(String userId,String meetingId){
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty("idUser", userId);
-        jsonObject.addProperty("dateTime", "\\/Date(928142400000+0200)\\/");
+        String x="\\/Date(928142400000+0200)\\/";
+        String y=x.substring(0,x.length()-1);
+        y=y.concat(x.substring(x.length()-1));
+
+        jsonObject.addProperty("dateTime", y);
         jsonObject.addProperty("idMeeting", meetingId);
-        jsonObject.addProperty("latitude", String.valueOf(this.latitude));
-        jsonObject.addProperty("longitude", String.valueOf(this.longitude));
+        Double latVal=new BigDecimal(this.latitude ).setScale(7, BigDecimal.ROUND_HALF_UP).doubleValue();
+        Double lngVal=new BigDecimal(this.longitude ).setScale(7, BigDecimal.ROUND_HALF_UP).doubleValue();
+        jsonObject.addProperty("latitude", String.valueOf(latVal));
+        jsonObject.addProperty("longitude", String.valueOf(lngVal));
         return jsonObject;
     }
 }

@@ -220,19 +220,6 @@ public class MeetingListFragment extends Fragment {
         newFragment.setArguments(details);
     }
 
-    private void showMeetingDetails(Meeting meeting, Boolean isReadOnly){
-        fragmentTransaction = getFragmentManager().beginTransaction();
-        fragmentTransaction.addToBackStack(null);
-
-        Bundle details = new Bundle();
-        details.putParcelable("meeting", meeting);
-
-        ViewMeetingFragment detailsMeetingFragment = new ViewMeetingFragment(mContext, isReadOnly);
-        detailsMeetingFragment.setArguments(details);
-
-        fragmentTransaction.replace(R.id.container_body, detailsMeetingFragment).commit();
-    }
-
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
