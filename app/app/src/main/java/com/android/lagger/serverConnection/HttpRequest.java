@@ -12,6 +12,8 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.params.BasicHttpParams;
+import org.apache.http.params.HttpParams;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -58,7 +60,38 @@ public class HttpRequest {
 
     public static String DELETE(String url, RequestObject requestObject){
         String result = null;
+/*
+        HttpClient httpclient = new DefaultHttpClient();
 
+        // 2. make POST request to the given URL
+        HttpDelete httpDelete = new HttpDelete(url);
+
+        // 3. convert JSONObject to JSON to String
+        Gson gson = new GsonHelper().getGson();
+        String json = gson.toJson(requestObject);
+
+        try {
+            // 5. set json to StringEntity
+            HttpParams hp = new  {
+            };
+
+            // 6. set httpPost Entity
+            httpDelete.setParams(hp);
+
+            // 7. Set some headers to inform server about the type of the content
+            httpDelete.setHeader("Accept", "application/json");
+            httpDelete.setHeader("Content-type", "application/json");
+
+            // 8. Execute POST request to the given URL
+            HttpResponse httpResponse = httpclient.execute(httpDelete);
+            result = getResponseFromHttp(httpResponse);
+        }
+        catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+*/
         java.net.URL urlObject = null;
         try {
             urlObject = new URL(url);
@@ -71,7 +104,7 @@ public class HttpRequest {
             httpURLConnection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
             httpURLConnection.setRequestMethod("DELETE");
             //FIXME convert response object to String;
-           result = httpURLConnection.getContentEncoding();
+           result = httpURLConnection.getResponseMessage();
         } catch (IOException exception) {
             exception.printStackTrace();
         } finally {

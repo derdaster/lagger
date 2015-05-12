@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.android.lagger.R;
 import com.android.lagger.controls.basic.SomeDialog;
@@ -137,7 +138,7 @@ public class FriendsListFragment extends Fragment {
 
                         }
                         else{
-                            showFriendDeleteDialog(allFriendsList.get(i - 1));
+                            showFriendDeleteDialog(allFriendsList.get(i - 2));
                         }
                     }
                 });
@@ -187,10 +188,17 @@ public class FriendsListFragment extends Fragment {
         details.putParcelable("friend", friend);
 
         friendInvitationDialog.setArguments(details);
+        Toast.makeText(mContext, "invitation from " + friend.getEmail(), Toast.LENGTH_SHORT).show();
     }
     private void showFriendDeleteDialog(User friend){
         fragmentTransaction = fragmentManager.beginTransaction();
-        SomeDialog newFragment = new SomeDialog (mContext, "Confirm", "Do you want to delete this friend?", SomeDialog.FRIEND_TYPE);
-        newFragment.show(fragmentTransaction, "dialog");
+        SomeDialog friendDeleteDialog = new SomeDialog (mContext, "Confirm", "Do you want to delete this friend?", SomeDialog.FRIEND_TYPE);
+
+        Bundle details = new Bundle();
+        details.putParcelable("friend", friend);
+        friendDeleteDialog.setArguments(details);
+
+        friendDeleteDialog.show(fragmentTransaction, "dialog");
+//        Toast.makeText(mContext, "delete " + friend.getEmail(), Toast.LENGTH_SHORT).show();
     }
 }
