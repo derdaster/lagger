@@ -38,7 +38,7 @@ namespace LaggerServer
 
                     return new GetFriendsResponse()
                     {
-                        Friends = list.Union(list2).ToList()
+                        Friends = list.Union(list2).OrderBy(x => x.Login).ToList()
                     };
                 }
             }
@@ -68,7 +68,7 @@ namespace LaggerServer
 
                     return new GetFriendInvitationsResponse()
                     {
-                        FriendInvitations = list.ToList()
+                        FriendInvitations = list.OrderBy(x => x.Login).ToList()
                     };
                 }
             }
@@ -212,7 +212,8 @@ namespace LaggerServer
                                     && (u.Login.Contains(request.Pattern) || u.Email.Contains(request.Pattern))
                                     select u);
 
-                    var usersList = allUsers.Where(x => !friends.Contains(x.ID_User)).Take(10).Select(x => new Friend(x)).ToList();
+                    var usersList = allUsers.Where(x => !friends.Contains(x.ID_User))
+                        .Take(10).OrderBy(x => x.Login).Select(x => new Friend(x)).ToList();
 
                     return new FindFriendResponse()
                     {
