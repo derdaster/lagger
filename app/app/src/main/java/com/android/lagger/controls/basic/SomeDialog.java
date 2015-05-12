@@ -19,6 +19,7 @@ import com.android.lagger.model.entities.Meeting;
 import com.android.lagger.model.entities.User;
 import com.android.lagger.requestObjects.AcceptFriendRequest;
 import com.android.lagger.requestObjects.AcceptMeetingRequest;
+import com.android.lagger.requestObjects.AddFriendRequest;
 import com.android.lagger.requestObjects.LoginRequest;
 import com.android.lagger.requestObjects.RemoveFriendRequest;
 import com.android.lagger.responseObjects.LoginResponse;
@@ -26,6 +27,7 @@ import com.android.lagger.responseObjects.ResponseObject;
 import com.android.lagger.services.HttpClient;
 import com.android.lagger.settings.State;
 import com.android.lagger.tasks.AcceptMeetingTask;
+import com.android.lagger.tasks.AddFriendTask;
 import com.android.lagger.tasks.RemoveFriendTask;
 
 /**
@@ -70,8 +72,7 @@ public class SomeDialog extends DialogFragment {
                 dialog = createFriendDialog();
                 break;
             case FRIEND_INVITATION_TYPE:
-                //TODO implement, change!
-                dialog = createFriendDialog();
+                dialog = createInvitationFriendDialog();
                 break;
         }
         return dialog;
@@ -135,7 +136,34 @@ public class SomeDialog extends DialogFragment {
     }
 
 
-    //if delete friend
+    private AlertDialog createInvitationFriendDialog(){
+        Bundle extras = getArguments();
+        final User friend = extras.getParcelable("friend");
+
+        return new AlertDialog.Builder(getActivity())
+                .setTitle(title)
+                .setMessage(message)
+                .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        AddFriendRequest addFriendRequest = new AddFriendRequest(State.getLoggedUserId(), friend.getId());
+                        AddFriendTask addFriendTask = new AddFriendTask(mContext, false);
+                        addFriendTask.execute(addFriendRequest);
+
+                        fragmentTransaction = fragmentManager.beginTransaction();
+                        fragmentTransaction.replace(R.id.container_body, new FriendsListFragment()).commit();
+                    }
+                })
+                .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        deleteFriend(friend, true);
+                        fragmentTransaction = getFragmentManager().beginTransaction();
+                        fragmentTransaction.replace(R.id.container_body, new FriendsListFragment()).commit();
+                    }
+                })
+                .create();
+    }
     private AlertDialog createFriendDialog(){
         Bundle extras = getArguments();
         final User friend = extras.getParcelable("friend");
@@ -146,29 +174,25 @@ public class SomeDialog extends DialogFragment {
                 .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                    deleteFriend(friend, true);
+                    deleteFriend(friend, false);
+                    fragmentTransaction = getFragmentManager().beginTransaction();
+                    fragmentTransaction.replace(R.id.container_body, new FriendsListFragment()).commit();
                     }
                 })
                 .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                    deleteFriend(friend, false);
+
                     }
                 })
                 .create();
     }
 
-    private void deleteFriend(User friend, Boolean delete){
-        if(delete){
+    private void deleteFriend(User friend, Boolean isInvitation){
             RemoveFriendRequest removeFriendRequest = new RemoveFriendRequest(State.getLoggedUserId(), friend.getId());
 
-            RemoveFriendTask removeFriendTask = new RemoveFriendTask(mContext);
+            RemoveFriendTask removeFriendTask = new RemoveFriendTask(mContext, isInvitation);
             removeFriendTask.execute(removeFriendRequest);
-
-            fragmentTransaction = getFragmentManager().beginTransaction();
-            fragmentTransaction.replace(R.id.container_body, new FriendsListFragment()).commit();
-        }
-
     }
 
     private void showMeetingDetails(final Meeting meeting){

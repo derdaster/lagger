@@ -58,5 +58,7 @@
     <string name="invited_a_new_friend">Invited a new friend</string>
     <string name="choose_email">Choose email from list</string>
     <string name="removed_a_friend">Removed a friend</string>
+    <string name="accepted_invitation">Accepted an invitation from a friend</string>
+    <string name="refused_invitation_to_friends">Refused invitation to friend</string>
 
 </resources>

@@ -35,7 +35,6 @@ public class FindFriendsTask extends AsyncTask<FindFriendRequest, Void, FindFrie
     }
 
     protected void onPostExecute(final FindFriendResponse resp) {
-        //TODO TESTING
         final AdapterUser[] emailsList = getEmailList(resp);
         setAutoAdapter(emailsList);
     }
@@ -48,7 +47,7 @@ public class FindFriendsTask extends AsyncTask<FindFriendRequest, Void, FindFrie
             if (users != null) {
                 int i = 0;
                 for (User user : users) {
-                    emailList[i] = user.convertToAdapterUser();
+                    emailList[i] = new AdapterUser(user);
                     i++;
                 }
             }

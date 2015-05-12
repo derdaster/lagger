@@ -15,9 +15,11 @@ import com.android.lagger.services.HttpClient;
 public class RemoveFriendTask extends AsyncTask<RemoveFriendRequest, Void, RemoveFriendResponse> {
     private Context context;
     private HttpClient client;
+    private Boolean isInvitation;
 
-    public RemoveFriendTask(Context context) {
+    public RemoveFriendTask(Context context, Boolean isInvitation) {
         this.context = context;
+        this.isInvitation = isInvitation;
         client = new HttpClient();
     }
 
@@ -28,6 +30,9 @@ public class RemoveFriendTask extends AsyncTask<RemoveFriendRequest, Void, Remov
 
     protected void onPostExecute(final RemoveFriendResponse resp) {
         String info = context.getString(R.string.removed_a_friend);
+        if(isInvitation){
+            info = context.getString(R.string.refused_invitation_to_friends);
+        }
         showInfo(info);
     }
 

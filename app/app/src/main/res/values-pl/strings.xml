@@ -40,4 +40,6 @@
     <string name="invited_a_new_friend">Zaproszono nowego znajomego</string>
     <string name="choose_email">Wybierz email z listy</string>
     <string name="removed_a_friend">Usunięto znajomego</string>
+    <string name="accepted_invitation">Zaakceptowano znajomego</string>
+    <string name="refused_invitation_to_friends">Odrzucono zaproszenie do znajomych</string>
 </resources>
