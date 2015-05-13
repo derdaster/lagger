@@ -56,7 +56,7 @@ public class FriendsAddFragment extends Fragment {
             public void onClick(View v) {
                 hideKeyboard();
                 addNewFriend();
-//                adapter = null;
+                adapter = null;
             }
         });
 
