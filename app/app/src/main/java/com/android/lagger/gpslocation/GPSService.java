@@ -30,7 +30,7 @@ import java.util.Date;
 
 public class GPSService extends Service implements LocationListener {
 
-    private static final long MIN_DISTANCE_CHANGE_FOR_UPDATES = 0;
+    private static final long MIN_DISTANCE_CHANGE_FOR_UPDATES = 100;
     private static final long MIN_TIME_BW_UPDATES = 1000 * 20 * 1;
     private final Context context;
     protected LocationManager locationManager;
@@ -182,7 +182,7 @@ public void sendLocation(){
         @Override
         protected String doInBackground(String... urls) {
             Gson gson = new GsonHelper().getGson();
-            SendingPosition sendingPosition=new SendingPosition(State.loggedUser.getId(),new Date(),1,coordinates.latitude,coordinates.longitude);
+            SendingPosition sendingPosition=new SendingPosition(State.loggedUser.getId(),new Date(),20,coordinates.latitude,coordinates.longitude);
             String userString=gson.toJson(sendingPosition);
             JsonParser parser = new JsonParser();
             JsonObject userJson = (JsonObject)parser.parse(userString);

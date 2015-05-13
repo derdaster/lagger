@@ -206,7 +206,7 @@ public class MapFragment extends Fragment {
     public void showUserMarkers() {
 
         for (GPSUser user : gpsUsers) {
-            showNamedMarker(user.getActualPositition(), String.valueOf(user.getIdUser()));
+            showNamedMarker(user.getActualPositition(), String.valueOf(user.getIdUser()+ "za"+user.getArrivalTime()+" min."));
 
             if (!user.getPositionList().isEmpty())
                 drawUserPath(user);
