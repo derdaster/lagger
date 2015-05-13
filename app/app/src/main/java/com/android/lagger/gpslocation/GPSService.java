@@ -30,7 +30,7 @@ import java.util.Date;
 
 public class GPSService extends Service implements LocationListener {
 
-    private static final long MIN_DISTANCE_CHANGE_FOR_UPDATES = 100;
+    private static final long MIN_DISTANCE_CHANGE_FOR_UPDATES = 5;
     private static final long MIN_TIME_BW_UPDATES = 1000 * 20 * 1;
     private final Context context;
     protected LocationManager locationManager;
@@ -169,8 +169,8 @@ public class GPSService extends Service implements LocationListener {
     @Override
     public void onLocationChanged(Location arg0) {
         location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-        coordinates = new LatLng(location.getLatitude(), location.getLongitude());
-        sendLocation();
+        if (location != null) { coordinates = new LatLng(location.getLatitude(), location.getLongitude()); }
+        if (coordinates != null) { sendLocation(); }
 //        Toast.makeText(
 //                context,
 //                "Twoja pozycja -\nX: " + coordinates.latitude + "\nY: "

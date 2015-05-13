@@ -15,6 +15,7 @@ import com.android.lagger.R;
 import com.android.lagger.model.navigation.Position;
 import com.android.lagger.serverConnection.GsonHelper;
 import com.android.lagger.serverConnection.HttpRequest;
+import com.android.lagger.settings.State;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
@@ -206,7 +207,7 @@ public class MapFragment extends Fragment {
     public void showUserMarkers() {
 
         for (GPSUser user : gpsUsers) {
-            showNamedMarker(user.getActualPositition(), String.valueOf(user.getIdUser()+ "za"+user.getArrivalTime()+" min."));
+            showNamedMarker(user.getActualPositition(), String.valueOf(user.getIdUser()+ " za "+user.getArrivalTime()+" min."));
 
             if (!user.getPositionList().isEmpty())
                 drawUserPath(user);
@@ -248,8 +249,8 @@ public class MapFragment extends Fragment {
         new AsyncTask<String, Void, String>() {
             @Override
             protected String doInBackground(String... urls) {
-                String userId = String.valueOf(1);
-                String meetingId = String.valueOf(1);
+                String userId = String.valueOf(State.getLoggedUserId());
+                String meetingId = String.valueOf(20);
                 JsonObject userJson = createGPSJSON(userId,meetingId);
                 //TODO refactoring
                 return HttpRequest.POST(com.android.lagger.serverConnection.URL.GET_POSITIONS, userJson);
