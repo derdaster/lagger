@@ -99,7 +99,7 @@ public class LoginFragment extends Fragment {
 
         private void enableAccess(final LoginResponse loginResp){
             final Integer userId = loginResp.getIdUser();
-            State.loggedUser = new User(userId);
+            State.setLoggedUser(new User(userId));
 
             Intent intent = new Intent(context, MainActivity.class);
             startActivity(intent);

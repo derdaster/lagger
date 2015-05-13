@@ -11,16 +11,20 @@ import com.android.lagger.model.entities.User;
 public class State {
     private static final Integer DEFAULT_USER_ID = 1;
 
-    public static User loggedUser = null;
-    private static final  User defaultUser = new User(DEFAULT_USER_ID);
+    private static User loggedUser = null;
+    private static final User defaultUser = new User(DEFAULT_USER_ID);
 
     //returns logged user or default user if nobody is logged
     public static User getLoggedUser(){
-        return loggedUser != null ? loggedUser : defaultUser;
+        return (loggedUser != null ? loggedUser : defaultUser);
     }
 
-    public static Integer getLoggedUserId(){
+    public static int getLoggedUserId(){
         return getLoggedUser().getId();
+    }
+
+    public static void setLoggedUser(User user) {
+        loggedUser = user;
     }
 
     private boolean checkInternetConnection(Context context) {
