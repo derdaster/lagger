@@ -10,7 +10,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
   </PropertyGroup>
   <ItemGroup>
     <File Include="bin/LaggerServer.dll">
-      <publishTime>05/12/2015 20:59:47</publishTime>
+      <publishTime>05/12/2015 23:37:45</publishTime>
     </File>
     <File Include="bin/NLog.config">
       <publishTime>05/08/2015 19:50:25</publishTime>
@@ -28,7 +28,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>05/08/2015 19:50:25</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>05/12/2015 15:34:42</publishTime>
+      <publishTime>05/12/2015 21:43:26</publishTime>
     </File>
   </ItemGroup>
 </Project>

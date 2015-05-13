@@ -73,7 +73,7 @@ public class MeetingWhoFragment extends Fragment {
             }
 
         });*/
-        btnAdd.setOnClickListener(new View.OnClickListener() {
+/*        btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
               /*new AsyncTask<String, Void, String>() {
@@ -118,8 +118,9 @@ public class MeetingWhoFragment extends Fragment {
                     }
                 }.execute();
                 */
-            }
-        });
+//            }
+       // });
+
     }
 
     private void getFriends(){

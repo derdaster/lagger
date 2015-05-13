@@ -10,6 +10,7 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -53,7 +54,9 @@ public class FriendsAddFragment extends Fragment {
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                hideKeyboard();
                 addNewFriend();
+                adapter = null;
             }
         });
 
@@ -85,8 +88,9 @@ public class FriendsAddFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> arg0, View arg1, int position,
                                     long arg3) {
-             chosenUser = adapter.getItem(position);
-//             Toast.makeText(mContext, chosenUser.getId() + " " + chosenUser.getEmail(), Toast.LENGTH_SHORT).show();
+                chosenUser = adapter.getItem(position);
+                hideKeyboard();
+//                adapter = null;
             }
         });
 
@@ -122,5 +126,11 @@ public class FriendsAddFragment extends Fragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         mContext = getActivity().getApplicationContext();
+    }
+
+    private void hideKeyboard(){
+        InputMethodManager inputManager = (InputMethodManager) mContext.getSystemService(Context.INPUT_METHOD_SERVICE);
+        inputManager.hideSoftInputFromWindow(parent.getWindowToken(),
+                InputMethodManager.RESULT_UNCHANGED_SHOWN);
     }
 }

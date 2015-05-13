@@ -89,8 +89,7 @@ namespace LaggerServer
                 using (var ctx = new LaggerDbEntities())
                 {
                     var entity = (from uf in ctx.UserFriends
-                                  where uf.Status == (short)UserFriendStatus.NotAccepted
-                                  && (uf.IDUser == request.IdUser && uf.IDFriend == request.IdFriend
+                                  where (uf.IDUser == request.IdUser && uf.IDFriend == request.IdFriend
                                   || uf.IDFriend == request.IdUser && uf.IDUser == request.IdFriend)
                                   && !uf.Blocked
                                   select uf).FirstOrDefault();

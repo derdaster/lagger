@@ -35,8 +35,10 @@ public class FindFriendsTask extends AsyncTask<FindFriendRequest, Void, FindFrie
     }
 
     protected void onPostExecute(final FindFriendResponse resp) {
-        final AdapterUser[] emailsList = getEmailList(resp);
-        setAutoAdapter(emailsList);
+        if(arrayAdapter != null) {
+            final AdapterUser[] emailsList = getEmailList(resp);
+            setAutoAdapter(emailsList);
+        }
     }
 
     private AdapterUser[] getEmailList(final FindFriendResponse resp){
@@ -55,13 +57,13 @@ public class FindFriendsTask extends AsyncTask<FindFriendRequest, Void, FindFrie
         return emailList;
     }
    private void setAutoAdapter(final AdapterUser[] EMAIL_LIST){
-       arrayAdapter.clear();
-       if (EMAIL_LIST != null)
-           for (int i = 0; i < EMAIL_LIST.length; i++) {
-               arrayAdapter.add(EMAIL_LIST[i]);
-       }
-       arrayAdapter.notifyDataSetChanged();
-       autoCompleteTextView.showDropDown();
+           arrayAdapter.clear();
+           if (EMAIL_LIST != null)
+               for (int i = 0; i < EMAIL_LIST.length; i++) {
+                   arrayAdapter.add(EMAIL_LIST[i]);
+               }
+           arrayAdapter.notifyDataSetChanged();
+           autoCompleteTextView.showDropDown();
 
    }
     private void showInfo(String info) {

@@ -17,21 +17,39 @@ namespace LaggerServer
 
                 using (var ctx = new LaggerDbEntities())
                 {
-                    var list = (from e in ctx.Events
-                                join ue in ctx.UserEvents
-                                on e.ID_Event equals ue.IDEvent
-                                join u in ctx.Users
-                                on e.IDOrganizer equals u.ID_User
-                                where ue.IDUser == request.IdUser
-                                && ue.Status == (short)UserEventStatus.Accepted
-                                && !e.Blocked
-                                && !ue.Blocked
-                                && !u.Blocked
-                                select new Meeting(e, u)).ToList();
+                    var acceptedUserEvents = (from ue in ctx.UserEvents
+                                              where ue.IDUser == request.IdUser
+                                              && ue.Status == (short)UserEventStatus.Accepted
+                                              && !ue.Blocked
+                                              select ue);
+
+                    var acceptedEvents = (from e in ctx.Events
+                                          join ue in acceptedUserEvents on e.ID_Event equals ue.IDEvent
+                                          join u in ctx.Users on e.IDOrganizer equals u.ID_User
+                                          where !e.Blocked
+                                          && !u.Blocked
+                                          select new Meeting(e, u));
+
+                    var test = acceptedEvents.ToList();
+
+                    var test2 = test;
+
+                    var myEvents = (from e in ctx.Events
+                                    join u in ctx.Users on e.IDOrganizer equals u.ID_User
+                                    where e.IDOrganizer == request.IdUser
+                                    && !e.Blocked
+                                    && !u.Blocked
+                                    select new Meeting(e, u));
+
+                    var test3 = myEvents.ToList();
+
+                    var test4 = test3;
+
+                    var allEvents = acceptedEvents.Union(myEvents).Distinct();
 
                     return new GetMeetingsResponse()
                     {
-                        Meetings = list
+                        Meetings = allEvents.ToList()
                     };
                 }
             }
@@ -56,6 +74,7 @@ namespace LaggerServer
                                 join u in ctx.Users
                                 on e.IDOrganizer equals u.ID_User
                                 where ue.IDUser == request.IdUser
+                                && e.IDOrganizer != request.IdUser
                                 && ue.Status == (short)UserEventStatus.NotAccepted
                                 && !e.Blocked
                                 && !ue.Blocked
@@ -86,7 +105,6 @@ namespace LaggerServer
                     var invitation = (from ue in ctx.UserEvents
                                       where ue.IDUser == request.IdUser
                                       && ue.IDEvent == request.IdMeeting
-                                      && ue.Status == (short)UserEventStatus.NotAccepted
                                       && !ue.Blocked
                                       select ue).FirstOrDefault();
 

@@ -8,9 +8,9 @@
     <string name="title_activity_meetings">MeetingsActivity</string>
     <string name="title_activity_meetings_list">MeetingsListActivity</string>
     <string name="title_activity_create_edit_meeting">CreateEditMeetingActivity</string>
-    <string name="unregistered_user">Unregistered user!</string>
-    <string name="success_login">Success!</string>
-    <string name="incorrect_password">Incorrect password!</string>
+    <string name="unregistered_user">Użytkownik niezarejestrowany</string>
+    <string name="success_login">Zalogowano</string>
+    <string name="incorrect_password">Niepoprawne hasło</string>
     <string name="title_section2">Section 2</string>
     <string name="title_section3">Section 3</string>
 
@@ -23,8 +23,8 @@
 <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="invitations">Zaproszenia</string>
-    <string name="upcoming">Upcoming</string>
-    <string name="invitationsFromFriends">Invitations from friends</string>
+    <string name="upcoming">Nadchodzące</string>
+    <string name="invitationsFromFriends">Zaproszenia od znajomych</string>
     <string name="allFriends">Znajomi</string>
 
 
@@ -42,4 +42,12 @@
     <string name="removed_a_friend">Usunięto znajomego</string>
     <string name="accepted_invitation">Zaakceptowano znajomego</string>
     <string name="refused_invitation_to_friends">Odrzucono zaproszenie do znajomych</string>
+    <string name="drawer_close">Zamknij</string>
+    <string name="drawer_open">Otwórz</string>
+    <string name="nav_item_settings">Ustawienia</string>
+    <string name="nav_item_meetings">Spotkania</string>
+    <string name="title_settings">Ustawienia</string>
+    <string name="title_home">Strona główna</string>
+    <string name="current_meetings">Aktualne spotkania</string>
+    <string name="nearest_meetings">Najbliższe spotkania</string>
 </resources>

@@ -68,6 +68,7 @@ public class FragmentDrawer extends Fragment {
         // drawer labels
         titles = getActivity().getResources().getStringArray(R.array.nav_drawer_labels);
         drawables = new ArrayList<Drawable>();
+        drawables.add(getResources().getDrawable(R.drawable.home));
         drawables.add(getResources().getDrawable(R.drawable.meetings));
         drawables.add(getResources().getDrawable(R.drawable.friends));
         drawables.add(getResources().getDrawable(R.drawable.settings));

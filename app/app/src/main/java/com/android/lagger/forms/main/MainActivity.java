@@ -18,6 +18,7 @@ import android.widget.ListView;
 import com.android.lagger.R;
 import com.android.lagger.forms.drawer.FragmentDrawer;
 import com.android.lagger.forms.friends.FriendsListFragment;
+import com.android.lagger.forms.home.HomeFragment;
 import com.android.lagger.forms.login.LoginFragment;
 import com.android.lagger.forms.meetings.MeetingListFragment;
 import com.android.lagger.forms.settings.SettingsFragment;
@@ -102,26 +103,30 @@ public class MainActivity extends ActionBarActivity implements FragmentDrawer.Fr
 
         switch (position) {
             case 0:
+                fragment = new HomeFragment();
+                title = getString(R.string.title_home);
+                break;
+            case 1:
                 fragment = new MeetingListFragment();
                 title = getString(R.string.title_meetings);
                 break;
-            case 1:
+            case 2:
                 fragment = new FriendsListFragment();
                 title = getString(R.string.title_friends);
                 break;
-            case 2:
+            case 3:
                 fragment = new SettingsFragment();
                 title = getString(R.string.title_settings);
                 break;
-            case 3:
+            case 4:
                 fragment = new LoginFragment();
                 title = "LoginTest";
                 break;
-            case 4:
+            case 5:
                 fragment = new MapFragment();
                 title = "MapTest";
                 break;
-            case 5:
+            case 6:
                 fragment = new MainFragment();
                 title = "GPSTest";
                 break;
