@@ -47,4 +47,7 @@
     <string name="nav_item_settings">Ustawienia</string>
     <string name="nav_item_meetings">Spotkania</string>
     <string name="title_settings">Ustawienia</string>
+    <string name="title_home">Strona główna</string>
+    <string name="current_meetings">Aktualne spotkania</string>
+    <string name="nearest_meetings">Najbliższe spotkania</string>
 </resources>
