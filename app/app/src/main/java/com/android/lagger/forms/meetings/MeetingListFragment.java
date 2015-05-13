@@ -1,5 +1,6 @@
 package com.android.lagger.forms.meetings;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
@@ -10,7 +11,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.ListView;
 
 import com.android.lagger.R;
@@ -37,8 +37,6 @@ import dev.dworks.libs.astickyheader.SimpleSectionedListAdapter.Section;
 /**
  * Created by Kubaa on 2015-04-01.
  */
-
-import android.app.Activity;
 
 
 public class MeetingListFragment extends Fragment {
@@ -150,6 +148,7 @@ public class MeetingListFragment extends Fragment {
 
         Gson gson = new GsonHelper().getGson();
         for (JsonElement meetingJsonElem : meetingsResp) {
+
             Meeting meeting = gson.fromJson(meetingJsonElem, Meeting.class);
             meetings.add(meeting);
         }

@@ -14,13 +14,19 @@ import android.os.IBinder;
 import android.provider.Settings;
 import android.widget.Toast;
 
+import com.android.lagger.model.navigation.SendingPosition;
+import com.android.lagger.serverConnection.GsonHelper;
 import com.android.lagger.serverConnection.HttpRequest;
 import com.android.lagger.serverConnection.URL;
+import com.android.lagger.settings.State;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class GPSService extends Service implements LocationListener {
 
@@ -175,9 +181,12 @@ public void sendLocation(){
     new AsyncTask<String, Void, String>() {
         @Override
         protected String doInBackground(String... urls) {
-            String userId = String.valueOf(1);
-            String meetingId = String.valueOf(1);
-            JsonObject userJson = createGPSJSON(userId,meetingId);
+            Gson gson = new GsonHelper().getGson();
+            SendingPosition sendingPosition=new SendingPosition(State.loggedUser.getId(),new Date(),1,coordinates.latitude,coordinates.longitude);
+            String userString=gson.toJson(sendingPosition);
+            JsonParser parser = new JsonParser();
+            JsonObject userJson = (JsonObject)parser.parse(userString);
+            //JsonObject userJson = createGPSJSON(userId,meetingId);
             //TODO refactoring
             return HttpRequest.POST(URL.ADD_POSITION, userJson);
         }
@@ -185,7 +194,7 @@ public void sendLocation(){
         @Override
         protected void onPostExecute(String result) {
 
-            //Toast.makeText(context,result, Toast.LENGTH_LONG).show();
+            Toast.makeText(context,result, Toast.LENGTH_LONG).show();
         }
     }.execute();
 }
@@ -221,6 +230,7 @@ public void sendLocation(){
         String x="\\/Date(928142400000+0200)\\/";
         String y=x.substring(0,x.length()-1);
         y=y.concat(x.substring(x.length()-1));
+
 
         jsonObject.addProperty("dateTime", y);
         jsonObject.addProperty("idMeeting", meetingId);

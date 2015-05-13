@@ -8,22 +8,49 @@ import java.util.Date;
 /**
  * Created by Ewelina Klisowska on 2015-05-02.
  */
-public class Position implements Parcelable{
+public class SendingPosition implements Parcelable{
+    private Integer idUser;
     private Date dateTime;
+    private Integer idMeeting;
     private Double latitude;
     private Double longitude;
 
-    public Position(Date dateTime, Double latitude, Double longitude) {
+    public SendingPosition(Date dateTime, Double latitude, Double longitude) {
         this.dateTime = dateTime;
         this.latitude = latitude;
         this.longitude = longitude;
     }
 
-    public Position(Double latitude, Double longitude) {
+    public SendingPosition(Double latitude, Double longitude) {
         this.dateTime = new Date();
         this.latitude = latitude;
         this.longitude = longitude;
     }
+
+    public SendingPosition(Integer idUser, Date dateTime, Integer idMeeting, Double latitude, Double longitude) {
+        this.idUser = idUser;
+        this.dateTime = dateTime;
+        this.idMeeting = idMeeting;
+        this.latitude = latitude;
+        this.longitude = longitude;
+    }
+
+    public Integer getIdUser() {
+        return idUser;
+    }
+
+    public void setIdUser(Integer idUser) {
+        this.idUser = idUser;
+    }
+
+    public Integer getIdMeeting() {
+        return idMeeting;
+    }
+
+    public void setIdMeeting(Integer idMeeting) {
+        this.idMeeting = idMeeting;
+    }
+
     public Date getDateTime() {
         return dateTime;
     }
@@ -48,20 +75,21 @@ public class Position implements Parcelable{
         this.longitude = longitude;
     }
 
-    public static final Parcelable.Creator<Position> CREATOR = new Parcelable.Creator<Position>() {
-        public Position createFromParcel(Parcel in) {
-            return new Position(in);
+    public static final Creator<SendingPosition> CREATOR = new Creator<SendingPosition>() {
+        public SendingPosition createFromParcel(Parcel in) {
+            return new SendingPosition(in);
         }
 
-        public Position[] newArray(int size) {
-            return new Position[size];
+        public SendingPosition[] newArray(int size) {
+            return new SendingPosition[size];
         }
     };
 
     @Override
     public String toString() {
-        return "Position{" +
+        return "Position{" +"idUser=" + idUser +
                 "dateTime=" + dateTime.toString() + '\'' +
+                "idMeeting=" + idMeeting +
                 ", latitude='" + latitude +
                 ", longitude='" + longitude +
                 '}';
@@ -73,13 +101,17 @@ public class Position implements Parcelable{
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(idUser);
         dest.writeSerializable(dateTime);
+        dest.writeInt(idMeeting);
         dest.writeDouble(latitude);
         dest.writeDouble(longitude);
     }
 
-    private Position(Parcel in) {
-        dateTime = (java.util.Date) in.readSerializable();
+    private SendingPosition(Parcel in) {
+        idUser = in.readInt();
+        dateTime = (Date) in.readSerializable();
+        idMeeting = in.readInt();
         latitude = in.readDouble();
         longitude = in.readDouble();
     }

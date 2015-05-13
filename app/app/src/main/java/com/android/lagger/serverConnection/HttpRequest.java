@@ -7,20 +7,18 @@ import com.google.gson.JsonParser;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.params.BasicHttpParams;
-import org.apache.http.params.HttpParams;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
-import java.net.*;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 
 /**
@@ -95,6 +93,7 @@ public class HttpRequest {
             // 3. convert JSONObject to JSON to String
             Gson gson = new GsonHelper().getGson();
             String json = gson.toJson(jsonObject);
+        //json = json.replaceAll("\\\\/", "\\/");
 //            String json = jsonObject.toString();
 
             // 3. build gson object
