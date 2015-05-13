@@ -136,7 +136,6 @@ public class FriendsListFragment extends Fragment {
                     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                         if(i <= INDEX_OF_INVITATION_END){
                             showFriendInvitationDialog(allFriendsList.get(i - 1));
-
                         }
                         else{
                             showFriendDeleteDialog(allFriendsList.get(i - 2));
