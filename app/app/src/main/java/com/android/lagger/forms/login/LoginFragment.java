@@ -19,13 +19,14 @@ import com.android.lagger.requestObjects.LoginRequest;
 import com.android.lagger.responseObjects.LoginResponse;
 import com.android.lagger.services.HttpClient;
 import com.android.lagger.settings.State;
+import com.melnykov.fab.FloatingActionButton;
 
 /**
  * Created by Kubaa on 2015-03-20.
  */
 public class LoginFragment extends Fragment {
     private Context mContext;
-    private Button loginBtn;
+    private FloatingActionButton loginBtn;
     private TextView loginTextView;
     private TextView passwordTextView;
     private View parent;
@@ -43,7 +44,7 @@ public class LoginFragment extends Fragment {
     }
 
     private void setFields(){
-        loginBtn = (Button) parent.findViewById(R.id.buttonLogin);
+        loginBtn = (FloatingActionButton) parent.findViewById(R.id.buttonLogin);
         loginTextView = (TextView) parent.findViewById(R.id.editTextEmail);
         passwordTextView = (TextView) parent.findViewById(R.id.editTextPassword);
     }

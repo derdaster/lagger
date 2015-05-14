@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:fbutton="http://schemas.android.com/apk/res-auto"
+    xmlns:fab="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -12,76 +12,93 @@
 
 
         <LinearLayout
-            android:orientation="horizontal"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:paddingLeft="30dp"
-            android:paddingRight="30dp">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/ivIconUser"
-                android:src="@drawable/icon_user"
-                android:layout_weight="1"/>
-
-            <com.wrapp.floatlabelededittext.FloatLabeledEditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingLeft="20dp"
-                android:layout_weight="1">
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/editTextEmail"
-                    android:hint="Login/E-mail"
-                    android:inputType="textEmailAddress" />
-            </com.wrapp.floatlabelededittext.FloatLabeledEditText>
-
-        </LinearLayout>
-
-        <LinearLayout
             android:orientation="horizontal"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:paddingLeft="30dp"
-            android:paddingRight="30dp"
-            android:paddingBottom="20dp">
-
-            <ImageView
-                android:layout_width="wrap_content"
+            android:weightSum="1">
+            <LinearLayout
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/ivIconPassword"
-                android:src="@drawable/icon_password"
-                android:layout_weight="1"/>
-
-            <com.wrapp.floatlabelededittext.FloatLabeledEditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingLeft="20dp"
-                android:layout_weight="1">
-
-                <EditText
-                    android:layout_width="match_parent"
+                android:orientation="vertical"
+                android:layout_weight="0.2">
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/editTextPassword"
-                    android:hint="Password"
-                    android:inputType="textPassword" />
-            </com.wrapp.floatlabelededittext.FloatLabeledEditText>
-        </LinearLayout>
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp">
 
-        <info.hoang8f.widget.FButton
-            android:layout_width="150dp"
-            android:layout_height="40dp"
-            android:text="Login"
-            android:id="@+id/buttonLogin"
-            android:layout_gravity="center_horizontal"
-            android:textColor="@color/color_silver"
-            fbutton:buttonColor="@color/color_wet_asphalt"
-            fbutton:shadowColor="@color/color_asbestos"
-            fbutton:shadowEnabled="true"
-            fbutton:shadowHeight="4dp"
-            fbutton:cornerRadius="7dp"/>
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/ivIconUser"
+                        android:src="@drawable/icon_user"
+                        android:layout_weight="1"/>
+
+                    <com.wrapp.floatlabelededittext.FloatLabeledEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="20dp"
+                        android:layout_weight="1">
+                        <EditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/editTextEmail"
+                            android:hint="Login/E-mail"
+                            android:inputType="textEmailAddress" />
+                    </com.wrapp.floatlabelededittext.FloatLabeledEditText>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/ivIconPassword"
+                        android:src="@drawable/icon_password"
+                        android:layout_weight="1"/>
+
+                    <com.wrapp.floatlabelededittext.FloatLabeledEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="20dp"
+                        android:layout_weight="1">
+
+                        <EditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/editTextPassword"
+                            android:hint="Password"
+                            android:inputType="textPassword" />
+                    </com.wrapp.floatlabelededittext.FloatLabeledEditText>
+                </LinearLayout>
+
+            </LinearLayout>
+
+
+            <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="fill_parent"
+                android:layout_weight="0.8"
+                android:layout_gravity="center_vertical"
+                android:layout_height="70dp">
+                <com.melnykov.fab.FloatingActionButton
+                    android:id="@+id/buttonLogin"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:src="@drawable/tick"
+                    fab:fab_colorNormal="@color/primary"
+                    fab:fab_colorPressed="@color/primary_dark"
+                    fab:fab_colorRipple="@color/ripple" />
+            </FrameLayout>
+
+        </LinearLayout>
 
     </LinearLayout>
 

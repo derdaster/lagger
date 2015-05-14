@@ -24,6 +24,7 @@ import com.android.lagger.requestObjects.FindFriendRequest;
 import com.android.lagger.settings.State;
 import com.android.lagger.tasks.AddFriendTask;
 import com.android.lagger.tasks.FindFriendsTask;
+import com.melnykov.fab.FloatingActionButton;
 
 /**
  * Created by Kubaa on 2015-04-28.
@@ -31,7 +32,7 @@ import com.android.lagger.tasks.FindFriendsTask;
 public class FriendsAddFragment extends Fragment {
     private View parent;
     private Context mContext;
-    private Button btnAdd;
+    private FloatingActionButton btnAdd;
     private AutoCompleteTextView autoCompleteTextView;
     private ArrayAdapter<AdapterUser> adapter;
     private final Integer NUMBER_CHAR_TO_SEARCH = 3;
@@ -50,7 +51,7 @@ public class FriendsAddFragment extends Fragment {
         initializeAutoCompleteEmailAndArrayAdapter();
 
         fragmentManager = getFragmentManager();
-        btnAdd = (Button) parent.findViewById(R.id.btnDone);
+        btnAdd = (FloatingActionButton) parent.findViewById(R.id.btnDone);
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -189,8 +189,16 @@ public class MeetingListFragment extends Fragment {
                 if (i <= INDEX_OF_UPCOMING) {
                     showInvitationDialog(allMeetings.get(i - 1));
                 } else {
-                    showMeetingDialog(allMeetings.get(i - 2));
+                    showMeetingDetails(allMeetings.get(i-2), false);
                 }
+            }
+        });
+        meetingList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener(){
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+                showMeetingDialog(allMeetings.get(i - 2));
+                return false;
             }
         });
     }
@@ -210,13 +218,26 @@ public class MeetingListFragment extends Fragment {
     private void showMeetingDialog(Meeting meeting){
 
         fragmentTransaction = getFragmentManager().beginTransaction();
-        SomeDialog newFragment = new SomeDialog(mContext, "Confirm", "What do you want to do with this meeting?", SomeDialog.MEETING_TYPE);
+        SomeDialog newFragment = new SomeDialog(mContext, "Confirm", "Do you want to delete this meeting?", SomeDialog.MEETING_TYPE);
         newFragment.show(fragmentTransaction, "dialog");
 
         Bundle details = new Bundle();
         details.putParcelable("meeting", meeting);
 
         newFragment.setArguments(details);
+    }
+
+    private void showMeetingDetails(final Meeting meeting, Boolean isReadonly){
+        fragmentTransaction = getFragmentManager().beginTransaction();
+        fragmentTransaction.addToBackStack(null);
+
+        Bundle details = new Bundle();
+        details.putParcelable("meeting", meeting);
+
+        ViewMeetingFragment detailsMeetingFragment = new ViewMeetingFragment(mContext, isReadonly);
+        detailsMeetingFragment.setArguments(details);
+
+        fragmentTransaction.replace(R.id.container_body, detailsMeetingFragment).commit();
     }
 
     @Override

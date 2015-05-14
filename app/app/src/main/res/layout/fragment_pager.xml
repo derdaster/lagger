@@ -3,22 +3,81 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:fab="http://schemas.android.com/apk/res-auto"
     android:weightSum="1">
 
     <android.support.v4.view.ViewPager
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/pager"
         android:layout_width="match_parent"
-        android:layout_height="fill_parent"
+        android:layout_height="wrap_content"
         android:layout_weight="0.9"/>
 
-    <com.android.lagger.controls.custom.LinePageIndicator
-        android:id="@+id/indicator"
-        android:layout_width="match_parent"
-        android:layout_height="fill_parent"
-        android:gravity="center"
-        android:layout_weight="0.1"
-        android:layout_marginBottom="10dp"
-        android:layout_marginTop="10dp"/>
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.1"
+            android:weightSum="1">
+
+
+            <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:layout_weight="0.35">
+                <com.melnykov.fab.FloatingActionButton
+                    android:id="@+id/btnLeftPager"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:src="@drawable/left"
+                    fab:fab_colorNormal="@color/primary"
+                    fab:fab_colorPressed="@color/primary_dark"
+                    fab:fab_colorRipple="@color/ripple" />
+            </FrameLayout>
+
+            <com.android.lagger.controls.custom.LinePageIndicator
+                android:id="@+id/indicator"
+                android:layout_width="match_parent"
+                android:layout_height="fill_parent"
+                android:gravity="center"
+                android:layout_weight="0.3"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"/>
+
+            <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/frameRightPager"
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:visibility="visible"
+                android:layout_weight="0.35">
+                <com.melnykov.fab.FloatingActionButton
+                    android:id="@+id/btnRightPager"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:src="@drawable/right"
+                    fab:fab_colorNormal="@color/primary"
+                    fab:fab_colorPressed="@color/primary_dark"
+                    fab:fab_colorRipple="@color/ripple" />
+            </FrameLayout>
+
+            <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/frameDonePager"
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:visibility="gone"
+                android:layout_weight="0.35">
+                <com.melnykov.fab.FloatingActionButton
+                    android:id="@+id/btnDonePager"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:src="@drawable/tick"
+                    fab:fab_colorNormal="@color/primary"
+                    fab:fab_colorPressed="@color/primary_dark"
+                    fab:fab_colorRipple="@color/ripple" />
+            </FrameLayout>
+    </LinearLayout>
 
 </LinearLayout>

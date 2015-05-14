@@ -21,6 +21,8 @@
             android:src="@drawable/ic_add_white"
             fab:fab_colorNormal="@color/primary"
             fab:fab_colorPressed="@color/primary_dark"
-            fab:fab_colorRipple="@color/ripple" />
+            fab:fab_colorRipple="@color/ripple"
+            android:focusable="false"
+            android:clickable="false" />
     </FrameLayout>
 </LinearLayout>

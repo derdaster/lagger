@@ -66,7 +66,7 @@ public class SomeDialog extends DialogFragment {
                 dialog = createInvitationMeetingDialog();
                 break;
             case MEETING_TYPE:
-                dialog = createMeetingDialog();
+                dialog = deleteMeetingDialog();
                 break;
             case FRIEND_TYPE:
                 dialog = createFriendDialog();
@@ -112,24 +112,29 @@ public class SomeDialog extends DialogFragment {
                 })
                 .create();
     }
-    private AlertDialog createMeetingDialog(){
+    private AlertDialog deleteMeetingDialog(){
         Bundle extras = getArguments();
         final Meeting meeting = extras.getParcelable("meeting");
 
         return new AlertDialog.Builder(getActivity())
                 .setTitle(title)
                 .setMessage(message)
-                .setNegativeButton("Delete", new DialogInterface.OnClickListener() {
+                .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        AcceptMeetingTask.acceptMeeting(meeting.getId(), true, mContext);
 
+                        fragmentTransaction = getFragmentManager().beginTransaction();
+                        fragmentTransaction.replace(R.id.container_body, new MeetingListFragment()).commit();
                     }
                 })
-                .setNeutralButton(R.string.view, new DialogInterface.OnClickListener() {
+                .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        showMeetingDetails(meeting, true);
+                        AcceptMeetingTask.acceptMeeting(meeting.getId(), false, mContext);
 
+                        fragmentTransaction = getFragmentManager().beginTransaction();
+                        fragmentTransaction.replace(R.id.container_body, new MeetingListFragment()).commit();
                     }
                 })
                 .create();

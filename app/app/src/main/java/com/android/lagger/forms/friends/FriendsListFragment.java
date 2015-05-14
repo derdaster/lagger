@@ -137,9 +137,15 @@ public class FriendsListFragment extends Fragment {
                         if(i <= INDEX_OF_INVITATION_END){
                             showFriendInvitationDialog(allFriendsList.get(i - 1));
                         }
-                        else{
+
+                    }
+                });
+
+                mList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener(){
+                    @Override
+                    public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
                             showFriendDeleteDialog(allFriendsList.get(i - 2));
-                        }
+                        return false;
                     }
                 });
             }

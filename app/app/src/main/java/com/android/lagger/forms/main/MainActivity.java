@@ -135,6 +135,7 @@ public class MainActivity extends ActionBarActivity implements FragmentDrawer.Fr
         }
 
         if (fragment != null) {
+            getFragmentManager().popBackStack();
             FragmentManager fragmentManager = getFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
             fragmentTransaction.replace(R.id.container_body, fragment);
