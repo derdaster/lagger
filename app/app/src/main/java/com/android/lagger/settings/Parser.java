@@ -4,7 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
- * Created by Ewelina Klisowska on 2015-05-15.
+ * Created by Ewelina Klisowska on 2015-05-15
  */
 public class Parser {
     public static String parseDate(final Date date){
