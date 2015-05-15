@@ -17,6 +17,7 @@ import com.android.lagger.model.entities.User;
 import com.android.lagger.model.entities.Meeting;
 import com.android.lagger.requestObjects.AcceptMeetingRequest;
 import com.android.lagger.services.HttpClient;
+import com.android.lagger.settings.Parser;
 import com.android.lagger.settings.State;
 import com.android.lagger.tasks.AcceptMeetingTask;
 import com.melnykov.fab.FloatingActionButton;
@@ -87,7 +88,7 @@ public class ViewMeetingFragment extends Fragment {
             btnEdit.setVisibility(View.INVISIBLE);
         }
         labelMeetingName.setText(meeting.getName());
-        labelWhen.setText(meeting.getStartTime().toString());
+        labelWhen.setText(Parser.parseDate(meeting.getStartTime()));
         labelWhere.setText(meeting.getLocationName());
         labelOrganizer.setText(user.getLogin());
 
