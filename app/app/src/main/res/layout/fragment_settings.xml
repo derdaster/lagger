@@ -61,8 +61,8 @@
             android:layout_gravity="center_vertical"
             android:background="#1E88E5"
             android:layout_weight="0.4"
-            materialdesign:max="10"
-            materialdesign:min="0"
+            materialdesign:max="30"
+            materialdesign:min="10"
             materialdesign:showNumberIndicator="true"
             />
     </LinearLayout>
@@ -92,8 +92,9 @@
             android:layout_gravity="center_vertical"
             android:background="#1E88E5"
             android:layout_weight="0.4"
-            materialdesign:max="10"
-            materialdesign:min="0"
+            materialdesign:max="200"
+            materialdesign:min="50"
+
             materialdesign:showNumberIndicator="true"
             />
     </LinearLayout>

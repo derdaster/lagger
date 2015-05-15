@@ -1,4 +1,3 @@
-
 package com.android.lagger.gpslocation;
 
 import android.app.Fragment;
@@ -7,6 +6,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,6 +44,8 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * A fragment that launches other parts of the demo application.
@@ -58,6 +60,9 @@ public class MapFragment extends Fragment {
     private Context mContext;
     private List<GPSUser> gpsUsers;
     private LatLng chosenPositon;
+    final Handler handler = new Handler();
+    Timer timer;
+    TimerTask timerTask;
 
     public MapFragment() {
 
@@ -136,8 +141,10 @@ public class MapFragment extends Fragment {
         //new GetDirection().execute();
 //        showUserMarkers();
         // Perform any camera updates here
-
-
+        startTimer();
+//        Timer timer1 = new Timer();
+//        LocationTimer timer1_task = new LocationTimer();
+//        timer1.schedule(timer1_task, 0, 10);
         return v;
     }
 
@@ -248,12 +255,76 @@ public class MapFragment extends Fragment {
 
     }
 
+    public void startTimer() {
+        //set a new Timer
+        timer = new Timer();
+        //initialize the TimerTask's job
+        initializeTimerTask();
+        //schedule the timer, after the first 5000ms the TimerTask will run every 10000ms
+        timer.schedule(timerTask, 5000, 10000); //
+    }
+
+    public void initializeTimerTask() {
+        timerTask = new TimerTask() {
+            public void run() {
+                //use a handler to run a toast that shows the current timestamp
+                handler.post(new Runnable() {
+                    public void run() {
+                        //get the current timeStamp
+                        new AsyncTask<String, Void, String>() {
+                            @Override
+                            protected String doInBackground(String... urls) {
+                                String userId = String.valueOf(State.getLoggedUserId());
+                                String meetingId = String.valueOf(1);
+                                JsonObject userJson = createGPSJSON(userId, meetingId);
+                                //TODO refactoring
+                                return HttpRequest.POST(com.android.lagger.serverConnection.URL.GET_POSITIONS, userJson);
+                            }
+
+                            // onPostExecute displays the results of the AsyncTask.
+                            @Override
+                            protected void onPostExecute(String result) {
+
+                                JsonParser parser = new JsonParser();
+                                JsonObject responseJson = (JsonObject) parser.parse(result);
+
+                                JsonArray usersPositions = responseJson.get("usersPositions").getAsJsonArray();
+
+                                gpsUsers.clear();
+                                Gson gson = new GsonHelper().getGson();
+                                for (JsonElement userPositionJsonElem : usersPositions) {
+                                    GPSUser user = gson.fromJson(userPositionJsonElem, GPSUser.class);
+                                    gpsUsers.add(user);
+                                    JsonObject object = userPositionJsonElem.getAsJsonObject();
+                                    JsonArray positions = object.getAsJsonArray("positions");
+                                    List tempPositionList = new ArrayList();
+                                    for (JsonElement positionJsonElem : positions) {
+                                        Position position = gson.fromJson(positionJsonElem, Position.class);
+                                        tempPositionList.add(position);
+                                    }
+                                    user.setPositionList(tempPositionList);
+                                }
+
+//                for (JsonElement positionJsonElem : positions) {
+//                    Position position = gson.fromJson(positionJsonElem, Position.class);
+//                    positionList.add(position);
+//                }
+                                showUserMarkers();
+                            }
+                        }.execute();
+                    }
+                });
+            }
+        };
+
+    }
+
     public void getLocations() {
         new AsyncTask<String, Void, String>() {
             @Override
             protected String doInBackground(String... urls) {
                 String userId = String.valueOf(State.getLoggedUserId());
-                String meetingId = String.valueOf(20);
+                String meetingId = String.valueOf(1);
                 JsonObject userJson = createGPSJSON(userId, meetingId);
                 //TODO refactoring
                 return HttpRequest.POST(com.android.lagger.serverConnection.URL.GET_POSITIONS, userJson);
@@ -268,7 +339,7 @@ public class MapFragment extends Fragment {
 
                 JsonArray usersPositions = responseJson.get("usersPositions").getAsJsonArray();
 
-
+                gpsUsers.clear();
                 Gson gson = new GsonHelper().getGson();
                 for (JsonElement userPositionJsonElem : usersPositions) {
                     GPSUser user = gson.fromJson(userPositionJsonElem, GPSUser.class);
