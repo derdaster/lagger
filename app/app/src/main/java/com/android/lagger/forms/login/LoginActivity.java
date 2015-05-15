@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.android.lagger.R;
 import com.android.lagger.forms.main.MainActivity;
 import com.android.lagger.model.entities.User;
+import com.android.lagger.responseObjects.LoginResponse;
 import com.android.lagger.services.HttpClient;
 import com.android.lagger.settings.State;
 import com.melnykov.fab.FloatingActionButton;
@@ -90,7 +91,7 @@ public class LoginActivity extends ActionBarActivity {
             }
         }
 
-        private void checkUserAndShowResult(final com.android.lagger.responseObjects.LoginResponse loginResp){
+        private void checkUserAndShowResult(final LoginResponse loginResp){
             final Integer status = loginResp.getStatus();
             if(status == 1){
                 enableAccess(loginResp);

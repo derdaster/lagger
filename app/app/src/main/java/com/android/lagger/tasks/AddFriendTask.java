@@ -30,9 +30,19 @@ public class AddFriendTask extends AsyncTask<AddFriendRequest, Void, AddFriendRe
     }
 
     protected void onPostExecute(final AddFriendResponse resp) {
-        String info = context.getString(R.string.accepted_invitation);
-        if(isInvitation) {
-            info = context.getString(R.string.invited_a_new_friend);
+        showResult(resp);
+    }
+
+    private void showResult(AddFriendResponse resp){
+        String info = "";
+        if(!resp.isError()) {
+            info = context.getString(R.string.accepted_invitation);
+            if(isInvitation) {
+                info = context.getString(R.string.invited_a_new_friend);
+            }
+        }
+        else{
+            info = resp.getResponse();
         }
         showInfo(info);
     }

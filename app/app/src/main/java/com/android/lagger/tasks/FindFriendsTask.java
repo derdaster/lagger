@@ -35,9 +35,15 @@ public class FindFriendsTask extends AsyncTask<FindFriendRequest, Void, FindFrie
     }
 
     protected void onPostExecute(final FindFriendResponse resp) {
-        if(arrayAdapter != null) {
-            final AdapterUser[] emailsList = getEmailList(resp);
-            setAutoAdapter(emailsList);
+
+        if(!resp.isError()) {
+            if(arrayAdapter != null) {
+                final AdapterUser[] emailsList = getEmailList(resp);
+                setAutoAdapter(emailsList);
+            }
+        }
+        else{
+            Toast.makeText(context, resp.getResponse(), Toast.LENGTH_SHORT).show();
         }
     }
 

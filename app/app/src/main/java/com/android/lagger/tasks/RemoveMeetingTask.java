@@ -29,7 +29,13 @@ public class RemoveMeetingTask extends AsyncTask<RemoveMeetingRequest, Void, Rem
     }
 
     protected void onPostExecute(final RemoveMeetingResponse resp) {
-        String info = context.getString(R.string.removed_a_meeting);
+        String info = null;
+        if(!resp.isError()) {
+            info = context.getString(R.string.removed_a_meeting);
+        }
+        else{
+            info = resp.getResponse();
+        }
         showInfo(info);
     }
 

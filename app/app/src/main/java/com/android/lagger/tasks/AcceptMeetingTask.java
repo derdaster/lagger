@@ -30,8 +30,14 @@ public class AcceptMeetingTask extends AsyncTask<AcceptMeetingRequest, Void, Acc
         return client.acceptMeeting(acceptMeetingReq[0]);
     }
 
-    protected void onPostExecute(ResponseObject loginResp) {
-        showInfo(isAccepted);
+    protected void onPostExecute(AcceptMeetingResponse acceptMeetingResponse) {
+        if(!acceptMeetingResponse.isError()) {
+            showInfo(isAccepted);
+        }
+        else{
+            Toast.makeText(context, acceptMeetingResponse.getResponse(),
+                    Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void showInfo(final boolean isAccepted) {

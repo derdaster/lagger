@@ -139,7 +139,7 @@ public class HttpClient {
             resp.setIsError(false);
         }
         else{
-            resp = new LoginResponse(null, null);
+            resp = new LoginResponse();
             resp.setResponse(response);
             resp.setIsError(true);
         }
