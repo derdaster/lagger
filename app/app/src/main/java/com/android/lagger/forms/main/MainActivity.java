@@ -19,10 +19,10 @@ import com.android.lagger.R;
 import com.android.lagger.forms.drawer.FragmentDrawer;
 import com.android.lagger.forms.friends.FriendsListFragment;
 import com.android.lagger.forms.home.HomeFragment;
-import com.android.lagger.forms.login.LoginFragment;
 import com.android.lagger.forms.meetings.MeetingListFragment;
 import com.android.lagger.forms.settings.SettingsFragment;
 import com.android.lagger.gpslocation.MapFragment;
+
 
 
 public class MainActivity extends ActionBarActivity implements FragmentDrawer.FragmentDrawerListener {
@@ -119,14 +119,10 @@ public class MainActivity extends ActionBarActivity implements FragmentDrawer.Fr
                 title = getString(R.string.title_settings);
                 break;
             case 4:
-                fragment = new LoginFragment();
-                title = "LoginTest";
-                break;
-            case 5:
                 fragment = new MapFragment();
                 title = "MapTest";
                 break;
-            case 6:
+            case 5:
                 fragment = new MainFragment();
                 title = "GPSTest";
                 break;

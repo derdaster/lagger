@@ -1,57 +1,57 @@
 package com.android.lagger.forms.login;
 
-import android.app.Fragment;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.view.LayoutInflater;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.lagger.R;
 import com.android.lagger.forms.main.MainActivity;
 import com.android.lagger.model.entities.User;
-import com.android.lagger.requestObjects.LoginRequest;
-import com.android.lagger.responseObjects.LoginResponse;
 import com.android.lagger.services.HttpClient;
 import com.android.lagger.settings.State;
 import com.melnykov.fab.FloatingActionButton;
 
-/**
- * Created by Kubaa on 2015-03-20.
- */
-public class LoginFragment extends Fragment {
+import com.android.lagger.requestObjects.LoginRequest;
+import com.android.lagger.responseObjects.LoginResponse;
+
+
+public class LoginActivity extends ActionBarActivity {
     private Context mContext;
     private FloatingActionButton loginBtn;
     private TextView loginTextView;
     private TextView passwordTextView;
-    private View parent;
     private HttpClient client;
-
-    public LoginFragment(){
-        client = new HttpClient();
-    }
-
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        parent =  inflater.inflate(R.layout.fragment_login, container, false);
-        setFields();
-        addListenerOnLoginButton();
-        return parent;
-    }
-
-    private void setFields(){
-        loginBtn = (FloatingActionButton) parent.findViewById(R.id.buttonLogin);
-        loginTextView = (TextView) parent.findViewById(R.id.editTextEmail);
-        passwordTextView = (TextView) parent.findViewById(R.id.editTextPassword);
-    }
+    static String mActivityTitle;
+    private Activity mActivity;
 
     @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        mContext = getActivity().getApplicationContext();
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mContext = getApplicationContext();
+        setContentView(R.layout.activity_login);
+        mActivityTitle = getTitle().toString();
+        mActivity = this;
+
+        client = new HttpClient();
+
+        setFields();
+        addListenerOnLoginButton();
+    }
+
+
+    private void setFields(){
+        loginBtn = (FloatingActionButton) findViewById(R.id.buttonLogin);
+        loginTextView = (TextView) findViewById(R.id.editTextEmail);
+        passwordTextView = (TextView) findViewById(R.id.editTextPassword);
     }
 
     public void addListenerOnLoginButton() {
@@ -67,28 +67,28 @@ public class LoginFragment extends Fragment {
     private void login(){
         String login = loginTextView.getText().toString();
         String password = passwordTextView.getText().toString();
-        LoginRequest loginReq = new LoginRequest(login, password);
+        com.android.lagger.requestObjects.LoginRequest loginReq = new com.android.lagger.requestObjects.LoginRequest(login, password);
 
         LoginUserTask loginUserTask = new LoginUserTask(mContext);
         loginUserTask.execute(loginReq);
     }
 
-    private class LoginUserTask extends AsyncTask<LoginRequest, Void, LoginResponse> {
+    private class LoginUserTask extends AsyncTask<com.android.lagger.requestObjects.LoginRequest, Void, com.android.lagger.responseObjects.LoginResponse> {
         private Context context;
 
         public LoginUserTask(Context context) {
             this.context = context;
         }
 
-        protected LoginResponse doInBackground(LoginRequest... loginReq) {
+        protected com.android.lagger.responseObjects.LoginResponse doInBackground(com.android.lagger.requestObjects.LoginRequest... loginReq) {
             return client.login(loginReq[0]);
         }
 
-        protected void onPostExecute(LoginResponse loginResp) {
+        protected void onPostExecute(com.android.lagger.responseObjects.LoginResponse loginResp) {
             checkUserAndShowResult(loginResp);
         }
 
-        private void checkUserAndShowResult(final LoginResponse loginResp){
+        private void checkUserAndShowResult(final com.android.lagger.responseObjects.LoginResponse loginResp){
             final Integer status = loginResp.getStatus();
             if(status == 1){
                 enableAccess(loginResp);
@@ -98,7 +98,7 @@ public class LoginFragment extends Fragment {
             }
         }
 
-        private void enableAccess(final LoginResponse loginResp){
+        private void enableAccess(final com.android.lagger.responseObjects.LoginResponse loginResp){
             final Integer userId = loginResp.getIdUser();
             State.setLoggedUser(new User(userId));
 
@@ -121,4 +121,25 @@ public class LoginFragment extends Fragment {
         }
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_login, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_settings) {
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
 }
