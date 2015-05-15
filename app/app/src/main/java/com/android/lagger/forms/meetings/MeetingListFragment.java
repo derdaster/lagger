@@ -189,15 +189,26 @@ public class MeetingListFragment extends Fragment {
                 if (i <= INDEX_OF_UPCOMING) {
                     showInvitationDialog(allMeetings.get(i - 1));
                 } else {
-                    showMeetingDetails(allMeetings.get(i-2), false);
+                    showMeetingDetails(allMeetings.get(i - 2), true);
                 }
             }
         });
         meetingList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener(){
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Meeting chosenMeeting = null;
+                if (i <= INDEX_OF_UPCOMING) {
+                    chosenMeeting = allMeetings.get(i - 1);
+                }
+                else{
+                    chosenMeeting = allMeetings.get(i - 2);
+                }
+                    if (chosenMeeting.getOrganizer().getId() == State.getLoggedUserId()) {
+                        showDeleteMeetingDialog(chosenMeeting);
+                    } else {
+                        showRefuseMeetingDialog(chosenMeeting);
+                    }
 
-                showMeetingDialog(allMeetings.get(i - 2));
                 return false;
             }
         });
@@ -215,10 +226,22 @@ public class MeetingListFragment extends Fragment {
         newFragment.setArguments(details);
     }
 
-    private void showMeetingDialog(Meeting meeting){
+    private void showDeleteMeetingDialog(Meeting meeting){
 
         fragmentTransaction = getFragmentManager().beginTransaction();
-        SomeDialog newFragment = new SomeDialog(mContext, "Confirm", "Do you want to delete this meeting?", SomeDialog.MEETING_TYPE);
+        SomeDialog newFragment = new SomeDialog(mContext, "Confirm", "Do you want to delete this meeting?", SomeDialog.MEETING_DELETE_TYPE);
+        newFragment.show(fragmentTransaction, "dialog");
+
+        Bundle details = new Bundle();
+        details.putParcelable("meeting", meeting);
+
+        newFragment.setArguments(details);
+    }
+
+    private void showRefuseMeetingDialog(Meeting meeting){
+
+        fragmentTransaction = getFragmentManager().beginTransaction();
+        SomeDialog newFragment = new SomeDialog(mContext, "Confirm", "Do you want to refuse this meeting?", SomeDialog.MEETING_REFUSE_TYPE);
         newFragment.show(fragmentTransaction, "dialog");
 
         Bundle details = new Bundle();

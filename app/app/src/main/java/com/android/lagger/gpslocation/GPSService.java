@@ -48,7 +48,9 @@ public class GPSService extends Service implements LocationListener {
         this.context = context;
         getLocation();
         coordinatesList = new ArrayList();
-        sendLocation();
+        if(coordinates != null && coordinates.latitude != 0 && coordinates.longitude != 0) {
+            sendLocation();
+        }
     }
 
     public Location getLocation() {
@@ -186,7 +188,7 @@ public class GPSService extends Service implements LocationListener {
     public void onLocationChanged(Location arg0) {
         location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
         if (location != null) { coordinates = new LatLng(location.getLatitude(), location.getLongitude()); }
-        if (coordinates != null) { sendLocation(); }
+        if (coordinates != null && coordinates.latitude != 0 && coordinates.longitude != 0) { sendLocation(); }
 //        Toast.makeText(
 //                context,
 //                "Twoja pozycja -\nX: " + coordinates.latitude + "\nY: "

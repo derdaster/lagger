@@ -29,8 +29,8 @@ public class RemoveMeetingTask extends AsyncTask<RemoveMeetingRequest, Void, Rem
     }
 
     protected void onPostExecute(final RemoveMeetingResponse resp) {
-//        String info = context.getString(R.string.removed_a_friend);
-//        showInfo(info);
+        String info = context.getString(R.string.removed_a_meeting);
+        showInfo(info);
     }
 
     private void showInfo(String info) {

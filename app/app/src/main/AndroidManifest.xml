@@ -28,7 +28,7 @@
         android:label="@string/app_name"
         android:theme="@style/LaggerTheme" >
         <activity
-            android:name=".forms.main.MainActivity"
+            android:name=".forms.login.LoginActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -45,7 +45,7 @@
             android:value="AIzaSyAO9pG2xDK2gIIuaFPVKZ0bJUyAo8cJflw" />
 
         <activity
-            android:name=".forms.login.LoginActivity"
+            android:name=".forms.main.MainActivity"
             android:label="@string/title_activity_login" >
 
         </activity>

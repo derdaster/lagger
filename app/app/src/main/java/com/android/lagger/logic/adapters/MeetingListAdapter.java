@@ -1,19 +1,16 @@
 package com.android.lagger.logic.adapters;
 
 import android.content.Context;
-import android.graphics.PorterDuff;
-import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.lagger.R;
 import com.android.lagger.model.entities.Meeting;
+import com.android.lagger.settings.Parser;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -58,17 +55,13 @@ public class MeetingListAdapter extends BaseAdapter {
         where.setText(data.get(position).getLocationName());
 
         Date startDate = data.get(position).getStartTime();
-        when.setText(parseDate(startDate));
+        when.setText(Parser.parseDate(startDate));
 
         organizer.setText(data.get(position).getOrganizer().getLogin());
 
         return vi;
     }
 
-    private String parseDate(Date date){
-        SimpleDateFormat form = new SimpleDateFormat("dd/MM/yyyy hh:mm");
 
-       return form.format(date);
-    }
 
 }
