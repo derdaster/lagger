@@ -27,7 +27,7 @@ public class FindFriendsTask extends AsyncTask<FindFriendRequest, Void, FindFrie
         this.context = context;
         this.autoCompleteTextView = autoCompleteTextView;
         this.arrayAdapter = (ArrayAdapter<AdapterUser>) autoCompleteTextView.getAdapter();
-        client = new HttpClient();
+        client = new HttpClient(context);
     }
 
     protected FindFriendResponse doInBackground(FindFriendRequest... findFriendRequests) {

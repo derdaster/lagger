@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,9 +18,6 @@ import com.android.lagger.model.entities.User;
 import com.android.lagger.services.HttpClient;
 import com.android.lagger.settings.State;
 import com.melnykov.fab.FloatingActionButton;
-
-import com.android.lagger.requestObjects.LoginRequest;
-import com.android.lagger.responseObjects.LoginResponse;
 
 
 public class LoginActivity extends ActionBarActivity {
@@ -41,7 +37,7 @@ public class LoginActivity extends ActionBarActivity {
         mActivityTitle = getTitle().toString();
         mActivity = this;
 
-        client = new HttpClient();
+        client = new HttpClient(mContext);
 
         setFields();
         addListenerOnLoginButton();
@@ -85,7 +81,13 @@ public class LoginActivity extends ActionBarActivity {
         }
 
         protected void onPostExecute(com.android.lagger.responseObjects.LoginResponse loginResp) {
-            checkUserAndShowResult(loginResp);
+            if(!loginResp.isError()) {
+                checkUserAndShowResult(loginResp);
+            }
+            else{
+                Toast.makeText(context, loginResp.getResponse(),
+                        Toast.LENGTH_SHORT).show();
+            }
         }
 
         private void checkUserAndShowResult(final com.android.lagger.responseObjects.LoginResponse loginResp){

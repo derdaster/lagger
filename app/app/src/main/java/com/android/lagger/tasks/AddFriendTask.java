@@ -21,7 +21,7 @@ public class AddFriendTask extends AsyncTask<AddFriendRequest, Void, AddFriendRe
     public AddFriendTask(Context context, Boolean isInvitation) {
         this.context = context;
         this.isInvitation = isInvitation;
-        client = new HttpClient();
+        client = new HttpClient(context);
     }
 
     @Override

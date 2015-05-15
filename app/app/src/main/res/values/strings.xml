@@ -66,5 +66,6 @@
     <string name="refused_invitation_to_friends">Refused invitation to friend</string>
     <string name="title_activity_login">LoginActivity</string>
     <string name="removed_a_meeting">Removed the meeting</string>
+    <string name="no_connection">No connection to the Internet</string>
 
 </resources>

@@ -20,7 +20,7 @@ public class RemoveMeetingTask extends AsyncTask<RemoveMeetingRequest, Void, Rem
 
     public RemoveMeetingTask(Context context) {
         this.context = context;
-        client = new HttpClient();
+        client = new HttpClient(context);
     }
 
     @Override

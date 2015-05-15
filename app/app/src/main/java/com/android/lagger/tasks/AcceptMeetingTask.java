@@ -22,7 +22,7 @@ public class AcceptMeetingTask extends AsyncTask<AcceptMeetingRequest, Void, Acc
     public AcceptMeetingTask(Context context) {
 
         this.context = context;
-        client = new HttpClient();
+        client = new HttpClient(context);
     }
 
     protected AcceptMeetingResponse doInBackground(AcceptMeetingRequest... acceptMeetingReq) {

@@ -5,4 +5,8 @@ package com.android.lagger.responseObjects;
  */
 public class MeetingIdResponse extends ResponseObject{
     private Integer idMeeting;
+
+    public MeetingIdResponse(Integer idMeeting) {
+        this.idMeeting = idMeeting;
+    }
 }

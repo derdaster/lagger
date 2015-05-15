@@ -27,15 +27,4 @@ public class State {
         loggedUser = user;
     }
 
-    private boolean checkInternetConnection(Context context) {
-        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        // test for connection
-        if (cm.getActiveNetworkInfo() != null
-                && cm.getActiveNetworkInfo().isAvailable()) {
-            return true;
-        } else {
-
-            return false;
-        }
-    }
 }

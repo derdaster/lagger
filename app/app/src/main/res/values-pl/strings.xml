@@ -53,4 +53,5 @@
     <string name="current_meetings">Aktualne spotkania</string>
     <string name="nearest_meetings">Najbliższe spotkania</string>
     <string name="removed_a_meeting">Usunięto spotkanie</string>
+    <string name="no_connection">Brak połączenia z Internetem</string>
 </resources>

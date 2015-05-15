@@ -20,7 +20,7 @@ public class RemoveFriendTask extends AsyncTask<RemoveFriendRequest, Void, Remov
     public RemoveFriendTask(Context context, Boolean isInvitation) {
         this.context = context;
         this.isInvitation = isInvitation;
-        client = new HttpClient();
+        client = new HttpClient(context);
     }
 
     @Override

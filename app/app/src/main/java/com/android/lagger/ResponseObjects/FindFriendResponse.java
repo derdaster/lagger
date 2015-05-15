@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * Created by Ewelina Klisowska on 2015-05-11.
  */
-public class FindFriendResponse {
+public class FindFriendResponse extends ResponseObject{
     private List<User> users;
 
     public List<User> getUsers() {
