@@ -50,7 +50,7 @@ import java.util.List;
  */
 public class MapFragment extends Fragment {
 
-    public static HashMap<Integer,Float> markerColors;
+    public static HashMap<Integer, Float> markerColors;
     private ProgressDialog pDialog;
     private List<LatLng> polyz;
     private MapView mMapView;
@@ -59,16 +59,17 @@ public class MapFragment extends Fragment {
     private List<GPSUser> gpsUsers;
     private LatLng chosenPositon;
 
-    public MapFragment(){
+    public MapFragment() {
 
     }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         initalizeMarkerColors();
 
         //test Data, to delete!!!/////////////////////////////////////////////////////////////////
-        gpsUsers=new ArrayList();
+        gpsUsers = new ArrayList();
 //        gpsUsers.add(new GPSUser(50.808236, 19.108781));
 //        gpsUsers.add(new GPSUser(50.808434, 19.128928));
 //        gpsUsers.add(new GPSUser(50.825787, 19.126696));
@@ -120,7 +121,7 @@ public class MapFragment extends Fragment {
             }
         });
         GPSService gpsService = new GPSService(this.getActivity().getApplicationContext());
-        if(gpsService.canGetLocation()) {
+        if (gpsService.canGetLocation()) {
             gpsService.getLatitude();
 
             CameraPosition cameraPosition = new CameraPosition.Builder()
@@ -207,7 +208,7 @@ public class MapFragment extends Fragment {
     public void showUserMarkers() {
 
         for (GPSUser user : gpsUsers) {
-            showNamedMarker(user.getActualPositition(), String.valueOf(user.getIdUser()+ " za "+user.getArrivalTime()+" min."));
+            showNamedMarker(user.getActualPositition(), String.valueOf(user.getIdUser() + " za " + user.getArrivalTime() + " min."));
 
             if (!user.getPositionList().isEmpty())
                 drawUserPath(user);
@@ -235,41 +236,44 @@ public class MapFragment extends Fragment {
 
         googleMap.addMarker(marker);
     }
+
     public void drawUserPath(GPSUser user) {
         List tempList = user.getPositionList();
         for (int i = 0; i < user.getPositionList().size() - 1; i++) {
             googleMap.addPolyline(new PolylineOptions()
-                    .add(new LatLng(((Position) tempList.get(i)).getLatitude(),((Position) tempList.get(i)).getLongitude()), new LatLng(((Position) tempList.get(i+1)).getLatitude(),((Position) tempList.get(i+1)).getLongitude()))
+                    .add(new LatLng(((Position) tempList.get(i)).getLatitude(), ((Position) tempList.get(i)).getLongitude()), new LatLng(((Position) tempList.get(i + 1)).getLatitude(), ((Position) tempList.get(i + 1)).getLongitude()))
                     .width(5)
                     .color(Color.BLACK));
         }
 
     }
-    public void getLocations(){
+
+    public void getLocations() {
         new AsyncTask<String, Void, String>() {
             @Override
             protected String doInBackground(String... urls) {
                 String userId = String.valueOf(State.getLoggedUserId());
                 String meetingId = String.valueOf(20);
-                JsonObject userJson = createGPSJSON(userId,meetingId);
+                JsonObject userJson = createGPSJSON(userId, meetingId);
                 //TODO refactoring
                 return HttpRequest.POST(com.android.lagger.serverConnection.URL.GET_POSITIONS, userJson);
             }
+
             // onPostExecute displays the results of the AsyncTask.
             @Override
             protected void onPostExecute(String result) {
 
-            JsonParser parser = new JsonParser();
-            JsonObject responseJson = (JsonObject)parser.parse(result);
+                JsonParser parser = new JsonParser();
+                JsonObject responseJson = (JsonObject) parser.parse(result);
 
-            JsonArray usersPositions = responseJson.get("usersPositions").getAsJsonArray();
+                JsonArray usersPositions = responseJson.get("usersPositions").getAsJsonArray();
 
 
                 Gson gson = new GsonHelper().getGson();
                 for (JsonElement userPositionJsonElem : usersPositions) {
                     GPSUser user = gson.fromJson(userPositionJsonElem, GPSUser.class);
                     gpsUsers.add(user);
-                    JsonObject object=userPositionJsonElem.getAsJsonObject();
+                    JsonObject object = userPositionJsonElem.getAsJsonObject();
                     JsonArray positions = object.getAsJsonArray("positions");
                     List tempPositionList = new ArrayList();
                     for (JsonElement positionJsonElem : positions) {
@@ -287,12 +291,14 @@ public class MapFragment extends Fragment {
             }
         }.execute();
     }
-    public JsonObject createGPSJSON(String userId,String meetingId){
+
+    public JsonObject createGPSJSON(String userId, String meetingId) {
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty("idUser", userId);
         jsonObject.addProperty("idMeeting", meetingId);
         return jsonObject;
     }
+
     private void initalizeMarkerColors() {
         markerColors = new HashMap<Integer, Float>();
         markerColors.put(0, (float) 210.0);
