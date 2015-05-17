@@ -214,7 +214,7 @@ public class MeetingListFragment extends Fragment {
         super.onDetach();
     }
 
-    public class GetAllMeetingsTask extends AsyncTask<GetAllMeetingsRequest, Void, GetAllMeetingsResponse> {
+    private class GetAllMeetingsTask extends AsyncTask<GetAllMeetingsRequest, Void, GetAllMeetingsResponse> {
         private HttpClient client;
 
         public GetAllMeetingsTask() {
@@ -239,6 +239,7 @@ public class MeetingListFragment extends Fragment {
                 String info = resp.getResponse();
                 showInfo(info);
             }
+
         }
 
         private void setAllMeetingsAndPartitionIndex(final GetAllMeetingsResponse resp) {
@@ -258,7 +259,7 @@ public class MeetingListFragment extends Fragment {
         }
 
         private void showInfo(String info) {
-            Toast.makeText(mContext, info, Toast.LENGTH_SHORT).show();
+            Toast.makeText(mContext, info, Toast.LENGTH_LONG).show();
         }
     }
 }

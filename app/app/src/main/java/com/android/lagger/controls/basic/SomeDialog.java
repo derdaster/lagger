@@ -179,7 +179,7 @@ public class SomeDialog extends DialogFragment {
                         addFriendTask.execute(addFriendRequest);
 
                         fragmentTransaction = fragmentManager.beginTransaction();
-                        fragmentTransaction.replace(R.id.container_body, new FriendsListFragment()).commit();
+                        fragmentTransaction.replace(R.id.container_body, new FriendsListFragment(mContext)).commit();
                     }
                 })
                 .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
@@ -187,7 +187,7 @@ public class SomeDialog extends DialogFragment {
                     public void onClick(DialogInterface dialog, int which) {
                         deleteFriend(friend, true);
                         fragmentTransaction = getFragmentManager().beginTransaction();
-                        fragmentTransaction.replace(R.id.container_body, new FriendsListFragment()).commit();
+                        fragmentTransaction.replace(R.id.container_body, new FriendsListFragment(mContext)).commit();
                     }
                 })
                 .create();
@@ -204,7 +204,7 @@ public class SomeDialog extends DialogFragment {
                     public void onClick(DialogInterface dialog, int which) {
                     deleteFriend(friend, false);
                     fragmentTransaction = getFragmentManager().beginTransaction();
-                    fragmentTransaction.replace(R.id.container_body, new FriendsListFragment()).commit();
+                    fragmentTransaction.replace(R.id.container_body, new FriendsListFragment(mContext)).commit();
                     }
                 })
                 .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {

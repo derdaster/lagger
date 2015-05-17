@@ -10,7 +10,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -18,8 +17,13 @@ import com.android.lagger.R;
 import com.android.lagger.controls.basic.SomeDialog;
 import com.android.lagger.logic.adapters.FriendsListAdapter;
 import com.android.lagger.model.entities.User;
+import com.android.lagger.requestObjects.GetFriendInvitationsRequest;
+import com.android.lagger.requestObjects.GetFriendsAndInvitationsRequest;
+import com.android.lagger.requestObjects.GetFriendsRequest;
+import com.android.lagger.responseObjects.GetFriendsAndInvitationsResponse;
 import com.android.lagger.serverConnection.HttpRequest;
 import com.android.lagger.serverConnection.URL;
+import com.android.lagger.services.HttpClient;
 import com.android.lagger.settings.State;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -53,11 +57,9 @@ public class FriendsListFragment extends Fragment {
     private ArrayList<SimpleSectionedListAdapter.Section> sections = new ArrayList<SimpleSectionedListAdapter.Section>();
 
     private List<User> allFriendsList;
-    private JsonArray invitationsFromFriendsResp;
-    private JsonArray friendsListResp;
 
-    public FriendsListFragment() {
-
+    public FriendsListFragment(Context context) {
+        mContext = context;
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -76,7 +78,7 @@ public class FriendsListFragment extends Fragment {
             }
         });
 
-        getFriendList();
+        loadAllFriendsFromServer();
 
         return parent;
     }
@@ -88,35 +90,54 @@ public class FriendsListFragment extends Fragment {
                 mContext.getResources().getString(R.string.allFriends)};
     }
 
-    private void getFriendList(){
-        allFriendsList = new ArrayList<User>();
+    public void loadAllFriendsFromServer() {
+        GetFriendInvitationsRequest invitationsRequest = new GetFriendInvitationsRequest(State.getLoggedUserId());
+        GetFriendsRequest friendsRequest = new GetFriendsRequest(State.getLoggedUserId());
 
-        new AsyncTask<String, Void, String>() {
-            @Override
-            protected String doInBackground(String... urls) {
-                JsonObject userIdJson = new JsonObject();
+        GetFriendsAndInvitationsRequest getAllFriendsRequest = new GetFriendsAndInvitationsRequest(invitationsRequest, friendsRequest);
 
-                userIdJson.addProperty("idUser", State.getLoggedUserId());
+        GetAllFriendsTask getAllFriendsTask = new GetAllFriendsTask();
+        getAllFriendsTask.execute(getAllFriendsRequest);
+    }
 
-                String invitations = HttpRequest.POST(URL.GET_INVITATION_FROM_FRIENDS, userIdJson);
-                String friends = HttpRequest.POST(URL.GET_FRIENDS, userIdJson);
+    private void showFriendInvitationDialog(User friend){
 
-                if(invitations != "" && friends != ""){
-                    invitations = invitations.substring(0, invitations.length() - 1);
-                    friends = friends.substring(1, friends.length());
-                }
-                StringBuilder sb = new StringBuilder();
-                sb.append(invitations);
-                sb.append(",");
-                sb.append(friends);
+        fragmentTransaction = fragmentManager.beginTransaction();
+        SomeDialog friendInvitationDialog = new SomeDialog (mContext, "Confirm", "Do you want to accept this friend invitation?", SomeDialog.FRIEND_INVITATION_TYPE);
+        friendInvitationDialog.show(fragmentTransaction, "dialog");
 
-                return sb.toString();
-            }
-            // onPostExecute displays the results of the AsyncTask.
-            @Override
-            protected void onPostExecute(String result) {
+        Bundle details = new Bundle();
+        details.putParcelable("friend", friend);
 
-                allFriendsList = parseFriends(result);
+        friendInvitationDialog.setArguments(details);
+    }
+    private void showFriendDeleteDialog(User friend){
+        SomeDialog friendDeleteDialog = new SomeDialog (mContext, "Confirm", "Do you want to delete this friend?", SomeDialog.FRIEND_TYPE);
+
+        Bundle details = new Bundle();
+        details.putParcelable("friend", friend);
+        friendDeleteDialog.setArguments(details);
+
+        fragmentTransaction = fragmentManager.beginTransaction();
+        friendDeleteDialog.show(fragmentTransaction, "dialog");
+    }
+
+
+    private class GetAllFriendsTask extends AsyncTask<GetFriendsAndInvitationsRequest, Void, GetFriendsAndInvitationsResponse> {
+        private HttpClient client;
+
+        public GetAllFriendsTask() {
+            client = new HttpClient(mContext);
+        }
+
+        @Override
+        protected GetFriendsAndInvitationsResponse doInBackground(GetFriendsAndInvitationsRequest... params) {
+            return client.getFriendsAndInvitationsFromFriends(params[0]);
+        }
+
+        protected void onPostExecute(final GetFriendsAndInvitationsResponse resp) {
+            if (!resp.isError()) {
+                setAllFriendsAndPartitionIndex(resp);
 
                 adapter = new FriendsListAdapter(mContext, allFriendsList, false);
 
@@ -144,63 +165,32 @@ public class FriendsListFragment extends Fragment {
                         return false;
                     }
                 });
-            }
-        }.execute();
 
-
-    }
-
-    private List<User> parseFriends(String result){
-
-            List<User> usersFromResponse = new ArrayList<User>();
-            List<User> invitationsFromFriends = new ArrayList<User>();
-            List<User> friendsList = new ArrayList<User>();
-        if(!result.equals(",")) {
-            JsonParser parser = new JsonParser();
-            JsonObject responseJson = (JsonObject) parser.parse(result);
-
-            friendsListResp = responseJson.get("friends").getAsJsonArray();
-            invitationsFromFriendsResp = responseJson.get("friendInvitations").getAsJsonArray();
-
-            Gson gson = new Gson();
-            for (JsonElement friendJsonElem : friendsListResp) {
-                User friend = gson.fromJson(friendJsonElem, User.class);
-                friendsList.add(friend);
+            } else {
+                String info = resp.getResponse();
+                showInfo(info);
             }
 
-            for (JsonElement invitationJsonElem : invitationsFromFriendsResp) {
-                User friend = gson.fromJson(invitationJsonElem, User.class);
-                invitationsFromFriends.add(friend);
-            }
         }
 
-        INDEX_OF_INVITATION_END = invitationsFromFriends.size();
+        private void setAllFriendsAndPartitionIndex(final GetFriendsAndInvitationsResponse resp) {
+            List<User> friends = resp.getGetFriendsResponse().getFriends();
+            List<User> invitations = resp.getGetFriendInvitationsResponse().getFriendInvitations();
 
-        usersFromResponse.addAll(invitationsFromFriends);
-        usersFromResponse.addAll(friendsList);
+            setPartitionIndex(invitations.size());
 
-        return usersFromResponse;
-    }
+            allFriendsList = new ArrayList<User>();
+            allFriendsList.addAll(invitations);
+            allFriendsList.addAll(friends);
 
-    private void showFriendInvitationDialog(User friend){
+        }
 
-        fragmentTransaction = fragmentManager.beginTransaction();
-        SomeDialog friendInvitationDialog = new SomeDialog (mContext, "Confirm", "Do you want to accept this friend invitation?", SomeDialog.FRIEND_INVITATION_TYPE);
-        friendInvitationDialog.show(fragmentTransaction, "dialog");
+        private void setPartitionIndex(int index) {
+            INDEX_OF_INVITATION_END = index;
+        }
 
-        Bundle details = new Bundle();
-        details.putParcelable("friend", friend);
-
-        friendInvitationDialog.setArguments(details);
-    }
-    private void showFriendDeleteDialog(User friend){
-        SomeDialog friendDeleteDialog = new SomeDialog (mContext, "Confirm", "Do you want to delete this friend?", SomeDialog.FRIEND_TYPE);
-
-        Bundle details = new Bundle();
-        details.putParcelable("friend", friend);
-        friendDeleteDialog.setArguments(details);
-
-        fragmentTransaction = fragmentManager.beginTransaction();
-        friendDeleteDialog.show(fragmentTransaction, "dialog");
+        private void showInfo(String info) {
+            Toast.makeText(mContext, info, Toast.LENGTH_LONG).show();
+        }
     }
 }

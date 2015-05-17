@@ -6,6 +6,9 @@ import com.android.lagger.requestObjects.AcceptMeetingRequest;
 import com.android.lagger.requestObjects.AddFriendRequest;
 import com.android.lagger.requestObjects.FindFriendRequest;
 import com.android.lagger.requestObjects.GetAllMeetingsRequest;
+import com.android.lagger.requestObjects.GetFriendInvitationsRequest;
+import com.android.lagger.requestObjects.GetFriendsAndInvitationsRequest;
+import com.android.lagger.requestObjects.GetFriendsRequest;
 import com.android.lagger.requestObjects.GetMeetingInvitationsRequest;
 import com.android.lagger.requestObjects.GetMeetingsRequest;
 import com.android.lagger.requestObjects.LoginRequest;
@@ -15,6 +18,9 @@ import com.android.lagger.responseObjects.AcceptMeetingResponse;
 import com.android.lagger.responseObjects.AddFriendResponse;
 import com.android.lagger.responseObjects.FindFriendResponse;
 import com.android.lagger.responseObjects.GetAllMeetingsResponse;
+import com.android.lagger.responseObjects.GetFriendInvitationsResponse;
+import com.android.lagger.responseObjects.GetFriendsAndInvitationsResponse;
+import com.android.lagger.responseObjects.GetFriendsResponse;
 import com.android.lagger.responseObjects.GetMeetingInvitationsResponse;
 import com.android.lagger.responseObjects.GetMeetingsResponse;
 import com.android.lagger.responseObjects.LoginResponse;
@@ -161,7 +167,7 @@ public class HttpClient {
             String responseInvitations = invitationsResp.isError() ? invitationsResp.getResponse() : "";
 
             String response = responseMeetings;
-            if(!responseMeetings.equals(responseInvitations)) {
+            if (!responseMeetings.equals(responseInvitations)) {
                 response += "\n" + responseInvitations;
             }
 
@@ -206,6 +212,67 @@ public class HttpClient {
             resp.setIsError(true);
         }
 
+        return resp;
+    }
+
+    public GetFriendsAndInvitationsResponse getFriendsAndInvitationsFromFriends(final GetFriendsAndInvitationsRequest request) {
+        GetFriendsAndInvitationsResponse respAllFriends = null;
+
+        GetFriendInvitationsResponse invitationsResp = getInvitationsFromFriends(request.getGetFriendInvitationsRequest());
+        GetFriendsResponse friendsResp = getFriends(request.getGetFriendsRequest());
+
+        if (!friendsResp.isError() && !invitationsResp.isError()) {
+            respAllFriends = new GetFriendsAndInvitationsResponse(invitationsResp, friendsResp);
+            respAllFriends.setIsError(false);
+        } else {
+            //get response errors
+            respAllFriends = new GetFriendsAndInvitationsResponse();
+            String responseFriends = friendsResp.isError() ? friendsResp.getResponse() : "";
+            String responseInvitations = invitationsResp.isError() ? invitationsResp.getResponse() : "";
+
+            String response = responseFriends;
+            if (!responseFriends.equals(responseInvitations)) {
+                response += "\n" + responseInvitations;
+            }
+
+            respAllFriends.setResponse(response);
+            respAllFriends.setIsError(true);
+        }
+
+        return respAllFriends;
+    }
+
+    private GetFriendsResponse getFriends(final GetFriendsRequest getFriendsRequest) {
+        GetFriendsResponse resp = null;
+
+        ResponseObject respFriendsObj = httpRequest.POST(URL.GET_FRIENDS, getFriendsRequest);
+        String response = respFriendsObj.getResponse();
+
+        if (!respFriendsObj.isError()) {
+            resp = gson.fromJson(response, GetFriendsResponse.class);
+            resp.setIsError(false);
+        } else {
+            resp = new GetFriendsResponse();
+            resp.setResponse(response);
+            resp.setIsError(true);
+        }
+        return resp;
+    }
+
+    private GetFriendInvitationsResponse getInvitationsFromFriends(final GetFriendInvitationsRequest getFriendInvitationsReq) {
+        GetFriendInvitationsResponse resp = null;
+
+        ResponseObject respInvitations = httpRequest.POST(URL.GET_INVITATION_FROM_FRIENDS, getFriendInvitationsReq);
+        String response = respInvitations.getResponse();
+
+        if (!respInvitations.isError()) {
+            resp = gson.fromJson(response, GetFriendInvitationsResponse.class);
+            resp.setIsError(false);
+        } else {
+            resp = new GetFriendInvitationsResponse();
+            resp.setResponse(response);
+            resp.setIsError(true);
+        }
         return resp;
     }
 }
