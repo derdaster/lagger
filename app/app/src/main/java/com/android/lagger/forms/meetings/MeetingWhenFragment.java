@@ -1,6 +1,7 @@
 package com.android.lagger.forms.meetings;
 
 import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
@@ -19,6 +20,7 @@ import com.android.datetimepicker.date.DatePickerDialog;
 import com.android.datetimepicker.time.RadialPickerLayout;
 import com.android.datetimepicker.time.TimePickerDialog;
 import com.android.lagger.R;
+import com.melnykov.fab.FloatingActionButton;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -33,6 +35,7 @@ public class MeetingWhenFragment extends Fragment {
     private Context mContext;
     private ViewPager parentPager;
     private Button btnDateStart;
+    FloatingActionButton rightBtn;
     private Button btnTimeStart;
     private Button btnDateEnd;
     private Button btnTimeEnd;
@@ -40,9 +43,10 @@ public class MeetingWhenFragment extends Fragment {
     private DateFormat dateFormat;
     private SimpleDateFormat timeFormat;
     private static final String TIME_PATTERN = "HH:mm";
+    FragmentTransaction fragmentTransaction;
 
-    public MeetingWhenFragment(ViewPager inParentPager) {
-        parentPager = inParentPager;
+    public MeetingWhenFragment() {
+
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -116,6 +120,16 @@ public class MeetingWhenFragment extends Fragment {
                         btnTimeEnd.setText(timeFormat.format(calendar.getTime()));
                     }
                 }, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), true).show(getFragmentManager(), "timePicker");
+            }
+        });
+
+        rightBtn = (FloatingActionButton) parent.findViewById(R.id.btnRightPager);
+        rightBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                fragmentTransaction = getFragmentManager().beginTransaction();
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.replace(R.id.container_body, new MeetingWhereFragment()).commit();
             }
         });
     }

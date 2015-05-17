@@ -118,7 +118,7 @@ public class FriendsListFragment extends Fragment {
 
                 allFriendsList = parseFriends(result);
 
-                adapter = new FriendsListAdapter(mContext, allFriendsList);
+                adapter = new FriendsListAdapter(mContext, allFriendsList, false);
 
                 mHeaderPositions = new Integer[]{INDEX_OF_INVITED, INDEX_OF_INVITATION_END};
 

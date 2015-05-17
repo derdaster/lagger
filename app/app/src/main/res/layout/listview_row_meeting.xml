@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    xmlns:fbutton="http://schemas.android.com/apk/res-auto"
+    xmlns:fab="http://schemas.android.com/apk/res-auto"
     android:layout_height="wrap_content"
     android:layout_margin="10dp"
     android:padding="5dp"
@@ -16,7 +16,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_weight="0.2">
+            android:layout_weight="0.9">
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
@@ -50,23 +50,19 @@
                 android:layout_gravity="center"
                 android:id="@+id/tvWhere"/>
         </LinearLayout>
-        <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:fab="http://schemas.android.com/apk/res-auto"
-            android:layout_width="match_parent"
+        <com.melnykov.fab.FloatingActionButton
+            android:id="@+id/btnMap"
+            android:focusable="false"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_margin="16dp"
             android:visibility="gone"
-            android:layout_weight="0.8">
-            <com.melnykov.fab.FloatingActionButton
-                android:id="@+id/btnMap"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_margin="16dp"
-                android:src="@drawable/map"
-                fab:fab_colorNormal="@color/primary"
-                fab:fab_colorPressed="@color/primary_dark"
-                fab:fab_colorRipple="@color/ripple" />
-        </FrameLayout>
+            android:src="@drawable/map"
+            fab:fab_colorNormal="@color/primary"
+            fab:fab_colorPressed="@color/primary_dark"
+            fab:fab_colorRipple="@color/ripple"
+            android:layout_weight="0.1"/>
         </LinearLayout>
 
 

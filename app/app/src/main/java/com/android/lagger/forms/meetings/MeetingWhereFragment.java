@@ -1,6 +1,7 @@
 package com.android.lagger.forms.meetings;
 
 import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
@@ -18,6 +19,7 @@ import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.melnykov.fab.FloatingActionButton;
 
 /**
  * Created by Kubaa on 2015-03-20.
@@ -30,9 +32,11 @@ public class MeetingWhereFragment extends Fragment {
     private MapView mMapView;
     private GoogleMap googleMap;
     private LatLng chosenPositon;
+    FloatingActionButton leftBtn;
+    FloatingActionButton rightBtn;
+    FragmentTransaction fragmentTransaction;
 
-    public MeetingWhereFragment(ViewPager inParentPager) {
-        parentPager = inParentPager;
+    public MeetingWhereFragment() {
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -105,6 +109,26 @@ public class MeetingWhereFragment extends Fragment {
             @Override
             public void onClick(View v) {
            }
+        });
+
+        leftBtn = (FloatingActionButton) parent.findViewById(R.id.btnLeftPager);
+        leftBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                fragmentTransaction = getFragmentManager().beginTransaction();
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.replace(R.id.container_body, new MeetingWhenFragment()).commit();
+            }
+        });
+
+        rightBtn = (FloatingActionButton) parent.findViewById(R.id.btnRightPager);
+        rightBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                fragmentTransaction = getFragmentManager().beginTransaction();
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.replace(R.id.container_body, new MeetingWhoFragment()).commit();
+            }
         });
     }
     public LatLng getChosenPositon() {

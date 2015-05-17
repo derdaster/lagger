@@ -50,6 +50,7 @@ public class HomeFragment extends Fragment {
     private List<SimpleSectionedListAdapter.Section> sections = new ArrayList<SimpleSectionedListAdapter.Section>();
     FragmentTransaction fragmentTransaction;
     private List<Meeting> allMeetings;
+    private List<Meeting> current = new ArrayList<Meeting>();
 
 
     public HomeFragment(){}
@@ -100,7 +101,10 @@ public class HomeFragment extends Fragment {
 
                 allMeetings = parseMeetings(result);
 
-                adapter = new MeetingListAdapter(mContext, allMeetings);
+                if(current.size() == 0)
+                    adapter = new MeetingListAdapter(mContext, allMeetings, -1, -1);
+                else
+                    adapter = new MeetingListAdapter(mContext, allMeetings, 0, INDEX_OF_NEAREST-1);
                 addSections();
                 createSimpleSecionedListAdapter(adapter);
                 addOnClickListenerDependingToIndex(mList);
@@ -111,7 +115,7 @@ public class HomeFragment extends Fragment {
 
     private List<Meeting> parseMeetings(final String result){
         final List<Meeting> meetings = new ArrayList<Meeting>();
-        final List<Meeting> current = new ArrayList<Meeting>();
+        current = new ArrayList<Meeting>();
         final List<Meeting> nearest = new ArrayList<Meeting>();
         List<Meeting> currentAndNearest = new ArrayList<>();
 

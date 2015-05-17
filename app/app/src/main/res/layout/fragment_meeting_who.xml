@@ -1,14 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:fbutton="http://schemas.android.com/apk/res-auto"
+    xmlns:fab="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:padding="10dp">
 
+
     <ListView
+        android:layout_weight="0.9"
         android:id="@+id/guestList"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_width="match_parent"
         android:paddingBottom="10dp">
     </ListView>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.1"
+        android:weightSum="1">
+
+
+        <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:layout_weight="0.35">
+            <com.melnykov.fab.FloatingActionButton
+                android:id="@+id/btnLeftPager"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:src="@drawable/left"
+                fab:fab_colorNormal="@color/primary"
+                fab:fab_colorPressed="@color/primary_dark"
+                fab:fab_colorRipple="@color/ripple" />
+        </FrameLayout>
+
+        <com.android.lagger.controls.custom.LinePageIndicator
+            android:id="@+id/indicator"
+            android:layout_width="match_parent"
+            android:layout_height="fill_parent"
+            android:gravity="center"
+            android:layout_weight="0.3"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"/>
+
+        <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/frameDonePager"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:layout_weight="0.35">
+            <com.melnykov.fab.FloatingActionButton
+                android:id="@+id/btnDonePager"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:src="@drawable/tick"
+                fab:fab_colorNormal="@color/primary"
+                fab:fab_colorPressed="@color/primary_dark"
+                fab:fab_colorRipple="@color/ripple" />
+        </FrameLayout>
+    </LinearLayout>
+
 </LinearLayout>

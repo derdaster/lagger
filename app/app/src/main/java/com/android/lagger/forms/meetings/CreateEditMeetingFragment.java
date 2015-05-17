@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
@@ -53,8 +54,7 @@ public class CreateEditMeetingFragment extends Fragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         parent = inflater.inflate(R.layout.fragment_pager, container, false);
 
-
-
+        /*
         pager = (ViewPager)parent.findViewById(R.id.pager);
         pageAdapter = new PagerAdapter(getFragmentManager());
         pageAdapter.addItem(new MeetingWhenFragment(pager));
@@ -64,7 +64,7 @@ public class CreateEditMeetingFragment extends Fragment{
 
         pager.setPageTransformer(true, new ZoomOutPageTransformer());
         pager.setAdapter(pageAdapter);
-
+*/
 
         frameRight = (FrameLayout) parent.findViewById(R.id.frameRightPager);
         frameDone = (FrameLayout) parent.findViewById(R.id.frameDonePager);
@@ -96,7 +96,7 @@ public class CreateEditMeetingFragment extends Fragment{
             leftBtn.setVisibility(View.INVISIBLE);
 
         mIndicator = (LinePageIndicator) parent.findViewById(R.id.indicator);
-        mIndicator.setViewPager(pager);
+        //mIndicator.setViewPager(pager);
 
         mIndicator.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override

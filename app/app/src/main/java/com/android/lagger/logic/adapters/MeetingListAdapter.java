@@ -5,11 +5,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.android.lagger.R;
 import com.android.lagger.model.entities.Meeting;
 import com.android.lagger.settings.Parser;
+import com.melnykov.fab.FloatingActionButton;
 
 import java.util.Date;
 import java.util.List;
@@ -21,11 +23,15 @@ public class MeetingListAdapter extends BaseAdapter {
 
     private Context mContext;
     private List<Meeting> data;
+    private int indexOfFirstActualMeeting;
+    private int indexOfLastActualMeeting;
     private static LayoutInflater inflater = null;
 
-    public MeetingListAdapter(Context inContext, List<Meeting> d) {
+    public MeetingListAdapter(Context inContext, List<Meeting> d, int inIndexOfFirstActualMeeting, int inIndexOfLastActualMeeting) {
         mContext = inContext;
         data = d;
+        indexOfFirstActualMeeting = inIndexOfFirstActualMeeting;
+        indexOfLastActualMeeting = inIndexOfLastActualMeeting;
         inflater = (LayoutInflater)inContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
@@ -45,6 +51,12 @@ public class MeetingListAdapter extends BaseAdapter {
         View vi = convertView;
         if(convertView == null)
             vi = inflater.inflate(R.layout.listview_row_meeting, null);
+
+        FloatingActionButton buttonMap = (FloatingActionButton)vi.findViewById(R.id.btnMap);
+        if(indexOfFirstActualMeeting >= 0 && position >= indexOfFirstActualMeeting && position <= indexOfLastActualMeeting)
+        {
+            buttonMap.setVisibility(View.VISIBLE);
+        }
 
         TextView title = (TextView)vi.findViewById(R.id.tvTitleMeeting);
         TextView where = (TextView)vi.findViewById(R.id.tvWhere);

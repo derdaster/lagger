@@ -79,9 +79,11 @@ public class MeetingListFragment extends Fragment {
             public void onClick(View v) {
                 fragmentTransaction = getFragmentManager().beginTransaction();
                 fragmentTransaction.addToBackStack(null);
-                fragmentTransaction.replace(R.id.container_body, new CreateEditMeetingFragment()).commit();
+                fragmentTransaction.replace(R.id.container_body, new MeetingWhenFragment()).commit();
             }
         });
+
+
 
         loadData();
 
@@ -126,7 +128,7 @@ public class MeetingListFragment extends Fragment {
 
                 allMeetings = parseMeetings(result);
 
-                adapter = new MeetingListAdapter(mContext, allMeetings);
+                adapter = new MeetingListAdapter(mContext, allMeetings, -1, -1);
                 addSections();
                 createSimpleSecionedListAdapter(adapter);
                 addOnClickListenerDependingToIndex(mList);
@@ -157,6 +159,7 @@ public class MeetingListFragment extends Fragment {
             Meeting invitation = gson.fromJson(invitationJsonElem, Meeting.class);
             invitations.add(invitation);
         }
+
 
         INDEX_OF_UPCOMING = invitations.size();
 
