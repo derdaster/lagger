@@ -103,7 +103,7 @@ public class ViewMeetingFragment extends Fragment {
                 AcceptMeetingTask.acceptMeeting(meeting.getId(), true, mContext);
 
                 fragmentTransaction = getFragmentManager().beginTransaction();
-                fragmentTransaction.replace(R.id.container_body, new MeetingListFragment()).commit();
+                fragmentTransaction.replace(R.id.container_body, new MeetingListFragment(mContext)).commit();
 
             }
         });
@@ -114,7 +114,7 @@ public class ViewMeetingFragment extends Fragment {
                 AcceptMeetingTask.acceptMeeting(meeting.getId(), false, mContext);
 
                 fragmentTransaction = getFragmentManager().beginTransaction();
-                fragmentTransaction.replace(R.id.container_body, new MeetingListFragment()).commit();
+                fragmentTransaction.replace(R.id.container_body, new MeetingListFragment(mContext)).commit();
             }
         });
 

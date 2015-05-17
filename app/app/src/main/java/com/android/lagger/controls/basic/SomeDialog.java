@@ -90,7 +90,7 @@ public class SomeDialog extends DialogFragment {
                         AcceptMeetingTask.acceptMeeting(meeting.getId(), true, mContext);
 
                         fragmentTransaction = getFragmentManager().beginTransaction();
-                        fragmentTransaction.replace(R.id.container_body, new MeetingListFragment()).commit();
+                        fragmentTransaction.replace(R.id.container_body, new MeetingListFragment(mContext)).commit();
                     }
                 })
                 .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
@@ -99,7 +99,7 @@ public class SomeDialog extends DialogFragment {
                         AcceptMeetingTask.acceptMeeting(meeting.getId(), false, mContext);
 
                         fragmentTransaction = getFragmentManager().beginTransaction();
-                        fragmentTransaction.replace(R.id.container_body, new MeetingListFragment()).commit();
+                        fragmentTransaction.replace(R.id.container_body, new MeetingListFragment(mContext)).commit();
                     }
                 })
                 .setNeutralButton(R.string.view, new DialogInterface.OnClickListener() {
@@ -126,7 +126,7 @@ public class SomeDialog extends DialogFragment {
                         removeMeetingTask.execute(removeMeetingRequest);
 
                         fragmentTransaction = getFragmentManager().beginTransaction();
-                        fragmentTransaction.replace(R.id.container_body, new MeetingListFragment()).commit();
+                        fragmentTransaction.replace(R.id.container_body, new MeetingListFragment(mContext)).commit();
                     }
                 })
                 .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
@@ -152,7 +152,7 @@ public class SomeDialog extends DialogFragment {
                         AcceptMeetingTask.acceptMeeting(meeting.getId(), false, mContext);
 
                         fragmentTransaction = getFragmentManager().beginTransaction();
-                        fragmentTransaction.replace(R.id.container_body, new MeetingListFragment()).commit();
+                        fragmentTransaction.replace(R.id.container_body, new MeetingListFragment(mContext)).commit();
                     }
                 })
                 .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {

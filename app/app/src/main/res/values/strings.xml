@@ -47,8 +47,8 @@
     <string name="upcoming">Upcoming</string>
     <string name="invitationsFromFriends">Invitations from friends</string>
     <string name="allFriends">Friends</string>
-    <string name="current_meetings">Current meetings</string>
-    <string name="nearest_meetings">Nearest meetings</string>
+    <string name="current_meetings">Current allMeetings</string>
+    <string name="nearest_meetings">Nearest allMeetings</string>
 
 
 

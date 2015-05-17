@@ -68,32 +68,6 @@ public class HttpRequest {
         return result;
     }
 
-    public static String DELETE(String url, RequestObject requestObject){
-        String result = null;
-        java.net.URL urlObject = null;
-        try {
-            urlObject = new URL(url);
-        } catch (MalformedURLException exception) {
-            exception.printStackTrace();
-        }
-        HttpURLConnection httpURLConnection = null;
-        try {
-            httpURLConnection = (HttpURLConnection) urlObject.openConnection();
-
-            httpURLConnection.setRequestProperty("Content-Type", "application/json");
-            httpURLConnection.setRequestMethod("DELETE");
-            //FIXME convert response object to String;
-           result = httpURLConnection.getResponseMessage();
-        } catch (IOException exception) {
-            exception.printStackTrace();
-        } finally {
-            if (httpURLConnection != null) {
-                httpURLConnection.disconnect();
-            }
-        }
-        return result;
-    }
-
     public static String POST(String url, JsonObject jsonObject){
         String result = null;
             // 1. create HttpClient
@@ -216,6 +190,7 @@ public class HttpRequest {
 
                 // 8. Execute POST request to the given URL
                 HttpResponse httpResponse = httpclient.execute(httpPost);
+
                 String result = getResponseFromHttp(httpResponse);
                 response = new ResponseObject(result, false);
 
@@ -253,15 +228,5 @@ public class HttpRequest {
         }
         return result;
     }
-
-//    private static ResponseObject convertInputStreamToResponseObj(InputStream inputStream) throws IOException {
-//        ResponseObject responseObj = null;
-//        String jsonToParse = convertInputStreamToString(inputStream);
-//
-//        Gson gson = new GsonHelper().getGson();
-//        responseObj = gson.fromJson(jsonToParse, ResponseObject.class);
-//
-//        return responseObj;
-//    }
 
 }
