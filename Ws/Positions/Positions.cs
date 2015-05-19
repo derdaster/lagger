@@ -2,6 +2,8 @@
 using LaggerServer.Positions;
 using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlTypes;
 using System.Device.Location;
 using System.Linq;
 using System.ServiceModel.Web;
@@ -48,64 +50,62 @@ namespace LaggerServer
             {
                 LogDiagnostic("GetPositions", request.IdUser);
 
+                if (request.LastRequestTime < SqlDateTime.MinValue.Value) { request.LastRequestTime = SqlDateTime.MinValue.Value; }
+
+                var predictionTime = 5;
+
                 using (var ctx = new LaggerDbEntities())
                 {
-                    var usersPositions = new List<PositionDetails>();
+                    var allUsersPositions = new List<PositionDetails>();
 
-                    var direction = (from e in ctx.Events
-                                     where e.ID_Event == request.IdMeeting
-                                     && !e.Blocked
-                                     select e).FirstOrDefault();
+                    var direction = QueryManager.GetEvent(ctx, request.IdMeeting);
 
-                    var eventDetails = (from ed in ctx.EventDetails
-                                        where ed.IDEvent == request.IdMeeting
-                                        && !ed.Blocked
-                                        select ed).ToList();
+                    if (direction == null) { throw new Exception("Nie ma takiego spotkania"); }
 
-                    var users = eventDetails.Select(x => x.IDUser).Distinct();
+                    var users = QueryManager.GetUsersEvent(ctx, request.IdMeeting);
 
-                    foreach (var u in users)
+                    foreach (var idUser in users)
                     {
-                        var positions = eventDetails.Where(x => x.IDUser == u).OrderBy(x => x.CreationDate);
+                        var lastPosition = QueryManager.GetLastUserPosition(ctx, idUser, request.IdMeeting);
 
-                        if (positions.Any())
+                        var datePrediction = lastPosition.CreationDate.AddMinutes(-1 * predictionTime);
+                        var dateFrom = (request.LastRequestTime < datePrediction) ? request.LastRequestTime : datePrediction;
+
+                        var userPositions = QueryManager.GetUserPositionsFromDate(ctx, idUser, request.IdMeeting, dateFrom);
+
+                        var userPositionsPrediction = userPositions.Where(x => x.CreationDate >= datePrediction)
+                                                                 .OrderBy(x => x.CreationDate);
+
+                        int arrivalTime = 0;
+                        var positionsList = new List<Position>();
+
+                        if (userPositionsPrediction.Count() == 1)
                         {
-                            var distance = 0d;
-                            var time = new TimeSpan();
-
-                            var lastPosition = positions.First();
-
-                            foreach (var pos in positions)
-                            {
-                                distance += (new GeoCoordinate((double)lastPosition.Latitude, (double)lastPosition.Longitude))
-                                    .GetDistanceTo(new GeoCoordinate((double)pos.Latitude, (double)pos.Longitude));
-
-                                time += pos.CreationDate - lastPosition.CreationDate;
-
-                                lastPosition = pos;
-                            }
-
-                            var leftLat = (double)Math.Abs(lastPosition.Latitude - direction.Latitude);
-                            var leftLon = (double)Math.Abs(lastPosition.Longitude - direction.Longitude);
-
-                            var leftMeters = (new GeoCoordinate(0, 0)).GetDistanceTo(new GeoCoordinate(leftLat, leftLon));
-
-                            var velocity = distance / (double)time.TotalMinutes;
-
-                            var arrivalTime = (int)Math.Round(leftMeters / velocity);
-
-                            usersPositions.Add(new PositionDetails()
-                            {
-                                IdUser = u,
-                                ArrivalTime = arrivalTime,
-                                Positions = positions.Select(x => new Position(x)).ToList()
-                            });
+                            arrivalTime = -1; // Nieznany czas dotarcia. Jest tylko jedna pozycja. Stoi w miejscu i dopiero zaczął przygodę.
                         }
+                        else if (userPositionsPrediction.Count() > 1)
+                        {
+                            if (IsDestination(direction, userPositionsPrediction.Last()))
+                            {
+                                arrivalTime = 0; // Jest na miejscu. Nie trzeba liczyć czasu dotarcia.
+                            }
+                            else
+                            {
+                                arrivalTime = GetArrivalTime(direction, userPositionsPrediction);
+                            }
+                        }
+
+                        allUsersPositions.Add(new PositionDetails()
+                           {
+                               IdUser = idUser,
+                               ArrivalTime = arrivalTime,
+                               Positions = userPositions.Where(x => x.CreationDate > request.LastRequestTime).Select(x => new Position(x)).ToList()
+                           });
                     }
 
                     return new GetPositionsResponse()
                     {
-                        UsersPositions = usersPositions
+                        UsersPositions = allUsersPositions
                     };
                 }
             }
@@ -114,6 +114,43 @@ namespace LaggerServer
                 SetError("GetPositions", ex);
                 return null;
             }
+        }
+
+        private bool IsDestination(Event meeting, EventDetail position)
+        {
+            var latitude = (double)Math.Abs(meeting.Latitude - position.Latitude);
+            var longitude = (double)Math.Abs(meeting.Longitude - position.Longitude);
+
+            var leftMeters = (new GeoCoordinate(0, 0)).GetDistanceTo(new GeoCoordinate(latitude, longitude));
+
+            return leftMeters < 100;
+        }
+
+        private int GetArrivalTime(Event direction, IOrderedEnumerable<EventDetail> userPositionsPrediction)
+        {
+            var distance = 0d;
+            var time = new TimeSpan();
+
+            var tempPosition = userPositionsPrediction.First();
+
+            foreach (var pos in userPositionsPrediction)
+            {
+                distance += (new GeoCoordinate((double)tempPosition.Latitude, (double)tempPosition.Longitude))
+                    .GetDistanceTo(new GeoCoordinate((double)pos.Latitude, (double)pos.Longitude));
+
+                time += pos.CreationDate - tempPosition.CreationDate;
+
+                tempPosition = pos;
+            }
+
+            var leftLat = (double)Math.Abs(tempPosition.Latitude - direction.Latitude);
+            var leftLon = (double)Math.Abs(tempPosition.Longitude - direction.Longitude);
+
+            var leftMeters = (new GeoCoordinate(0, 0)).GetDistanceTo(new GeoCoordinate(leftLat, leftLon));
+
+            var velocity = distance / (double)time.TotalMinutes;
+
+            return (velocity != 0) ? (int)Math.Round(leftMeters / velocity) : -1;
         }
     }
 }

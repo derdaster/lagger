@@ -32,6 +32,9 @@ namespace LaggerServer.Positions
     {
         [DataMember(Name = "idMeeting", Order = 0)]
         public int IdMeeting { get; set; }
+
+        [DataMember(Name = "lastRequestTime", Order = 1)]
+        public DateTime LastRequestTime { get; set; }
     }
 
     [DataContract]

@@ -75,6 +75,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>LaggerDb.dbml</DependentUpon>
     </Compile>
+    <Compile Include="Database\QueryManager.cs" />
     <Compile Include="Entities.cs" />
     <Compile Include="Friends\RequestResponse.cs" />
     <Compile Include="Friends\Friends.cs" />
