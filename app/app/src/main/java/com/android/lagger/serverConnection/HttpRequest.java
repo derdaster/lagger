@@ -1,6 +1,12 @@
 package com.android.lagger.serverConnection;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.widget.Toast;
+
+import com.android.lagger.R;
 import com.android.lagger.requestObjects.RequestObject;
+import com.android.lagger.responseObjects.ResponseObject;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -25,6 +31,12 @@ import java.net.URL;
  * Created by Ewelina Klisowska on 2015-03-19.
  */
 public class HttpRequest {
+
+    private Context context;
+
+    public HttpRequest(Context context) {
+        this.context = context;
+    }
 
     public static String GET(String url){
         InputStream inputStream = null;
@@ -53,32 +65,6 @@ public class HttpRequest {
             Exception ex = e;
         }
 
-        return result;
-    }
-
-    public static String DELETE(String url, RequestObject requestObject){
-        String result = null;
-        java.net.URL urlObject = null;
-        try {
-            urlObject = new URL(url);
-        } catch (MalformedURLException exception) {
-            exception.printStackTrace();
-        }
-        HttpURLConnection httpURLConnection = null;
-        try {
-            httpURLConnection = (HttpURLConnection) urlObject.openConnection();
-
-            httpURLConnection.setRequestProperty("Content-Type", "application/json");
-            httpURLConnection.setRequestMethod("DELETE");
-            //FIXME convert response object to String;
-           result = httpURLConnection.getResponseMessage();
-        } catch (IOException exception) {
-            exception.printStackTrace();
-        } finally {
-            if (httpURLConnection != null) {
-                httpURLConnection.disconnect();
-            }
-        }
         return result;
     }
 
@@ -166,43 +152,60 @@ public class HttpRequest {
         return result;
     }
 
+    private boolean isInternetConnection(Context context) {
+        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (cm.getActiveNetworkInfo() != null
+                && cm.getActiveNetworkInfo().isAvailable()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 
 
     //POST with RequestObject in parameter
-    public static String POST(String url, RequestObject requestObject){
-        String result = null;
-        // 1. create HttpClient
-        HttpClient httpclient = new DefaultHttpClient();
+    public ResponseObject POST(String url, RequestObject requestObject){
+        ResponseObject response = null;
+        if(isInternetConnection(context)) {
+            // 1. create HttpClient
+            HttpClient httpclient = new DefaultHttpClient();
 
-        // 2. make POST request to the given URL
-        HttpPost httpPost = new HttpPost(url);
+            // 2. make POST request to the given URL
+            HttpPost httpPost = new HttpPost(url);
 
-        // 3. convert JSONObject to JSON to String
-        Gson gson = new GsonHelper().getGson();
-        String json = gson.toJson(requestObject);
+            // 3. convert JSONObject to JSON to String
+            Gson gson = new GsonHelper().getGson();
+            String json = gson.toJson(requestObject);
 
-        try {
-            // 5. set json to StringEntity
-            StringEntity se = new StringEntity(json);
+            try {
+                // 5. set json to StringEntity
+                StringEntity se = new StringEntity(json);
 
-            // 6. set httpPost Entity
-            httpPost.setEntity(se);
+                // 6. set httpPost Entity
+                httpPost.setEntity(se);
 
-            // 7. Set some headers to inform server about the type of the content
-            httpPost.setHeader("Accept", "application/json");
-            httpPost.setHeader("Content-type", "application/json");
+                // 7. Set some headers to inform server about the type of the content
+                httpPost.setHeader("Accept", "application/json");
+                httpPost.setHeader("Content-type", "application/json");
 
-            // 8. Execute POST request to the given URL
-            HttpResponse httpResponse = httpclient.execute(httpPost);
-            result = getResponseFromHttp(httpResponse);
+                // 8. Execute POST request to the given URL
+                HttpResponse httpResponse = httpclient.execute(httpPost);
+
+                String result = getResponseFromHttp(httpResponse);
+                response = new ResponseObject(result, false);
+
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
-        catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
+        else{
+           String result = context.getResources().getString(R.string.no_connection);
+           response = new ResponseObject(result, true);
+           //Toast.makeText(context, "Brak połączenia z Internetem!", Toast.LENGTH_LONG).show();
         }
-
-        return result;
+        return response;
     }
 
 
@@ -225,15 +228,5 @@ public class HttpRequest {
         }
         return result;
     }
-
-//    private static ResponseObject convertInputStreamToResponseObj(InputStream inputStream) throws IOException {
-//        ResponseObject responseObj = null;
-//        String jsonToParse = convertInputStreamToString(inputStream);
-//
-//        Gson gson = new GsonHelper().getGson();
-//        responseObj = gson.fromJson(jsonToParse, ResponseObject.class);
-//
-//        return responseObj;
-//    }
 
 }

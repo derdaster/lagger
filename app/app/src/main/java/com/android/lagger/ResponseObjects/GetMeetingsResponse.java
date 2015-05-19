@@ -7,10 +7,10 @@ import java.util.List;
 /**
  * Created by Ewelina Klisowska on 2015-05-02.
  */
-public class MeetingsResponse extends ResponseObject{
+public class GetMeetingsResponse extends ResponseObject{
     private List<Meeting> meetings;
 
-    public MeetingsResponse(List<Meeting> meetings) {
+    public GetMeetingsResponse(List<Meeting> meetings) {
         this.meetings = meetings;
     }
 

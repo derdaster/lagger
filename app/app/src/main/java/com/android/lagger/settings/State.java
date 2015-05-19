@@ -14,6 +14,7 @@ public class State {
     private static User loggedUser = null;
     private static final User defaultUser = new User(DEFAULT_USER_ID);
 
+
     //returns logged user or default user if nobody is logged
     public static User getLoggedUser(){
         return (loggedUser != null ? loggedUser : defaultUser);
@@ -27,15 +28,4 @@ public class State {
         loggedUser = user;
     }
 
-    private boolean checkInternetConnection(Context context) {
-        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        // test for connection
-        if (cm.getActiveNetworkInfo() != null
-                && cm.getActiveNetworkInfo().isAvailable()) {
-            return true;
-        } else {
-
-            return false;
-        }
-    }
 }

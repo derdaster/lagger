@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    xmlns:fbutton="http://schemas.android.com/apk/res-auto"
+    xmlns:fab="http://schemas.android.com/apk/res-auto"
     android:layout_height="match_parent"
     android:padding="10dp">
 
@@ -91,55 +91,52 @@
         android:layout_gravity="bottom"
         android:orientation="horizontal"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:weightSum="1">
-        <info.hoang8f.widget.FButton
-            android:layout_weight="0.25"
-            android:layout_gravity="left"
-            android:id="@+id/btnRefuseMeeting"
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:text="Refuse"
-            android:textColor="@color/color_silver"
-            fbutton:buttonColor="@color/color_carrot"
-            fbutton:shadowColor="@color/color_asbestos"
-            fbutton:shadowEnabled="true"
-            fbutton:shadowHeight="4dp"
-            fbutton:cornerRadius="7dp"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.12"/>
-        <info.hoang8f.widget.FButton
-            android:layout_weight="0.25"
-            android:layout_gravity="center"
-            android:id="@+id/btnEditMeeting"
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:text="Edit"
-            android:textColor="@color/color_silver"
-            fbutton:buttonColor="@color/color_peter_river"
-            fbutton:shadowColor="@color/color_asbestos"
-            fbutton:shadowEnabled="true"
-            fbutton:shadowHeight="4dp"
-            fbutton:cornerRadius="7dp"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.12"/>
-        <info.hoang8f.widget.FButton
-            android:layout_weight="0.25"
-            android:layout_gravity="right"
-            android:id="@+id/btnAcceptMeeting"
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:text="Accept"
-            android:textColor="@color/color_silver"
-            fbutton:buttonColor="@color/color_green_sea"
-            fbutton:shadowColor="@color/color_asbestos"
-            fbutton:shadowEnabled="true"
-            fbutton:shadowHeight="4dp"
-            fbutton:cornerRadius="7dp"/>
+        android:layout_height="wrap_content">
+        <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_weight="0.4"
+            android:layout_height="70dp">
+            <com.melnykov.fab.FloatingActionButton
+                android:id="@+id/btnRefuseMeeting"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:src="@drawable/refuse"
+                fab:fab_colorNormal="@color/color_alizarin"
+                fab:fab_colorPressed="@color/holo_red_dark"
+                fab:fab_colorRipple="@color/ripple" />
+        </FrameLayout>
+
+        <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_weight="0.4"
+            android:layout_height="70dp">
+            <com.melnykov.fab.FloatingActionButton
+                android:id="@+id/btnEditMeeting"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:src="@drawable/edit"
+                fab:fab_colorNormal="@color/color_amethyst"
+                fab:fab_colorPressed="@color/color_wisteria"
+                fab:fab_colorRipple="@color/ripple" />
+        </FrameLayout>
+
+        <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_weight="0.4"
+            android:layout_height="70dp">
+            <com.melnykov.fab.FloatingActionButton
+                android:id="@+id/btnAcceptMeeting"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:src="@drawable/tick"
+                fab:fab_colorNormal="@color/primary"
+                fab:fab_colorPressed="@color/primary_dark"
+                fab:fab_colorRipple="@color/ripple" />
+        </FrameLayout>
+
     </LinearLayout>
 
 </LinearLayout>

@@ -2,7 +2,6 @@ package com.android.lagger.forms.home;
 
 import android.app.Activity;
 import android.app.Fragment;
-import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
 import android.os.AsyncTask;
@@ -11,9 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.android.lagger.R;
 import com.android.lagger.controls.basic.SomeDialog;
@@ -21,7 +18,6 @@ import com.android.lagger.logic.adapters.MeetingListAdapter;
 import com.android.lagger.model.entities.Meeting;
 import com.android.lagger.serverConnection.GsonHelper;
 import com.android.lagger.serverConnection.HttpRequest;
-import com.android.lagger.serverConnection.TestServerConnection;
 import com.android.lagger.serverConnection.URL;
 import com.android.lagger.settings.State;
 import com.google.gson.Gson;
@@ -29,7 +25,6 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.melnykov.fab.FloatingActionButton;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -55,6 +50,7 @@ public class HomeFragment extends Fragment {
     private List<SimpleSectionedListAdapter.Section> sections = new ArrayList<SimpleSectionedListAdapter.Section>();
     FragmentTransaction fragmentTransaction;
     private List<Meeting> allMeetings;
+    private List<Meeting> current = new ArrayList<Meeting>();
 
 
     public HomeFragment(){}
@@ -105,7 +101,10 @@ public class HomeFragment extends Fragment {
 
                 allMeetings = parseMeetings(result);
 
-                adapter = new MeetingListAdapter(mContext, allMeetings);
+                if(current.size() == 0)
+                    adapter = new MeetingListAdapter(mContext, allMeetings, -1, -1);
+                else
+                    adapter = new MeetingListAdapter(mContext, allMeetings, 0, INDEX_OF_NEAREST-1);
                 addSections();
                 createSimpleSecionedListAdapter(adapter);
                 addOnClickListenerDependingToIndex(mList);
@@ -116,7 +115,7 @@ public class HomeFragment extends Fragment {
 
     private List<Meeting> parseMeetings(final String result){
         final List<Meeting> meetings = new ArrayList<Meeting>();
-        final List<Meeting> current = new ArrayList<Meeting>();
+        current = new ArrayList<Meeting>();
         final List<Meeting> nearest = new ArrayList<Meeting>();
         List<Meeting> currentAndNearest = new ArrayList<>();
 
@@ -194,7 +193,7 @@ public class HomeFragment extends Fragment {
     private void showMeetingDialog(Meeting meeting){
 
         fragmentTransaction = getFragmentManager().beginTransaction();
-        SomeDialog newFragment = new SomeDialog(mContext, "Confirm", "What do you want to do with this meeting?", SomeDialog.MEETING_TYPE);
+        SomeDialog newFragment = new SomeDialog(mContext, "Confirm", "What do you want to do with this meeting?", SomeDialog.MEETING_DELETE_TYPE);
         newFragment.show(fragmentTransaction, "dialog");
 
         Bundle details = new Bundle();

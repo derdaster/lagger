@@ -30,8 +30,9 @@ import java.util.Date;
 
 public class GPSService extends Service implements LocationListener {
 
-    private static final long MIN_DISTANCE_CHANGE_FOR_UPDATES = 5;
-    private static final long MIN_TIME_BW_UPDATES = 1000 * 20 * 1;
+
+    private static int MIN_DISTANCE_CHANGE_FOR_UPDATES = 5;
+    private static int MIN_TIME_BW_UPDATES = 1000 * 20 * 1;
     private final Context context;
     protected LocationManager locationManager;
     boolean isGPSEnabled = false;
@@ -47,7 +48,9 @@ public class GPSService extends Service implements LocationListener {
         this.context = context;
         getLocation();
         coordinatesList = new ArrayList();
-        sendLocation();
+        if(coordinates != null && coordinates.latitude != 0 && coordinates.longitude != 0) {
+            sendLocation();
+        }
     }
 
     public Location getLocation() {
@@ -112,6 +115,21 @@ public class GPSService extends Service implements LocationListener {
         return location;
     }
 
+    public static int getMinDistanceChangeForUpdates() {
+        return MIN_DISTANCE_CHANGE_FOR_UPDATES;
+    }
+
+    public static int getMinTimeBwUpdates() {
+        return MIN_TIME_BW_UPDATES/1000;
+    }
+
+    public static void setMinDistanceChangeForUpdates(int minDistanceChangeForUpdates) {
+        MIN_DISTANCE_CHANGE_FOR_UPDATES=minDistanceChangeForUpdates;
+    }
+
+    public static void setMinTimeBwUpdates(int minTimeBwUpdates) {
+        MIN_TIME_BW_UPDATES=minTimeBwUpdates*1000;
+    }
 
     public void stopUsingGPS() {
         if (locationManager != null) {
@@ -170,34 +188,37 @@ public class GPSService extends Service implements LocationListener {
     public void onLocationChanged(Location arg0) {
         location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
         if (location != null) { coordinates = new LatLng(location.getLatitude(), location.getLongitude()); }
-        if (coordinates != null) { sendLocation(); }
+        if (coordinates != null && coordinates.latitude != 0 && coordinates.longitude != 0) { sendLocation(); }
 //        Toast.makeText(
 //                context,
 //                "Twoja pozycja -\nX: " + coordinates.latitude + "\nY: "
 //                        + coordinates.longitude + "liczba " + coordinatesList.size(), Toast.LENGTH_LONG).show();
 
     }
-public void sendLocation(){
-    new AsyncTask<String, Void, String>() {
-        @Override
-        protected String doInBackground(String... urls) {
-            Gson gson = new GsonHelper().getGson();
-            SendingPosition sendingPosition=new SendingPosition(State.getLoggedUserId(),new Date(),20,coordinates.latitude,coordinates.longitude);
-            String userString=gson.toJson(sendingPosition);
-            JsonParser parser = new JsonParser();
-            JsonObject userJson = (JsonObject)parser.parse(userString);
-            //JsonObject userJson = createGPSJSON(userId,meetingId);
-            //TODO refactoring
-            return HttpRequest.POST(URL.ADD_POSITION, userJson);
-        }
-        // onPostExecute displays the results of the AsyncTask.
-        @Override
-        protected void onPostExecute(String result) {
 
-            Toast.makeText(context,result, Toast.LENGTH_LONG).show();
-        }
-    }.execute();
-}
+    public void sendLocation() {
+        new AsyncTask<String, Void, String>() {
+            @Override
+            protected String doInBackground(String... urls) {
+                Gson gson = new GsonHelper().getGson();
+                SendingPosition sendingPosition = new SendingPosition(State.getLoggedUserId(), new Date(), 1, coordinates.latitude, coordinates.longitude);
+                String userString = gson.toJson(sendingPosition);
+                JsonParser parser = new JsonParser();
+                JsonObject userJson = (JsonObject) parser.parse(userString);
+                //JsonObject userJson = createGPSJSON(userId,meetingId);
+                //TODO refactoring
+                return HttpRequest.POST(URL.ADD_POSITION, userJson);
+            }
+
+            // onPostExecute displays the results of the AsyncTask.
+            @Override
+            protected void onPostExecute(String result) {
+
+                Toast.makeText(context, result, Toast.LENGTH_LONG).show();
+            }
+        }.execute();
+    }
+
     @Override
     public void onProviderDisabled(String arg0) {
         Toast.makeText(context, "Wyłączono GPS",
@@ -224,18 +245,18 @@ public void sendLocation(){
         return null;
     }
 
-    public JsonObject createGPSJSON(String userId,String meetingId){
+    public JsonObject createGPSJSON(String userId, String meetingId) {
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty("idUser", userId);
-        String x="\\/Date(928142400000+0200)\\/";
-        String y=x.substring(0,x.length()-1);
-        y=y.concat(x.substring(x.length()-1));
+        String x = "\\/Date(928142400000+0200)\\/";
+        String y = x.substring(0, x.length() - 1);
+        y = y.concat(x.substring(x.length() - 1));
 
 
         jsonObject.addProperty("dateTime", y);
         jsonObject.addProperty("idMeeting", meetingId);
-        Double latVal=new BigDecimal(this.latitude ).setScale(7, BigDecimal.ROUND_HALF_UP).doubleValue();
-        Double lngVal=new BigDecimal(this.longitude ).setScale(7, BigDecimal.ROUND_HALF_UP).doubleValue();
+        Double latVal = new BigDecimal(this.latitude).setScale(7, BigDecimal.ROUND_HALF_UP).doubleValue();
+        Double lngVal = new BigDecimal(this.longitude).setScale(7, BigDecimal.ROUND_HALF_UP).doubleValue();
         jsonObject.addProperty("latitude", String.valueOf(latVal));
         jsonObject.addProperty("longitude", String.valueOf(lngVal));
         return jsonObject;

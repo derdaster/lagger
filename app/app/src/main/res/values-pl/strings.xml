@@ -31,6 +31,8 @@
 
     <string name="yes">Tak</string>
     <string name="no">Nie</string>
+    <string name="next">Dalej</string>
+    <string name="prev">Wróć</string>
     <string name="view">Podgląd</string>
     <string name="accept_meeting">Zaakceptowano zaproszenie na spotkanie</string>
     <string name="title_friends">Znajomi</string>
@@ -50,4 +52,6 @@
     <string name="title_home">Strona główna</string>
     <string name="current_meetings">Aktualne spotkania</string>
     <string name="nearest_meetings">Najbliższe spotkania</string>
+    <string name="removed_a_meeting">Usunięto spotkanie</string>
+    <string name="no_connection">Brak połączenia z Internetem</string>
 </resources>

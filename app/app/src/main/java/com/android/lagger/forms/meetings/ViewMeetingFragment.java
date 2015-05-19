@@ -17,8 +17,10 @@ import com.android.lagger.model.entities.User;
 import com.android.lagger.model.entities.Meeting;
 import com.android.lagger.requestObjects.AcceptMeetingRequest;
 import com.android.lagger.services.HttpClient;
+import com.android.lagger.settings.Parser;
 import com.android.lagger.settings.State;
 import com.android.lagger.tasks.AcceptMeetingTask;
+import com.melnykov.fab.FloatingActionButton;
 
 /**
  * Created by Kubaa on 2015-04-08.
@@ -26,9 +28,9 @@ import com.android.lagger.tasks.AcceptMeetingTask;
 public class ViewMeetingFragment extends Fragment {
     private View parent;
     private Context mContext;
-    private Button btnAccept;
-    private Button btnEdit;
-    private Button btnRefuse;
+    private FloatingActionButton btnAccept;
+    private FloatingActionButton btnEdit;
+    private FloatingActionButton btnRefuse;
 
     private TextView labelWhen;
     private TextView labelOrganizer;
@@ -51,9 +53,9 @@ public class ViewMeetingFragment extends Fragment {
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         parent = inflater.inflate(R.layout.fragment_view_meeting, container, false);
-        btnAccept = (Button) parent.findViewById(R.id.btnAcceptMeeting);
-        btnRefuse = (Button) parent.findViewById(R.id.btnRefuseMeeting);
-        btnEdit = (Button) parent.findViewById(R.id.btnEditMeeting);
+        btnAccept = (FloatingActionButton) parent.findViewById(R.id.btnAcceptMeeting);
+        btnRefuse = (FloatingActionButton) parent.findViewById(R.id.btnRefuseMeeting);
+        btnEdit = (FloatingActionButton) parent.findViewById(R.id.btnEditMeeting);
 
         if(isReadOnly){
             btnAccept.setVisibility(View.INVISIBLE);
@@ -86,7 +88,7 @@ public class ViewMeetingFragment extends Fragment {
             btnEdit.setVisibility(View.INVISIBLE);
         }
         labelMeetingName.setText(meeting.getName());
-        labelWhen.setText(meeting.getStartTime().toString());
+        labelWhen.setText(Parser.parseDate(meeting.getStartTime()));
         labelWhere.setText(meeting.getLocationName());
         labelOrganizer.setText(user.getLogin());
 
@@ -101,7 +103,7 @@ public class ViewMeetingFragment extends Fragment {
                 AcceptMeetingTask.acceptMeeting(meeting.getId(), true, mContext);
 
                 fragmentTransaction = getFragmentManager().beginTransaction();
-                fragmentTransaction.replace(R.id.container_body, new MeetingListFragment()).commit();
+                fragmentTransaction.replace(R.id.container_body, new MeetingListFragment(mContext)).commit();
 
             }
         });
@@ -112,7 +114,7 @@ public class ViewMeetingFragment extends Fragment {
                 AcceptMeetingTask.acceptMeeting(meeting.getId(), false, mContext);
 
                 fragmentTransaction = getFragmentManager().beginTransaction();
-                fragmentTransaction.replace(R.id.container_body, new MeetingListFragment()).commit();
+                fragmentTransaction.replace(R.id.container_body, new MeetingListFragment(mContext)).commit();
             }
         });
 

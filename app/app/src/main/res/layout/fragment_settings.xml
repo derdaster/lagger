@@ -6,32 +6,98 @@
 
     <LinearLayout
         android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="70dp"
+        android:layout_width="fill_parent"
+        android:layout_height="60dp"
         android:weightSum="1">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="left"
+            android:gravity="center"
             android:textSize="18dp"
-            android:paddingLeft="30dp"
             android:text="Position tracking"
             android:textColor="@color/color_wet_asphalt"
             android:typeface="sans"
             android:layout_gravity="center_vertical"
             android:textStyle="bold"
-            android:layout_weight="0.5"/>
-
+            android:layout_weight="0.1"/>
 
         <com.gc.materialdesign.views.Switch
         android:id="@+id/switchView"
-        android:layout_width="60dp"
-        android:layout_height="70dp"
-        android:layout_gravity="center_horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
         android:background="#1E88E5"
-        android:layout_weight="0.5"
+        android:layout_weight="1"
         materialdesign:check="true"
         />
+
+
+
     </LinearLayout>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="60dp"
+        android:weightSum="1">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="18dp"
+            android:paddingLeft="30dp"
+            android:text="Tracking time"
+            android:textColor="@color/color_wet_asphalt"
+            android:typeface="sans"
+            android:layout_gravity="center_vertical"
+            android:textStyle="bold"
+            android:layout_weight="0.6"/>
+
+
+        <com.gc.materialdesign.views.Slider
+            android:id="@+id/sliderTime"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:background="#1E88E5"
+            android:layout_weight="0.4"
+            materialdesign:max="30"
+            materialdesign:min="10"
+            materialdesign:showNumberIndicator="true"
+            />
+    </LinearLayout>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="60dp"
+        android:weightSum="1">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="18dp"
+            android:paddingLeft="30dp"
+            android:text="Tracking distance"
+            android:textColor="@color/color_wet_asphalt"
+            android:typeface="sans"
+            android:layout_gravity="center_vertical"
+            android:textStyle="bold"
+            android:layout_weight="0.6"/>
+
+
+        <com.gc.materialdesign.views.Slider
+            android:id="@+id/sliderDistance"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:background="#1E88E5"
+            android:layout_weight="0.4"
+            materialdesign:max="200"
+            materialdesign:min="50"
+
+            materialdesign:showNumberIndicator="true"
+            />
+    </LinearLayout>
+
+
 </LinearLayout>

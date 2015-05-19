@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    xmlns:fbutton="http://schemas.android.com/apk/res-auto"
+    xmlns:fab="http://schemas.android.com/apk/res-auto"
     android:layout_height="match_parent">
 
     <LinearLayout
@@ -10,36 +10,43 @@
         android:layout_height="fill_parent"
         android:paddingTop="50dp">
 
-        <TextView
-            android:textColor="@color/color_wet_asphalt"
-            android:textSize="20dp"
-            android:gravity="left"
-            android:text="Enter your friends e-mail"
-            android:paddingLeft="10dp"
-            android:paddingBottom="10dp"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content" />
         <LinearLayout
             android:orientation="horizontal"
-            android:layout_width="fill_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingBottom="20dp"
-            android:weightSum="1">
-
+            android:layout_gravity="center"
+            android:paddingBottom="20dp">
             <ImageView
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:id="@+id/ivIconMeeting"
-                android:src="@drawable/icon_user"
-                android:layout_marginLeft="12dp"
-                android:layout_marginRight="5dp"
-                android:layout_weight="0.1"/>
+                android:src="@drawable/icon_user"/>
+            <TextView
+                android:textColor="@color/color_wet_asphalt"
+                android:textSize="25dp"
+                android:textStyle="bold"
+                android:gravity="left"
+                android:text="Add friend"
+                android:paddingLeft="10dp"
+                android:paddingBottom="10dp"
+                android:layout_gravity="center_vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
 
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:weightSum="1">
             <com.wrapp.floatlabelededittext.FloatLabeledEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_weight="0.9">
+                android:layout_gravity="start"
+                android:layout_weight="0.2">
                 <AutoCompleteTextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -48,18 +55,22 @@
                     android:inputType="textEmailAddress"/>
             </com.wrapp.floatlabelededittext.FloatLabeledEditText>
 
+            <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_weight="0.8"
+                android:layout_height="70dp">
+                <com.melnykov.fab.FloatingActionButton
+                    android:id="@+id/btnDone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:src="@drawable/tick"
+                    fab:fab_colorNormal="@color/primary"
+                    fab:fab_colorPressed="@color/primary_dark"
+                    fab:fab_colorRipple="@color/ripple" />
+            </FrameLayout>
+
         </LinearLayout>
-        <info.hoang8f.widget.FButton
-            android:layout_width="150dp"
-            android:layout_height="40dp"
-            android:text="Done"
-            android:id="@+id/btnDone"
-            android:layout_gravity="center_horizontal"
-            android:textColor="@color/color_silver"
-            fbutton:buttonColor="@color/color_wet_asphalt"
-            fbutton:shadowColor="@color/color_asbestos"
-            fbutton:shadowEnabled="true"
-            fbutton:shadowHeight="4dp"
-            fbutton:cornerRadius="7dp"/>
+
     </LinearLayout>
 </LinearLayout>

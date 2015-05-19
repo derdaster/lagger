@@ -20,7 +20,7 @@ public class RemoveFriendTask extends AsyncTask<RemoveFriendRequest, Void, Remov
     public RemoveFriendTask(Context context, Boolean isInvitation) {
         this.context = context;
         this.isInvitation = isInvitation;
-        client = new HttpClient();
+        client = new HttpClient(context);
     }
 
     @Override
@@ -29,10 +29,17 @@ public class RemoveFriendTask extends AsyncTask<RemoveFriendRequest, Void, Remov
     }
 
     protected void onPostExecute(final RemoveFriendResponse resp) {
-        String info = context.getString(R.string.removed_a_friend);
-        if(isInvitation){
-            info = context.getString(R.string.refused_invitation_to_friends);
+        String info = null;
+        if(!resp.isError()) {
+            info = context.getString(R.string.removed_a_friend);
+            if(isInvitation){
+                info = context.getString(R.string.refused_invitation_to_friends);
+            }
         }
+        else{
+           info = resp.getResponse();
+        }
+
         showInfo(info);
     }
 

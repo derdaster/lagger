@@ -3,178 +3,242 @@
     android:orientation="vertical" android:layout_width="match_parent"
     xmlns:fbutton="http://schemas.android.com/apk/res-auto"
     android:layout_height="match_parent"
+    xmlns:fab="http://schemas.android.com/apk/res-auto"
     android:padding="10dp">
 
-    <TextView
-        android:textColor="@color/color_wet_asphalt"
-        android:textSize="24dp"
-        android:gravity="left"
-        android:text="Meeting name"
-        android:paddingBottom="10dp"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content" />
     <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:paddingBottom="10dp"
-        android:weightSum="1">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_weight="0.9">
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:id="@+id/ivIconMeeting"
-            android:src="@drawable/icon_meeting"
-            android:layout_marginLeft="12dp"
-            android:layout_marginRight="5dp"
-            android:layout_weight="0.1"/>
-
-        <com.wrapp.floatlabelededittext.FloatLabeledEditText
-            android:layout_width="match_parent"
+        <TextView
+            android:textColor="@color/color_wet_asphalt"
+            android:textSize="24dp"
+            android:gravity="left"
+            android:text="Meeting name"
+            android:paddingBottom="10dp"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" />
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_weight="0.9">
-            <EditText
+            android:paddingBottom="10dp"
+            android:weightSum="1">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:id="@+id/ivIconMeeting"
+                android:src="@drawable/icon_meeting"
+                android:layout_marginLeft="12dp"
+                android:layout_marginRight="5dp"
+                android:layout_weight="0.1"/>
+
+            <com.wrapp.floatlabelededittext.FloatLabeledEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/editTextMeeting"/>
-        </com.wrapp.floatlabelededittext.FloatLabeledEditText>
-    </LinearLayout>
+                android:layout_gravity="center_vertical"
+                android:layout_weight="0.9">
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/editTextMeeting"/>
+            </com.wrapp.floatlabelededittext.FloatLabeledEditText>
+        </LinearLayout>
 
 
 
-    <TextView
-        android:textColor="@color/color_wet_asphalt"
-        android:textSize="24dp"
-        android:gravity="left"
-        android:text="Starting date:"
-        android:paddingBottom="10dp"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content" />
+        <TextView
+            android:textColor="@color/color_wet_asphalt"
+            android:textSize="24dp"
+            android:gravity="left"
+            android:text="Starting date:"
+            android:paddingBottom="10dp"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" />
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="5dp"
+            android:weightSum="1">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:id="@+id/ivIconDate"
+                android:src="@drawable/icon_date"
+                android:layout_weight="0.1"/>
+
+            <info.hoang8f.widget.FButton
+                android:layout_weight="0.9"
+                android:layout_gravity="center_vertical"
+                android:id="@+id/btnDatePickerStart"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:text="Date"
+                android:textColor="@color/color_silver"
+                fbutton:buttonColor="@color/color_wet_asphalt"
+                fbutton:shadowColor="@color/color_asbestos"
+                fbutton:shadowEnabled="true"
+                fbutton:shadowHeight="4dp"
+                fbutton:cornerRadius="7dp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="10dp"
+            android:weightSum="1">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:id="@+id/ivIconTime"
+                android:src="@drawable/icon_time"
+                android:layout_weight="0.1"/>
+
+            <info.hoang8f.widget.FButton
+                android:layout_weight="0.9"
+                android:layout_gravity="center_vertical"
+                android:id="@+id/btnTimePickerStart"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:text="Time"
+                android:textColor="@color/color_silver"
+                fbutton:buttonColor="@color/color_wet_asphalt"
+                fbutton:shadowColor="@color/color_asbestos"
+                fbutton:shadowEnabled="true"
+                fbutton:shadowHeight="4dp"
+                fbutton:cornerRadius="7dp"/>
+        </LinearLayout>
+
+        <TextView
+            android:textColor="@color/color_wet_asphalt"
+            android:textSize="24dp"
+            android:gravity="left"
+            android:text="Ending date:"
+            android:paddingBottom="10dp"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" />
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="5dp"
+            android:weightSum="1">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:id="@+id/ivIconDate"
+                android:src="@drawable/icon_date"
+                android:layout_weight="0.1"/>
+
+            <info.hoang8f.widget.FButton
+                android:layout_weight="0.9"
+                android:layout_gravity="center_vertical"
+                android:id="@+id/btnDatePickerEnd"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:text="Date"
+                android:textColor="@color/color_silver"
+                fbutton:buttonColor="@color/color_wet_asphalt"
+                fbutton:shadowColor="@color/color_asbestos"
+                fbutton:shadowEnabled="true"
+                fbutton:shadowHeight="4dp"
+                fbutton:cornerRadius="7dp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="10dp"
+            android:weightSum="1">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:id="@+id/ivIconTime"
+                android:src="@drawable/icon_time"
+                android:layout_weight="0.1"/>
+
+            <info.hoang8f.widget.FButton
+                android:layout_weight="0.9"
+                android:layout_gravity="center_vertical"
+                android:id="@+id/btnTimePickerEnd"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:text="Time"
+                android:textColor="@color/color_silver"
+                fbutton:buttonColor="@color/color_wet_asphalt"
+                fbutton:shadowColor="@color/color_asbestos"
+                fbutton:shadowEnabled="true"
+                fbutton:shadowHeight="4dp"
+                fbutton:cornerRadius="7dp"/>
+        </LinearLayout>
+
+        </LinearLayout>
+
+
+
 
     <LinearLayout
         android:orientation="horizontal"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="5dp"
+        android:layout_weight="0.1"
         android:weightSum="1">
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:id="@+id/ivIconDate"
-            android:src="@drawable/icon_date"
-            android:layout_weight="0.1"/>
 
-        <info.hoang8f.widget.FButton
-            android:layout_weight="0.9"
-            android:layout_gravity="center_vertical"
-            android:id="@+id/btnDatePickerStart"
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:text="Date"
-            android:textColor="@color/color_silver"
-            fbutton:buttonColor="@color/color_wet_asphalt"
-            fbutton:shadowColor="@color/color_asbestos"
-            fbutton:shadowEnabled="true"
-            fbutton:shadowHeight="4dp"
-            fbutton:cornerRadius="7dp"/>
-    </LinearLayout>
+        <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:visibility="gone"
+            android:layout_weight="0.35">
+            <com.melnykov.fab.FloatingActionButton
+                android:id="@+id/btnLeftPager"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:src="@drawable/left"
+                fab:fab_colorNormal="@color/primary"
+                fab:fab_colorPressed="@color/primary_dark"
+                fab:fab_colorRipple="@color/ripple" />
+        </FrameLayout>
 
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:paddingBottom="10dp"
-        android:weightSum="1">
+        <com.android.lagger.controls.custom.LinePageIndicator
+            android:id="@+id/indicator"
+            android:layout_width="match_parent"
+            android:layout_height="fill_parent"
+            android:gravity="center"
+            android:layout_weight="0.3"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"/>
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:id="@+id/ivIconTime"
-            android:src="@drawable/icon_time"
-            android:layout_weight="0.1"/>
+        <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/frameRightPager"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:visibility="visible"
+            android:layout_weight="0.35">
+            <com.melnykov.fab.FloatingActionButton
+                android:id="@+id/btnRightPager"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:src="@drawable/right"
+                fab:fab_colorNormal="@color/primary"
+                fab:fab_colorPressed="@color/primary_dark"
+                fab:fab_colorRipple="@color/ripple" />
+        </FrameLayout>
 
-        <info.hoang8f.widget.FButton
-            android:layout_weight="0.9"
-            android:layout_gravity="center_vertical"
-            android:id="@+id/btnTimePickerStart"
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:text="Time"
-            android:textColor="@color/color_silver"
-            fbutton:buttonColor="@color/color_wet_asphalt"
-            fbutton:shadowColor="@color/color_asbestos"
-            fbutton:shadowEnabled="true"
-            fbutton:shadowHeight="4dp"
-            fbutton:cornerRadius="7dp"/>
-    </LinearLayout>
-
-    <TextView
-        android:textColor="@color/color_wet_asphalt"
-        android:textSize="24dp"
-        android:gravity="left"
-        android:text="Ending date:"
-        android:paddingBottom="10dp"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content" />
-
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:paddingBottom="5dp"
-        android:weightSum="1">
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:id="@+id/ivIconDate"
-            android:src="@drawable/icon_date"
-            android:layout_weight="0.1"/>
-
-        <info.hoang8f.widget.FButton
-            android:layout_weight="0.9"
-            android:layout_gravity="center_vertical"
-            android:id="@+id/btnDatePickerEnd"
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:text="Date"
-            android:textColor="@color/color_silver"
-            fbutton:buttonColor="@color/color_wet_asphalt"
-            fbutton:shadowColor="@color/color_asbestos"
-            fbutton:shadowEnabled="true"
-            fbutton:shadowHeight="4dp"
-            fbutton:cornerRadius="7dp"/>
-    </LinearLayout>
-
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:paddingBottom="10dp"
-        android:weightSum="1">
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:id="@+id/ivIconTime"
-            android:src="@drawable/icon_time"
-            android:layout_weight="0.1"/>
-
-        <info.hoang8f.widget.FButton
-            android:layout_weight="0.9"
-            android:layout_gravity="center_vertical"
-            android:id="@+id/btnTimePickerEnd"
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:text="Time"
-            android:textColor="@color/color_silver"
-            fbutton:buttonColor="@color/color_wet_asphalt"
-            fbutton:shadowColor="@color/color_asbestos"
-            fbutton:shadowEnabled="true"
-            fbutton:shadowHeight="4dp"
-            fbutton:cornerRadius="7dp"/>
     </LinearLayout>
 
 </LinearLayout>

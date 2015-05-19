@@ -8,6 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.android.lagger.R;
+import com.android.lagger.gpslocation.GPSService;
+import com.gc.materialdesign.views.Slider;
 
 /**
  * Created by Kubaa on 2015-05-10.
@@ -16,26 +18,52 @@ public class SettingsFragment extends Fragment {
 
     private Context mContext;
     private View parent;
+    Slider sliderDistance;
+    Slider sliderTime;
 
-    public SettingsFragment(){
+    public SettingsFragment() {
 
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        parent =  inflater.inflate(R.layout.fragment_settings, container, false);
-        addListenerOnLoginButton();
+        parent = inflater.inflate(R.layout.fragment_settings, container, false);
+
         return parent;
     }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         mContext = getActivity().getApplicationContext();
+        sliderDistance = (Slider) getActivity().findViewById(R.id.sliderDistance);
+        sliderDistance.setValue(GPSService.getMinDistanceChangeForUpdates());
+        sliderTime = (Slider) getActivity().findViewById(R.id.sliderTime);
+        sliderTime.setValue(GPSService.getMinTimeBwUpdates());
+        addListenerOnLoginButton();
+    }
+
+
+    class SliderDistanceListener implements Slider.OnValueChangedListener {
+
+        @Override
+        public void onValueChanged(int i) {
+            GPSService.setMinDistanceChangeForUpdates(i);
+        }
+    }
+
+    class SliderTimeListener implements Slider.OnValueChangedListener {
+
+        @Override
+        public void onValueChanged(int i) {
+            GPSService.setMinTimeBwUpdates(i);
+        }
     }
 
     public void addListenerOnLoginButton() {
+        sliderDistance.setOnValueChangedListener(new SliderDistanceListener() {
+        });
+        sliderTime.setOnValueChangedListener(new SliderTimeListener() {
+        });
     }
-
-
 
 
 }

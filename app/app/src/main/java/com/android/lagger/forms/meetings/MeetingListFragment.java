@@ -12,20 +12,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.android.lagger.R;
 import com.android.lagger.controls.basic.SomeDialog;
 import com.android.lagger.logic.adapters.MeetingListAdapter;
 import com.android.lagger.model.entities.Meeting;
-import com.android.lagger.serverConnection.GsonHelper;
-import com.android.lagger.serverConnection.HttpRequest;
-import com.android.lagger.serverConnection.URL;
+import com.android.lagger.requestObjects.GetAllMeetingsRequest;
+import com.android.lagger.requestObjects.GetMeetingInvitationsRequest;
+import com.android.lagger.requestObjects.GetMeetingsRequest;
+import com.android.lagger.responseObjects.GetAllMeetingsResponse;
+import com.android.lagger.services.HttpClient;
 import com.android.lagger.settings.State;
-import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import com.melnykov.fab.FloatingActionButton;
 
 import java.util.ArrayList;
@@ -49,7 +47,7 @@ public class MeetingListFragment extends Fragment {
     FragmentTransaction fragmentTransaction;
 
     private final int INDEX_OF_INVITED = 0;
-    private int INDEX_OF_UPCOMING = 0;
+    private int PARTITION_INDEX = 0;
     private Integer[] mHeaderPositions;
     private List<Section> sections = new ArrayList<Section>();
 
@@ -57,7 +55,8 @@ public class MeetingListFragment extends Fragment {
 
     Context mContext;
 
-    public MeetingListFragment() {
+    public MeetingListFragment(Context context) {
+        mContext = context;
     }
 
     @Override
@@ -79,11 +78,12 @@ public class MeetingListFragment extends Fragment {
             public void onClick(View v) {
                 fragmentTransaction = getFragmentManager().beginTransaction();
                 fragmentTransaction.addToBackStack(null);
-                fragmentTransaction.replace(R.id.container_body, new CreateEditMeetingFragment()).commit();
+                fragmentTransaction.replace(R.id.container_body, new MeetingWhenFragment()).commit();
             }
         });
 
-        loadData();
+
+        loadAllMeetingsFromServer();
 
         // Inflate the layout for this fragment
         return rootView;
@@ -97,77 +97,19 @@ public class MeetingListFragment extends Fragment {
                 getResources().getString(R.string.upcoming)};
     }
 
-    public void loadData() {
+    public void loadAllMeetingsFromServer() {
+        GetMeetingsRequest getMeetingsRequest = new GetMeetingsRequest(State.getLoggedUserId());
+        GetMeetingInvitationsRequest getInvitationsRequest = new GetMeetingInvitationsRequest(State.getLoggedUserId());
 
-        new AsyncTask<String, Void, String>() {
-            @Override
-            protected String doInBackground(String... urls) {
-                JsonObject userIdJson = new JsonObject();
+        GetAllMeetingsRequest getAllMeetingsRequest = new GetAllMeetingsRequest(getMeetingsRequest,
+                getInvitationsRequest);
 
-                userIdJson.addProperty("idUser", State.getLoggedUserId());
-
-                String meetings = HttpRequest.POST(URL.GET_MEETINGS, userIdJson);
-                String invitations = HttpRequest.POST(URL.GET_INVITATIONS, userIdJson);
-
-                meetings = meetings.substring(0, meetings.length() - 1);
-                invitations = invitations.substring(1, invitations.length());
-
-                StringBuilder sb = new StringBuilder();
-                sb.append(meetings);
-                sb.append(",");
-                sb.append(invitations);
-
-                return sb.toString();
-            }
-
-            // onPostExecute displays the results of the AsyncTask.
-            @Override
-            protected void onPostExecute(String result) {
-
-                allMeetings = parseMeetings(result);
-
-                adapter = new MeetingListAdapter(mContext, allMeetings);
-                addSections();
-                createSimpleSecionedListAdapter(adapter);
-                addOnClickListenerDependingToIndex(mList);
-            }
-        }.execute();
-
+        GetAllMeetingsTask getAllMeetingsTask = new GetAllMeetingsTask();
+        getAllMeetingsTask.execute(getAllMeetingsRequest);
     }
 
-    private List<Meeting> parseMeetings(final String result){
-        final List<Meeting> meetings = new ArrayList<Meeting>();
-        final List<Meeting> invitations = new ArrayList<Meeting>();
-        List<Meeting> meetingAndInvitations = new ArrayList<>();
-
-        JsonParser parser = new JsonParser();
-        JsonObject responseJson = (JsonObject) parser.parse(result);
-
-        JsonArray meetingsResp = responseJson.get("meetings").getAsJsonArray();
-        JsonArray invitationsResp = responseJson.get("meetingInvitations").getAsJsonArray();
-
-        Gson gson = new GsonHelper().getGson();
-        for (JsonElement meetingJsonElem : meetingsResp) {
-
-            Meeting meeting = gson.fromJson(meetingJsonElem, Meeting.class);
-            meetings.add(meeting);
-        }
-
-        for (JsonElement invitationJsonElem : invitationsResp) {
-            Meeting invitation = gson.fromJson(invitationJsonElem, Meeting.class);
-            invitations.add(invitation);
-        }
-
-        INDEX_OF_UPCOMING = invitations.size();
-
-        meetingAndInvitations.addAll(invitations);
-        meetingAndInvitations.addAll(meetings);
-
-        return meetingAndInvitations;
-    }
-
-    private void addSections(){
-        mHeaderPositions = new Integer[]{INDEX_OF_INVITED, INDEX_OF_UPCOMING};
+    private void addSections() {
+        mHeaderPositions = new Integer[]{INDEX_OF_INVITED, PARTITION_INDEX};
         for (int i = 0; i < mHeaderPositions.length; i++) {
             if (sections.size() < 2) {
                 sections.add(new Section(mHeaderPositions[i], HEADER_NAMES[i]));
@@ -175,27 +117,45 @@ public class MeetingListFragment extends Fragment {
         }
     }
 
-    private void createSimpleSecionedListAdapter(MeetingListAdapter adapter){
+    private void createSimpleSectionedListAdapter(MeetingListAdapter adapter) {
         SimpleSectionedListAdapter simpleSectionedGridAdapter = new SimpleSectionedListAdapter(mContext, adapter,
                 R.layout.listview_item_header, R.id.header);
         simpleSectionedGridAdapter.setSections(sections.toArray(new Section[0]));
         mList.setAdapter(simpleSectionedGridAdapter);
     }
 
-    private void addOnClickListenerDependingToIndex(ListView meetingList){
+    private void addOnClickListenerDependingToIndex(ListView meetingList) {
         meetingList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                if (i <= INDEX_OF_UPCOMING) {
+                if (i <= PARTITION_INDEX) {
                     showInvitationDialog(allMeetings.get(i - 1));
                 } else {
-                    showMeetingDialog(allMeetings.get(i - 2));
+                    showMeetingDetails(allMeetings.get(i - 2), true);
                 }
+            }
+        });
+        meetingList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Meeting chosenMeeting = null;
+                if (i <= PARTITION_INDEX) {
+                    chosenMeeting = allMeetings.get(i - 1);
+                } else {
+                    chosenMeeting = allMeetings.get(i - 2);
+                }
+                if (chosenMeeting.getOrganizer().getId() == State.getLoggedUserId()) {
+                    showDeleteMeetingDialog(chosenMeeting);
+                } else {
+                    showRefuseMeetingDialog(chosenMeeting);
+                }
+
+                return false;
             }
         });
     }
 
-    private void showInvitationDialog(Meeting meeting){
+    private void showInvitationDialog(Meeting meeting) {
 
         fragmentTransaction = getFragmentManager().beginTransaction();
         SomeDialog newFragment = new SomeDialog(mContext, "Confirm", "Do you want to accept this meeting invitation?", SomeDialog.MEETING_INVITATION_TYPE);
@@ -207,16 +167,41 @@ public class MeetingListFragment extends Fragment {
         newFragment.setArguments(details);
     }
 
-    private void showMeetingDialog(Meeting meeting){
+    private void showDeleteMeetingDialog(Meeting meeting) {
 
         fragmentTransaction = getFragmentManager().beginTransaction();
-        SomeDialog newFragment = new SomeDialog(mContext, "Confirm", "What do you want to do with this meeting?", SomeDialog.MEETING_TYPE);
+        SomeDialog newFragment = new SomeDialog(mContext, "Confirm", "Do you want to delete this meeting?", SomeDialog.MEETING_DELETE_TYPE);
         newFragment.show(fragmentTransaction, "dialog");
 
         Bundle details = new Bundle();
         details.putParcelable("meeting", meeting);
 
         newFragment.setArguments(details);
+    }
+
+    private void showRefuseMeetingDialog(Meeting meeting) {
+
+        fragmentTransaction = getFragmentManager().beginTransaction();
+        SomeDialog newFragment = new SomeDialog(mContext, "Confirm", "Do you want to refuse this meeting?", SomeDialog.MEETING_REFUSE_TYPE);
+        newFragment.show(fragmentTransaction, "dialog");
+
+        Bundle details = new Bundle();
+        details.putParcelable("meeting", meeting);
+
+        newFragment.setArguments(details);
+    }
+
+    private void showMeetingDetails(final Meeting meeting, Boolean isReadonly) {
+        fragmentTransaction = getFragmentManager().beginTransaction();
+        fragmentTransaction.addToBackStack(null);
+
+        Bundle details = new Bundle();
+        details.putParcelable("meeting", meeting);
+
+        ViewMeetingFragment detailsMeetingFragment = new ViewMeetingFragment(mContext, isReadonly);
+        detailsMeetingFragment.setArguments(details);
+
+        fragmentTransaction.replace(R.id.container_body, detailsMeetingFragment).commit();
     }
 
     @Override
@@ -227,5 +212,54 @@ public class MeetingListFragment extends Fragment {
     @Override
     public void onDetach() {
         super.onDetach();
+    }
+
+    private class GetAllMeetingsTask extends AsyncTask<GetAllMeetingsRequest, Void, GetAllMeetingsResponse> {
+        private HttpClient client;
+
+        public GetAllMeetingsTask() {
+            client = new HttpClient(mContext);
+        }
+
+        @Override
+        protected GetAllMeetingsResponse doInBackground(GetAllMeetingsRequest... params) {
+            return client.getAllMeetings(params[0]);
+        }
+
+        protected void onPostExecute(final GetAllMeetingsResponse resp) {
+            if (!resp.isError()) {
+                setAllMeetingsAndPartitionIndex(resp);
+
+                adapter = new MeetingListAdapter(mContext, allMeetings, -1, -1);
+                addSections();
+                createSimpleSectionedListAdapter(adapter);
+                addOnClickListenerDependingToIndex(mList);
+
+            } else {
+                String info = resp.getResponse();
+                showInfo(info);
+            }
+
+        }
+
+        private void setAllMeetingsAndPartitionIndex(final GetAllMeetingsResponse resp) {
+            List<Meeting> meetings = resp.getGetMeetingsResponse().getMeetings();
+            List<Meeting> invitations = resp.getGetMeetingInvitationsResponse().getMeetingInvitations();
+
+            setPartitionIndex(invitations.size());
+
+            allMeetings = new ArrayList<Meeting>();
+            allMeetings.addAll(invitations);
+            allMeetings.addAll(meetings);
+
+        }
+
+        private void setPartitionIndex(int index) {
+            PARTITION_INDEX = index;
+        }
+
+        private void showInfo(String info) {
+            Toast.makeText(mContext, info, Toast.LENGTH_LONG).show();
+        }
     }
 }

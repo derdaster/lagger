@@ -9,4 +9,8 @@ import java.util.List;
  */
 public class FriendsListResponse extends ResponseObject{
     private List<User> friends;
+
+    public FriendsListResponse(List<User> friends) {
+        this.friends = friends;
+    }
 }

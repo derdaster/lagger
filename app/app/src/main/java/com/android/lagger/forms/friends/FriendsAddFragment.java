@@ -24,6 +24,7 @@ import com.android.lagger.requestObjects.FindFriendRequest;
 import com.android.lagger.settings.State;
 import com.android.lagger.tasks.AddFriendTask;
 import com.android.lagger.tasks.FindFriendsTask;
+import com.melnykov.fab.FloatingActionButton;
 
 /**
  * Created by Kubaa on 2015-04-28.
@@ -31,7 +32,7 @@ import com.android.lagger.tasks.FindFriendsTask;
 public class FriendsAddFragment extends Fragment {
     private View parent;
     private Context mContext;
-    private Button btnAdd;
+    private FloatingActionButton btnAdd;
     private AutoCompleteTextView autoCompleteTextView;
     private ArrayAdapter<AdapterUser> adapter;
     private final Integer NUMBER_CHAR_TO_SEARCH = 3;
@@ -50,7 +51,7 @@ public class FriendsAddFragment extends Fragment {
         initializeAutoCompleteEmailAndArrayAdapter();
 
         fragmentManager = getFragmentManager();
-        btnAdd = (Button) parent.findViewById(R.id.btnDone);
+        btnAdd = (FloatingActionButton) parent.findViewById(R.id.btnDone);
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -63,7 +64,7 @@ public class FriendsAddFragment extends Fragment {
         return parent;
     }
 
-    private void initializeAutoCompleteEmailAndArrayAdapter(){
+    private void initializeAutoCompleteEmailAndArrayAdapter() {
         autoCompleteTextView = (AutoCompleteTextView) parent.findViewById(R.id.editTextMeeting);
         adapter = new ArrayAdapter<AdapterUser>(mContext,
                 android.R.layout.simple_dropdown_item_1line);
@@ -76,9 +77,11 @@ public class FriendsAddFragment extends Fragment {
                 }
             }
 
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
 
-            public void afterTextChanged(Editable s) {}
+            public void afterTextChanged(Editable s) {
+            }
         });
 
         autoCompleteTextView.setAdapter(adapter);
@@ -96,28 +99,27 @@ public class FriendsAddFragment extends Fragment {
 
     }
 
-    private void addNewFriend(){
-        if(chosenUser != null && (chosenUser.toString()).equals(autoCompleteTextView.getText().toString())){
+    private void addNewFriend() {
+        if (chosenUser != null && (chosenUser.toString()).equals(autoCompleteTextView.getText().toString())) {
             final Integer friendId = chosenUser.getId();
             AddFriendRequest addFriendRequest = new AddFriendRequest(State.getLoggedUserId(), friendId);
             AddFriendTask addFriendTask = new AddFriendTask(mContext, true);
             addFriendTask.execute(addFriendRequest);
 
             fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.replace(R.id.container_body, new FriendsListFragment()).commit();
+            fragmentTransaction.replace(R.id.container_body, new FriendsListFragment(mContext)).commit();
 
-        }
-        else{
+        } else {
             showError();
         }
     }
 
-    private void showError(){
+    private void showError() {
         String text = mContext.getString(R.string.choose_email);
         Toast.makeText(mContext, text, Toast.LENGTH_SHORT).show();
     }
 
-    private void updateArrayAdapter(String searchText){
+    private void updateArrayAdapter(String searchText) {
         FindFriendRequest findFriendRequest = new FindFriendRequest(State.getLoggedUserId(), searchText);
         FindFriendsTask findFriendsTask = new FindFriendsTask(mContext, autoCompleteTextView);
         findFriendsTask.execute(findFriendRequest);
@@ -128,7 +130,7 @@ public class FriendsAddFragment extends Fragment {
         mContext = getActivity().getApplicationContext();
     }
 
-    private void hideKeyboard(){
+    private void hideKeyboard() {
         InputMethodManager inputManager = (InputMethodManager) mContext.getSystemService(Context.INPUT_METHOD_SERVICE);
         inputManager.hideSoftInputFromWindow(parent.getWindowToken(),
                 InputMethodManager.RESULT_UNCHANGED_SHOWN);

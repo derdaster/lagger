@@ -20,7 +20,7 @@ public class RemoveMeetingTask extends AsyncTask<RemoveMeetingRequest, Void, Rem
 
     public RemoveMeetingTask(Context context) {
         this.context = context;
-        client = new HttpClient();
+        client = new HttpClient(context);
     }
 
     @Override
@@ -29,8 +29,14 @@ public class RemoveMeetingTask extends AsyncTask<RemoveMeetingRequest, Void, Rem
     }
 
     protected void onPostExecute(final RemoveMeetingResponse resp) {
-//        String info = context.getString(R.string.removed_a_friend);
-//        showInfo(info);
+        String info = null;
+        if(!resp.isError()) {
+            info = context.getString(R.string.removed_a_meeting);
+        }
+        else{
+            info = resp.getResponse();
+        }
+        showInfo(info);
     }
 
     private void showInfo(String info) {

@@ -7,9 +7,7 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.widget.Toast;
 
 import com.android.lagger.R;
 import com.android.lagger.forms.friends.FriendsListFragment;
@@ -17,18 +15,14 @@ import com.android.lagger.forms.meetings.MeetingListFragment;
 import com.android.lagger.forms.meetings.ViewMeetingFragment;
 import com.android.lagger.model.entities.Meeting;
 import com.android.lagger.model.entities.User;
-import com.android.lagger.requestObjects.AcceptFriendRequest;
-import com.android.lagger.requestObjects.AcceptMeetingRequest;
 import com.android.lagger.requestObjects.AddFriendRequest;
-import com.android.lagger.requestObjects.LoginRequest;
 import com.android.lagger.requestObjects.RemoveFriendRequest;
-import com.android.lagger.responseObjects.LoginResponse;
-import com.android.lagger.responseObjects.ResponseObject;
-import com.android.lagger.services.HttpClient;
+import com.android.lagger.requestObjects.RemoveMeetingRequest;
 import com.android.lagger.settings.State;
 import com.android.lagger.tasks.AcceptMeetingTask;
 import com.android.lagger.tasks.AddFriendTask;
 import com.android.lagger.tasks.RemoveFriendTask;
+import com.android.lagger.tasks.RemoveMeetingTask;
 
 /**
  * Created by Kubaa on 2015-04-03.
@@ -42,9 +36,11 @@ public class SomeDialog extends DialogFragment {
     private FragmentTransaction fragmentTransaction;
     private Context mContext;
     public static final String MEETING_INVITATION_TYPE =  "meetingInvitation";
-    public static final String MEETING_TYPE =  "meeting";
+    public static final String MEETING_DELETE_TYPE =  "meeting";
     public static final String FRIEND_TYPE =  "friend";
     public static final String FRIEND_INVITATION_TYPE =  "friendInvitation";
+    public static final String MEETING_REFUSE_TYPE =  "refuseMeeting";
+
 
     public SomeDialog() {
     }
@@ -65,8 +61,11 @@ public class SomeDialog extends DialogFragment {
             case MEETING_INVITATION_TYPE:
                 dialog = createInvitationMeetingDialog();
                 break;
-            case MEETING_TYPE:
-                dialog = createMeetingDialog();
+            case MEETING_DELETE_TYPE:
+                dialog = deleteMeetingDialog();
+                break;
+            case MEETING_REFUSE_TYPE:
+                dialog = refuseMeetingDialog();
                 break;
             case FRIEND_TYPE:
                 dialog = createFriendDialog();
@@ -91,7 +90,7 @@ public class SomeDialog extends DialogFragment {
                         AcceptMeetingTask.acceptMeeting(meeting.getId(), true, mContext);
 
                         fragmentTransaction = getFragmentManager().beginTransaction();
-                        fragmentTransaction.replace(R.id.container_body, new MeetingListFragment()).commit();
+                        fragmentTransaction.replace(R.id.container_body, new MeetingListFragment(mContext)).commit();
                     }
                 })
                 .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
@@ -100,7 +99,7 @@ public class SomeDialog extends DialogFragment {
                         AcceptMeetingTask.acceptMeeting(meeting.getId(), false, mContext);
 
                         fragmentTransaction = getFragmentManager().beginTransaction();
-                        fragmentTransaction.replace(R.id.container_body, new MeetingListFragment()).commit();
+                        fragmentTransaction.replace(R.id.container_body, new MeetingListFragment(mContext)).commit();
                     }
                 })
                 .setNeutralButton(R.string.view, new DialogInterface.OnClickListener() {
@@ -112,24 +111,53 @@ public class SomeDialog extends DialogFragment {
                 })
                 .create();
     }
-    private AlertDialog createMeetingDialog(){
+    private AlertDialog deleteMeetingDialog(){
         Bundle extras = getArguments();
         final Meeting meeting = extras.getParcelable("meeting");
 
         return new AlertDialog.Builder(getActivity())
                 .setTitle(title)
                 .setMessage(message)
-                .setNegativeButton("Delete", new DialogInterface.OnClickListener() {
+                .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        RemoveMeetingRequest removeMeetingRequest = new RemoveMeetingRequest(State.getLoggedUserId(), meeting.getId());
+                        RemoveMeetingTask removeMeetingTask = new RemoveMeetingTask(mContext);
+                        removeMeetingTask.execute(removeMeetingRequest);
 
+                        fragmentTransaction = getFragmentManager().beginTransaction();
+                        fragmentTransaction.replace(R.id.container_body, new MeetingListFragment(mContext)).commit();
                     }
                 })
-                .setNeutralButton(R.string.view, new DialogInterface.OnClickListener() {
+                .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        showMeetingDetails(meeting, true);
+//                        fragmentTransaction = getFragmentManager().beginTransaction();
+//                        fragmentTransaction.replace(R.id.container_body, new MeetingListFragment()).commit();
+                    }
+                })
+                .create();
+    }
 
+    private AlertDialog refuseMeetingDialog(){
+        Bundle extras = getArguments();
+        final Meeting meeting = extras.getParcelable("meeting");
+
+        return new AlertDialog.Builder(getActivity())
+                .setTitle(title)
+                .setMessage(message)
+                .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        AcceptMeetingTask.acceptMeeting(meeting.getId(), false, mContext);
+
+                        fragmentTransaction = getFragmentManager().beginTransaction();
+                        fragmentTransaction.replace(R.id.container_body, new MeetingListFragment(mContext)).commit();
+                    }
+                })
+                .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
                     }
                 })
                 .create();
@@ -151,7 +179,7 @@ public class SomeDialog extends DialogFragment {
                         addFriendTask.execute(addFriendRequest);
 
                         fragmentTransaction = fragmentManager.beginTransaction();
-                        fragmentTransaction.replace(R.id.container_body, new FriendsListFragment()).commit();
+                        fragmentTransaction.replace(R.id.container_body, new FriendsListFragment(mContext)).commit();
                     }
                 })
                 .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
@@ -159,7 +187,7 @@ public class SomeDialog extends DialogFragment {
                     public void onClick(DialogInterface dialog, int which) {
                         deleteFriend(friend, true);
                         fragmentTransaction = getFragmentManager().beginTransaction();
-                        fragmentTransaction.replace(R.id.container_body, new FriendsListFragment()).commit();
+                        fragmentTransaction.replace(R.id.container_body, new FriendsListFragment(mContext)).commit();
                     }
                 })
                 .create();
@@ -176,7 +204,7 @@ public class SomeDialog extends DialogFragment {
                     public void onClick(DialogInterface dialog, int which) {
                     deleteFriend(friend, false);
                     fragmentTransaction = getFragmentManager().beginTransaction();
-                    fragmentTransaction.replace(R.id.container_body, new FriendsListFragment()).commit();
+                    fragmentTransaction.replace(R.id.container_body, new FriendsListFragment(mContext)).commit();
                     }
                 })
                 .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {

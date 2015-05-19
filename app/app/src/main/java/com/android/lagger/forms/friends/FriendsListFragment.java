@@ -10,7 +10,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -18,8 +17,13 @@ import com.android.lagger.R;
 import com.android.lagger.controls.basic.SomeDialog;
 import com.android.lagger.logic.adapters.FriendsListAdapter;
 import com.android.lagger.model.entities.User;
+import com.android.lagger.requestObjects.GetFriendInvitationsRequest;
+import com.android.lagger.requestObjects.GetFriendsAndInvitationsRequest;
+import com.android.lagger.requestObjects.GetFriendsRequest;
+import com.android.lagger.responseObjects.GetFriendsAndInvitationsResponse;
 import com.android.lagger.serverConnection.HttpRequest;
 import com.android.lagger.serverConnection.URL;
+import com.android.lagger.services.HttpClient;
 import com.android.lagger.settings.State;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -53,11 +57,9 @@ public class FriendsListFragment extends Fragment {
     private ArrayList<SimpleSectionedListAdapter.Section> sections = new ArrayList<SimpleSectionedListAdapter.Section>();
 
     private List<User> allFriendsList;
-    private JsonArray invitationsFromFriendsResp;
-    private JsonArray friendsListResp;
 
-    public FriendsListFragment() {
-
+    public FriendsListFragment(Context context) {
+        mContext = context;
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -76,7 +78,7 @@ public class FriendsListFragment extends Fragment {
             }
         });
 
-        getFriendList();
+        loadAllFriendsFromServer();
 
         return parent;
     }
@@ -88,96 +90,14 @@ public class FriendsListFragment extends Fragment {
                 mContext.getResources().getString(R.string.allFriends)};
     }
 
-    private void getFriendList(){
-        allFriendsList = new ArrayList<User>();
+    public void loadAllFriendsFromServer() {
+        GetFriendInvitationsRequest invitationsRequest = new GetFriendInvitationsRequest(State.getLoggedUserId());
+        GetFriendsRequest friendsRequest = new GetFriendsRequest(State.getLoggedUserId());
 
-        new AsyncTask<String, Void, String>() {
-            @Override
-            protected String doInBackground(String... urls) {
-                JsonObject userIdJson = new JsonObject();
+        GetFriendsAndInvitationsRequest getAllFriendsRequest = new GetFriendsAndInvitationsRequest(invitationsRequest, friendsRequest);
 
-                userIdJson.addProperty("idUser", State.getLoggedUserId());
-
-                String invitations = HttpRequest.POST(URL.GET_INVITATION_FROM_FRIENDS, userIdJson);
-                String friends = HttpRequest.POST(URL.GET_FRIENDS, userIdJson);
-
-                if(invitations != "" && friends != ""){
-                    invitations = invitations.substring(0, invitations.length() - 1);
-                    friends = friends.substring(1, friends.length());
-                }
-                StringBuilder sb = new StringBuilder();
-                sb.append(invitations);
-                sb.append(",");
-                sb.append(friends);
-
-                return sb.toString();
-            }
-            // onPostExecute displays the results of the AsyncTask.
-            @Override
-            protected void onPostExecute(String result) {
-
-                allFriendsList = parseFriends(result);
-
-                adapter = new FriendsListAdapter(mContext, allFriendsList);
-
-                mHeaderPositions = new Integer[]{INDEX_OF_INVITED, INDEX_OF_INVITATION_END};
-
-                for (int i = 0; i < mHeaderPositions.length; i++) {
-                    if(sections.size() < 2) {
-                        sections.add(new SimpleSectionedListAdapter.Section(mHeaderPositions[i], HEADER_NAMES[i]));
-                    }
-                }
-                SimpleSectionedListAdapter simpleSectionedGridAdapter = new SimpleSectionedListAdapter(mContext, adapter,
-                        R.layout.listview_item_header, R.id.header);
-                simpleSectionedGridAdapter.setSections(sections.toArray(new SimpleSectionedListAdapter.Section[0]));
-                mList.setAdapter(simpleSectionedGridAdapter);
-                mList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                        if(i <= INDEX_OF_INVITATION_END){
-                            showFriendInvitationDialog(allFriendsList.get(i - 1));
-                        }
-                        else{
-                            showFriendDeleteDialog(allFriendsList.get(i - 2));
-                        }
-                    }
-                });
-            }
-        }.execute();
-
-
-    }
-
-    private List<User> parseFriends(String result){
-
-            List<User> usersFromResponse = new ArrayList<User>();
-            List<User> invitationsFromFriends = new ArrayList<User>();
-            List<User> friendsList = new ArrayList<User>();
-        if(!result.equals(",")) {
-            JsonParser parser = new JsonParser();
-            JsonObject responseJson = (JsonObject) parser.parse(result);
-
-            friendsListResp = responseJson.get("friends").getAsJsonArray();
-            invitationsFromFriendsResp = responseJson.get("friendInvitations").getAsJsonArray();
-
-            Gson gson = new Gson();
-            for (JsonElement friendJsonElem : friendsListResp) {
-                User friend = gson.fromJson(friendJsonElem, User.class);
-                friendsList.add(friend);
-            }
-
-            for (JsonElement invitationJsonElem : invitationsFromFriendsResp) {
-                User friend = gson.fromJson(invitationJsonElem, User.class);
-                invitationsFromFriends.add(friend);
-            }
-        }
-
-        INDEX_OF_INVITATION_END = invitationsFromFriends.size();
-
-        usersFromResponse.addAll(invitationsFromFriends);
-        usersFromResponse.addAll(friendsList);
-
-        return usersFromResponse;
+        GetAllFriendsTask getAllFriendsTask = new GetAllFriendsTask();
+        getAllFriendsTask.execute(getAllFriendsRequest);
     }
 
     private void showFriendInvitationDialog(User friend){
@@ -190,7 +110,6 @@ public class FriendsListFragment extends Fragment {
         details.putParcelable("friend", friend);
 
         friendInvitationDialog.setArguments(details);
-//        Toast.makeText(mContext, "invitation from " + friend.getEmail(), Toast.LENGTH_SHORT).show();
     }
     private void showFriendDeleteDialog(User friend){
         SomeDialog friendDeleteDialog = new SomeDialog (mContext, "Confirm", "Do you want to delete this friend?", SomeDialog.FRIEND_TYPE);
@@ -201,5 +120,77 @@ public class FriendsListFragment extends Fragment {
 
         fragmentTransaction = fragmentManager.beginTransaction();
         friendDeleteDialog.show(fragmentTransaction, "dialog");
+    }
+
+
+    private class GetAllFriendsTask extends AsyncTask<GetFriendsAndInvitationsRequest, Void, GetFriendsAndInvitationsResponse> {
+        private HttpClient client;
+
+        public GetAllFriendsTask() {
+            client = new HttpClient(mContext);
+        }
+
+        @Override
+        protected GetFriendsAndInvitationsResponse doInBackground(GetFriendsAndInvitationsRequest... params) {
+            return client.getFriendsAndInvitationsFromFriends(params[0]);
+        }
+
+        protected void onPostExecute(final GetFriendsAndInvitationsResponse resp) {
+            if (!resp.isError()) {
+                setAllFriendsAndPartitionIndex(resp);
+
+                adapter = new FriendsListAdapter(mContext, allFriendsList, false);
+
+                mHeaderPositions = new Integer[]{INDEX_OF_INVITED, INDEX_OF_INVITATION_END};
+
+                for (int i = 0; i < mHeaderPositions.length; i++) {
+                    if(sections.size() < 2) {
+                        sections.add(new SimpleSectionedListAdapter.Section(mHeaderPositions[i], HEADER_NAMES[i]));
+                    }
+                }
+                SimpleSectionedListAdapter simpleSectionedGridAdapter = new SimpleSectionedListAdapter(mContext, adapter,
+                        R.layout.listview_item_header, R.id.header);
+                simpleSectionedGridAdapter.setSections(sections.toArray(new SimpleSectionedListAdapter.Section[0]));
+                mList.setAdapter(simpleSectionedGridAdapter);
+
+                mList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener(){
+                    @Override
+                    public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+                        if(i <= INDEX_OF_INVITATION_END){
+                            showFriendInvitationDialog(allFriendsList.get(i - 1));
+                        }
+                        else {
+                            showFriendDeleteDialog(allFriendsList.get(i - 2));
+                        }
+                        return false;
+                    }
+                });
+
+            } else {
+                String info = resp.getResponse();
+                showInfo(info);
+            }
+
+        }
+
+        private void setAllFriendsAndPartitionIndex(final GetFriendsAndInvitationsResponse resp) {
+            List<User> friends = resp.getGetFriendsResponse().getFriends();
+            List<User> invitations = resp.getGetFriendInvitationsResponse().getFriendInvitations();
+
+            setPartitionIndex(invitations.size());
+
+            allFriendsList = new ArrayList<User>();
+            allFriendsList.addAll(invitations);
+            allFriendsList.addAll(friends);
+
+        }
+
+        private void setPartitionIndex(int index) {
+            INDEX_OF_INVITATION_END = index;
+        }
+
+        private void showInfo(String info) {
+            Toast.makeText(mContext, info, Toast.LENGTH_LONG).show();
+        }
     }
 }

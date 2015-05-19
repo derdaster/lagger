@@ -19,10 +19,10 @@ import com.android.lagger.R;
 import com.android.lagger.forms.drawer.FragmentDrawer;
 import com.android.lagger.forms.friends.FriendsListFragment;
 import com.android.lagger.forms.home.HomeFragment;
-import com.android.lagger.forms.login.LoginFragment;
 import com.android.lagger.forms.meetings.MeetingListFragment;
 import com.android.lagger.forms.settings.SettingsFragment;
 import com.android.lagger.gpslocation.MapFragment;
+
 
 
 public class MainActivity extends ActionBarActivity implements FragmentDrawer.FragmentDrawerListener {
@@ -107,11 +107,11 @@ public class MainActivity extends ActionBarActivity implements FragmentDrawer.Fr
                 title = getString(R.string.title_home);
                 break;
             case 1:
-                fragment = new MeetingListFragment();
+                fragment = new MeetingListFragment(mContext);
                 title = getString(R.string.title_meetings);
                 break;
             case 2:
-                fragment = new FriendsListFragment();
+                fragment = new FriendsListFragment(mContext);
                 title = getString(R.string.title_friends);
                 break;
             case 3:
@@ -119,14 +119,10 @@ public class MainActivity extends ActionBarActivity implements FragmentDrawer.Fr
                 title = getString(R.string.title_settings);
                 break;
             case 4:
-                fragment = new LoginFragment();
-                title = "LoginTest";
-                break;
-            case 5:
                 fragment = new MapFragment();
                 title = "MapTest";
                 break;
-            case 6:
+            case 5:
                 fragment = new MainFragment();
                 title = "GPSTest";
                 break;
@@ -135,6 +131,11 @@ public class MainActivity extends ActionBarActivity implements FragmentDrawer.Fr
         }
 
         if (fragment != null) {
+            FragmentManager fm = getFragmentManager();
+            int count = fm.getBackStackEntryCount();
+            for(int i = 0; i < count; ++i) {
+                fm.popBackStackImmediate();
+            }
             FragmentManager fragmentManager = getFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
             fragmentTransaction.replace(R.id.container_body, fragment);

@@ -9,4 +9,8 @@ import java.util.List;
  */
 public class GetPositionsResponse extends ResponseObject {
     private List<UserPosition> usersPositions;
+
+    public GetPositionsResponse(List<UserPosition> usersPositions) {
+        this.usersPositions = usersPositions;
+    }
 }

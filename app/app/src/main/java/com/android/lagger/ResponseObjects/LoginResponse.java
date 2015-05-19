@@ -8,7 +8,10 @@ public class LoginResponse extends ResponseObject {
     //FIXME change to enum?
     private Integer status;
 
-    private LoginResponse(Integer idUser, Integer status){
+    public LoginResponse() {
+    }
+
+    public LoginResponse(Integer idUser, Integer status){
         this.idUser = idUser;
         this.status = status;
     }
