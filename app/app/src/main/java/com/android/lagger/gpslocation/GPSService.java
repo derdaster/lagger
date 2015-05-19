@@ -48,7 +48,7 @@ public class GPSService extends Service implements LocationListener {
         this.context = context;
         getLocation();
         coordinatesList = new ArrayList();
-        if(coordinates != null && coordinates.latitude != 0 && coordinates.longitude != 0) {
+        if (coordinates != null && coordinates.latitude != 0 && coordinates.longitude != 0) {
             sendLocation();
         }
     }
@@ -120,15 +120,15 @@ public class GPSService extends Service implements LocationListener {
     }
 
     public static int getMinTimeBwUpdates() {
-        return MIN_TIME_BW_UPDATES/1000;
+        return MIN_TIME_BW_UPDATES / 1000;
     }
 
     public static void setMinDistanceChangeForUpdates(int minDistanceChangeForUpdates) {
-        MIN_DISTANCE_CHANGE_FOR_UPDATES=minDistanceChangeForUpdates;
+        MIN_DISTANCE_CHANGE_FOR_UPDATES = minDistanceChangeForUpdates;
     }
 
     public static void setMinTimeBwUpdates(int minTimeBwUpdates) {
-        MIN_TIME_BW_UPDATES=minTimeBwUpdates*1000;
+        MIN_TIME_BW_UPDATES = minTimeBwUpdates * 1000;
     }
 
     public void stopUsingGPS() {
@@ -187,8 +187,12 @@ public class GPSService extends Service implements LocationListener {
     @Override
     public void onLocationChanged(Location arg0) {
         location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-        if (location != null) { coordinates = new LatLng(location.getLatitude(), location.getLongitude()); }
-        if (coordinates != null && coordinates.latitude != 0 && coordinates.longitude != 0) { sendLocation(); }
+        if (location != null) {
+            coordinates = new LatLng(location.getLatitude(), location.getLongitude());
+        }
+        if (coordinates != null && coordinates.latitude != 0 && coordinates.longitude != 0) {
+            sendLocation();
+        }
 //        Toast.makeText(
 //                context,
 //                "Twoja pozycja -\nX: " + coordinates.latitude + "\nY: "

@@ -7,7 +7,6 @@ import android.widget.Toast;
 import com.android.lagger.R;
 import com.android.lagger.requestObjects.AcceptMeetingRequest;
 import com.android.lagger.responseObjects.AcceptMeetingResponse;
-import com.android.lagger.responseObjects.ResponseObject;
 import com.android.lagger.services.HttpClient;
 import com.android.lagger.settings.State;
 
@@ -31,10 +30,9 @@ public class AcceptMeetingTask extends AsyncTask<AcceptMeetingRequest, Void, Acc
     }
 
     protected void onPostExecute(AcceptMeetingResponse acceptMeetingResponse) {
-        if(!acceptMeetingResponse.isError()) {
+        if (!acceptMeetingResponse.isError()) {
             showInfo(isAccepted);
-        }
-        else{
+        } else {
             Toast.makeText(context, acceptMeetingResponse.getResponse(),
                     Toast.LENGTH_SHORT).show();
         }
@@ -50,7 +48,7 @@ public class AcceptMeetingTask extends AsyncTask<AcceptMeetingRequest, Void, Acc
         Toast.makeText(context, messageText, Toast.LENGTH_SHORT).show();
     }
 
-    public static void acceptMeeting(Integer meetingId, Boolean accept, Context context){
+    public static void acceptMeeting(Integer meetingId, Boolean accept, Context context) {
         AcceptMeetingRequest acceptMeetingRequest = new AcceptMeetingRequest(State.getLoggedUserId(),
                 meetingId, accept);
 

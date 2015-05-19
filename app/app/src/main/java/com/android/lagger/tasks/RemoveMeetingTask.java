@@ -5,9 +5,7 @@ import android.os.AsyncTask;
 import android.widget.Toast;
 
 import com.android.lagger.R;
-import com.android.lagger.requestObjects.RemoveFriendRequest;
 import com.android.lagger.requestObjects.RemoveMeetingRequest;
-import com.android.lagger.responseObjects.RemoveFriendResponse;
 import com.android.lagger.responseObjects.RemoveMeetingResponse;
 import com.android.lagger.services.HttpClient;
 
@@ -30,10 +28,9 @@ public class RemoveMeetingTask extends AsyncTask<RemoveMeetingRequest, Void, Rem
 
     protected void onPostExecute(final RemoveMeetingResponse resp) {
         String info = null;
-        if(!resp.isError()) {
+        if (!resp.isError()) {
             info = context.getString(R.string.removed_a_meeting);
-        }
-        else{
+        } else {
             info = resp.getResponse();
         }
         showInfo(info);

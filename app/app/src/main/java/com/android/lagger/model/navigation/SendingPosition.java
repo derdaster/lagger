@@ -8,7 +8,7 @@ import java.util.Date;
 /**
  * Created by Ewelina Klisowska on 2015-05-02.
  */
-public class SendingPosition implements Parcelable{
+public class SendingPosition implements Parcelable {
     private Integer idUser;
     private Date dateTime;
     private Integer idMeeting;
@@ -87,13 +87,14 @@ public class SendingPosition implements Parcelable{
 
     @Override
     public String toString() {
-        return "Position{" +"idUser=" + idUser +
+        return "Position{" + "idUser=" + idUser +
                 "dateTime=" + dateTime.toString() + '\'' +
                 "idMeeting=" + idMeeting +
                 ", latitude='" + latitude +
                 ", longitude='" + longitude +
                 '}';
     }
+
     @Override
     public int describeContents() {
         return 0;

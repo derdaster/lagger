@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     xmlns:fab="http://schemas.android.com/apk/res-auto"
     android:layout_height="wrap_content"
     android:layout_margin="10dp"
@@ -12,11 +13,13 @@
         android:layout_height="match_parent"
         android:orientation="horizontal"
         android:weightSum="1">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:layout_weight="0.9">
+
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
@@ -29,6 +32,7 @@
                 android:id="@+id/tvTitleMeeting"
                 android:layout_marginBottom="5dp"
                 android:textStyle="bold" />
+
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
@@ -38,7 +42,8 @@
                 android:textColor="@color/color_asbestos"
                 android:typeface="sans"
                 android:layout_gravity="center"
-                android:id="@+id/tvWhen"/>
+                android:id="@+id/tvWhen" />
+
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
@@ -48,8 +53,9 @@
                 android:textColor="@color/color_asbestos"
                 android:typeface="sans"
                 android:layout_gravity="center"
-                android:id="@+id/tvWhere"/>
+                android:id="@+id/tvWhere" />
         </LinearLayout>
+
         <com.melnykov.fab.FloatingActionButton
             android:id="@+id/btnMap"
             android:focusable="false"
@@ -62,18 +68,18 @@
             fab:fab_colorNormal="@color/primary"
             fab:fab_colorPressed="@color/primary_dark"
             fab:fab_colorRipple="@color/ripple"
-            android:layout_weight="0.1"/>
-        </LinearLayout>
+            android:layout_weight="0.1" />
+    </LinearLayout>
 
 
-        <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:gravity="right"
-            android:textSize="12dp"
-            android:text="TheBestUser"
-            android:textColor="@color/color_wisteria"
-            android:typeface="sans"
-            android:layout_gravity="center"
-            android:id="@+id/tvOrganizer"/>
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="right"
+        android:textSize="12dp"
+        android:text="TheBestUser"
+        android:textColor="@color/color_wisteria"
+        android:typeface="sans"
+        android:layout_gravity="center"
+        android:id="@+id/tvOrganizer" />
 </LinearLayout>

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     xmlns:fbutton="http://schemas.android.com/apk/res-auto"
     android:layout_height="match_parent"
     xmlns:fab="http://schemas.android.com/apk/res-auto"
@@ -20,6 +21,7 @@
             android:paddingBottom="10dp"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content" />
+
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="fill_parent"
@@ -34,20 +36,20 @@
                 android:src="@drawable/icon_meeting"
                 android:layout_marginLeft="12dp"
                 android:layout_marginRight="5dp"
-                android:layout_weight="0.1"/>
+                android:layout_weight="0.1" />
 
             <com.wrapp.floatlabelededittext.FloatLabeledEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_weight="0.9">
+
                 <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/editTextMeeting"/>
+                    android:id="@+id/editTextMeeting" />
             </com.wrapp.floatlabelededittext.FloatLabeledEditText>
         </LinearLayout>
-
 
 
         <TextView
@@ -71,7 +73,7 @@
                 android:layout_height="match_parent"
                 android:id="@+id/ivIconDate"
                 android:src="@drawable/icon_date"
-                android:layout_weight="0.1"/>
+                android:layout_weight="0.1" />
 
             <info.hoang8f.widget.FButton
                 android:layout_weight="0.9"
@@ -85,7 +87,7 @@
                 fbutton:shadowColor="@color/color_asbestos"
                 fbutton:shadowEnabled="true"
                 fbutton:shadowHeight="4dp"
-                fbutton:cornerRadius="7dp"/>
+                fbutton:cornerRadius="7dp" />
         </LinearLayout>
 
         <LinearLayout
@@ -100,7 +102,7 @@
                 android:layout_height="match_parent"
                 android:id="@+id/ivIconTime"
                 android:src="@drawable/icon_time"
-                android:layout_weight="0.1"/>
+                android:layout_weight="0.1" />
 
             <info.hoang8f.widget.FButton
                 android:layout_weight="0.9"
@@ -114,7 +116,7 @@
                 fbutton:shadowColor="@color/color_asbestos"
                 fbutton:shadowEnabled="true"
                 fbutton:shadowHeight="4dp"
-                fbutton:cornerRadius="7dp"/>
+                fbutton:cornerRadius="7dp" />
         </LinearLayout>
 
         <TextView
@@ -138,7 +140,7 @@
                 android:layout_height="match_parent"
                 android:id="@+id/ivIconDate"
                 android:src="@drawable/icon_date"
-                android:layout_weight="0.1"/>
+                android:layout_weight="0.1" />
 
             <info.hoang8f.widget.FButton
                 android:layout_weight="0.9"
@@ -152,7 +154,7 @@
                 fbutton:shadowColor="@color/color_asbestos"
                 fbutton:shadowEnabled="true"
                 fbutton:shadowHeight="4dp"
-                fbutton:cornerRadius="7dp"/>
+                fbutton:cornerRadius="7dp" />
         </LinearLayout>
 
         <LinearLayout
@@ -167,7 +169,7 @@
                 android:layout_height="match_parent"
                 android:id="@+id/ivIconTime"
                 android:src="@drawable/icon_time"
-                android:layout_weight="0.1"/>
+                android:layout_weight="0.1" />
 
             <info.hoang8f.widget.FButton
                 android:layout_weight="0.9"
@@ -181,12 +183,10 @@
                 fbutton:shadowColor="@color/color_asbestos"
                 fbutton:shadowEnabled="true"
                 fbutton:shadowHeight="4dp"
-                fbutton:cornerRadius="7dp"/>
+                fbutton:cornerRadius="7dp" />
         </LinearLayout>
 
-        </LinearLayout>
-
-
+    </LinearLayout>
 
 
     <LinearLayout
@@ -202,6 +202,7 @@
             android:layout_height="70dp"
             android:visibility="gone"
             android:layout_weight="0.35">
+
             <com.melnykov.fab.FloatingActionButton
                 android:id="@+id/btnLeftPager"
                 android:layout_width="wrap_content"
@@ -220,7 +221,7 @@
             android:gravity="center"
             android:layout_weight="0.3"
             android:layout_marginBottom="10dp"
-            android:layout_marginTop="10dp"/>
+            android:layout_marginTop="10dp" />
 
         <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/frameRightPager"
@@ -228,6 +229,7 @@
             android:layout_height="70dp"
             android:visibility="visible"
             android:layout_weight="0.35">
+
             <com.melnykov.fab.FloatingActionButton
                 android:id="@+id/btnRightPager"
                 android:layout_width="wrap_content"

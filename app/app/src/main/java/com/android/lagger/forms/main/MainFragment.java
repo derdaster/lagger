@@ -2,7 +2,6 @@ package com.android.lagger.forms.main;
 
 import android.app.Fragment;
 import android.content.Context;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -30,7 +29,8 @@ public class MainFragment extends Fragment {
     String responsePOST;
 
 
-    public MainFragment(){}
+    public MainFragment() {
+    }
 
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -40,6 +40,7 @@ public class MainFragment extends Fragment {
         return inflater.inflate(
                 R.layout.fragment_main, container, false);
     }
+
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         mContext = getActivity().getApplicationContext();
@@ -47,7 +48,7 @@ public class MainFragment extends Fragment {
     }
 
 
-    public void addListenerOnServerButtons(){
+    public void addListenerOnServerButtons() {
 
         btnGet = (Button) getView().findViewById(R.id.GETbutton);
         btnPost = (Button) getView().findViewById(R.id.POSTbutton);
@@ -60,8 +61,9 @@ public class MainFragment extends Fragment {
                 new AsyncTask<String, Void, String>() {
                     @Override
                     protected String doInBackground(String... urls) {
-                        return  TestServerConnection.GET(TestServerConnection.TEST_CONNECTION_URL);
+                        return TestServerConnection.GET(TestServerConnection.TEST_CONNECTION_URL);
                     }
+
                     // onPostExecute displays the results of the AsyncTask.
                     @Override
                     protected void onPostExecute(String result) {
@@ -81,8 +83,9 @@ public class MainFragment extends Fragment {
                 new AsyncTask<String, Void, String>() {
                     @Override
                     protected String doInBackground(String... urls) {
-                        return  TestServerConnection.POST(TestServerConnection.TEST_POST);
+                        return TestServerConnection.POST(TestServerConnection.TEST_POST);
                     }
+
                     // onPostExecute displays the results of the AsyncTask.
                     @Override
                     protected void onPostExecute(String result) {

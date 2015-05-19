@@ -11,7 +11,7 @@ public class LoginResponse extends ResponseObject {
     public LoginResponse() {
     }
 
-    public LoginResponse(Integer idUser, Integer status){
+    public LoginResponse(Integer idUser, Integer status) {
         this.idUser = idUser;
         this.status = status;
     }

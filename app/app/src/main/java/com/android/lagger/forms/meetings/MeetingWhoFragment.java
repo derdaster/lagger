@@ -9,7 +9,6 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 
@@ -28,8 +27,6 @@ import com.melnykov.fab.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import dev.dworks.libs.astickyheader.SimpleSectionedListAdapter;
 
 /**
  * Created by Kubaa on 2015-03-20.
@@ -89,7 +86,7 @@ public class MeetingWhoFragment extends Fragment {
 
     }
 
-    private void getFriendList(){
+    private void getFriendList() {
         allFriendsList = new ArrayList<User>();
 
         new AsyncTask<String, Void, String>() {
@@ -102,7 +99,7 @@ public class MeetingWhoFragment extends Fragment {
                 String invitations = HttpRequest.POST(URL.GET_INVITATION_FROM_FRIENDS, userIdJson);
                 String friends = HttpRequest.POST(URL.GET_FRIENDS, userIdJson);
 
-                if(invitations != "" && friends != ""){
+                if (invitations != "" && friends != "") {
                     invitations = invitations.substring(0, invitations.length() - 1);
                     friends = friends.substring(1, friends.length());
                 }
@@ -113,6 +110,7 @@ public class MeetingWhoFragment extends Fragment {
 
                 return sb.toString();
             }
+
             // onPostExecute displays the results of the AsyncTask.
             @Override
             protected void onPostExecute(String result) {
@@ -127,10 +125,10 @@ public class MeetingWhoFragment extends Fragment {
 
     }
 
-    private List<User> parseFriends(String result){
+    private List<User> parseFriends(String result) {
 
         List<User> friendsList = new ArrayList<User>();
-        if(!result.equals(",")) {
+        if (!result.equals(",")) {
             JsonParser parser = new JsonParser();
             JsonObject responseJson = (JsonObject) parser.parse(result);
 

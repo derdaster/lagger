@@ -5,7 +5,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.android.lagger.R;
@@ -32,7 +31,7 @@ public class MeetingListAdapter extends BaseAdapter {
         data = d;
         indexOfFirstActualMeeting = inIndexOfFirstActualMeeting;
         indexOfLastActualMeeting = inIndexOfLastActualMeeting;
-        inflater = (LayoutInflater)inContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        inflater = (LayoutInflater) inContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
     public int getCount() {
@@ -49,19 +48,18 @@ public class MeetingListAdapter extends BaseAdapter {
 
     public View getView(int position, View convertView, ViewGroup parent) {
         View vi = convertView;
-        if(convertView == null)
+        if (convertView == null)
             vi = inflater.inflate(R.layout.listview_row_meeting, null);
 
-        FloatingActionButton buttonMap = (FloatingActionButton)vi.findViewById(R.id.btnMap);
-        if(indexOfFirstActualMeeting >= 0 && position >= indexOfFirstActualMeeting && position <= indexOfLastActualMeeting)
-        {
+        FloatingActionButton buttonMap = (FloatingActionButton) vi.findViewById(R.id.btnMap);
+        if (indexOfFirstActualMeeting >= 0 && position >= indexOfFirstActualMeeting && position <= indexOfLastActualMeeting) {
             buttonMap.setVisibility(View.VISIBLE);
         }
 
-        TextView title = (TextView)vi.findViewById(R.id.tvTitleMeeting);
-        TextView where = (TextView)vi.findViewById(R.id.tvWhere);
-        TextView when = (TextView)vi.findViewById(R.id.tvWhen);
-        TextView organizer = (TextView)vi.findViewById(R.id.tvOrganizer);
+        TextView title = (TextView) vi.findViewById(R.id.tvTitleMeeting);
+        TextView where = (TextView) vi.findViewById(R.id.tvWhere);
+        TextView when = (TextView) vi.findViewById(R.id.tvWhen);
+        TextView organizer = (TextView) vi.findViewById(R.id.tvOrganizer);
 
         title.setText(data.get(position).getName());
         where.setText(data.get(position).getLocationName());
@@ -73,7 +71,6 @@ public class MeetingListAdapter extends BaseAdapter {
 
         return vi;
     }
-
 
 
 }

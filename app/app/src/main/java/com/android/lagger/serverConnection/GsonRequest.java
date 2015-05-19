@@ -1,12 +1,10 @@
 package com.android.lagger.serverConnection;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonSyntaxException;
-
 /**
  * Created by Ewelina Klisowska on 2015-04-08.
  */
-public class GsonRequest<T> {}
+public class GsonRequest<T> {
+}
    /*     extends Request<T> {}
 
     private final Gson gson = new Gson();

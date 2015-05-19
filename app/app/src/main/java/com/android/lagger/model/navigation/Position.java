@@ -8,7 +8,7 @@ import java.util.Date;
 /**
  * Created by Ewelina Klisowska on 2015-05-02.
  */
-public class Position implements Parcelable{
+public class Position implements Parcelable {
     private Date dateTime;
     private Double latitude;
     private Double longitude;
@@ -24,6 +24,7 @@ public class Position implements Parcelable{
         this.latitude = latitude;
         this.longitude = longitude;
     }
+
     public Date getDateTime() {
         return dateTime;
     }
@@ -66,6 +67,7 @@ public class Position implements Parcelable{
                 ", longitude='" + longitude +
                 '}';
     }
+
     @Override
     public int describeContents() {
         return 0;

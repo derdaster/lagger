@@ -3,6 +3,7 @@ package com.android.lagger.controls.custom;
 /**
  * Created by Kubaa on 2015-04-03.
  */
+
 import android.support.v4.view.ViewPager;
 import android.view.View;
 

@@ -7,7 +7,7 @@ public class AcceptFriendRequest extends UserRequest {
     private Integer idFriend;
     private Boolean accept;
 
-    public AcceptFriendRequest(Integer idUser, Integer idFriend, Boolean accept){
+    public AcceptFriendRequest(Integer idUser, Integer idFriend, Boolean accept) {
         super(idUser);
         this.idFriend = idFriend;
         this.accept = accept;

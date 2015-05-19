@@ -4,8 +4,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -45,7 +45,7 @@ public class LoginActivity extends ActionBarActivity {
     }
 
 
-    private void setFields(){
+    private void setFields() {
         loginBtn = (FloatingActionButton) findViewById(R.id.buttonLogin);
         loginTextView = (TextView) findViewById(R.id.editTextEmail);
         passwordTextView = (TextView) findViewById(R.id.editTextPassword);
@@ -61,7 +61,7 @@ public class LoginActivity extends ActionBarActivity {
         });
     }
 
-    private void login(){
+    private void login() {
         String login = loginTextView.getText().toString();
         String password = passwordTextView.getText().toString();
         com.android.lagger.requestObjects.LoginRequest loginReq = new com.android.lagger.requestObjects.LoginRequest(login, password);
@@ -82,26 +82,24 @@ public class LoginActivity extends ActionBarActivity {
         }
 
         protected void onPostExecute(com.android.lagger.responseObjects.LoginResponse loginResp) {
-            if(!loginResp.isError()) {
+            if (!loginResp.isError()) {
                 checkUserAndShowResult(loginResp);
-            }
-            else{
+            } else {
                 Toast.makeText(context, loginResp.getResponse(),
                         Toast.LENGTH_SHORT).show();
             }
         }
 
-        private void checkUserAndShowResult(final LoginResponse loginResp){
+        private void checkUserAndShowResult(final LoginResponse loginResp) {
             final Integer status = loginResp.getStatus();
-            if(status == 1){
+            if (status == 1) {
                 enableAccess(loginResp);
-            }
-            else {
+            } else {
                 incorrectData(status);
             }
         }
 
-        private void enableAccess(final com.android.lagger.responseObjects.LoginResponse loginResp){
+        private void enableAccess(final com.android.lagger.responseObjects.LoginResponse loginResp) {
             final Integer userId = loginResp.getIdUser();
             State.setLoggedUser(new User(userId));
 
@@ -109,7 +107,7 @@ public class LoginActivity extends ActionBarActivity {
             startActivity(intent);
         }
 
-        private void incorrectData(final Integer status){
+        private void incorrectData(final Integer status) {
             String message = "";
             switch (status) {
                 case 0:

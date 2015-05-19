@@ -1,6 +1,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:fab="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <LinearLayout
@@ -16,11 +17,13 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:weightSum="1">
+
             <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:layout_weight="0.2">
+
                 <LinearLayout
                     android:orientation="horizontal"
                     android:layout_width="fill_parent"
@@ -33,13 +36,14 @@
                         android:layout_height="wrap_content"
                         android:id="@+id/ivIconUser"
                         android:src="@drawable/icon_user"
-                        android:layout_weight="1"/>
+                        android:layout_weight="1" />
 
                     <com.wrapp.floatlabelededittext.FloatLabeledEditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:paddingLeft="20dp"
                         android:layout_weight="1">
+
                         <EditText
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -62,7 +66,7 @@
                         android:layout_height="wrap_content"
                         android:id="@+id/ivIconPassword"
                         android:src="@drawable/icon_password"
-                        android:layout_weight="1"/>
+                        android:layout_weight="1" />
 
                     <com.wrapp.floatlabelededittext.FloatLabeledEditText
                         android:layout_width="match_parent"
@@ -87,6 +91,7 @@
                 android:layout_weight="0.8"
                 android:layout_gravity="center_vertical"
                 android:layout_height="70dp">
+
                 <com.melnykov.fab.FloatingActionButton
                     android:id="@+id/buttonLogin"
                     android:layout_width="wrap_content"

@@ -53,7 +53,8 @@ public class HomeFragment extends Fragment {
     private List<Meeting> current = new ArrayList<Meeting>();
 
 
-    public HomeFragment(){}
+    public HomeFragment() {
+    }
 
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -65,6 +66,7 @@ public class HomeFragment extends Fragment {
 
         return rootView;
     }
+
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         mContext = getActivity().getApplicationContext();
@@ -101,10 +103,10 @@ public class HomeFragment extends Fragment {
 
                 allMeetings = parseMeetings(result);
 
-                if(current.size() == 0)
+                if (current.size() == 0)
                     adapter = new MeetingListAdapter(mContext, allMeetings, -1, -1);
                 else
-                    adapter = new MeetingListAdapter(mContext, allMeetings, 0, INDEX_OF_NEAREST-1);
+                    adapter = new MeetingListAdapter(mContext, allMeetings, 0, INDEX_OF_NEAREST - 1);
                 addSections();
                 createSimpleSecionedListAdapter(adapter);
                 addOnClickListenerDependingToIndex(mList);
@@ -113,7 +115,7 @@ public class HomeFragment extends Fragment {
 
     }
 
-    private List<Meeting> parseMeetings(final String result){
+    private List<Meeting> parseMeetings(final String result) {
         final List<Meeting> meetings = new ArrayList<Meeting>();
         current = new ArrayList<Meeting>();
         final List<Meeting> nearest = new ArrayList<Meeting>();
@@ -129,8 +131,7 @@ public class HomeFragment extends Fragment {
             Meeting meeting = gson.fromJson(meetingJsonElem, Meeting.class);
             meetings.add(meeting);
         }
-        try
-        {
+        try {
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd, HH:mm");
             Calendar c = Calendar.getInstance();
             String currentDate = sdf.format(new Date());
@@ -142,14 +143,13 @@ public class HomeFragment extends Fragment {
             long nearestDateInMilliseconds = currentDateInMilliseconds + 172800000;
             Date nearestDateAndTime = new Date(nearestDateInMilliseconds);
 
-            for(Meeting m : meetings){
-                if(m.getStartTime().before(currentDateAndTime) && currentDateAndTime.before(m.getEndTime()))
+            for (Meeting m : meetings) {
+                if (m.getStartTime().before(currentDateAndTime) && currentDateAndTime.before(m.getEndTime()))
                     current.add(m);
-                if(currentDateAndTime.before(m.getStartTime()) && m.getStartTime().before(nearestDateAndTime))
+                if (currentDateAndTime.before(m.getStartTime()) && m.getStartTime().before(nearestDateAndTime))
                     nearest.add(m);
             }
-        } catch (ParseException ex)
-        {
+        } catch (ParseException ex) {
             ex.printStackTrace();
         }
 
@@ -161,7 +161,7 @@ public class HomeFragment extends Fragment {
         return currentAndNearest;
     }
 
-    private void addSections(){
+    private void addSections() {
         mHeaderPositions = new Integer[]{INDEX_OF_CURRENT, INDEX_OF_NEAREST};
         for (int i = 0; i < mHeaderPositions.length; i++) {
             if (sections.size() < 2) {
@@ -170,14 +170,14 @@ public class HomeFragment extends Fragment {
         }
     }
 
-    private void createSimpleSecionedListAdapter(MeetingListAdapter adapter){
+    private void createSimpleSecionedListAdapter(MeetingListAdapter adapter) {
         SimpleSectionedListAdapter simpleSectionedGridAdapter = new SimpleSectionedListAdapter(mContext, adapter,
                 R.layout.listview_item_header, R.id.header);
         simpleSectionedGridAdapter.setSections(sections.toArray(new SimpleSectionedListAdapter.Section[0]));
         mList.setAdapter(simpleSectionedGridAdapter);
     }
 
-    private void addOnClickListenerDependingToIndex(ListView meetingList){
+    private void addOnClickListenerDependingToIndex(ListView meetingList) {
         meetingList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -190,7 +190,7 @@ public class HomeFragment extends Fragment {
         });
     }
 
-    private void showMeetingDialog(Meeting meeting){
+    private void showMeetingDialog(Meeting meeting) {
 
         fragmentTransaction = getFragmentManager().beginTransaction();
         SomeDialog newFragment = new SomeDialog(mContext, "Confirm", "What do you want to do with this meeting?", SomeDialog.MEETING_DELETE_TYPE);

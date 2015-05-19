@@ -8,7 +8,7 @@ public class URL {
     public static final String LOGIN = "http://abecadlo.zapto.org:9999/LaggerService.svc/user/login";
     public static final String GET_MEETINGS = "http://abecadlo.zapto.org:9999/LaggerService.svc/user/meetings/get";
     public static final String GET_INVITATIONS = "http://abecadlo.zapto.org:9999/LaggerService.svc/user/meetings/invitation";
-    public static final String GET_FRIENDS ="http://abecadlo.zapto.org:9999/LaggerService.svc/user/friends/get";
+    public static final String GET_FRIENDS = "http://abecadlo.zapto.org:9999/LaggerService.svc/user/friends/get";
     public static final String GET_INVITATION_FROM_FRIENDS = "http://abecadlo.zapto.org:9999/LaggerService.svc/user/friends/invitation";
     public static final String ADD_POSITION = "http://abecadlo.zapto.org:9999/LaggerService.svc/user/positions/add";
     public static final String GET_POSITIONS = "http://abecadlo.zapto.org:9999/LaggerService.svc/user/positions/get";

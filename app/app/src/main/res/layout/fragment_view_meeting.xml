@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     xmlns:fab="http://schemas.android.com/apk/res-auto"
     android:layout_height="match_parent"
     android:padding="10dp">
@@ -11,6 +12,7 @@
         android:layout_height="match_parent"
         android:paddingBottom="10dp"
         android:layout_weight="1">
+
         <TextView
             android:id="@+id/tvMeetingName"
             android:textColor="@color/color_midnight_blue"
@@ -59,8 +61,7 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content" />
 
-        <com.google.android.gms.maps.MapView
-            xmlns:android="http://schemas.android.com/apk/res/android"
+        <com.google.android.gms.maps.MapView xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/mapView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
@@ -84,7 +85,7 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content" />
 
-        </LinearLayout>
+    </LinearLayout>
 
 
     <LinearLayout
@@ -92,10 +93,12 @@
         android:orientation="horizontal"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content">
+
         <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
             android:layout_weight="0.4"
             android:layout_height="70dp">
+
             <com.melnykov.fab.FloatingActionButton
                 android:id="@+id/btnRefuseMeeting"
                 android:layout_width="wrap_content"
@@ -111,6 +114,7 @@
             android:layout_width="match_parent"
             android:layout_weight="0.4"
             android:layout_height="70dp">
+
             <com.melnykov.fab.FloatingActionButton
                 android:id="@+id/btnEditMeeting"
                 android:layout_width="wrap_content"
@@ -126,6 +130,7 @@
             android:layout_width="match_parent"
             android:layout_weight="0.4"
             android:layout_height="70dp">
+
             <com.melnykov.fab.FloatingActionButton
                 android:id="@+id/btnAcceptMeeting"
                 android:layout_width="wrap_content"

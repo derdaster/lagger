@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * Created by Ewelina Klisowska on 2015-05-02.
  */
-public class FriendsListResponse extends ResponseObject{
+public class FriendsListResponse extends ResponseObject {
     private List<User> friends;
 
     public FriendsListResponse(List<User> friends) {

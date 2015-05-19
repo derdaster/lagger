@@ -3,6 +3,7 @@ package com.android.lagger.forms.drawer;
 /**
  * Created by Kubaa on 2015-04-28.
  */
+
 import android.app.Fragment;
 import android.content.Context;
 import android.graphics.drawable.Drawable;

@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * Created by Ewelina Klisowska on 2015-04-08.
  */
-public class Meeting implements Parcelable{
+public class Meeting implements Parcelable {
 
     private Integer id;
     private String name;
@@ -153,7 +153,8 @@ public class Meeting implements Parcelable{
     private Meeting(Parcel in) {
         id = in.readInt();
         name = in.readString();
-        locationName = in.readString();;
+        locationName = in.readString();
+        ;
         startTime = (java.util.Date) in.readSerializable();
         endTime = (java.util.Date) in.readSerializable();
         latitude = in.readDouble();

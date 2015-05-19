@@ -21,15 +21,8 @@ import com.android.lagger.requestObjects.GetFriendInvitationsRequest;
 import com.android.lagger.requestObjects.GetFriendsAndInvitationsRequest;
 import com.android.lagger.requestObjects.GetFriendsRequest;
 import com.android.lagger.responseObjects.GetFriendsAndInvitationsResponse;
-import com.android.lagger.serverConnection.HttpRequest;
-import com.android.lagger.serverConnection.URL;
 import com.android.lagger.services.HttpClient;
 import com.android.lagger.settings.State;
-import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import com.melnykov.fab.FloatingActionButton;
 
 import java.util.ArrayList;
@@ -100,10 +93,10 @@ public class FriendsListFragment extends Fragment {
         getAllFriendsTask.execute(getAllFriendsRequest);
     }
 
-    private void showFriendInvitationDialog(User friend){
+    private void showFriendInvitationDialog(User friend) {
 
         fragmentTransaction = fragmentManager.beginTransaction();
-        SomeDialog friendInvitationDialog = new SomeDialog (mContext, "Confirm", "Do you want to accept this friend invitation?", SomeDialog.FRIEND_INVITATION_TYPE);
+        SomeDialog friendInvitationDialog = new SomeDialog(mContext, "Confirm", "Do you want to accept this friend invitation?", SomeDialog.FRIEND_INVITATION_TYPE);
         friendInvitationDialog.show(fragmentTransaction, "dialog");
 
         Bundle details = new Bundle();
@@ -111,8 +104,9 @@ public class FriendsListFragment extends Fragment {
 
         friendInvitationDialog.setArguments(details);
     }
-    private void showFriendDeleteDialog(User friend){
-        SomeDialog friendDeleteDialog = new SomeDialog (mContext, "Confirm", "Do you want to delete this friend?", SomeDialog.FRIEND_TYPE);
+
+    private void showFriendDeleteDialog(User friend) {
+        SomeDialog friendDeleteDialog = new SomeDialog(mContext, "Confirm", "Do you want to delete this friend?", SomeDialog.FRIEND_TYPE);
 
         Bundle details = new Bundle();
         details.putParcelable("friend", friend);
@@ -144,7 +138,7 @@ public class FriendsListFragment extends Fragment {
                 mHeaderPositions = new Integer[]{INDEX_OF_INVITED, INDEX_OF_INVITATION_END};
 
                 for (int i = 0; i < mHeaderPositions.length; i++) {
-                    if(sections.size() < 2) {
+                    if (sections.size() < 2) {
                         sections.add(new SimpleSectionedListAdapter.Section(mHeaderPositions[i], HEADER_NAMES[i]));
                     }
                 }
@@ -153,13 +147,12 @@ public class FriendsListFragment extends Fragment {
                 simpleSectionedGridAdapter.setSections(sections.toArray(new SimpleSectionedListAdapter.Section[0]));
                 mList.setAdapter(simpleSectionedGridAdapter);
 
-                mList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener(){
+                mList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
                     @Override
                     public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
-                        if(i <= INDEX_OF_INVITATION_END){
+                        if (i <= INDEX_OF_INVITATION_END) {
                             showFriendInvitationDialog(allFriendsList.get(i - 1));
-                        }
-                        else {
+                        } else {
                             showFriendDeleteDialog(allFriendsList.get(i - 2));
                         }
                         return false;

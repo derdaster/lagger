@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * Created by Ewelina Klisowska on 2015-05-11.
  */
-public class FindFriendResponse extends ResponseObject{
+public class FindFriendResponse extends ResponseObject {
     private List<User> users;
 
     public List<User> getUsers() {
@@ -18,7 +18,7 @@ public class FindFriendResponse extends ResponseObject{
     public String toString() {
         //FIXME only for test
         StringBuilder sb = new StringBuilder();
-        for(User user: users){
+        for (User user : users) {
             sb.append(user.getEmail());
             sb.append(",");
         }

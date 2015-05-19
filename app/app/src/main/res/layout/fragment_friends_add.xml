@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     xmlns:fab="http://schemas.android.com/apk/res-auto"
     android:layout_height="match_parent">
 
@@ -16,12 +17,14 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:paddingBottom="20dp">
+
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:id="@+id/ivIconMeeting"
-                android:src="@drawable/icon_user"/>
+                android:src="@drawable/icon_user" />
+
             <TextView
                 android:textColor="@color/color_wet_asphalt"
                 android:textSize="25dp"
@@ -42,23 +45,26 @@
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
             android:weightSum="1">
+
             <com.wrapp.floatlabelededittext.FloatLabeledEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="start"
                 android:layout_weight="0.2">
+
                 <AutoCompleteTextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/editTextMeeting"
                     android:hint="E-mail"
-                    android:inputType="textEmailAddress"/>
+                    android:inputType="textEmailAddress" />
             </com.wrapp.floatlabelededittext.FloatLabeledEditText>
 
             <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
                 android:layout_weight="0.8"
                 android:layout_height="70dp">
+
                 <com.melnykov.fab.FloatingActionButton
                     android:id="@+id/btnDone"
                     android:layout_width="wrap_content"

@@ -20,13 +20,12 @@
     <string name="action_example">Example action</string>
     <string name="title_activity_tab">TabAct</string>
 
-<!-- TODO: Remove or change this placeholder text -->
+    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="invitations">Zaproszenia</string>
     <string name="upcoming">Nadchodzące</string>
     <string name="invitationsFromFriends">Zaproszenia od znajomych</string>
     <string name="allFriends">Znajomi</string>
-
 
 
     <string name="yes">Tak</string>

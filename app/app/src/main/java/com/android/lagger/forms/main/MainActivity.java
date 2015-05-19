@@ -24,7 +24,6 @@ import com.android.lagger.forms.settings.SettingsFragment;
 import com.android.lagger.gpslocation.MapFragment;
 
 
-
 public class MainActivity extends ActionBarActivity implements FragmentDrawer.FragmentDrawerListener {
 
     private Context mContext;
@@ -133,7 +132,7 @@ public class MainActivity extends ActionBarActivity implements FragmentDrawer.Fr
         if (fragment != null) {
             FragmentManager fm = getFragmentManager();
             int count = fm.getBackStackEntryCount();
-            for(int i = 0; i < count; ++i) {
+            for (int i = 0; i < count; ++i) {
                 fm.popBackStackImmediate();
             }
             FragmentManager fragmentManager = getFragmentManager();

@@ -2,9 +2,7 @@ package com.android.lagger.serverConnection;
 
 
 import com.google.gson.Gson;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -20,7 +18,7 @@ import java.io.InputStreamReader;
 
 /**
  * Created by Ewelina Klisowska on 2015-03-14.
- *
+ * <p/>
  * This class is only for quick testing new connections with server
  */
 public class TestServerConnection {
@@ -29,7 +27,7 @@ public class TestServerConnection {
     public static final String TEST_CONNECTION_URL = "http://abecadlo.zapto.org:9999/LaggerService.svc/test/connection";
     public static final String TEST_USER_LOGIN = "http://abecadlo.zapto.org:9999/LaggerService.svc/user/login";
 
-    public static String GET(String url){
+    public static String GET(String url) {
         InputStream inputStream = null;
         String result = "";
         try {
@@ -47,7 +45,7 @@ public class TestServerConnection {
             inputStream = httpResponse.getEntity().getContent();
 
             // 5. convert inputstream to string
-            if(inputStream != null)
+            if (inputStream != null)
                 result = convertInputStreamToString(inputStream);
             else
                 result = "Did not work!";
@@ -60,7 +58,7 @@ public class TestServerConnection {
         return result;
     }
 
-    public static String POST(String url){
+    public static String POST(String url) {
         InputStream inputStream = null;
         String result = "";
         try {
@@ -99,7 +97,7 @@ public class TestServerConnection {
             inputStream = httpResponse.getEntity().getContent();
 
             // 10. convert inputstream to string
-            if(inputStream != null)
+            if (inputStream != null)
                 result = convertInputStreamToString(inputStream);
             else
                 result = "Did not work!";
@@ -112,7 +110,7 @@ public class TestServerConnection {
         return result;
     }
 
-    public static String user_post_test(){
+    public static String user_post_test() {
         InputStream inputStream = null;
         String result = "";
         try {
@@ -151,7 +149,7 @@ public class TestServerConnection {
             inputStream = httpResponse.getEntity().getContent();
 
             // 10. convert inputstream to string
-            if(inputStream != null)
+            if (inputStream != null)
                 result = convertInputStreamToString(inputStream);
             else
                 result = "Did not work!";
@@ -165,10 +163,10 @@ public class TestServerConnection {
     }
 
     private static String convertInputStreamToString(InputStream inputStream) throws IOException {
-        BufferedReader bufferedReader = new BufferedReader( new InputStreamReader(inputStream));
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
         String line = "";
         String result = "";
-        while((line = bufferedReader.readLine()) != null)
+        while ((line = bufferedReader.readLine()) != null)
             result += line;
 
         inputStream.close();

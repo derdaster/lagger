@@ -3,7 +3,7 @@ package com.android.lagger.responseObjects;
 /**
  * Created by Ewelina Klisowska on 2015-05-17.
  */
-public class GetAllMeetingsResponse extends ResponseObject{
+public class GetAllMeetingsResponse extends ResponseObject {
     private GetMeetingsResponse getMeetingsResponse;
     private GetMeetingInvitationsResponse getMeetingInvitationsResponse;
 

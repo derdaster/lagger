@@ -6,7 +6,6 @@ import android.widget.Toast;
 
 import com.android.lagger.R;
 import com.android.lagger.requestObjects.AddFriendRequest;
-import com.android.lagger.requestObjects.AddMeetingRequest;
 import com.android.lagger.responseObjects.AddFriendResponse;
 import com.android.lagger.services.HttpClient;
 
@@ -33,15 +32,14 @@ public class AddFriendTask extends AsyncTask<AddFriendRequest, Void, AddFriendRe
         showResult(resp);
     }
 
-    private void showResult(AddFriendResponse resp){
+    private void showResult(AddFriendResponse resp) {
         String info = "";
-        if(!resp.isError()) {
+        if (!resp.isError()) {
             info = context.getString(R.string.accepted_invitation);
-            if(isInvitation) {
+            if (isInvitation) {
                 info = context.getString(R.string.invited_a_new_friend);
             }
-        }
-        else{
+        } else {
             info = resp.getResponse();
         }
         showInfo(info);

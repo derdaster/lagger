@@ -1,8 +1,5 @@
 package com.android.lagger.settings;
 
-import android.content.Context;
-import android.net.ConnectivityManager;
-
 import com.android.lagger.model.entities.User;
 
 /**
@@ -16,11 +13,11 @@ public class State {
 
 
     //returns logged user or default user if nobody is logged
-    public static User getLoggedUser(){
+    public static User getLoggedUser() {
         return (loggedUser != null ? loggedUser : defaultUser);
     }
 
-    public static int getLoggedUserId(){
+    public static int getLoggedUserId() {
         return getLoggedUser().getId();
     }
 

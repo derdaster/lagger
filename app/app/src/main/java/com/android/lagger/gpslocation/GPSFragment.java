@@ -28,9 +28,10 @@ public class GPSFragment extends Fragment implements LocationListener {
     private TextView latituteField;
     private TextView longitudeField;
     private LocationManager locationManager;
-    private String provider="";
+    private String provider = "";
     Button btnShowLocation;
-    public GPSFragment(Context context){
+
+    public GPSFragment(Context context) {
         mContext = context;
     }
 
@@ -45,7 +46,7 @@ public class GPSFragment extends Fragment implements LocationListener {
             public void onClick(View v) {
                 gpsService = new GPSService(mContext);
 
-                if(gpsService.canGetLocation()) {
+                if (gpsService.canGetLocation()) {
                     double latitude = gpsService.getLatitude();
                     double longitude = gpsService.getLongitude();
 

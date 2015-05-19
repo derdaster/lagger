@@ -2,7 +2,6 @@ package com.android.lagger.serverConnection;
 
 import android.content.Context;
 import android.net.ConnectivityManager;
-import android.widget.Toast;
 
 import com.android.lagger.R;
 import com.android.lagger.requestObjects.RequestObject;
@@ -23,9 +22,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
 
 /**
  * Created by Ewelina Klisowska on 2015-03-19.
@@ -38,7 +34,7 @@ public class HttpRequest {
         this.context = context;
     }
 
-    public static String GET(String url){
+    public static String GET(String url) {
         InputStream inputStream = null;
         String result = "";
         try {
@@ -56,7 +52,7 @@ public class HttpRequest {
             inputStream = httpResponse.getEntity().getContent();
 
             // 5. convert inputstream to string
-            if(inputStream != null)
+            if (inputStream != null)
                 result = convertInputStreamToString(inputStream);
             else
                 result = "Did not work!";
@@ -68,21 +64,21 @@ public class HttpRequest {
         return result;
     }
 
-    public static String POST(String url, JsonObject jsonObject){
+    public static String POST(String url, JsonObject jsonObject) {
         String result = null;
-            // 1. create HttpClient
-            HttpClient httpclient = new DefaultHttpClient();
+        // 1. create HttpClient
+        HttpClient httpclient = new DefaultHttpClient();
 
-            // 2. make POST request to the given URL
-            HttpPost httpPost = new HttpPost(url);
+        // 2. make POST request to the given URL
+        HttpPost httpPost = new HttpPost(url);
 
-            // 3. convert JSONObject to JSON to String
-            Gson gson = new GsonHelper().getGson();
-            String json = gson.toJson(jsonObject);
+        // 3. convert JSONObject to JSON to String
+        Gson gson = new GsonHelper().getGson();
+        String json = gson.toJson(jsonObject);
         //json = json.replaceAll("\\\\/", "\\/");
 //            String json = jsonObject.toString();
 
-            // 3. build gson object
+        // 3. build gson object
 //            Gson g = new Gson();
 //            JsonObject jsonObject = new JsonObject();
 //            jsonObject.addProperty("Login", "john");
@@ -104,8 +100,7 @@ public class HttpRequest {
             // 8. Execute POST request to the given URL
             HttpResponse httpResponse = httpclient.execute(httpPost);
             result = getResponseFormHttp(httpResponse);
-        }
-        catch (UnsupportedEncodingException e) {
+        } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
@@ -114,14 +109,14 @@ public class HttpRequest {
         return result;
     }
 
-    private static String getResponseFormHttp(HttpResponse httpResponse){
+    private static String getResponseFormHttp(HttpResponse httpResponse) {
         String result = null;
-        try{
+        try {
             InputStream inputStream = httpResponse.getEntity().getContent();
 
             // convert inputstream to jsonObject
-            if(inputStream != null) {
-              //  result = convertInputStreamToJsonObject(inputStream);
+            if (inputStream != null) {
+                //  result = convertInputStreamToJsonObject(inputStream);
                 result = convertInputStreamToString(inputStream);
             }
 //             else
@@ -142,10 +137,10 @@ public class HttpRequest {
     }
 
     private static String convertInputStreamToString(InputStream inputStream) throws IOException {
-        BufferedReader bufferedReader = new BufferedReader( new InputStreamReader(inputStream));
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
         String line = "";
         String result = "";
-        while((line = bufferedReader.readLine()) != null)
+        while ((line = bufferedReader.readLine()) != null)
             result += line;
 
         inputStream.close();
@@ -164,9 +159,9 @@ public class HttpRequest {
 
 
     //POST with RequestObject in parameter
-    public ResponseObject POST(String url, RequestObject requestObject){
+    public ResponseObject POST(String url, RequestObject requestObject) {
         ResponseObject response = null;
-        if(isInternetConnection(context)) {
+        if (isInternetConnection(context)) {
             // 1. create HttpClient
             HttpClient httpclient = new DefaultHttpClient();
 
@@ -199,23 +194,22 @@ public class HttpRequest {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        }
-        else{
-           String result = context.getResources().getString(R.string.no_connection);
-           response = new ResponseObject(result, true);
-           //Toast.makeText(context, "Brak połączenia z Internetem!", Toast.LENGTH_LONG).show();
+        } else {
+            String result = context.getResources().getString(R.string.no_connection);
+            response = new ResponseObject(result, true);
+            //Toast.makeText(context, "Brak połączenia z Internetem!", Toast.LENGTH_LONG).show();
         }
         return response;
     }
 
 
-    private static String getResponseFromHttp(HttpResponse httpResponse){
+    private static String getResponseFromHttp(HttpResponse httpResponse) {
         String result = null;
-        try{
+        try {
             InputStream inputStream = httpResponse.getEntity().getContent();
 
             // convert inputstream to jsonObject
-            if(inputStream != null) {
+            if (inputStream != null) {
                 //  result = convertInputStreamToJsonObject(inputStream);
 //                String response = convertInputStreamToString(inputStream);
                 result = convertInputStreamToString(inputStream);

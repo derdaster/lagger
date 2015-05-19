@@ -9,7 +9,7 @@ import com.google.gson.JsonObject;
  * Created by Ewelina Klisowska on 2015-03-19.
  */
 
-public class User implements Parcelable{
+public class User implements Parcelable {
 
     private int id;
     private String login;
@@ -17,14 +17,14 @@ public class User implements Parcelable{
     private String email;
     private String phone;
 
-    public User(){
+    public User() {
     }
 
-    public User(Integer id){
+    public User(Integer id) {
         this.id = id;
     }
 
-    public User(String login, String password){
+    public User(String login, String password) {
         this.login = login;
         this.password = password;
     }
@@ -80,10 +80,10 @@ public class User implements Parcelable{
                 '}';
     }
 
-    public JsonObject createLoginJson(){
-         JsonObject jsonObject = new JsonObject();
-         jsonObject.addProperty("login", this.login);
-         jsonObject.addProperty("password", this.password);
+    public JsonObject createLoginJson() {
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty("login", this.login);
+        jsonObject.addProperty("password", this.password);
         return jsonObject;
     }
 

@@ -24,7 +24,9 @@ public class AdapterUser {
         return email;
     }
 
-    public String getLogin() {  return login; }
+    public String getLogin() {
+        return login;
+    }
 
     @Override
     public String toString() {
@@ -33,6 +35,6 @@ public class AdapterUser {
         sb.append(email);
         sb.append(")");
 
-        return sb.toString() ;
+        return sb.toString();
     }
 }

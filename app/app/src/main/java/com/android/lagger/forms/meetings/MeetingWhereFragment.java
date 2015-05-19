@@ -81,7 +81,7 @@ public class MeetingWhereFragment extends Fragment {
             }
         });
         GPSService gpsService = new GPSService(this.getActivity().getApplicationContext());
-        if(gpsService.canGetLocation()) {
+        if (gpsService.canGetLocation()) {
             gpsService.getLatitude();
 
             CameraPosition cameraPosition = new CameraPosition.Builder()
@@ -108,7 +108,7 @@ public class MeetingWhereFragment extends Fragment {
         btnLocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-           }
+            }
         });
 
         leftBtn = (FloatingActionButton) parent.findViewById(R.id.btnLeftPager);
@@ -131,6 +131,7 @@ public class MeetingWhereFragment extends Fragment {
             }
         });
     }
+
     public LatLng getChosenPositon() {
         return chosenPositon;
     }

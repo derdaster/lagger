@@ -8,15 +8,11 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.lagger.R;
-import com.android.lagger.model.entities.User;
 import com.android.lagger.model.entities.Meeting;
-import com.android.lagger.requestObjects.AcceptMeetingRequest;
-import com.android.lagger.services.HttpClient;
+import com.android.lagger.model.entities.User;
 import com.android.lagger.settings.Parser;
 import com.android.lagger.settings.State;
 import com.android.lagger.tasks.AcceptMeetingTask;
@@ -43,9 +39,11 @@ public class ViewMeetingFragment extends Fragment {
     private User user;
 
     FragmentTransaction fragmentTransaction;
-    public ViewMeetingFragment(){
+
+    public ViewMeetingFragment() {
 
     }
+
     public ViewMeetingFragment(Context mContext, Boolean isReadOnly) {
         this.mContext = mContext;
         this.isReadOnly = isReadOnly;
@@ -57,11 +55,10 @@ public class ViewMeetingFragment extends Fragment {
         btnRefuse = (FloatingActionButton) parent.findViewById(R.id.btnRefuseMeeting);
         btnEdit = (FloatingActionButton) parent.findViewById(R.id.btnEditMeeting);
 
-        if(isReadOnly){
+        if (isReadOnly) {
             btnAccept.setVisibility(View.INVISIBLE);
             btnRefuse.setVisibility(View.INVISIBLE);
-        }
-        else {
+        } else {
             addButtonsAndListeners();
         }
         return parent;
@@ -78,13 +75,13 @@ public class ViewMeetingFragment extends Fragment {
         insertMeetingDetails();
     }
 
-    private void insertMeetingDetails(){
+    private void insertMeetingDetails() {
         Bundle extras = getArguments();
         meeting = extras.getParcelable("meeting");
         user = meeting.getOrganizer();
 
         isOrganizer = State.getLoggedUserId() == meeting.getOrganizer().getId();
-        if(!isOrganizer){
+        if (!isOrganizer) {
             btnEdit.setVisibility(View.INVISIBLE);
         }
         labelMeetingName.setText(meeting.getName());
@@ -95,8 +92,7 @@ public class ViewMeetingFragment extends Fragment {
         //TODO insert map
     }
 
-    public void addButtonsAndListeners()
-    {
+    public void addButtonsAndListeners() {
         btnAccept.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:fab="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="10dp">
 
@@ -11,8 +12,7 @@
         android:id="@+id/guestList"
         android:layout_height="match_parent"
         android:layout_width="match_parent"
-        android:paddingBottom="10dp">
-    </ListView>
+        android:paddingBottom="10dp"></ListView>
 
     <LinearLayout
         android:orientation="horizontal"
@@ -26,6 +26,7 @@
             android:layout_width="match_parent"
             android:layout_height="70dp"
             android:layout_weight="0.35">
+
             <com.melnykov.fab.FloatingActionButton
                 android:id="@+id/btnLeftPager"
                 android:layout_width="wrap_content"
@@ -44,13 +45,14 @@
             android:gravity="center"
             android:layout_weight="0.3"
             android:layout_marginBottom="10dp"
-            android:layout_marginTop="10dp"/>
+            android:layout_marginTop="10dp" />
 
         <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/frameDonePager"
             android:layout_width="match_parent"
             android:layout_height="70dp"
             android:layout_weight="0.35">
+
             <com.melnykov.fab.FloatingActionButton
                 android:id="@+id/btnDonePager"
                 android:layout_width="wrap_content"

@@ -35,11 +35,11 @@ public class SomeDialog extends DialogFragment {
     private FragmentManager fragmentManager;
     private FragmentTransaction fragmentTransaction;
     private Context mContext;
-    public static final String MEETING_INVITATION_TYPE =  "meetingInvitation";
-    public static final String MEETING_DELETE_TYPE =  "meeting";
-    public static final String FRIEND_TYPE =  "friend";
-    public static final String FRIEND_INVITATION_TYPE =  "friendInvitation";
-    public static final String MEETING_REFUSE_TYPE =  "refuseMeeting";
+    public static final String MEETING_INVITATION_TYPE = "meetingInvitation";
+    public static final String MEETING_DELETE_TYPE = "meeting";
+    public static final String FRIEND_TYPE = "friend";
+    public static final String FRIEND_INVITATION_TYPE = "friendInvitation";
+    public static final String MEETING_REFUSE_TYPE = "refuseMeeting";
 
 
     public SomeDialog() {
@@ -56,8 +56,7 @@ public class SomeDialog extends DialogFragment {
     public Dialog onCreateDialog(final Bundle savedInstanceState) {
         fragmentManager = getFragmentManager();
         Dialog dialog = null;
-        switch (dialogType)
-        {
+        switch (dialogType) {
             case MEETING_INVITATION_TYPE:
                 dialog = createInvitationMeetingDialog();
                 break;
@@ -77,7 +76,7 @@ public class SomeDialog extends DialogFragment {
         return dialog;
     }
 
-    private AlertDialog createInvitationMeetingDialog(){
+    private AlertDialog createInvitationMeetingDialog() {
         Bundle extras = getArguments();
         final Meeting meeting = extras.getParcelable("meeting");
 
@@ -111,7 +110,8 @@ public class SomeDialog extends DialogFragment {
                 })
                 .create();
     }
-    private AlertDialog deleteMeetingDialog(){
+
+    private AlertDialog deleteMeetingDialog() {
         Bundle extras = getArguments();
         final Meeting meeting = extras.getParcelable("meeting");
 
@@ -139,7 +139,7 @@ public class SomeDialog extends DialogFragment {
                 .create();
     }
 
-    private AlertDialog refuseMeetingDialog(){
+    private AlertDialog refuseMeetingDialog() {
         Bundle extras = getArguments();
         final Meeting meeting = extras.getParcelable("meeting");
 
@@ -164,7 +164,7 @@ public class SomeDialog extends DialogFragment {
     }
 
 
-    private AlertDialog createInvitationFriendDialog(){
+    private AlertDialog createInvitationFriendDialog() {
         Bundle extras = getArguments();
         final User friend = extras.getParcelable("friend");
 
@@ -192,7 +192,8 @@ public class SomeDialog extends DialogFragment {
                 })
                 .create();
     }
-    private AlertDialog createFriendDialog(){
+
+    private AlertDialog createFriendDialog() {
         Bundle extras = getArguments();
         final User friend = extras.getParcelable("friend");
 
@@ -202,9 +203,9 @@ public class SomeDialog extends DialogFragment {
                 .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                    deleteFriend(friend, false);
-                    fragmentTransaction = getFragmentManager().beginTransaction();
-                    fragmentTransaction.replace(R.id.container_body, new FriendsListFragment(mContext)).commit();
+                        deleteFriend(friend, false);
+                        fragmentTransaction = getFragmentManager().beginTransaction();
+                        fragmentTransaction.replace(R.id.container_body, new FriendsListFragment(mContext)).commit();
                     }
                 })
                 .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
@@ -216,14 +217,14 @@ public class SomeDialog extends DialogFragment {
                 .create();
     }
 
-    private void deleteFriend(User friend, Boolean isInvitation){
-            RemoveFriendRequest removeFriendRequest = new RemoveFriendRequest(State.getLoggedUserId(), friend.getId());
+    private void deleteFriend(User friend, Boolean isInvitation) {
+        RemoveFriendRequest removeFriendRequest = new RemoveFriendRequest(State.getLoggedUserId(), friend.getId());
 
-            RemoveFriendTask removeFriendTask = new RemoveFriendTask(mContext, isInvitation);
-            removeFriendTask.execute(removeFriendRequest);
+        RemoveFriendTask removeFriendTask = new RemoveFriendTask(mContext, isInvitation);
+        removeFriendTask.execute(removeFriendRequest);
     }
 
-    private void showMeetingDetails(final Meeting meeting, Boolean isReadonly){
+    private void showMeetingDetails(final Meeting meeting, Boolean isReadonly) {
         fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.addToBackStack(null);
 

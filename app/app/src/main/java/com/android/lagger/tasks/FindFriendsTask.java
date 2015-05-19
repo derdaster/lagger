@@ -36,20 +36,19 @@ public class FindFriendsTask extends AsyncTask<FindFriendRequest, Void, FindFrie
 
     protected void onPostExecute(final FindFriendResponse resp) {
 
-        if(!resp.isError()) {
-            if(arrayAdapter != null) {
+        if (!resp.isError()) {
+            if (arrayAdapter != null) {
                 final AdapterUser[] emailsList = getEmailList(resp);
                 setAutoAdapter(emailsList);
             }
-        }
-        else{
+        } else {
             Toast.makeText(context, resp.getResponse(), Toast.LENGTH_SHORT).show();
         }
     }
 
-    private AdapterUser[] getEmailList(final FindFriendResponse resp){
+    private AdapterUser[] getEmailList(final FindFriendResponse resp) {
         AdapterUser[] emailList = null;
-        if(resp != null) {
+        if (resp != null) {
             List<User> users = resp.getUsers();
             emailList = new AdapterUser[users.size()];
             if (users != null) {
@@ -62,16 +61,18 @@ public class FindFriendsTask extends AsyncTask<FindFriendRequest, Void, FindFrie
         }
         return emailList;
     }
-   private void setAutoAdapter(final AdapterUser[] EMAIL_LIST){
-           arrayAdapter.clear();
-           if (EMAIL_LIST != null)
-               for (int i = 0; i < EMAIL_LIST.length; i++) {
-                   arrayAdapter.add(EMAIL_LIST[i]);
-               }
-           arrayAdapter.notifyDataSetChanged();
-           autoCompleteTextView.showDropDown();
 
-   }
+    private void setAutoAdapter(final AdapterUser[] EMAIL_LIST) {
+        arrayAdapter.clear();
+        if (EMAIL_LIST != null)
+            for (int i = 0; i < EMAIL_LIST.length; i++) {
+                arrayAdapter.add(EMAIL_LIST[i]);
+            }
+        arrayAdapter.notifyDataSetChanged();
+        autoCompleteTextView.showDropDown();
+
+    }
+
     private void showInfo(String info) {
         Toast.makeText(context, info, Toast.LENGTH_SHORT).show();
     }

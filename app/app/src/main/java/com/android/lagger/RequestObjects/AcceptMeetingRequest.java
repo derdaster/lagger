@@ -7,7 +7,7 @@ public class AcceptMeetingRequest extends UserRequest {
     private Integer idMeeting;
     private Boolean accept;
 
-    public AcceptMeetingRequest(Integer idUser, Integer idMeeting, Boolean accept){
+    public AcceptMeetingRequest(Integer idUser, Integer idMeeting, Boolean accept) {
         super(idUser);
         this.idMeeting = idMeeting;
         this.accept = accept;
