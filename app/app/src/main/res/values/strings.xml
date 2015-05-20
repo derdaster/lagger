@@ -66,5 +66,9 @@
     <string name="title_activity_login">LoginActivity</string>
     <string name="removed_a_meeting">Removed the meeting</string>
     <string name="no_connection">No connection to the Internet</string>
+    <string name="server_code_message_400">The server could not execute a query - the query syntax is incorrect</string>
+    <string name="server_code_message_404">The server could not be found the requested resource</string>
+    <string name="server_code_message_503">The server is currently unavailable (because it is overloaded or down for maintenance)</string>
+    <string name="error_occurred">The error occurred: </string>
 
 </resources>

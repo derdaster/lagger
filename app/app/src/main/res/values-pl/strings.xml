@@ -53,4 +53,8 @@
     <string name="nearest_meetings">Najbliższe spotkania</string>
     <string name="removed_a_meeting">Usunięto spotkanie</string>
     <string name="no_connection">Brak połączenia z Internetem</string>
+    <string name="server_code_message_400">Serwer nie mógł wykonać zapytania - błędna składnia zapytania</string>
+    <string name="server_code_message_404">Serwer nie nie moze znaleźć żądanego zasobu</string>
+    <string name="server_code_message_503">Serwer jest aktualnie niedostępny (ponieważ jest przeciążony lub w trwają prace konserwacyjne)</string>
+    <string name="error_occurred">Wystąpił błąd: </string>
 </resources>

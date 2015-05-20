@@ -2,6 +2,7 @@ package com.android.lagger.serverConnection;
 
 import android.content.Context;
 import android.net.ConnectivityManager;
+import android.util.Log;
 
 import com.android.lagger.R;
 import com.android.lagger.requestObjects.RequestObject;
@@ -11,6 +12,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 import org.apache.http.HttpResponse;
+import org.apache.http.StatusLine;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
@@ -157,7 +159,6 @@ public class HttpRequest {
         }
     }
 
-
     //POST with RequestObject in parameter
     public ResponseObject POST(String url, RequestObject requestObject) {
         ResponseObject response = null;
@@ -173,21 +174,18 @@ public class HttpRequest {
             String json = gson.toJson(requestObject);
 
             try {
-                // 5. set json to StringEntity
+                // 4. set json to StringEntity
                 StringEntity se = new StringEntity(json);
 
-                // 6. set httpPost Entity
+                // 5. set httpPost Entity
                 httpPost.setEntity(se);
 
-                // 7. Set some headers to inform server about the type of the content
+                // 6. Set some headers to inform server about the type of the content
                 httpPost.setHeader("Accept", "application/json");
                 httpPost.setHeader("Content-type", "application/json");
 
-                // 8. Execute POST request to the given URL
-                HttpResponse httpResponse = httpclient.execute(httpPost);
-
-                String result = getResponseFromHttp(httpResponse);
-                response = new ResponseObject(result, false);
+                // 7. Execute POST request to the given URL
+                response = executeRequestAndGetResponse(httpclient, httpPost);
 
             } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();
@@ -195,13 +193,57 @@ public class HttpRequest {
                 e.printStackTrace();
             }
         } else {
+            // 8. no Internet connection
             String result = context.getResources().getString(R.string.no_connection);
             response = new ResponseObject(result, true);
-            //Toast.makeText(context, "Brak połączenia z Internetem!", Toast.LENGTH_LONG).show();
+
         }
         return response;
     }
 
+    private ResponseObject executeRequestAndGetResponse(final HttpClient httpClient, final HttpPost httpPost) {
+        ResponseObject response = null;
+        String result = "";
+
+        HttpResponse httpResponse = null;
+        try {
+            httpResponse = httpClient.execute(httpPost);
+
+            final StatusLine statusLine = httpResponse.getStatusLine();
+            Integer statusCode = statusLine.getStatusCode();
+
+            if (statusCode == 200) {
+                result = getResponseFromHttp(httpResponse);
+                response = new ResponseObject(result, false);
+                Log.d("HttpRequest.POST()", statusCode + ": " + statusLine.getStatusCode());
+            } else {
+                result = getErrorMessage(statusCode);
+                response = new ResponseObject(result, true);
+                Log.e("HttpRequest.POST()", statusCode + ": " + statusLine.getStatusCode());
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return response;
+    }
+
+    private String getErrorMessage(final Integer statusCode) {
+        String errorMessage = context.getResources().getString(R.string.error_occurred) + statusCode;
+
+        switch (statusCode) {
+            case 400:
+                errorMessage = context.getResources().getString(R.string.server_code_message_400);
+                break;
+            case 404:
+                errorMessage = context.getResources().getString(R.string.server_code_message_404);
+                break;
+            case 503:
+                errorMessage = context.getResources().getString(R.string.server_code_message_503);
+                break;
+        }
+        return errorMessage;
+    }
 
     private static String getResponseFromHttp(HttpResponse httpResponse) {
         String result = null;
