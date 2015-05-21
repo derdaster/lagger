@@ -6,6 +6,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
+import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,10 +15,13 @@ import android.widget.ListView;
 
 import com.android.lagger.R;
 import com.android.lagger.logic.adapters.FriendsListAdapter;
+import com.android.lagger.model.entities.Meeting;
 import com.android.lagger.model.entities.User;
+import com.android.lagger.requestObjects.GetFriendsRequest;
 import com.android.lagger.serverConnection.HttpRequest;
 import com.android.lagger.serverConnection.URL;
 import com.android.lagger.settings.State;
+import com.android.lagger.tasks.GetFriendsTask;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -37,21 +41,24 @@ public class MeetingWhoFragment extends Fragment {
     private ViewPager parentPager;
     private Button btnAdd;
     private ListView mList;
-    private FriendsListAdapter adapter;
-    FloatingActionButton leftBtn;
-    FloatingActionButton doneBtn;
-    FragmentTransaction fragmentTransaction;
+    private FloatingActionButton leftBtn;
+    private FloatingActionButton doneBtn;
+    private FragmentTransaction fragmentTransaction;
+    private GetFriendsTask getFriendsTask;
 
     private List<User> allFriendsList;
-    private JsonArray friendsListResp;
 
-    public MeetingWhoFragment() {
+    private Meeting meeting;
 
+    public MeetingWhoFragment(Context context, Meeting meeting) {
+        mContext = context;
+        this.meeting = meeting;
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         parent = inflater.inflate(R.layout.fragment_meeting_who, container, false);
         mContext = getActivity().getApplicationContext();
+        mList = (ListView) parent.findViewById(R.id.guestList);
 
         addButtonsAndListeners();
         getFriendList();
@@ -69,9 +76,11 @@ public class MeetingWhoFragment extends Fragment {
         leftBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                updateMeetingData();
+
                 fragmentTransaction = getFragmentManager().beginTransaction();
                 fragmentTransaction.addToBackStack(null);
-                fragmentTransaction.replace(R.id.container_body, new MeetingWhereFragment()).commit();
+                fragmentTransaction.replace(R.id.container_body, new MeetingWhereFragment(mContext, meeting)).commit();
             }
         });
 
@@ -79,69 +88,26 @@ public class MeetingWhoFragment extends Fragment {
         doneBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                updateMeetingData();
+                //todo asynctask add meeting
             }
         });
-
-        mList = (ListView) parent.findViewById(R.id.guestList);
-
     }
 
-    private void getFriendList() {
+    private void getFriendList(){
         allFriendsList = new ArrayList<User>();
 
-        new AsyncTask<String, Void, String>() {
-            @Override
-            protected String doInBackground(String... urls) {
-                JsonObject userIdJson = new JsonObject();
-
-                userIdJson.addProperty("idUser", State.getLoggedUserId());
-
-                String invitations = HttpRequest.POST(URL.GET_INVITATION_FROM_FRIENDS, userIdJson);
-                String friends = HttpRequest.POST(URL.GET_FRIENDS, userIdJson);
-
-                if (invitations != "" && friends != "") {
-                    invitations = invitations.substring(0, invitations.length() - 1);
-                    friends = friends.substring(1, friends.length());
-                }
-                StringBuilder sb = new StringBuilder();
-                sb.append(invitations);
-                sb.append(",");
-                sb.append(friends);
-
-                return sb.toString();
-            }
-
-            // onPostExecute displays the results of the AsyncTask.
-            @Override
-            protected void onPostExecute(String result) {
-
-                allFriendsList = parseFriends(result);
-
-                adapter = new FriendsListAdapter(mContext, allFriendsList, true);
-                mList.setAdapter(adapter);
-            }
-        }.execute();
-
-
+        GetFriendsRequest getFriendsRequest = new GetFriendsRequest(State.getLoggedUserId());
+        getFriendsTask = new GetFriendsTask(mContext, mList);
+        getFriendsTask.execute(getFriendsRequest);
     }
 
-    private List<User> parseFriends(String result) {
+    private void updateMeetingData(){
+//        mList.get;
+        allFriendsList = getFriendsTask.getFriendsList();
+        List<Integer> invitedFriend = new ArrayList<Integer>();
 
-        List<User> friendsList = new ArrayList<User>();
-        if (!result.equals(",")) {
-            JsonParser parser = new JsonParser();
-            JsonObject responseJson = (JsonObject) parser.parse(result);
-
-            friendsListResp = responseJson.get("friends").getAsJsonArray();
-
-            Gson gson = new Gson();
-            for (JsonElement friendJsonElem : friendsListResp) {
-                User friend = gson.fromJson(friendJsonElem, User.class);
-                friendsList.add(friend);
-            }
-        }
-
-        return friendsList;
+        meeting.setUserList(invitedFriend);
     }
 }
 

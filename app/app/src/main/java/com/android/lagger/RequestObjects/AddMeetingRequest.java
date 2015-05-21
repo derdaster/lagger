@@ -16,10 +16,10 @@ public class AddMeetingRequest extends UserRequest {
     private Double longitude;
     private Date startTime;
     private Date endTime;
-    private List<User> userList;
+    private List<Integer> userList;
 
     public AddMeetingRequest(Integer idUser, String name, String locationName, Double latitude,
-                             Double longitude, Date startTime, Date endTime, List<User> userList) {
+                             Double longitude, Date startTime, Date endTime, List<Integer> userList) {
         super(idUser);
         this.name = name;
         this.locationName = locationName;

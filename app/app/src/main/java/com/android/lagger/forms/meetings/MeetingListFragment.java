@@ -78,7 +78,7 @@ public class MeetingListFragment extends Fragment {
             public void onClick(View v) {
                 fragmentTransaction = getFragmentManager().beginTransaction();
                 fragmentTransaction.addToBackStack(null);
-                fragmentTransaction.replace(R.id.container_body, new MeetingWhenFragment()).commit();
+                fragmentTransaction.replace(R.id.container_body, new MeetingWhenFragment(mContext)).commit();
             }
         });
 

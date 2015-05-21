@@ -242,7 +242,7 @@ public class HttpClient {
         return respAllFriends;
     }
 
-    private GetFriendsResponse getFriends(final GetFriendsRequest getFriendsRequest) {
+    public GetFriendsResponse getFriends(final GetFriendsRequest getFriendsRequest) {
         GetFriendsResponse resp = null;
 
         ResponseObject respFriendsObj = httpRequest.POST(URL.GET_FRIENDS, getFriendsRequest);

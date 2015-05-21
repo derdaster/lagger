@@ -20,7 +20,17 @@ public class Meeting implements Parcelable {
     private Double longitude;
     private User organizer;
 
-    private List<User> userList;
+    private List<Integer> userList;
+
+    public Meeting(){
+        name = "";
+        startTime = new Date();
+        endTime = new Date();
+        locationName = "";
+        latitude = -1.0;
+        longitude = -1.0;
+        organizer = new User();
+    }
 
     public Meeting(String name, String locationName, Date startTime, Date endTime,
                    Double latitude, Double longitude, User organizer) {
@@ -34,7 +44,7 @@ public class Meeting implements Parcelable {
     }
 
     public Meeting(String name, String locationName, Date startTime, Date endTime,
-                   Double latitude, Double longitude, User organizer, List<User> userList) {
+                   Double latitude, Double longitude, User organizer, List<Integer> userList) {
         this(name, locationName, startTime, endTime, latitude, longitude, organizer);
         this.userList = userList;
     }
@@ -99,11 +109,11 @@ public class Meeting implements Parcelable {
         this.organizer = organizer;
     }
 
-    public List<User> getUserList() {
+    public List<Integer> getUserList() {
         return userList;
     }
 
-    public void setUserList(List<User> userList) {
+    public void setUserList(List<Integer> userList) {
         this.userList = userList;
     }
 

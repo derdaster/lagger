@@ -13,7 +13,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ListView;
 
 import com.android.lagger.R;
 import com.android.lagger.forms.drawer.FragmentDrawer;
@@ -22,6 +21,7 @@ import com.android.lagger.forms.home.HomeFragment;
 import com.android.lagger.forms.meetings.MeetingListFragment;
 import com.android.lagger.forms.settings.SettingsFragment;
 import com.android.lagger.gpslocation.MapFragment;
+import com.android.lagger.model.entities.Meeting;
 
 
 public class MainActivity extends ActionBarActivity implements FragmentDrawer.FragmentDrawerListener {
@@ -29,22 +29,22 @@ public class MainActivity extends ActionBarActivity implements FragmentDrawer.Fr
     private Context mContext;
     private Toolbar mToolbar;
     private FragmentDrawer drawerFragment;
-    ListView mDrawerList;
-    String responseGET;
     static String mActivityTitle;
-    String responsePOST;
     private Activity mActivity;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        initialize();
+        displayView(0);
+    }
+
+    private void initialize() {
         mContext = getApplicationContext();
         setContentView(R.layout.activity_main);
         mActivityTitle = getTitle().toString();
         mActivity = this;
-
-
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
 
         setSupportActionBar(mToolbar);
@@ -53,8 +53,6 @@ public class MainActivity extends ActionBarActivity implements FragmentDrawer.Fr
                 getFragmentManager().findFragmentById(R.id.fragment_navigation_drawer);
         drawerFragment.setUp(R.id.fragment_navigation_drawer, (DrawerLayout) findViewById(R.id.drawer_layout), mToolbar);
         drawerFragment.setDrawerListener(this);
-        displayView(0);
-
     }
 
 

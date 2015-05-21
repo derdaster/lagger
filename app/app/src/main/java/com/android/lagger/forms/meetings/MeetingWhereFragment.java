@@ -12,6 +12,7 @@ import android.widget.Button;
 
 import com.android.lagger.R;
 import com.android.lagger.gpslocation.GPSService;
+import com.android.lagger.model.entities.Meeting;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
@@ -36,7 +37,11 @@ public class MeetingWhereFragment extends Fragment {
     FloatingActionButton rightBtn;
     FragmentTransaction fragmentTransaction;
 
-    public MeetingWhereFragment() {
+    private Meeting meeting;
+
+    public MeetingWhereFragment(Context context, Meeting meeting) {
+        mContext = context;
+        this.meeting = meeting;
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -115,9 +120,7 @@ public class MeetingWhereFragment extends Fragment {
         leftBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                fragmentTransaction = getFragmentManager().beginTransaction();
-                fragmentTransaction.addToBackStack(null);
-                fragmentTransaction.replace(R.id.container_body, new MeetingWhenFragment()).commit();
+                updateDataAndReplaceToFragment(new MeetingWhenFragment(mContext, meeting));
             }
         });
 
@@ -125,14 +128,25 @@ public class MeetingWhereFragment extends Fragment {
         rightBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                fragmentTransaction = getFragmentManager().beginTransaction();
-                fragmentTransaction.addToBackStack(null);
-                fragmentTransaction.replace(R.id.container_body, new MeetingWhoFragment()).commit();
+                updateDataAndReplaceToFragment(new MeetingWhoFragment(mContext, meeting));
             }
         });
     }
 
-    public LatLng getChosenPositon() {
-        return chosenPositon;
+    private void updateDataAndReplaceToFragment(Fragment nextFragment){
+        updateMeetingData();
+
+        fragmentTransaction = getFragmentManager().beginTransaction();
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.replace(R.id.container_body, nextFragment).commit();
+
     }
+
+    private void updateMeetingData(){
+        //FIXME set meeting name
+        meeting.setLocationName("test location name");
+        meeting.setLatitude(chosenPositon.latitude);
+        meeting.setLongitude(chosenPositon.longitude);
+    }
+
 }
