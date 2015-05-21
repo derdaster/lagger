@@ -3,6 +3,7 @@ package com.android.lagger.model.entities;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -20,7 +21,7 @@ public class Meeting implements Parcelable {
     private Double longitude;
     private User organizer;
 
-    private List<Integer> userList;
+    private List<User> userList;
 
     public Meeting(){
         name = "";
@@ -30,6 +31,7 @@ public class Meeting implements Parcelable {
         latitude = Double.MIN_VALUE;
         longitude = Double.MIN_VALUE;
         organizer = new User();
+        userList = new ArrayList<User>();
     }
 
     public Meeting(String name, String locationName, Date startTime, Date endTime,
@@ -44,7 +46,7 @@ public class Meeting implements Parcelable {
     }
 
     public Meeting(String name, String locationName, Date startTime, Date endTime,
-                   Double latitude, Double longitude, User organizer, List<Integer> userList) {
+                   Double latitude, Double longitude, User organizer, List<User> userList) {
         this(name, locationName, startTime, endTime, latitude, longitude, organizer);
         this.userList = userList;
     }
@@ -109,11 +111,11 @@ public class Meeting implements Parcelable {
         this.organizer = organizer;
     }
 
-    public List<Integer> getUserList() {
+    public List<User> getUserList() {
         return userList;
     }
 
-    public void setUserList(List<Integer> userList) {
+    public void setUserList(List<User> userList) {
         this.userList = userList;
     }
 
@@ -164,7 +166,6 @@ public class Meeting implements Parcelable {
         id = in.readInt();
         name = in.readString();
         locationName = in.readString();
-        ;
         startTime = (java.util.Date) in.readSerializable();
         endTime = (java.util.Date) in.readSerializable();
         latitude = in.readDouble();

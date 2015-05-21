@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.android.lagger.requestObjects.AcceptMeetingRequest;
 import com.android.lagger.requestObjects.AddFriendRequest;
+import com.android.lagger.requestObjects.AddMeetingRequest;
 import com.android.lagger.requestObjects.FindFriendRequest;
 import com.android.lagger.requestObjects.GetAllMeetingsRequest;
 import com.android.lagger.requestObjects.GetFriendInvitationsRequest;
@@ -16,6 +17,7 @@ import com.android.lagger.requestObjects.RemoveFriendRequest;
 import com.android.lagger.requestObjects.RemoveMeetingRequest;
 import com.android.lagger.responseObjects.AcceptMeetingResponse;
 import com.android.lagger.responseObjects.AddFriendResponse;
+import com.android.lagger.responseObjects.AddMeetingResponse;
 import com.android.lagger.responseObjects.FindFriendResponse;
 import com.android.lagger.responseObjects.GetAllMeetingsResponse;
 import com.android.lagger.responseObjects.GetFriendInvitationsResponse;
@@ -108,6 +110,24 @@ public class HttpClient {
             resp.setIsError(false);
         } else {
             resp = new RemoveFriendResponse();
+            resp.setResponse(response);
+            resp.setIsError(true);
+        }
+
+        return resp;
+    }
+
+    public AddMeetingResponse createNewMeeting(final AddMeetingRequest addMeetingRequest) {
+        AddMeetingResponse resp = null;
+
+        ResponseObject responseObj = httpRequest.POST(URL.ADD_MEETING, addMeetingRequest);
+        String response = responseObj.getResponse();
+
+        if (!responseObj.isError()) {
+            resp = gson.fromJson(response, AddMeetingResponse.class);
+            resp.setIsError(false);
+        } else {
+            resp = new AddMeetingResponse();
             resp.setResponse(response);
             resp.setIsError(true);
         }

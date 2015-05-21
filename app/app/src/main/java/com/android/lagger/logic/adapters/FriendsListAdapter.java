@@ -48,6 +48,7 @@ public class FriendsListAdapter extends BaseAdapter {
             vi = inflater.inflate(R.layout.listview_row_friends, null);
 
         CheckBox cb = (CheckBox) vi.findViewById(R.id.checkBoxFriend);
+
         if (isCheckboxNeeded)
             cb.setVisibility(View.VISIBLE);
 
