@@ -13,6 +13,7 @@ import android.widget.Button;
 import com.android.lagger.R;
 import com.android.lagger.gpslocation.GPSService;
 import com.android.lagger.model.entities.Meeting;
+import com.android.lagger.settings.State;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
@@ -46,13 +47,19 @@ public class MeetingWhereFragment extends Fragment {
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         parent = inflater.inflate(R.layout.fragment_meeting_where, container, false);
-        addButtonsAndListeners();
+        initialize();
+        addListeners();
+        addMap(savedInstanceState);
+        setChoosenLocationOnMap();
 
+        return parent;
+    }
+
+    private void addMap(Bundle savedInstanceState){
         mMapView = (MapView) parent.findViewById(R.id.mapView);
         mMapView.onCreate(savedInstanceState);
 
         mMapView.onResume();// needed to get the map to display immediately
-
         try {
             MapsInitializer.initialize(getActivity().getApplicationContext());
         } catch (Exception e) {
@@ -64,25 +71,7 @@ public class MeetingWhereFragment extends Fragment {
 
             @Override
             public void onMapClick(LatLng latLng) {
-                chosenPositon = latLng;
-                // Creating a marker
-                MarkerOptions markerOptions = new MarkerOptions();
-
-                // Setting the position for the marker
-                markerOptions.position(latLng);
-
-                // Setting the title for the marker.
-                // This will be displayed on taping the marker
-                markerOptions.title(latLng.latitude + " : " + latLng.longitude);
-
-                // Clears the previously touched position
-                googleMap.clear();
-
-                // Animating to the touched position
-                googleMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
-
-                // Placing a marker on the touched position
-                googleMap.addMarker(markerOptions);
+                setMarkerOnMap(latLng);
             }
         });
         GPSService gpsService = new GPSService(this.getActivity().getApplicationContext());
@@ -100,7 +89,35 @@ public class MeetingWhereFragment extends Fragment {
         googleMap.getUiSettings().setZoomControlsEnabled(true);
         //new GetDirection().execute();
         // Perform any camera updates here
-        return parent;
+    }
+
+    private void setChoosenLocationOnMap() {
+        LatLng latLng = new LatLng(State.DEFAULT_LATITUDE, State.DEFAULT_LONGITUDE);
+        if (meeting.getLatitude() != Double.MIN_VALUE && meeting.getLongitude() != Double.MIN_VALUE){
+            latLng = new LatLng(meeting.getLatitude(), meeting.getLongitude());
+        }
+        setMarkerOnMap(latLng);
+    }
+    private void setMarkerOnMap(LatLng latLng){
+        chosenPositon = latLng;
+        // Creating a marker
+        MarkerOptions markerOptions = new MarkerOptions();
+
+        // Setting the position for the marker
+        markerOptions.position(latLng);
+
+        // Setting the title for the marker.
+        // This will be displayed on taping the marker
+        markerOptions.title(latLng.latitude + " : " + latLng.longitude);
+
+        // Clears the previously touched position
+        googleMap.clear();
+
+        // Animating to the touched position
+        googleMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
+
+        // Placing a marker on the touched position
+        googleMap.addMarker(markerOptions);
     }
 
     @Override
@@ -108,23 +125,25 @@ public class MeetingWhereFragment extends Fragment {
         mContext = getActivity().getApplicationContext();
     }
 
-    public void addButtonsAndListeners() {
+    private void initialize(){
         btnLocation = (Button) parent.findViewById(R.id.btnLocation);
+        leftBtn = (FloatingActionButton) parent.findViewById(R.id.btnLeftPager);
+        rightBtn = (FloatingActionButton) parent.findViewById(R.id.btnRightPager);
+
+    }
+    public void addListeners() {
         btnLocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
             }
         });
 
-        leftBtn = (FloatingActionButton) parent.findViewById(R.id.btnLeftPager);
         leftBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 updateDataAndReplaceToFragment(new MeetingWhenFragment(mContext, meeting));
             }
         });
-
-        rightBtn = (FloatingActionButton) parent.findViewById(R.id.btnRightPager);
         rightBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

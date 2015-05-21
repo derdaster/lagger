@@ -27,8 +27,8 @@ public class Meeting implements Parcelable {
         startTime = new Date();
         endTime = new Date();
         locationName = "";
-        latitude = -1.0;
-        longitude = -1.0;
+        latitude = Double.MIN_VALUE;
+        longitude = Double.MIN_VALUE;
         organizer = new User();
     }
 

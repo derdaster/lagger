@@ -11,6 +11,8 @@ public class State {
     private static User loggedUser = null;
     private static final User defaultUser = new User(DEFAULT_USER_ID);
 
+    public static final Double DEFAULT_LATITUDE = 51.1078852;
+    public static final Double DEFAULT_LONGITUDE = 17.0385376;
 
     //returns logged user or default user if nobody is logged
     public static User getLoggedUser() {

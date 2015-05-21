@@ -62,7 +62,6 @@ public class MeetingWhenFragment extends Fragment {
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         parent = inflater.inflate(R.layout.fragment_meeting_when, container, false);
-        addButtonsAndListeners();
         return parent;
     }
 
@@ -76,13 +75,26 @@ public class MeetingWhenFragment extends Fragment {
         calendar = Calendar.getInstance();
         dateFormat = DateFormat.getDateInstance(DateFormat.LONG, Locale.getDefault());
         timeFormat = new SimpleDateFormat(TIME_PATTERN, Locale.getDefault());
-        meetingNameEditText = (EditText) parent.findViewById(R.id.editTextMeeting);
 
+        meetingNameEditText = (EditText) parent.findViewById(R.id.editTextMeeting);
+        btnDateStart = (Button) parent.findViewById(R.id.btnDatePickerStart);
+        btnTimeStart = (Button) parent.findViewById(R.id.btnTimePickerStart);
+        btnDateEnd = (Button) parent.findViewById(R.id.btnDatePickerEnd);
+        btnTimeEnd = (Button) parent.findViewById(R.id.btnTimePickerEnd);
+
+        showMeetingDetailsOnView();
+        addListeners();
     }
 
-    public void addButtonsAndListeners() {
+    private void showMeetingDetailsOnView(){
+        meetingNameEditText.setText(meeting.getName());
+        btnDateStart.setText(dateFormat.format(meeting.getStartTime().getTime()));
+        btnTimeStart.setText(timeFormat.format(meeting.getStartTime().getTime()));
+        btnDateEnd.setText(dateFormat.format(meeting.getEndTime().getTime()));
+        btnTimeEnd.setText(timeFormat.format(meeting.getEndTime().getTime()));
+    }
 
-        btnDateStart = (Button) parent.findViewById(R.id.btnDatePickerStart);
+    public void addListeners() {
         btnDateStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -99,7 +111,7 @@ public class MeetingWhenFragment extends Fragment {
 
             }
         });
-        btnTimeStart = (Button) parent.findViewById(R.id.btnTimePickerStart);
+
         btnTimeStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -118,7 +130,7 @@ public class MeetingWhenFragment extends Fragment {
             }
         });
 
-        btnDateEnd = (Button) parent.findViewById(R.id.btnDatePickerEnd);
+
         btnDateEnd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -134,7 +146,7 @@ public class MeetingWhenFragment extends Fragment {
 
             }
         });
-        btnTimeEnd = (Button) parent.findViewById(R.id.btnTimePickerEnd);
+
         btnTimeEnd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
