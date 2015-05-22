@@ -53,6 +53,10 @@ import java.util.TimerTask;
 public class MapFragment extends Fragment {
 
     public static HashMap<Integer, Float> markerColors;
+    final Handler handler = new Handler();
+    Timer timer;
+    TimerTask timerTask;
+    private Integer meetingId;
     private ProgressDialog pDialog;
     private List<LatLng> polyz;
     private MapView mMapView;
@@ -60,12 +64,13 @@ public class MapFragment extends Fragment {
     private Context mContext;
     private List<GPSUser> gpsUsers;
     private LatLng chosenPositon;
-    final Handler handler = new Handler();
-    Timer timer;
-    TimerTask timerTask;
 
     public MapFragment() {
+        this.meetingId = 2;
+    }
 
+    public MapFragment(int meetingId) {
+        this.meetingId = meetingId;
     }
 
     @Override
@@ -264,6 +269,14 @@ public class MapFragment extends Fragment {
         timer.schedule(timerTask, 5000, 10000); //
     }
 
+    public void stoptimertask(View v) {
+        //stop the timer, if it's not already null
+        if (timer != null) {
+            timer.cancel();
+            timer = null;
+        }
+    }
+
     public void initializeTimerTask() {
         timerTask = new TimerTask() {
             public void run() {
@@ -274,9 +287,9 @@ public class MapFragment extends Fragment {
                         new AsyncTask<String, Void, String>() {
                             @Override
                             protected String doInBackground(String... urls) {
-                                String userId = String.valueOf(State.getLoggedUserId());
-                                String meetingId = String.valueOf(1);
-                                JsonObject userJson = createGPSJSON(userId, meetingId);
+                                String userIdString = String.valueOf(State.getLoggedUserId());
+                                String meetingIdString = String.valueOf(meetingId);
+                                JsonObject userJson = createGPSJSON(userIdString, meetingIdString);
                                 //TODO refactoring
                                 return HttpRequest.POST(com.android.lagger.serverConnection.URL.GET_POSITIONS, userJson);
                             }
@@ -304,11 +317,6 @@ public class MapFragment extends Fragment {
                                     }
                                     user.setPositionList(tempPositionList);
                                 }
-
-//                for (JsonElement positionJsonElem : positions) {
-//                    Position position = gson.fromJson(positionJsonElem, Position.class);
-//                    positionList.add(position);
-//                }
                                 showUserMarkers();
                             }
                         }.execute();
@@ -323,9 +331,9 @@ public class MapFragment extends Fragment {
         new AsyncTask<String, Void, String>() {
             @Override
             protected String doInBackground(String... urls) {
-                String userId = String.valueOf(State.getLoggedUserId());
-                String meetingId = String.valueOf(1);
-                JsonObject userJson = createGPSJSON(userId, meetingId);
+                String userIdString = String.valueOf(State.getLoggedUserId());
+                String meetingIdString = String.valueOf(meetingId);
+                JsonObject userJson = createGPSJSON(userIdString, meetingIdString);
                 //TODO refactoring
                 return HttpRequest.POST(com.android.lagger.serverConnection.URL.GET_POSITIONS, userJson);
             }
@@ -382,6 +390,39 @@ public class MapFragment extends Fragment {
         markerColors.put(7, (float) 330.0);
         markerColors.put(8, (float) 270.0);
         markerColors.put(9, (float) 60.0);
+    }
+
+    public LatLng getChosenPositon() {
+        return chosenPositon;
+    }
+
+    public static class MarkerColors {
+        private static HashMap<Integer, Float> markerColors;
+        private static int counter;
+
+        static {
+            counter = -1;
+            markerColors = new HashMap<Integer, Float>();
+            markerColors.put(0, (float) 210.0);
+            markerColors.put(1, (float) 240.0);
+            markerColors.put(2, (float) 180.0);
+            markerColors.put(3, (float) 120.0);
+            markerColors.put(4, (float) 300.0);
+            markerColors.put(5, (float) 30.0);
+            markerColors.put(6, (float) 0.0);
+            markerColors.put(7, (float) 330.0);
+            markerColors.put(8, (float) 270.0);
+            markerColors.put(9, (float) 60.0);
+        }
+
+        public static float getMarkerColor() {
+
+            if (counter < 9)
+                counter += 1;
+            else
+                counter = 0;
+            return markerColors.get(counter);
+        }
     }
 
     class GetDirection extends AsyncTask<String, String, String> {
@@ -479,39 +520,6 @@ public class MapFragment extends Fragment {
                 pDialog.dismiss();
             }
 
-        }
-    }
-
-    public LatLng getChosenPositon() {
-        return chosenPositon;
-    }
-
-    public static class MarkerColors {
-        private static HashMap<Integer, Float> markerColors;
-        private static int counter;
-
-        static {
-            counter = -1;
-            markerColors = new HashMap<Integer, Float>();
-            markerColors.put(0, (float) 210.0);
-            markerColors.put(1, (float) 240.0);
-            markerColors.put(2, (float) 180.0);
-            markerColors.put(3, (float) 120.0);
-            markerColors.put(4, (float) 300.0);
-            markerColors.put(5, (float) 30.0);
-            markerColors.put(6, (float) 0.0);
-            markerColors.put(7, (float) 330.0);
-            markerColors.put(8, (float) 270.0);
-            markerColors.put(9, (float) 60.0);
-        }
-
-        public static float getMarkerColor() {
-
-            if (counter < 9)
-                counter += 1;
-            else
-                counter = 0;
-            return markerColors.get(counter);
         }
     }
 }

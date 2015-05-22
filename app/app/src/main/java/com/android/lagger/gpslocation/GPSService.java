@@ -53,6 +53,22 @@ public class GPSService extends Service implements LocationListener {
         }
     }
 
+    public static int getMinDistanceChangeForUpdates() {
+        return MIN_DISTANCE_CHANGE_FOR_UPDATES;
+    }
+
+    public static void setMinDistanceChangeForUpdates(int minDistanceChangeForUpdates) {
+        MIN_DISTANCE_CHANGE_FOR_UPDATES = minDistanceChangeForUpdates;
+    }
+
+    public static int getMinTimeBwUpdates() {
+        return MIN_TIME_BW_UPDATES / 1000;
+    }
+
+    public static void setMinTimeBwUpdates(int minTimeBwUpdates) {
+        MIN_TIME_BW_UPDATES = minTimeBwUpdates * 1000;
+    }
+
     public Location getLocation() {
         try {
             locationManager = (LocationManager) context.getSystemService(LOCATION_SERVICE);
@@ -113,22 +129,6 @@ public class GPSService extends Service implements LocationListener {
         }
 
         return location;
-    }
-
-    public static int getMinDistanceChangeForUpdates() {
-        return MIN_DISTANCE_CHANGE_FOR_UPDATES;
-    }
-
-    public static int getMinTimeBwUpdates() {
-        return MIN_TIME_BW_UPDATES / 1000;
-    }
-
-    public static void setMinDistanceChangeForUpdates(int minDistanceChangeForUpdates) {
-        MIN_DISTANCE_CHANGE_FOR_UPDATES = minDistanceChangeForUpdates;
-    }
-
-    public static void setMinTimeBwUpdates(int minTimeBwUpdates) {
-        MIN_TIME_BW_UPDATES = minTimeBwUpdates * 1000;
     }
 
     public void stopUsingGPS() {
@@ -205,7 +205,7 @@ public class GPSService extends Service implements LocationListener {
             @Override
             protected String doInBackground(String... urls) {
                 Gson gson = new GsonHelper().getGson();
-                SendingPosition sendingPosition = new SendingPosition(State.getLoggedUserId(), new Date(), 1, coordinates.latitude, coordinates.longitude);
+                SendingPosition sendingPosition = new SendingPosition(State.getLoggedUserId(), new Date(), 2, coordinates.latitude, coordinates.longitude);
                 String userString = gson.toJson(sendingPosition);
                 JsonParser parser = new JsonParser();
                 JsonObject userJson = (JsonObject) parser.parse(userString);
