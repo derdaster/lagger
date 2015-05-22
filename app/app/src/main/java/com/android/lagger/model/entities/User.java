@@ -3,8 +3,6 @@ package com.android.lagger.model.entities;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.google.gson.JsonObject;
-
 /**
  * Created by Ewelina Klisowska on 2015-03-19.
  */
@@ -70,6 +68,16 @@ public class User implements Parcelable {
     }
 
     @Override
+    public boolean equals(Object object) {
+        boolean isEquals = false;
+        if (object != null && object instanceof User) {
+            User user = (User) object;
+            isEquals = id == user.getId();
+        }
+        return isEquals;
+    }
+
+    @Override
     public String toString() {
         return "User{" +
                 "id=" + id +
@@ -79,14 +87,6 @@ public class User implements Parcelable {
                 ", phone='" + phone + '\'' +
                 '}';
     }
-
-    public JsonObject createLoginJson() {
-        JsonObject jsonObject = new JsonObject();
-        jsonObject.addProperty("login", this.login);
-        jsonObject.addProperty("password", this.password);
-        return jsonObject;
-    }
-
 
     public static final Parcelable.Creator<User> CREATOR = new Parcelable.Creator<User>() {
         public User createFromParcel(Parcel in) {

@@ -18,7 +18,7 @@ public class AddMeetingRequest extends UserRequest {
     private Double longitude;
     private Date startTime;
     private Date endTime;
-    private List<Integer> userList;
+    private List<Integer> usersList;
 
     public AddMeetingRequest(Meeting meeting){
         super(meeting.getOrganizer().getId());
@@ -29,9 +29,9 @@ public class AddMeetingRequest extends UserRequest {
         this.startTime = meeting.getStartTime();
         this.endTime = meeting.getEndTime();
 
-        userList = new ArrayList<Integer>();
+        usersList = new ArrayList<Integer>();
         for(User u: meeting.getUserList()) {
-            userList.add(u.getId());
+            usersList.add(u.getId());
         }
     }
 

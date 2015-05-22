@@ -5,15 +5,11 @@ import android.app.FragmentTransaction;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.view.ViewPager;
-import android.support.v7.internal.view.menu.MenuView;
-import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.android.lagger.R;
 import com.android.lagger.logic.adapters.FriendsListAdapter;
@@ -21,18 +17,13 @@ import com.android.lagger.model.entities.Meeting;
 import com.android.lagger.model.entities.User;
 import com.android.lagger.requestObjects.AddMeetingRequest;
 import com.android.lagger.requestObjects.GetFriendsRequest;
-import com.android.lagger.serverConnection.HttpRequest;
-import com.android.lagger.serverConnection.URL;
+import com.android.lagger.responseObjects.GetFriendsResponse;
+import com.android.lagger.services.HttpClient;
 import com.android.lagger.settings.State;
+import com.android.lagger.tasks.AddMeetingTask;
 import com.android.lagger.tasks.GetFriendsTask;
-import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import com.melnykov.fab.FloatingActionButton;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -41,23 +32,21 @@ import java.util.List;
 public class MeetingWhoFragment extends Fragment {
     private View parent;
     private Context mContext;
-    private ViewPager parentPager;
-    private Button btnAdd;
     private ListView mList;
+    private FriendsListAdapter adapter;
     private FloatingActionButton leftBtn;
     private FloatingActionButton doneBtn;
     private FragmentTransaction fragmentTransaction;
-    private GetFriendsTask getFriendsTask;
 
-    private List<User> allFriendsList;
-    private List<User> choosenFriends;
+    private List<User> friendsList;
+    private List<User> chosenFriends;
 
     private Meeting meeting;
 
     public MeetingWhoFragment(Context context, Meeting meeting) {
         mContext = context;
         this.meeting = meeting;
-        choosenFriends = meeting.getUserList();
+        chosenFriends = meeting.getUserList();
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -68,23 +57,7 @@ public class MeetingWhoFragment extends Fragment {
 
         addButtonsAndListeners();
         getFriendList();
-        mList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                allFriendsList = getFriendsTask.getFriendsList();
-                ListView lv = (ListView) parent;
-                User friend = allFriendsList.get(position);
 
-                if(lv.isItemChecked(position)){
-                    choosenFriends.add(friend);
-                }
-                else{
-                    if(choosenFriends.contains(friend)){
-                        choosenFriends.remove(friend);
-                    }
-                }
-            }
-        });
         return parent;
     }
 
@@ -113,19 +86,57 @@ public class MeetingWhoFragment extends Fragment {
             public void onClick(View v) {
                 updateMeetingData();
                 AddMeetingRequest addMeetingRequest = new AddMeetingRequest(meeting);
-                //todo asynctask add meeting
+
+                AddMeetingTask addMeetingTask = new AddMeetingTask(mContext);
+                addMeetingTask.execute(addMeetingRequest);
+
             }
         });
     }
 
-    private void getFriendList(){
+    private void getFriendList() {
         GetFriendsRequest getFriendsRequest = new GetFriendsRequest(State.getLoggedUserId());
-        getFriendsTask = new GetFriendsTask(mContext, mList);
+        GetFriendsTask getFriendsTask = new GetFriendsTask();
         getFriendsTask.execute(getFriendsRequest);
     }
 
-    private void updateMeetingData(){
-        meeting.setUserList(choosenFriends);
+    private void updateMeetingData() {
+        chosenFriends = adapter.getChosenUsers();
+        meeting.setUserList(chosenFriends);
     }
+
+    private class GetFriendsTask extends AsyncTask<GetFriendsRequest, Void, GetFriendsResponse> {
+        private HttpClient client;
+
+        public GetFriendsTask() {
+            client = new HttpClient(mContext);
+        }
+
+        @Override
+        protected GetFriendsResponse doInBackground(GetFriendsRequest... params) {
+            return client.getFriends(params[0]);
+        }
+
+        protected void onPostExecute(final GetFriendsResponse resp) {
+            showResult(resp);
+        }
+
+        private void showResult(GetFriendsResponse resp) {
+            String info = "";
+            if (!resp.isError()) {
+                friendsList = resp.getFriends();
+                adapter = new FriendsListAdapter(mContext, friendsList, true, chosenFriends);
+                mList.setAdapter(adapter);
+            } else {
+                info = resp.getResponse();
+                showInfo(info);
+            }
+        }
+
+        private void showInfo(String info) {
+            Toast.makeText(mContext, info, Toast.LENGTH_SHORT).show();
+        }
+    }
+
 }
 

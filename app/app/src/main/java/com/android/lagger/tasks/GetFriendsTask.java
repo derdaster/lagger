@@ -47,7 +47,7 @@ public class GetFriendsTask extends AsyncTask<GetFriendsRequest, Void, GetFriend
         String info = "";
         if (!resp.isError()) {
             friendsList = resp.getFriends();
-            adapter = new FriendsListAdapter(context, friendsList, true);
+            adapter = new FriendsListAdapter(context, friendsList, true, null);
             mList.setAdapter(adapter);
         } else {
             info = resp.getResponse();

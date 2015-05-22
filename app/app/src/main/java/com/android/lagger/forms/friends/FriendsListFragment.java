@@ -133,7 +133,7 @@ public class FriendsListFragment extends Fragment {
             if (!resp.isError()) {
                 setAllFriendsAndPartitionIndex(resp);
 
-                adapter = new FriendsListAdapter(mContext, allFriendsList, false);
+                adapter = new FriendsListAdapter(mContext, allFriendsList, false, null);
 
                 mHeaderPositions = new Integer[]{INDEX_OF_INVITED, INDEX_OF_INVITATION_END};
 
