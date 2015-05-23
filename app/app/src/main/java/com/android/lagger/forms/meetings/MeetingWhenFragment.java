@@ -61,6 +61,8 @@ public class MeetingWhenFragment extends Fragment {
         mContext = context;
         this.meeting = meeting;
         this.isEditMode = isEditMode;
+        startDate = meeting.getStartTime();
+        endDate = meeting.getEndTime();
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

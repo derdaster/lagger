@@ -48,7 +48,7 @@ public class MeetingWhoFragment extends Fragment {
     public MeetingWhoFragment(Context context, Meeting meeting, Boolean isEditMode) {
         mContext = context;
         this.meeting = meeting;
-        chosenFriends = meeting.getUserList();
+        chosenFriends = meeting.getUsersList();
         this.isEditMode = isEditMode;
     }
 
@@ -122,7 +122,7 @@ public class MeetingWhoFragment extends Fragment {
 
     private void updateMeetingData() {
         chosenFriends = adapter.getChosenUsers();
-        meeting.setUserList(chosenFriends);
+        meeting.setUsersList(chosenFriends);
     }
 
     private class GetFriendsTask extends AsyncTask<GetFriendsRequest, Void, GetFriendsResponse> {

@@ -30,7 +30,7 @@ public class AddMeetingRequest extends UserRequest {
         this.endTime = meeting.getEndTime();
 
         usersList = new ArrayList<Integer>();
-        for(User u: meeting.getUserList()) {
+        for(User u: meeting.getUsersList()) {
             usersList.add(u.getId());
         }
     }

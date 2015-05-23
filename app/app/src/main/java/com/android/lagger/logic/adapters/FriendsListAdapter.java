@@ -94,7 +94,9 @@ public class FriendsListAdapter extends BaseAdapter {
     private void updateChosenUsers(boolean b, final int position) {
         User chosenFriend = dataUser.get(position);
         if (b) {
-            chosenUsers.add(chosenFriend);
+            if (!chosenUsers.contains(chosenFriend)) {
+                chosenUsers.add(chosenFriend);
+            }
         } else {
             if (chosenUsers.contains(chosenFriend)) {
                 chosenUsers.remove(chosenFriend);
