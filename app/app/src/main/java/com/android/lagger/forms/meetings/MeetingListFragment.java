@@ -68,8 +68,6 @@ public class MeetingListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_meeting_list, container, false);
-
-
         mList = (ListView) rootView.findViewById(R.id.meeting_list);
 
         btnAdd = (FloatingActionButton) rootView.findViewById(R.id.btnAddMeeting);

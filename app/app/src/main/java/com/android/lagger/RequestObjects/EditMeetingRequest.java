@@ -11,6 +11,7 @@ import java.util.List;
  * Created by Ewelina Klisowska on 2015-05-23.
  */
 public class EditMeetingRequest extends UserRequest {
+    private Integer idMeeting;
     private String name;
     private String locationName;
     private Double latitude;
@@ -21,6 +22,7 @@ public class EditMeetingRequest extends UserRequest {
 
     public EditMeetingRequest(Integer idUser, Meeting meeting){
         super(idUser);
+        this.idMeeting = meeting.getId();
         this.name = meeting.getName();
         this.locationName = meeting.getLocationName();
         this.latitude = meeting.getLatitude();
