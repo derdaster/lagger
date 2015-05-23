@@ -24,6 +24,7 @@ public class FriendsListAdapter extends BaseAdapter {
     private static LayoutInflater inflater = null;
     private Boolean isCheckboxNeeded;
     private List<User> chosenUsers;
+    private CheckBox checkBox;
 
     public FriendsListAdapter(Context inContext, List<User> d, Boolean inIsCheckboxNeeded, List<User> chosenFriends) {
         mContext = inContext;
@@ -38,6 +39,10 @@ public class FriendsListAdapter extends BaseAdapter {
 
     public List<User> getChosenUsers() {
         return chosenUsers;
+    }
+
+    public CheckBox getCheckBox() {
+        return checkBox;
     }
 
     public int getCount() {
@@ -73,19 +78,17 @@ public class FriendsListAdapter extends BaseAdapter {
 
     private void setCheckbox(View vi, final int position, boolean checked) {
 
-        CheckBox cb = (CheckBox) vi.findViewById(R.id.checkBoxFriend);
+        checkBox = (CheckBox) vi.findViewById(R.id.checkBoxFriend);
         if (isCheckboxNeeded) {
-            cb.setVisibility(View.VISIBLE);
+            checkBox.setVisibility(View.VISIBLE);
+            checkBox.setChecked(checked);
         }
-
-        cb.setOncheckListener(new CheckBox.OnCheckListener() {
+        checkBox.setOncheckListener(new CheckBox.OnCheckListener() {
             @Override
             public void onCheck(boolean b) {
                 updateChosenUsers(b, position);
             }
         });
-
-        cb.setChecked(checked);
     }
 
     private void updateChosenUsers(boolean b, final int position) {

@@ -90,6 +90,10 @@ public class MeetingWhoFragment extends Fragment {
                 AddMeetingTask addMeetingTask = new AddMeetingTask(mContext);
                 addMeetingTask.execute(addMeetingRequest);
 
+                fragmentTransaction = getFragmentManager().beginTransaction();
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.replace(R.id.container_body, new MeetingListFragment(mContext)).commit();
+
             }
         });
     }

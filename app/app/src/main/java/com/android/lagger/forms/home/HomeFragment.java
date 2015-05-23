@@ -184,7 +184,7 @@ public class HomeFragment extends Fragment {
                 if (i <= INDEX_OF_NEAREST) {
                     //showInvitationDialog(allMeetings.get(i - 1));
                 } else {
-                    showMeetingDialog(allMeetings.get(i - 2));
+//                    showMeetingDialog(allMeetings.get(i - 2));
                 }
             }
         });
