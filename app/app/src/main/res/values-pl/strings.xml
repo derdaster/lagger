@@ -58,4 +58,5 @@
     <string name="server_code_message_503">Serwer jest aktualnie niedostępny (ponieważ jest przeciążony lub w trwają prace konserwacyjne)</string>
     <string name="error_occurred">Wystąpił błąd: </string>
     <string name="create_meeting">Utworzono spotkanie</string>
+    <string name="saved_changes">Zapisano zmiany</string>
 </resources>

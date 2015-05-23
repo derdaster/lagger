@@ -71,5 +71,6 @@
     <string name="server_code_message_503">The server is currently unavailable (because it is overloaded or down for maintenance)</string>
     <string name="error_occurred">The error occurred: </string>
     <string name="create_meeting">Create the meeting</string>
+    <string name="saved_changes">Saved changes</string>
 
 </resources>

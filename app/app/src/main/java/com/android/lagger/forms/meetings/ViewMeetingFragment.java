@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.lagger.R;
 import com.android.lagger.model.entities.Meeting;
@@ -59,7 +60,7 @@ public class ViewMeetingFragment extends Fragment {
             btnAccept.setVisibility(View.INVISIBLE);
             btnRefuse.setVisibility(View.INVISIBLE);
         } else {
-            addButtonsAndListeners();
+            addListenersForBtns();
         }
         return parent;
     }
@@ -72,35 +73,38 @@ public class ViewMeetingFragment extends Fragment {
         labelOrganizer = (TextView) getView().findViewById(R.id.labelOrganizer);
         labelWhere = (TextView) getView().findViewById(R.id.labelWhere);
 
-        insertMeetingDetails();
+        meeting = insertMeetingDetails();
+        setBtnEditVisibilityForUser(meeting.getOrganizer());
+
+        //TODO insert map
     }
 
-    private void insertMeetingDetails() {
+    private Meeting insertMeetingDetails() {
         Bundle extras = getArguments();
-        meeting = extras.getParcelable("meeting");
+        Meeting meeting = extras.getParcelable("meeting");
         user = meeting.getOrganizer();
 
-        isOrganizer = State.getLoggedUserId() == meeting.getOrganizer().getId();
-        if (!isOrganizer) {
-            btnEdit.setVisibility(View.INVISIBLE);
-        }
         labelMeetingName.setText(meeting.getName());
         labelWhen.setText(Parser.parseDate(meeting.getStartTime()));
         labelWhere.setText(meeting.getLocationName());
         labelOrganizer.setText(user.getLogin());
 
-        //TODO insert map
+        return meeting;
     }
 
-    public void addButtonsAndListeners() {
+    private void setBtnEditVisibilityForUser(final User user){
+        isOrganizer = State.getLoggedUserId() == user.getId();
+        if (!isOrganizer) {
+            btnEdit.setVisibility(View.INVISIBLE);
+        }
+    }
+
+    public void addListenersForBtns() {
         btnAccept.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 AcceptMeetingTask.acceptMeeting(meeting.getId(), true, mContext);
-
-                fragmentTransaction = getFragmentManager().beginTransaction();
-                fragmentTransaction.replace(R.id.container_body, new MeetingListFragment(mContext)).commit();
-
+                replaceWithFragment(new MeetingListFragment(mContext));
             }
         });
 
@@ -108,12 +112,23 @@ public class ViewMeetingFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 AcceptMeetingTask.acceptMeeting(meeting.getId(), false, mContext);
-
-                fragmentTransaction = getFragmentManager().beginTransaction();
-                fragmentTransaction.replace(R.id.container_body, new MeetingListFragment(mContext)).commit();
+                replaceWithFragment(new MeetingListFragment(mContext));
             }
         });
 
+        btnEdit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(mContext, "click", Toast.LENGTH_SHORT).show();
+                replaceWithFragment(new MeetingWhenFragment(mContext, meeting));
+            }
+        });
+    }
+
+    private void replaceWithFragment(Fragment fragment){
+        fragmentTransaction = getFragmentManager().beginTransaction();
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.replace(R.id.container_body, fragment).commit();
     }
 
     @Override

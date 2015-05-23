@@ -84,7 +84,7 @@ public class HomeFragment extends Fragment {
                 userIdJson.addProperty("idUser", State.getLoggedUserId());
 
                 String meetings = HttpRequest.POST(URL.GET_MEETINGS, userIdJson);
-                String invitations = HttpRequest.POST(URL.GET_INVITATIONS, userIdJson);
+                String invitations = HttpRequest.POST(URL.GET_MEETING_INVITATIONS, userIdJson);
 
                 meetings = meetings.substring(0, meetings.length() - 1);
                 invitations = invitations.substring(1, invitations.length());
