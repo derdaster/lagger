@@ -35,15 +35,4 @@ public class AddMeetingRequest extends UserRequest {
         }
     }
 
-//    public AddMeetingRequest(Integer idUser, String name, String locationName, Double latitude,
-//                             Double longitude, Date startTime, Date endTime, List<Integer> userList) {
-//        super(idUser);
-//        this.name = name;
-//        this.locationName = locationName;
-//        this.latitude = latitude;
-//        this.longitude = longitude;
-//        this.startTime = startTime;
-//        this.endTime = endTime;
-//        this.userList = userList;
-//    }
 }

@@ -56,12 +56,12 @@ public class ViewMeetingFragment extends Fragment {
         btnRefuse = (FloatingActionButton) parent.findViewById(R.id.btnRefuseMeeting);
         btnEdit = (FloatingActionButton) parent.findViewById(R.id.btnEditMeeting);
 
+        addListenersForBtns();
         if (isReadOnly) {
             btnAccept.setVisibility(View.INVISIBLE);
             btnRefuse.setVisibility(View.INVISIBLE);
-        } else {
-            addListenersForBtns();
         }
+
         return parent;
     }
 
@@ -119,8 +119,7 @@ public class ViewMeetingFragment extends Fragment {
         btnEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(mContext, "click", Toast.LENGTH_SHORT).show();
-                replaceWithFragment(new MeetingWhenFragment(mContext, meeting));
+                replaceWithFragment(new MeetingWhenFragment(mContext, meeting, true));
             }
         });
     }

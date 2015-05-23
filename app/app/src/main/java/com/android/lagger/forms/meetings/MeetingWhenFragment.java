@@ -45,6 +45,7 @@ public class MeetingWhenFragment extends Fragment {
     private SimpleDateFormat timeFormat;
     private static final String TIME_PATTERN = "HH:mm";
     private FragmentTransaction fragmentTransaction;
+    private boolean isEditMode;
 
     private EditText meetingNameEditText;
 
@@ -52,12 +53,14 @@ public class MeetingWhenFragment extends Fragment {
 
     public MeetingWhenFragment(Context context) {
         mContext = context;
+        isEditMode = false;
         meeting = new Meeting();
     }
 
-    public MeetingWhenFragment(Context context, Meeting meeting) {
+    public MeetingWhenFragment(Context context, Meeting meeting, Boolean isEditMode) {
         mContext = context;
         this.meeting = meeting;
+        this.isEditMode = isEditMode;
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -172,7 +175,7 @@ public class MeetingWhenFragment extends Fragment {
 
                 fragmentTransaction = getFragmentManager().beginTransaction();
                 fragmentTransaction.addToBackStack(null);
-                fragmentTransaction.replace(R.id.container_body, new MeetingWhereFragment(mContext, meeting)).commit();
+                fragmentTransaction.replace(R.id.container_body, new MeetingWhereFragment(mContext, meeting, isEditMode)).commit();
             }
         });
     }

@@ -38,10 +38,12 @@ public class MeetingWhereFragment extends Fragment {
     private GoogleMap googleMap;
     private LatLng chosenPositon;
     private Meeting meeting;
+    private Boolean isEditMode;
 
-    public MeetingWhereFragment(Context context, Meeting meeting) {
+    public MeetingWhereFragment(Context context, Meeting meeting, Boolean isEditMode) {
         mContext = context;
         this.meeting = meeting;
+        this.isEditMode = isEditMode;
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -145,13 +147,13 @@ public class MeetingWhereFragment extends Fragment {
         leftBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                updateDataAndReplaceToFragment(new MeetingWhenFragment(mContext, meeting));
+                updateDataAndReplaceToFragment(new MeetingWhenFragment(mContext, meeting, isEditMode));
             }
         });
         rightBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                updateDataAndReplaceToFragment(new MeetingWhoFragment(mContext, meeting));
+                updateDataAndReplaceToFragment(new MeetingWhoFragment(mContext, meeting, isEditMode));
             }
         });
     }

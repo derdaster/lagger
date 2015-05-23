@@ -16,12 +16,13 @@ import com.android.lagger.logic.adapters.FriendsListAdapter;
 import com.android.lagger.model.entities.Meeting;
 import com.android.lagger.model.entities.User;
 import com.android.lagger.requestObjects.AddMeetingRequest;
+import com.android.lagger.requestObjects.EditMeetingRequest;
 import com.android.lagger.requestObjects.GetFriendsRequest;
 import com.android.lagger.responseObjects.GetFriendsResponse;
 import com.android.lagger.services.HttpClient;
 import com.android.lagger.settings.State;
 import com.android.lagger.tasks.AddMeetingTask;
-import com.android.lagger.tasks.GetFriendsTask;
+import com.android.lagger.tasks.EditMeetingTask;
 import com.melnykov.fab.FloatingActionButton;
 
 import java.util.List;
@@ -42,18 +43,19 @@ public class MeetingWhoFragment extends Fragment {
     private List<User> chosenFriends;
 
     private Meeting meeting;
+    private Boolean isEditMode;
 
-    public MeetingWhoFragment(Context context, Meeting meeting) {
+    public MeetingWhoFragment(Context context, Meeting meeting, Boolean isEditMode) {
         mContext = context;
         this.meeting = meeting;
         chosenFriends = meeting.getUserList();
+        this.isEditMode = isEditMode;
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         parent = inflater.inflate(R.layout.fragment_meeting_who, container, false);
         mContext = getActivity().getApplicationContext();
         mList = (ListView) parent.findViewById(R.id.guestList);
-
 
         addButtonsAndListeners();
         getFriendList();
@@ -76,7 +78,7 @@ public class MeetingWhoFragment extends Fragment {
 
                 fragmentTransaction = getFragmentManager().beginTransaction();
                 fragmentTransaction.addToBackStack(null);
-                fragmentTransaction.replace(R.id.container_body, new MeetingWhereFragment(mContext, meeting)).commit();
+                fragmentTransaction.replace(R.id.container_body, new MeetingWhereFragment(mContext, meeting, isEditMode)).commit();
             }
         });
 
@@ -85,18 +87,32 @@ public class MeetingWhoFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 updateMeetingData();
-                AddMeetingRequest addMeetingRequest = new AddMeetingRequest(meeting);
-
-                AddMeetingTask addMeetingTask = new AddMeetingTask(mContext);
-                addMeetingTask.execute(addMeetingRequest);
+                if (isEditMode) {
+                    updateCurrentMeeting();
+                } else {
+                    createNewMeeting();
+                }
 
                 fragmentTransaction = getFragmentManager().beginTransaction();
                 fragmentTransaction.addToBackStack(null);
                 fragmentTransaction.replace(R.id.container_body, new MeetingListFragment(mContext)).commit();
-
             }
         });
     }
+
+    private void updateCurrentMeeting() {
+        EditMeetingRequest editMeetingReq = new EditMeetingRequest(State.getLoggedUserId(), meeting);
+        EditMeetingTask editMeetingTask = new EditMeetingTask(mContext);
+        editMeetingTask.execute(editMeetingReq);
+    }
+
+    private void createNewMeeting() {
+        AddMeetingRequest addMeetingRequest = new AddMeetingRequest(meeting);
+
+        AddMeetingTask addMeetingTask = new AddMeetingTask(mContext);
+        addMeetingTask.execute(addMeetingRequest);
+    }
+
 
     private void getFriendList() {
         GetFriendsRequest getFriendsRequest = new GetFriendsRequest(State.getLoggedUserId());
