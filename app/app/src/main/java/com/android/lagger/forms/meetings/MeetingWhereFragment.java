@@ -33,7 +33,6 @@ public class MeetingWhereFragment extends Fragment {
     private View parent;
     private Context mContext;
     private ViewPager parentPager;
-    private Button btnLocation;
     private MapView mMapView;
     private GoogleMap googleMap;
     private LatLng chosenPositon;
@@ -131,18 +130,13 @@ public class MeetingWhereFragment extends Fragment {
     }
 
     private void initialize() {
-        btnLocation = (Button) parent.findViewById(R.id.btnLocation);
         leftBtn = (FloatingActionButton) parent.findViewById(R.id.btnLeftPager);
         rightBtn = (FloatingActionButton) parent.findViewById(R.id.btnRightPager);
 
     }
 
     public void addListeners() {
-        btnLocation.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-            }
-        });
+
 
         leftBtn.setOnClickListener(new View.OnClickListener() {
             @Override

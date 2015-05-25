@@ -18,6 +18,7 @@ import com.android.lagger.R;
 import com.android.lagger.model.entities.Meeting;
 import com.android.lagger.model.entities.User;
 import com.android.lagger.settings.State;
+import com.gc.materialdesign.views.ButtonRectangle;
 import com.melnykov.fab.FloatingActionButton;
 
 import java.text.DateFormat;
@@ -34,10 +35,10 @@ public class MeetingWhenFragment extends Fragment {
     private Context mContext;
     private ViewPager parentPager;
     private FloatingActionButton rightBtn;
-    private Button btnDateStart;
-    private Button btnTimeStart;
-    private Button btnDateEnd;
-    private Button btnTimeEnd;
+    private ButtonRectangle btnDateStart;
+    private ButtonRectangle btnTimeStart;
+    private ButtonRectangle btnDateEnd;
+    private ButtonRectangle btnTimeEnd;
     private Calendar calendar;
     private Date startDate;
     private Date endDate;
@@ -82,10 +83,11 @@ public class MeetingWhenFragment extends Fragment {
         timeFormat = new SimpleDateFormat(TIME_PATTERN, Locale.getDefault());
 
         meetingNameEditText = (EditText) parent.findViewById(R.id.editTextMeeting);
-        btnDateStart = (Button) parent.findViewById(R.id.btnDatePickerStart);
-        btnTimeStart = (Button) parent.findViewById(R.id.btnTimePickerStart);
-        btnDateEnd = (Button) parent.findViewById(R.id.btnDatePickerEnd);
-        btnTimeEnd = (Button) parent.findViewById(R.id.btnTimePickerEnd);
+        btnDateStart = (ButtonRectangle) parent.findViewById(R.id.btnDatePickerStart);
+        btnTimeStart = (ButtonRectangle) parent.findViewById(R.id.btnTimePickerStart);
+        btnDateEnd = (ButtonRectangle) parent.findViewById(R.id.btnDatePickerEnd);
+        btnTimeEnd = (ButtonRectangle) parent.findViewById(R.id.btnTimePickerEnd);
+
 
         showMeetingDetailsOnView();
         addListeners();
