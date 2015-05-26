@@ -104,9 +104,9 @@ public class HomeFragment extends Fragment {
                 allMeetings = parseMeetings(result);
 
                 if (current.size() == 0)
-                    adapter = new MeetingListAdapter(mContext, allMeetings, -1, -1);
+                    adapter = new MeetingListAdapter(mContext, getFragmentManager(),allMeetings, -1, -1);
                 else
-                    adapter = new MeetingListAdapter(mContext, allMeetings, 0, INDEX_OF_NEAREST - 1);
+                    adapter = new MeetingListAdapter(mContext, getFragmentManager(),allMeetings, 0, INDEX_OF_NEAREST - 1);
                 addSections();
                 createSimpleSecionedListAdapter(adapter);
                 addOnClickListenerDependingToIndex(mList);

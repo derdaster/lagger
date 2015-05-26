@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import com.android.lagger.R;
 import com.android.lagger.gpslocation.GPSService;
 import com.gc.materialdesign.views.Slider;
+import com.gc.materialdesign.views.Switch;
 
 /**
  * Created by Kubaa on 2015-05-10.
@@ -20,6 +21,7 @@ public class SettingsFragment extends Fragment {
     private View parent;
     Slider sliderDistance;
     Slider sliderTime;
+    Switch switchGPS;
 
     public SettingsFragment() {
 
@@ -35,9 +37,14 @@ public class SettingsFragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         mContext = getActivity().getApplicationContext();
         sliderDistance = (Slider) getActivity().findViewById(R.id.sliderDistance);
-        sliderDistance.setValue(GPSService.getMinDistanceChangeForUpdates());
+        int x=GPSService.getMinDistanceChangeForUpdates();
+        sliderDistance.setValue(x);
+        x=GPSService.getMinTimeBwUpdates();
         sliderTime = (Slider) getActivity().findViewById(R.id.sliderTime);
-        sliderTime.setValue(GPSService.getMinTimeBwUpdates());
+        sliderTime.setValue(x+100);
+        switchGPS = (Switch) getActivity().findViewById(R.id.switchView);
+        switchGPS.setChecked(GPSService.isGPSTracking());
+
         addListenerOnLoginButton();
     }
 
@@ -58,11 +65,20 @@ public class SettingsFragment extends Fragment {
         }
     }
 
+    class SwitchGPSListener implements Switch.OnCheckListener {
+
+        @Override
+        public void onCheck(boolean b) {
+            GPSService.setGPSTracking(b);
+        }
+    }
+
     public void addListenerOnLoginButton() {
         sliderDistance.setOnValueChangedListener(new SliderDistanceListener() {
         });
         sliderTime.setOnValueChangedListener(new SliderTimeListener() {
         });
+        switchGPS.setOncheckListener(new SwitchGPSListener());
     }
 
 
