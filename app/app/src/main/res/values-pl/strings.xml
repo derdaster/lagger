@@ -59,4 +59,23 @@
     <string name="error_occurred">Wystąpił błąd: </string>
     <string name="create_meeting">Utworzono spotkanie</string>
     <string name="saved_changes">Zapisano zmiany</string>
+    <string name="dialog_confirm">Potwierdź</string>
+    <string name="dialog_delete_friend">"Czy chcesz usunąć tego znajomego?"</string>
+    <string name="dialog_invitation_friend">"Czy chcesz zaakceptować zaproszenie od znajomego?"</string>
+    <string name="dialog_meeting">"Co chcesz zrobić z tym spotkaniem?"</string>
+    <string name="dialog_meeting_refuse">"Czy chcesz odmówić udziału w tym spotkaniu?"</string>
+    <string name="dialog_meeting_delete">"Czy chcesz usunąć to spotkanie?"</string>
+    <string name="dialog_invitation_meeting">"Czy chcesz wziąć udział w tym spotkaniu?"</string>
+    <string name="position_tracking">"Śledzenie pozycji"</string>
+    <string name="time_tracking">"Śledzony czas"</string>
+    <string name="distance_tracking">"Śledzona odległość"</string>
+    <string name="password">"Hasło"</string>
+    <string name="add_friend">"Dodaj znajomego"</string>
+    <string name="meeting_name">"Nazwa spotkania:"</string>
+    <string name="starting_date">"Data rozpoczęcia:"</string>
+    <string name="ending_date">"Data zakończenia:"</string>
+    <string name="meeting_place">"Miejsce spotkania:"</string>
+    <string name="when">"Kiedy?"</string>
+    <string name="where">"Gdzie?"</string>
+    <string name="organizer">"Organizator:"</string>
 </resources>

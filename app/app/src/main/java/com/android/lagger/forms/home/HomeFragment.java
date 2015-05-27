@@ -13,6 +13,8 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.android.lagger.R;
+import com.android.lagger.controls.basic.DeleteDialog;
+import com.android.lagger.controls.basic.InvitationDialog;
 import com.android.lagger.controls.basic.SomeDialog;
 import com.android.lagger.logic.adapters.MeetingListAdapter;
 import com.android.lagger.model.entities.Meeting;
@@ -193,7 +195,7 @@ public class HomeFragment extends Fragment {
     private void showMeetingDialog(Meeting meeting) {
 
         fragmentTransaction = getFragmentManager().beginTransaction();
-        SomeDialog newFragment = new SomeDialog(mContext, "Confirm", "What do you want to do with this meeting?", SomeDialog.MEETING_DELETE_TYPE);
+        InvitationDialog newFragment = new InvitationDialog(mContext, mContext.getResources().getString(R.string.dialog_confirm), mContext.getResources().getString(R.string.dialog_meeting), InvitationDialog.MEETING_INVITATION_TYPE);
         newFragment.show(fragmentTransaction, "dialog");
 
         Bundle details = new Bundle();

@@ -15,9 +15,6 @@ import com.android.lagger.forms.meetings.MeetingListFragment;
 import com.android.lagger.forms.meetings.ViewMeetingFragment;
 import com.android.lagger.model.entities.Meeting;
 import com.android.lagger.model.entities.User;
-import com.android.lagger.requestObjects.AddFriendRequest;
-import com.android.lagger.requestObjects.RemoveFriendRequest;
-import com.android.lagger.requestObjects.RemoveMeetingRequest;
 import com.android.lagger.settings.State;
 import com.android.lagger.tasks.AcceptMeetingTask;
 import com.android.lagger.tasks.AddFriendTask;
@@ -25,9 +22,9 @@ import com.android.lagger.tasks.RemoveFriendTask;
 import com.android.lagger.tasks.RemoveMeetingTask;
 
 /**
- * Created by Kubaa on 2015-04-03.
+ * Created by Kubaa on 2015-05-27.
  */
-public class SomeDialog extends DialogFragment {
+public class InvitationDialog extends DialogFragment {
 
     private String title;
     private String message;
@@ -36,16 +33,13 @@ public class SomeDialog extends DialogFragment {
     private FragmentTransaction fragmentTransaction;
     private Context mContext;
     public static final String MEETING_INVITATION_TYPE = "meetingInvitation";
-    public static final String MEETING_DELETE_TYPE = "meeting";
-    public static final String FRIEND_TYPE = "friend";
     public static final String FRIEND_INVITATION_TYPE = "friendInvitation";
-    public static final String MEETING_REFUSE_TYPE = "refuseMeeting";
 
 
-    public SomeDialog() {
+    public InvitationDialog() {
     }
 
-    public SomeDialog(Context inContext, String inTitle, String inMessage, String inDialogType) {
+    public InvitationDialog(Context inContext, String inTitle, String inMessage, String inDialogType) {
         title = inTitle;
         message = inMessage;
         mContext = inContext;
@@ -59,15 +53,6 @@ public class SomeDialog extends DialogFragment {
         switch (dialogType) {
             case MEETING_INVITATION_TYPE:
                 dialog = createInvitationMeetingDialog();
-                break;
-            case MEETING_DELETE_TYPE:
-                dialog = deleteMeetingDialog();
-                break;
-            case MEETING_REFUSE_TYPE:
-                dialog = refuseMeetingDialog();
-                break;
-            case FRIEND_TYPE:
-                dialog = createFriendDialog();
                 break;
             case FRIEND_INVITATION_TYPE:
                 dialog = createInvitationFriendDialog();
@@ -111,59 +96,6 @@ public class SomeDialog extends DialogFragment {
                 .create();
     }
 
-    private AlertDialog deleteMeetingDialog() {
-        Bundle extras = getArguments();
-        final Meeting meeting = extras.getParcelable("meeting");
-
-        return new AlertDialog.Builder(getActivity())
-                .setTitle(title)
-                .setMessage(message)
-                .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        RemoveMeetingRequest removeMeetingRequest = new RemoveMeetingRequest(State.getLoggedUserId(), meeting.getId());
-                        RemoveMeetingTask removeMeetingTask = new RemoveMeetingTask(mContext);
-                        removeMeetingTask.execute(removeMeetingRequest);
-
-                        fragmentTransaction = getFragmentManager().beginTransaction();
-                        fragmentTransaction.replace(R.id.container_body, new MeetingListFragment(mContext)).commit();
-                    }
-                })
-                .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-//                        fragmentTransaction = getFragmentManager().beginTransaction();
-//                        fragmentTransaction.replace(R.id.container_body, new MeetingListFragment()).commit();
-                    }
-                })
-                .create();
-    }
-
-    private AlertDialog refuseMeetingDialog() {
-        Bundle extras = getArguments();
-        final Meeting meeting = extras.getParcelable("meeting");
-
-        return new AlertDialog.Builder(getActivity())
-                .setTitle(title)
-                .setMessage(message)
-                .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        AcceptMeetingTask.acceptMeeting(meeting.getId(), false, mContext);
-
-                        fragmentTransaction = getFragmentManager().beginTransaction();
-                        fragmentTransaction.replace(R.id.container_body, new MeetingListFragment(mContext)).commit();
-                    }
-                })
-                .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                    }
-                })
-                .create();
-    }
-
-
     private AlertDialog createInvitationFriendDialog() {
         Bundle extras = getArguments();
         final User friend = extras.getParcelable("friend");
@@ -174,7 +106,7 @@ public class SomeDialog extends DialogFragment {
                 .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        AddFriendRequest addFriendRequest = new AddFriendRequest(State.getLoggedUserId(), friend.getId());
+                        com.android.lagger.requestObjects.AddFriendRequest addFriendRequest = new com.android.lagger.requestObjects.AddFriendRequest(State.getLoggedUserId(), friend.getId());
                         AddFriendTask addFriendTask = new AddFriendTask(mContext, false);
                         addFriendTask.execute(addFriendRequest);
 
@@ -193,32 +125,9 @@ public class SomeDialog extends DialogFragment {
                 .create();
     }
 
-    private AlertDialog createFriendDialog() {
-        Bundle extras = getArguments();
-        final User friend = extras.getParcelable("friend");
-
-        return new AlertDialog.Builder(getActivity())
-                .setTitle(title)
-                .setMessage(message)
-                .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        deleteFriend(friend, false);
-                        fragmentTransaction = getFragmentManager().beginTransaction();
-                        fragmentTransaction.replace(R.id.container_body, new FriendsListFragment(mContext)).commit();
-                    }
-                })
-                .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-
-                    }
-                })
-                .create();
-    }
 
     private void deleteFriend(User friend, Boolean isInvitation) {
-        RemoveFriendRequest removeFriendRequest = new RemoveFriendRequest(State.getLoggedUserId(), friend.getId());
+        com.android.lagger.requestObjects.RemoveFriendRequest removeFriendRequest = new com.android.lagger.requestObjects.RemoveFriendRequest(State.getLoggedUserId(), friend.getId());
 
         RemoveFriendTask removeFriendTask = new RemoveFriendTask(mContext, isInvitation);
         removeFriendTask.execute(removeFriendRequest);

@@ -28,7 +28,7 @@
             android:textColor="@color/color_wet_asphalt"
             android:textSize="20dp"
             android:gravity="left"
-            android:text="When?"
+            android:text="@string/when"
             android:paddingBottom="10dp"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content" />
@@ -47,7 +47,7 @@
             android:textColor="@color/color_wet_asphalt"
             android:textSize="20dp"
             android:gravity="left"
-            android:text="Where?"
+            android:text="@string/where"
             android:paddingBottom="10dp"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content" />
@@ -71,7 +71,7 @@
             android:textColor="@color/color_wet_asphalt"
             android:textSize="20dp"
             android:gravity="left"
-            android:text="Organizer:"
+            android:text="@string/organizer"
             android:paddingBottom="10dp"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content" />

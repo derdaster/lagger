@@ -24,7 +24,7 @@
                 android:textColor="@color/color_wet_asphalt"
                 android:textSize="18dp"
                 android:gravity="left"
-                android:text="Meeting place"
+                android:text="@string/meeting_place"
                 android:paddingBottom="10dp"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content" />

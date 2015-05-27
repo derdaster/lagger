@@ -15,6 +15,9 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.android.lagger.R;
+import com.android.lagger.controls.basic.DeleteDialog;
+import com.android.lagger.controls.basic.InvitationDialog;
+import com.android.lagger.controls.basic.RefuseDialog;
 import com.android.lagger.controls.basic.SomeDialog;
 import com.android.lagger.logic.adapters.MeetingListAdapter;
 import com.android.lagger.model.entities.Meeting;
@@ -156,7 +159,7 @@ public class MeetingListFragment extends Fragment {
     private void showInvitationDialog(Meeting meeting) {
 
         fragmentTransaction = getFragmentManager().beginTransaction();
-        SomeDialog newFragment = new SomeDialog(mContext, "Confirm", "Do you want to accept this meeting invitation?", SomeDialog.MEETING_INVITATION_TYPE);
+        InvitationDialog newFragment = new InvitationDialog(mContext, mContext.getResources().getString(R.string.dialog_confirm), mContext.getResources().getString(R.string.dialog_invitation_meeting), InvitationDialog.MEETING_INVITATION_TYPE);
         newFragment.show(fragmentTransaction, "dialog");
 
         Bundle details = new Bundle();
@@ -168,7 +171,7 @@ public class MeetingListFragment extends Fragment {
     private void showDeleteMeetingDialog(Meeting meeting) {
 
         fragmentTransaction = getFragmentManager().beginTransaction();
-        SomeDialog newFragment = new SomeDialog(mContext, "Confirm", "Do you want to delete this meeting?", SomeDialog.MEETING_DELETE_TYPE);
+        DeleteDialog newFragment = new DeleteDialog(mContext, mContext.getResources().getString(R.string.dialog_confirm), mContext.getResources().getString(R.string.dialog_meeting_delete), DeleteDialog.MEETING_DELETE_TYPE);
         newFragment.show(fragmentTransaction, "dialog");
 
         Bundle details = new Bundle();
@@ -180,7 +183,7 @@ public class MeetingListFragment extends Fragment {
     private void showRefuseMeetingDialog(Meeting meeting) {
 
         fragmentTransaction = getFragmentManager().beginTransaction();
-        SomeDialog newFragment = new SomeDialog(mContext, "Confirm", "Do you want to refuse this meeting?", SomeDialog.MEETING_REFUSE_TYPE);
+        RefuseDialog newFragment = new RefuseDialog(mContext, mContext.getResources().getString(R.string.dialog_confirm), mContext.getResources().getString(R.string.dialog_meeting_refuse));
         newFragment.show(fragmentTransaction, "dialog");
 
         Bundle details = new Bundle();

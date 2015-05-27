@@ -17,7 +17,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:textSize="18dp"
-            android:text="Position tracking"
+            android:text="@string/position_tracking"
             android:textColor="@color/color_wet_asphalt"
             android:typeface="sans"
             android:layout_gravity="center_vertical"
@@ -42,12 +42,11 @@
         android:weightSum="1">
 
         <TextView
-            android:id="@+id/tvvv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="18dp"
             android:paddingLeft="30dp"
-            android:text="Tracking time"
+            android:text="@string/time_tracking"
             android:textColor="@color/color_wet_asphalt"
             android:typeface="sans"
             android:layout_gravity="center_vertical"
@@ -74,12 +73,11 @@
         android:weightSum="1">
 
         <TextView
-            android:id="@+id/tvvv2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="18dp"
             android:paddingLeft="30dp"
-            android:text="Tracking distance"
+            android:text="@string/distance_tracking"
             android:textColor="@color/color_wet_asphalt"
             android:typeface="sans"
             android:layout_gravity="center_vertical"

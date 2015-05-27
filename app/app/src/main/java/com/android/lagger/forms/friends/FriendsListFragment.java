@@ -14,6 +14,8 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.android.lagger.R;
+import com.android.lagger.controls.basic.DeleteDialog;
+import com.android.lagger.controls.basic.InvitationDialog;
 import com.android.lagger.controls.basic.SomeDialog;
 import com.android.lagger.logic.adapters.FriendsListAdapter;
 import com.android.lagger.model.entities.User;
@@ -96,7 +98,7 @@ public class FriendsListFragment extends Fragment {
     private void showFriendInvitationDialog(User friend) {
 
         fragmentTransaction = fragmentManager.beginTransaction();
-        SomeDialog friendInvitationDialog = new SomeDialog(mContext, "Confirm", "Do you want to accept this friend invitation?", SomeDialog.FRIEND_INVITATION_TYPE);
+        InvitationDialog friendInvitationDialog = new InvitationDialog(mContext, mContext.getResources().getString(R.string.dialog_confirm),mContext.getResources().getString(R.string.dialog_invitation_friend) , InvitationDialog.FRIEND_INVITATION_TYPE);
         friendInvitationDialog.show(fragmentTransaction, "dialog");
 
         Bundle details = new Bundle();
@@ -106,7 +108,7 @@ public class FriendsListFragment extends Fragment {
     }
 
     private void showFriendDeleteDialog(User friend) {
-        SomeDialog friendDeleteDialog = new SomeDialog(mContext, "Confirm", "Do you want to delete this friend?", SomeDialog.FRIEND_TYPE);
+        DeleteDialog friendDeleteDialog = new DeleteDialog(mContext, mContext.getResources().getString(R.string.dialog_confirm), mContext.getResources().getString(R.string.dialog_delete_friend), DeleteDialog.FRIEND_DELETE_TYPE);
 
         Bundle details = new Bundle();
         details.putParcelable("friend", friend);
