@@ -6,10 +6,12 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.android.lagger.R;
 import com.android.lagger.gpslocation.GPSService;
 import com.gc.materialdesign.views.Slider;
+import com.gc.materialdesign.views.Switch;
 
 /**
  * Created by Kubaa on 2015-05-10.
@@ -20,6 +22,7 @@ public class SettingsFragment extends Fragment {
     private View parent;
     Slider sliderDistance;
     Slider sliderTime;
+    Switch sw;
 
     public SettingsFragment() {
 
@@ -38,6 +41,8 @@ public class SettingsFragment extends Fragment {
         sliderDistance.setValue(GPSService.getMinDistanceChangeForUpdates());
         sliderTime = (Slider) getActivity().findViewById(R.id.sliderTime);
         sliderTime.setValue(GPSService.getMinTimeBwUpdates());
+        sw = (Switch) getActivity().findViewById(R.id.switchView);
+
         addListenerOnLoginButton();
     }
 
@@ -62,6 +67,20 @@ public class SettingsFragment extends Fragment {
         sliderDistance.setOnValueChangedListener(new SliderDistanceListener() {
         });
         sliderTime.setOnValueChangedListener(new SliderTimeListener() {
+        });
+
+        sw.setOncheckListener(new Switch.OnCheckListener() {
+            @Override
+            public void onCheck(boolean b) {
+                if(b == true)
+                {
+
+                }
+                else
+                {
+
+                }
+            }
         });
     }
 
