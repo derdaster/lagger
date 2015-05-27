@@ -1,5 +1,7 @@
 package com.android.lagger.logic.adapters;
 
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,6 +10,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.android.lagger.R;
+import com.android.lagger.gpslocation.MapFragment;
 import com.android.lagger.model.entities.Meeting;
 import com.android.lagger.settings.Parser;
 import com.melnykov.fab.FloatingActionButton;
@@ -25,13 +28,16 @@ public class MeetingListAdapter extends BaseAdapter {
     private int indexOfFirstActualMeeting;
     private int indexOfLastActualMeeting;
     private static LayoutInflater inflater = null;
+    private int actualPosition;
+    private FragmentManager fragmentManager;
 
-    public MeetingListAdapter(Context inContext, List<Meeting> d, int inIndexOfFirstActualMeeting, int inIndexOfLastActualMeeting) {
+    public MeetingListAdapter(Context inContext, FragmentManager fragmentManager,List<Meeting> d, int inIndexOfFirstActualMeeting, int inIndexOfLastActualMeeting) {
         mContext = inContext;
         data = d;
         indexOfFirstActualMeeting = inIndexOfFirstActualMeeting;
         indexOfLastActualMeeting = inIndexOfLastActualMeeting;
         inflater = (LayoutInflater) inContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        this.fragmentManager=fragmentManager;
     }
 
     public int getCount() {
@@ -53,7 +59,16 @@ public class MeetingListAdapter extends BaseAdapter {
 
         FloatingActionButton buttonMap = (FloatingActionButton) vi.findViewById(R.id.btnMap);
         if (indexOfFirstActualMeeting >= 0 && position >= indexOfFirstActualMeeting && position <= indexOfLastActualMeeting) {
+            actualPosition=position;
             buttonMap.setVisibility(View.VISIBLE);
+            buttonMap.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                    fragmentTransaction.addToBackStack(null);
+                    fragmentTransaction.replace(R.id.container_body, new MapFragment(data.get(actualPosition).getId())).commit();
+                }
+            });
         }
 
         TextView title = (TextView) vi.findViewById(R.id.tvTitleMeeting);

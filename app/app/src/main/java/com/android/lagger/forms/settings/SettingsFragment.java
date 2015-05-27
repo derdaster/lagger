@@ -22,7 +22,7 @@ public class SettingsFragment extends Fragment {
     private View parent;
     Slider sliderDistance;
     Slider sliderTime;
-    Switch sw;
+    Switch switchGPS;
 
     public SettingsFragment() {
 
@@ -38,10 +38,13 @@ public class SettingsFragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         mContext = getActivity().getApplicationContext();
         sliderDistance = (Slider) getActivity().findViewById(R.id.sliderDistance);
-        sliderDistance.setValue(GPSService.getMinDistanceChangeForUpdates());
+        int x=GPSService.getMinDistanceChangeForUpdates();
+        sliderDistance.setValue(x);
+        x=GPSService.getMinTimeBwUpdates();
         sliderTime = (Slider) getActivity().findViewById(R.id.sliderTime);
-        sliderTime.setValue(GPSService.getMinTimeBwUpdates());
-        sw = (Switch) getActivity().findViewById(R.id.switchView);
+        sliderTime.setValue(x+100);
+        switchGPS = (Switch) getActivity().findViewById(R.id.switchView);
+        switchGPS.setChecked(GPSService.isGPSTracking());
 
         addListenerOnLoginButton();
     }
@@ -60,6 +63,14 @@ public class SettingsFragment extends Fragment {
         @Override
         public void onValueChanged(int i) {
             GPSService.setMinTimeBwUpdates(i);
+        }
+    }
+
+    class SwitchGPSListener implements Switch.OnCheckListener {
+
+        @Override
+        public void onCheck(boolean b) {
+            GPSService.setGPSTracking(b);
         }
     }
 
@@ -82,6 +93,7 @@ public class SettingsFragment extends Fragment {
                 }
             }
         });
+        switchGPS.setOncheckListener(new SwitchGPSListener());
     }
 
 

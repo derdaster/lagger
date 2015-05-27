@@ -228,7 +228,7 @@ public class MeetingListFragment extends Fragment {
             if (!resp.isError()) {
                 setAllMeetingsAndPartitionIndex(resp);
 
-                adapter = new MeetingListAdapter(mContext, allMeetings, -1, -1);
+                adapter = new MeetingListAdapter(mContext,fragmentManager, allMeetings, -1, -1);
                 addSections();
                 createSimpleSectionedListAdapter(adapter);
                 addOnClickListenerDependingToIndex(mList);

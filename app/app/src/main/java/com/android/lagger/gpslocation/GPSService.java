@@ -31,10 +31,12 @@ import java.util.Date;
 public class GPSService extends Service implements LocationListener {
 
 
-    private static int MIN_DISTANCE_CHANGE_FOR_UPDATES = 5;
-    private static int MIN_TIME_BW_UPDATES = 1000 * 20 * 1;
+    private static int MIN_DISTANCE_CHANGE_FOR_UPDATES;
+    private static int MIN_TIME_BW_UPDATES;
+    private static boolean ALLOW_GPS_TRACKING;
     private final Context context;
-    protected LocationManager locationManager;
+    private static LocationManager locationManager;
+    private static LocationListener locationListener;
     boolean isGPSEnabled = false;
     boolean isNetworkEnabled = false;
     boolean canGetLocation = false;
@@ -44,12 +46,35 @@ public class GPSService extends Service implements LocationListener {
     private LatLng coordinates;
     private ArrayList<LatLng> coordinatesList;
 
+    static{
+        ALLOW_GPS_TRACKING=true;
+        MIN_DISTANCE_CHANGE_FOR_UPDATES = 100;
+        MIN_TIME_BW_UPDATES = 1000 * 20 * 1;
+    }
     public GPSService(Context context) {
         this.context = context;
         getLocation();
         coordinatesList = new ArrayList();
         if (coordinates != null && coordinates.latitude != 0 && coordinates.longitude != 0) {
             sendLocation();
+        }
+        locationListener = this;
+    }
+
+    public static boolean isGPSTracking() {
+        return ALLOW_GPS_TRACKING;
+    }
+
+    public static void setGPSTracking(boolean ALLOW_GPS_TRACKING) {
+        GPSService.ALLOW_GPS_TRACKING = ALLOW_GPS_TRACKING;
+        if (locationListener != null ) {
+            if(GPSService.isGPSTracking()==false)
+            locationManager.removeUpdates(locationListener);
+            else
+                locationManager.requestLocationUpdates(
+                        LocationManager.GPS_PROVIDER,
+                        MIN_TIME_BW_UPDATES,
+                        MIN_DISTANCE_CHANGE_FOR_UPDATES, locationListener);
         }
     }
 
@@ -105,7 +130,7 @@ public class GPSService extends Service implements LocationListener {
 
                 }
 
-                if (isGPSEnabled) {
+                if (isGPSEnabled && ALLOW_GPS_TRACKING) {
                     if (location == null) {
                         locationManager.requestLocationUpdates(
                                 LocationManager.GPS_PROVIDER,

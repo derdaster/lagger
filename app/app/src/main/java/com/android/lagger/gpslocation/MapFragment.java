@@ -89,7 +89,6 @@ public class MapFragment extends Fragment {
 //        tempUser.addGPSPosition(new LatLng(50.808434, 19.128928));
 //        tempUser.addGPSPosition(new LatLng(50.825787, 19.126696));
 
-        // inflat and return the layout
         View v = inflater.inflate(R.layout.fragment_test_map, container,
                 false);
         mMapView = (MapView) v.findViewById(R.id.mapView);
