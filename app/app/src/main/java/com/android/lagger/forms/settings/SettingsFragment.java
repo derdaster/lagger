@@ -80,19 +80,6 @@ public class SettingsFragment extends Fragment {
         sliderTime.setOnValueChangedListener(new SliderTimeListener() {
         });
 
-        sw.setOncheckListener(new Switch.OnCheckListener() {
-            @Override
-            public void onCheck(boolean b) {
-                if(b == true)
-                {
-
-                }
-                else
-                {
-
-                }
-            }
-        });
         switchGPS.setOncheckListener(new SwitchGPSListener());
     }
 
