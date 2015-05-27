@@ -44,6 +44,7 @@ public class GPSService extends Service implements LocationListener {
     double latitude;
     double longitude;
     private LatLng coordinates;
+    private Integer meetingId;
     private ArrayList<LatLng> coordinatesList;
 
     static{
@@ -52,15 +53,27 @@ public class GPSService extends Service implements LocationListener {
         MIN_TIME_BW_UPDATES = 1000 * 20 * 1;
     }
     public GPSService(Context context) {
+        this.meetingId=-1;
         this.context = context;
         getLocation();
         coordinatesList = new ArrayList();
-        if (coordinates != null && coordinates.latitude != 0 && coordinates.longitude != 0) {
+        if (coordinates != null && coordinates.latitude != 0 && coordinates.longitude != 0 && meetingId!=-1) {
             sendLocation();
         }
         locationListener = this;
     }
 
+    public GPSService(Context context,Integer meetingId) {
+        this.context = context;
+        this.meetingId=meetingId;
+        getLocation();
+        coordinatesList = new ArrayList();
+        if (coordinates != null && coordinates.latitude != 0 && coordinates.longitude != 0) {
+            sendLocation();
+        }
+
+        locationListener = this;
+    }
     public static boolean isGPSTracking() {
         return ALLOW_GPS_TRACKING;
     }
@@ -215,7 +228,7 @@ public class GPSService extends Service implements LocationListener {
         if (location != null) {
             coordinates = new LatLng(location.getLatitude(), location.getLongitude());
         }
-        if (coordinates != null && coordinates.latitude != 0 && coordinates.longitude != 0) {
+        if (coordinates != null && coordinates.latitude != 0 && coordinates.longitude != 0 && meetingId!=-1) {
             sendLocation();
         }
 //        Toast.makeText(
@@ -230,7 +243,7 @@ public class GPSService extends Service implements LocationListener {
             @Override
             protected String doInBackground(String... urls) {
                 Gson gson = new GsonHelper().getGson();
-                SendingPosition sendingPosition = new SendingPosition(State.getLoggedUserId(), new Date(), 2, coordinates.latitude, coordinates.longitude);
+                SendingPosition sendingPosition = new SendingPosition(State.getLoggedUserId(), new Date(), meetingId, coordinates.latitude, coordinates.longitude);
                 String userString = gson.toJson(sendingPosition);
                 JsonParser parser = new JsonParser();
                 JsonObject userJson = (JsonObject) parser.parse(userString);
