@@ -8,7 +8,6 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
 import com.android.lagger.R;
 import com.android.lagger.gpslocation.GPSService;
@@ -74,7 +73,7 @@ public class MeetingWhereFragment extends Fragment {
                 setMarkerOnMap(latLng);
             }
         });
-        GPSService gpsService = new GPSService(this.getActivity().getApplicationContext());
+        GPSService gpsService = new GPSService(mContext);
         if (gpsService.canGetLocation()) {
             gpsService.getLatitude();
 
