@@ -15,7 +15,6 @@ import android.widget.ListView;
 import com.android.lagger.R;
 import com.android.lagger.controls.basic.DeleteDialog;
 import com.android.lagger.controls.basic.InvitationDialog;
-import com.android.lagger.controls.basic.SomeDialog;
 import com.android.lagger.logic.adapters.MeetingListAdapter;
 import com.android.lagger.model.entities.Meeting;
 import com.android.lagger.serverConnection.GsonHelper;

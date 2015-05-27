@@ -56,6 +56,8 @@ public class MeetingWhenFragment extends Fragment {
         mContext = context;
         isEditMode = false;
         meeting = new Meeting();
+        endDate = new Date();
+        startDate = new Date();
     }
 
     public MeetingWhenFragment(Context context, Meeting meeting, Boolean isEditMode) {

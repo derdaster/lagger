@@ -16,7 +16,6 @@ import android.widget.Toast;
 import com.android.lagger.R;
 import com.android.lagger.controls.basic.DeleteDialog;
 import com.android.lagger.controls.basic.InvitationDialog;
-import com.android.lagger.controls.basic.SomeDialog;
 import com.android.lagger.logic.adapters.FriendsListAdapter;
 import com.android.lagger.model.entities.User;
 import com.android.lagger.requestObjects.GetFriendInvitationsRequest;

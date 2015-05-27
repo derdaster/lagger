@@ -211,6 +211,7 @@ public class HttpRequest {
 
             final StatusLine statusLine = httpResponse.getStatusLine();
             Integer statusCode = statusLine.getStatusCode();
+            String statusMessage = statusLine.getReasonPhrase();
 
             if (statusCode == 200) {
                 result = getResponseFromHttp(httpResponse);
@@ -219,7 +220,7 @@ public class HttpRequest {
             } else {
                 result = getErrorMessage(statusCode);
                 response = new ResponseObject(result, true);
-                Log.e("HttpRequest.POST()", statusCode + ": " + statusLine.getStatusCode());
+                Log.e("HttpRequest.POST()", statusCode + ": " + statusLine.getStatusCode() + " reason: " + statusMessage);
             }
         } catch (IOException e) {
             e.printStackTrace();
