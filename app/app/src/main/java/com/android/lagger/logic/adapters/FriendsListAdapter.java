@@ -1,10 +1,12 @@
 package com.android.lagger.logic.adapters;
 
 import android.content.Context;
+import android.media.Image;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.lagger.R;
@@ -24,7 +26,6 @@ public class FriendsListAdapter extends BaseAdapter {
     private static LayoutInflater inflater = null;
     private Boolean isCheckboxNeeded;
     private List<User> chosenUsers;
-    private CheckBox checkBox;
 
     public FriendsListAdapter(Context inContext, List<User> d, Boolean inIsCheckboxNeeded, List<User> chosenFriends) {
         mContext = inContext;
@@ -41,10 +42,6 @@ public class FriendsListAdapter extends BaseAdapter {
         return chosenUsers;
     }
 
-    public CheckBox getCheckBox() {
-        return checkBox;
-    }
-
     public int getCount() {
         return dataUser.size();
     }
@@ -58,37 +55,38 @@ public class FriendsListAdapter extends BaseAdapter {
     }
 
     public View getView(final int position, View convertView, ViewGroup parent) {
-        View vi = convertView;
+        ViewHolder holder;
         if (convertView == null) {
-            vi = inflater.inflate(R.layout.listview_row_friends, null);
-        }
+            convertView = inflater.inflate(R.layout.listview_row_friends, null);
+            holder = new ViewHolder();
+            holder.checkBox = (CheckBox) convertView.findViewById(R.id.checkBoxFriend);
+            holder.name = (TextView) convertView.findViewById(R.id.tvName);
+            holder.image = (ImageView) convertView.findViewById(R.id.ivIconFriend);
 
-        TextView name = (TextView) vi.findViewById(R.id.tvName);
-        name.setText(dataUser.get(position).getLogin() + " (" + dataUser.get(position).getEmail() + ")");
-
-
-        if (chosenUsers.contains(dataUser.get(position))) {
-            setCheckbox(vi, position, true);
+            convertView.setTag(holder);
         } else {
-            setCheckbox(vi, position, false);
+            holder = (ViewHolder) convertView.getTag();
         }
+        holder.name.setText(dataUser.get(position).getLogin() + " (" + dataUser.get(position).getEmail() + ")");
 
-        return vi;
-    }
-
-    private void setCheckbox(View vi, final int position, boolean checked) {
-
-        checkBox = (CheckBox) vi.findViewById(R.id.checkBoxFriend);
         if (isCheckboxNeeded) {
-            checkBox.setVisibility(View.VISIBLE);
-            checkBox.setChecked(checked);
+            holder.checkBox.setVisibility(View.VISIBLE);
         }
-        checkBox.setOncheckListener(new CheckBox.OnCheckListener() {
+
+        holder.checkBox.setOncheckListener(new CheckBox.OnCheckListener() {
             @Override
             public void onCheck(boolean b) {
                 updateChosenUsers(b, position);
             }
         });
+
+        if (chosenUsers.contains(dataUser.get(position))) {
+            holder.checkBox.setChecked(true);
+        }
+        else{
+            holder.checkBox.setChecked(false);
+        }
+        return convertView;
     }
 
     private void updateChosenUsers(boolean b, final int position) {
@@ -102,5 +100,11 @@ public class FriendsListAdapter extends BaseAdapter {
                 chosenUsers.remove(chosenFriend);
             }
         }
+    }
+
+    private class ViewHolder{
+        CheckBox checkBox;
+        TextView name;
+        ImageView image;
     }
 }

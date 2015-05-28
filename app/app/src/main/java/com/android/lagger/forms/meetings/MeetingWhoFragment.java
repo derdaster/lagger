@@ -57,8 +57,8 @@ public class MeetingWhoFragment extends Fragment {
         mContext = getActivity().getApplicationContext();
         mList = (ListView) parent.findViewById(R.id.guestList);
 
-        addButtonsAndListeners();
         getFriendList();
+        addButtonsAndListeners();
 
         return parent;
     }

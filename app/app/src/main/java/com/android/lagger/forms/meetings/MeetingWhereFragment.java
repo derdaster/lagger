@@ -8,6 +8,7 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 
 import com.android.lagger.R;
 import com.android.lagger.gpslocation.GPSService;
@@ -34,9 +35,11 @@ public class MeetingWhereFragment extends Fragment {
     private ViewPager parentPager;
     private MapView mMapView;
     private GoogleMap googleMap;
-    private LatLng chosenPositon;
+    private LatLng chosenPosition;
     private Meeting meeting;
     private Boolean isEditMode;
+
+    private EditText locationEditTxt;
 
     public MeetingWhereFragment(Context context, Meeting meeting, Boolean isEditMode) {
         mContext = context;
@@ -99,7 +102,7 @@ public class MeetingWhereFragment extends Fragment {
     }
 
     private void setMarkerOnMap(LatLng latLng) {
-        chosenPositon = latLng;
+        chosenPosition = latLng;
         // Creating a marker
         MarkerOptions markerOptions = new MarkerOptions();
 
@@ -118,9 +121,6 @@ public class MeetingWhereFragment extends Fragment {
 
         // Placing a marker on the touched position
         googleMap.addMarker(markerOptions);
-
-        meeting.setLatitude(latLng.latitude);
-        meeting.setLongitude(latLng.longitude);
     }
 
     @Override
@@ -129,13 +129,15 @@ public class MeetingWhereFragment extends Fragment {
     }
 
     private void initialize() {
+        locationEditTxt = (EditText) parent.findViewById(R.id.editTextLocation);
+        if(meeting != null){
+            locationEditTxt.setText(meeting.getLocationName());
+        }
         leftBtn = (FloatingActionButton) parent.findViewById(R.id.btnLeftPager);
         rightBtn = (FloatingActionButton) parent.findViewById(R.id.btnRightPager);
-
     }
 
     public void addListeners() {
-
 
         leftBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -161,10 +163,9 @@ public class MeetingWhereFragment extends Fragment {
     }
 
     private void updateMeetingData() {
-        //FIXME set meeting name
-        meeting.setLocationName("test location name");
-        meeting.setLatitude(chosenPositon.latitude);
-        meeting.setLongitude(chosenPositon.longitude);
+        meeting.setLocationName(locationEditTxt.getText().toString());
+        meeting.setLatitude(chosenPosition.latitude);
+        meeting.setLongitude(chosenPosition.longitude);
     }
 
 }
