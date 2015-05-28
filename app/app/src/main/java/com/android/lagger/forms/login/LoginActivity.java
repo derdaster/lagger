@@ -56,6 +56,7 @@ public class LoginActivity extends ActionBarActivity {
 
             @Override
             public void onClick(View arg0) {
+                loginBtn.setEnabled(false);
                 login();
             }
         });
@@ -96,6 +97,7 @@ public class LoginActivity extends ActionBarActivity {
                 enableAccess(loginResp);
             } else {
                 incorrectData(status);
+                loginBtn.setEnabled(true);
             }
         }
 

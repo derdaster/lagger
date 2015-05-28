@@ -1,10 +1,12 @@
 package com.android.lagger.logic.adapters;
 
 import android.content.Context;
+import android.media.Image;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.lagger.R;
@@ -53,49 +55,56 @@ public class FriendsListAdapter extends BaseAdapter {
     }
 
     public View getView(final int position, View convertView, ViewGroup parent) {
-        View vi = convertView;
+        ViewHolder holder;
         if (convertView == null) {
-            vi = inflater.inflate(R.layout.listview_row_friends, null);
-        }
+            convertView = inflater.inflate(R.layout.listview_row_friends, null);
+            holder = new ViewHolder();
+            holder.checkBox = (CheckBox) convertView.findViewById(R.id.checkBoxFriend);
+            holder.name = (TextView) convertView.findViewById(R.id.tvName);
+            holder.image = (ImageView) convertView.findViewById(R.id.ivIconFriend);
 
-        TextView name = (TextView) vi.findViewById(R.id.tvName);
-        name.setText(dataUser.get(position).getLogin() + " (" + dataUser.get(position).getEmail() + ")");
-
-
-        if (chosenUsers.contains(dataUser.get(position))) {
-            setCheckbox(vi, position, true);
+            convertView.setTag(holder);
         } else {
-            setCheckbox(vi, position, false);
+            holder = (ViewHolder) convertView.getTag();
         }
+        holder.name.setText(dataUser.get(position).getLogin() + " (" + dataUser.get(position).getEmail() + ")");
 
-        return vi;
-    }
-
-    private void setCheckbox(View vi, final int position, boolean checked) {
-
-        CheckBox cb = (CheckBox) vi.findViewById(R.id.checkBoxFriend);
         if (isCheckboxNeeded) {
-            cb.setVisibility(View.VISIBLE);
+            holder.checkBox.setVisibility(View.VISIBLE);
         }
 
-        cb.setOncheckListener(new CheckBox.OnCheckListener() {
+        holder.checkBox.setOncheckListener(new CheckBox.OnCheckListener() {
             @Override
             public void onCheck(boolean b) {
                 updateChosenUsers(b, position);
             }
         });
 
-        cb.setChecked(checked);
+        if (chosenUsers.contains(dataUser.get(position))) {
+            holder.checkBox.setChecked(true);
+        }
+        else{
+            holder.checkBox.setChecked(false);
+        }
+        return convertView;
     }
 
     private void updateChosenUsers(boolean b, final int position) {
         User chosenFriend = dataUser.get(position);
         if (b) {
-            chosenUsers.add(chosenFriend);
+            if (!chosenUsers.contains(chosenFriend)) {
+                chosenUsers.add(chosenFriend);
+            }
         } else {
             if (chosenUsers.contains(chosenFriend)) {
                 chosenUsers.remove(chosenFriend);
             }
         }
+    }
+
+    private class ViewHolder{
+        CheckBox checkBox;
+        TextView name;
+        ImageView image;
     }
 }

@@ -3,6 +3,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     xmlns:materialdesign="http://schemas.android.com/apk/res-auto"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
     android:layout_height="match_parent">
 
     <LinearLayout
@@ -16,7 +17,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:textSize="18dp"
-            android:text="Position tracking"
+            android:text="@string/position_tracking"
             android:textColor="@color/color_wet_asphalt"
             android:typeface="sans"
             android:layout_gravity="center_vertical"
@@ -29,8 +30,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:background="#1E88E5"
-            android:layout_weight="1"
-            materialdesign:check="true" />
+            android:layout_weight="1" />
 
 
     </LinearLayout>
@@ -46,7 +46,7 @@
             android:layout_height="wrap_content"
             android:textSize="18dp"
             android:paddingLeft="30dp"
-            android:text="Tracking time"
+            android:text="@string/time_tracking"
             android:textColor="@color/color_wet_asphalt"
             android:typeface="sans"
             android:layout_gravity="center_vertical"
@@ -61,8 +61,8 @@
             android:layout_gravity="center_vertical"
             android:background="#1E88E5"
             android:layout_weight="0.4"
-            materialdesign:max="30"
-            materialdesign:min="10"
+            materialdesign:max="200"
+            materialdesign:min="50"
             materialdesign:showNumberIndicator="true" />
     </LinearLayout>
 
@@ -77,13 +77,12 @@
             android:layout_height="wrap_content"
             android:textSize="18dp"
             android:paddingLeft="30dp"
-            android:text="Tracking distance"
+            android:text="@string/distance_tracking"
             android:textColor="@color/color_wet_asphalt"
             android:typeface="sans"
             android:layout_gravity="center_vertical"
             android:textStyle="bold"
             android:layout_weight="0.6" />
-
 
         <com.gc.materialdesign.views.Slider
             android:id="@+id/sliderDistance"
@@ -94,7 +93,6 @@
             android:layout_weight="0.4"
             materialdesign:max="200"
             materialdesign:min="50"
-
             materialdesign:showNumberIndicator="true" />
     </LinearLayout>
 

@@ -8,7 +8,7 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.EditText;
 
 import com.android.lagger.R;
 import com.android.lagger.gpslocation.GPSService;
@@ -33,15 +33,18 @@ public class MeetingWhereFragment extends Fragment {
     private View parent;
     private Context mContext;
     private ViewPager parentPager;
-    private Button btnLocation;
     private MapView mMapView;
     private GoogleMap googleMap;
-    private LatLng chosenPositon;
+    private LatLng chosenPosition;
     private Meeting meeting;
+    private Boolean isEditMode;
 
-    public MeetingWhereFragment(Context context, Meeting meeting) {
+    private EditText locationEditTxt;
+
+    public MeetingWhereFragment(Context context, Meeting meeting, Boolean isEditMode) {
         mContext = context;
         this.meeting = meeting;
+        this.isEditMode = isEditMode;
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -73,7 +76,7 @@ public class MeetingWhereFragment extends Fragment {
                 setMarkerOnMap(latLng);
             }
         });
-        GPSService gpsService = new GPSService(this.getActivity().getApplicationContext());
+        GPSService gpsService = new GPSService(mContext);
         if (gpsService.canGetLocation()) {
             gpsService.getLatitude();
 
@@ -99,7 +102,7 @@ public class MeetingWhereFragment extends Fragment {
     }
 
     private void setMarkerOnMap(LatLng latLng) {
-        chosenPositon = latLng;
+        chosenPosition = latLng;
         // Creating a marker
         MarkerOptions markerOptions = new MarkerOptions();
 
@@ -118,9 +121,6 @@ public class MeetingWhereFragment extends Fragment {
 
         // Placing a marker on the touched position
         googleMap.addMarker(markerOptions);
-
-        meeting.setLatitude(latLng.latitude);
-        meeting.setLongitude(latLng.longitude);
     }
 
     @Override
@@ -129,29 +129,26 @@ public class MeetingWhereFragment extends Fragment {
     }
 
     private void initialize() {
-        btnLocation = (Button) parent.findViewById(R.id.btnLocation);
+        locationEditTxt = (EditText) parent.findViewById(R.id.editTextLocation);
+        if(meeting != null){
+            locationEditTxt.setText(meeting.getLocationName());
+        }
         leftBtn = (FloatingActionButton) parent.findViewById(R.id.btnLeftPager);
         rightBtn = (FloatingActionButton) parent.findViewById(R.id.btnRightPager);
-
     }
 
     public void addListeners() {
-        btnLocation.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-            }
-        });
 
         leftBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                updateDataAndReplaceToFragment(new MeetingWhenFragment(mContext, meeting));
+                updateDataAndReplaceToFragment(new MeetingWhenFragment(mContext, meeting, isEditMode));
             }
         });
         rightBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                updateDataAndReplaceToFragment(new MeetingWhoFragment(mContext, meeting));
+                updateDataAndReplaceToFragment(new MeetingWhoFragment(mContext, meeting, isEditMode));
             }
         });
     }
@@ -166,10 +163,9 @@ public class MeetingWhereFragment extends Fragment {
     }
 
     private void updateMeetingData() {
-        //FIXME set meeting name
-        meeting.setLocationName("test location name");
-        meeting.setLatitude(chosenPositon.latitude);
-        meeting.setLongitude(chosenPositon.longitude);
+        meeting.setLocationName(locationEditTxt.getText().toString());
+        meeting.setLatitude(chosenPosition.latitude);
+        meeting.setLongitude(chosenPosition.longitude);
     }
 
 }

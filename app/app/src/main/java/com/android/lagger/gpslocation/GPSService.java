@@ -31,10 +31,12 @@ import java.util.Date;
 public class GPSService extends Service implements LocationListener {
 
 
-    private static int MIN_DISTANCE_CHANGE_FOR_UPDATES = 5;
-    private static int MIN_TIME_BW_UPDATES = 1000 * 20 * 1;
+    private static int MIN_DISTANCE_CHANGE_FOR_UPDATES;
+    private static int MIN_TIME_BW_UPDATES;
+    private static boolean ALLOW_GPS_TRACKING;
     private final Context context;
-    protected LocationManager locationManager;
+    private static LocationManager locationManager;
+    private static LocationListener locationListener;
     boolean isGPSEnabled = false;
     boolean isNetworkEnabled = false;
     boolean canGetLocation = false;
@@ -42,14 +44,50 @@ public class GPSService extends Service implements LocationListener {
     double latitude;
     double longitude;
     private LatLng coordinates;
+    private Integer meetingId;
     private ArrayList<LatLng> coordinatesList;
 
+    static{
+        ALLOW_GPS_TRACKING=true;
+        MIN_DISTANCE_CHANGE_FOR_UPDATES = 100;
+        MIN_TIME_BW_UPDATES = 1000 * 20 * 1;
+    }
     public GPSService(Context context) {
+        this.meetingId=-1;
         this.context = context;
+        getLocation();
+        coordinatesList = new ArrayList();
+        if (coordinates != null && coordinates.latitude != 0 && coordinates.longitude != 0 && meetingId!=-1) {
+            sendLocation();
+        }
+        locationListener = this;
+    }
+
+    public GPSService(Context context,Integer meetingId) {
+        this.context = context;
+        this.meetingId=meetingId;
         getLocation();
         coordinatesList = new ArrayList();
         if (coordinates != null && coordinates.latitude != 0 && coordinates.longitude != 0) {
             sendLocation();
+        }
+
+        locationListener = this;
+    }
+    public static boolean isGPSTracking() {
+        return ALLOW_GPS_TRACKING;
+    }
+
+    public static void setGPSTracking(boolean ALLOW_GPS_TRACKING) {
+        GPSService.ALLOW_GPS_TRACKING = ALLOW_GPS_TRACKING;
+        if (locationListener != null ) {
+            if(GPSService.isGPSTracking()==false)
+            locationManager.removeUpdates(locationListener);
+            else
+                locationManager.requestLocationUpdates(
+                        LocationManager.GPS_PROVIDER,
+                        MIN_TIME_BW_UPDATES,
+                        MIN_DISTANCE_CHANGE_FOR_UPDATES, locationListener);
         }
     }
 
@@ -105,7 +143,7 @@ public class GPSService extends Service implements LocationListener {
 
                 }
 
-                if (isGPSEnabled) {
+                if (isGPSEnabled && ALLOW_GPS_TRACKING) {
                     if (location == null) {
                         locationManager.requestLocationUpdates(
                                 LocationManager.GPS_PROVIDER,
@@ -190,7 +228,7 @@ public class GPSService extends Service implements LocationListener {
         if (location != null) {
             coordinates = new LatLng(location.getLatitude(), location.getLongitude());
         }
-        if (coordinates != null && coordinates.latitude != 0 && coordinates.longitude != 0) {
+        if (coordinates != null && coordinates.latitude != 0 && coordinates.longitude != 0 && meetingId!=-1) {
             sendLocation();
         }
 //        Toast.makeText(
@@ -205,7 +243,7 @@ public class GPSService extends Service implements LocationListener {
             @Override
             protected String doInBackground(String... urls) {
                 Gson gson = new GsonHelper().getGson();
-                SendingPosition sendingPosition = new SendingPosition(State.getLoggedUserId(), new Date(), 2, coordinates.latitude, coordinates.longitude);
+                SendingPosition sendingPosition = new SendingPosition(State.getLoggedUserId(), new Date(), meetingId, coordinates.latitude, coordinates.longitude);
                 String userString = gson.toJson(sendingPosition);
                 JsonParser parser = new JsonParser();
                 JsonObject userJson = (JsonObject) parser.parse(userString);

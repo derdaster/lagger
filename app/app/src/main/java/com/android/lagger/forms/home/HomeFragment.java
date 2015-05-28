@@ -13,7 +13,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.android.lagger.R;
-import com.android.lagger.controls.basic.SomeDialog;
+import com.android.lagger.controls.basic.InvitationDialog;
 import com.android.lagger.logic.adapters.MeetingListAdapter;
 import com.android.lagger.model.entities.Meeting;
 import com.android.lagger.serverConnection.GsonHelper;
@@ -84,7 +84,7 @@ public class HomeFragment extends Fragment {
                 userIdJson.addProperty("idUser", State.getLoggedUserId());
 
                 String meetings = HttpRequest.POST(URL.GET_MEETINGS, userIdJson);
-                String invitations = HttpRequest.POST(URL.GET_INVITATIONS, userIdJson);
+                String invitations = HttpRequest.POST(URL.GET_MEETING_INVITATIONS, userIdJson);
 
                 meetings = meetings.substring(0, meetings.length() - 1);
                 invitations = invitations.substring(1, invitations.length());
@@ -104,9 +104,9 @@ public class HomeFragment extends Fragment {
                 allMeetings = parseMeetings(result);
 
                 if (current.size() == 0)
-                    adapter = new MeetingListAdapter(mContext, allMeetings, -1, -1);
+                    adapter = new MeetingListAdapter(mContext, getFragmentManager(),allMeetings, -1, -1);
                 else
-                    adapter = new MeetingListAdapter(mContext, allMeetings, 0, INDEX_OF_NEAREST - 1);
+                    adapter = new MeetingListAdapter(mContext, getFragmentManager(),allMeetings, 0, INDEX_OF_NEAREST - 1);
                 addSections();
                 createSimpleSecionedListAdapter(adapter);
                 addOnClickListenerDependingToIndex(mList);
@@ -184,7 +184,7 @@ public class HomeFragment extends Fragment {
                 if (i <= INDEX_OF_NEAREST) {
                     //showInvitationDialog(allMeetings.get(i - 1));
                 } else {
-                    showMeetingDialog(allMeetings.get(i - 2));
+//                    showMeetingDialog(allMeetings.get(i - 2));
                 }
             }
         });
@@ -193,7 +193,7 @@ public class HomeFragment extends Fragment {
     private void showMeetingDialog(Meeting meeting) {
 
         fragmentTransaction = getFragmentManager().beginTransaction();
-        SomeDialog newFragment = new SomeDialog(mContext, "Confirm", "What do you want to do with this meeting?", SomeDialog.MEETING_DELETE_TYPE);
+        InvitationDialog newFragment = new InvitationDialog(mContext, mContext.getResources().getString(R.string.dialog_confirm), mContext.getResources().getString(R.string.dialog_meeting), InvitationDialog.MEETING_INVITATION_TYPE);
         newFragment.show(fragmentTransaction, "dialog");
 
         Bundle details = new Bundle();

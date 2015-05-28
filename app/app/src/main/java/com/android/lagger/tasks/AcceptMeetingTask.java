@@ -19,7 +19,6 @@ public class AcceptMeetingTask extends AsyncTask<AcceptMeetingRequest, Void, Acc
     private Boolean isAccepted;
 
     public AcceptMeetingTask(Context context) {
-
         this.context = context;
         client = new HttpClient(context);
     }

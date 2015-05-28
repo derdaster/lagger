@@ -36,4 +36,6 @@ dependencies {
     compile 'dev.dworks.libs:astickyheader:0.1.0'
     compile 'com.wrapp.floatlabelededittext:library:0.0.6'
     compile 'com.github.navasmdc:MaterialDesign:1.+@aar'
+    compile 'joda-time:joda-time:2.7'
+
 }

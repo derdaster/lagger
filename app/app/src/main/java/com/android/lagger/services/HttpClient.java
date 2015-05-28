@@ -5,6 +5,7 @@ import android.content.Context;
 import com.android.lagger.requestObjects.AcceptMeetingRequest;
 import com.android.lagger.requestObjects.AddFriendRequest;
 import com.android.lagger.requestObjects.AddMeetingRequest;
+import com.android.lagger.requestObjects.EditMeetingRequest;
 import com.android.lagger.requestObjects.FindFriendRequest;
 import com.android.lagger.requestObjects.GetAllMeetingsRequest;
 import com.android.lagger.requestObjects.GetFriendInvitationsRequest;
@@ -18,6 +19,7 @@ import com.android.lagger.requestObjects.RemoveMeetingRequest;
 import com.android.lagger.responseObjects.AcceptMeetingResponse;
 import com.android.lagger.responseObjects.AddFriendResponse;
 import com.android.lagger.responseObjects.AddMeetingResponse;
+import com.android.lagger.responseObjects.EditMeetingResponse;
 import com.android.lagger.responseObjects.FindFriendResponse;
 import com.android.lagger.responseObjects.GetAllMeetingsResponse;
 import com.android.lagger.responseObjects.GetFriendInvitationsResponse;
@@ -135,6 +137,24 @@ public class HttpClient {
         return resp;
     }
 
+    public EditMeetingResponse editMeeting(final EditMeetingRequest editMeetingRequest) {
+        EditMeetingResponse resp = null;
+
+        ResponseObject responseObj = httpRequest.POST(URL.EDIT_MEETING, editMeetingRequest);
+        String response = responseObj.getResponse();
+
+        if (!responseObj.isError()) {
+            resp = gson.fromJson(response, EditMeetingResponse.class);
+            resp.setIsError(false);
+        } else {
+            resp = new EditMeetingResponse();
+            resp.setResponse(response);
+            resp.setIsError(true);
+        }
+
+        return resp;
+    }
+
     public RemoveMeetingResponse removeMeeting(final RemoveMeetingRequest removeMeetingRequest) {
         RemoveMeetingResponse resp = null;
 
@@ -220,7 +240,7 @@ public class HttpClient {
     private GetMeetingInvitationsResponse getMeetingInvitations(final GetMeetingInvitationsRequest invitationsReq) {
         GetMeetingInvitationsResponse resp = null;
 
-        ResponseObject respInvitationsObj = httpRequest.POST(URL.GET_INVITATIONS, invitationsReq);
+        ResponseObject respInvitationsObj = httpRequest.POST(URL.GET_MEETING_INVITATIONS, invitationsReq);
         String response = respInvitationsObj.getResponse();
 
         if (!respInvitationsObj.isError()) {

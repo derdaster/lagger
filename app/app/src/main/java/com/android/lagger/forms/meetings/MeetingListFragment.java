@@ -15,7 +15,9 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.android.lagger.R;
-import com.android.lagger.controls.basic.SomeDialog;
+import com.android.lagger.controls.basic.DeleteDialog;
+import com.android.lagger.controls.basic.InvitationDialog;
+import com.android.lagger.controls.basic.RefuseDialog;
 import com.android.lagger.logic.adapters.MeetingListAdapter;
 import com.android.lagger.model.entities.Meeting;
 import com.android.lagger.requestObjects.GetAllMeetingsRequest;
@@ -68,8 +70,6 @@ public class MeetingListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_meeting_list, container, false);
-
-
         mList = (ListView) rootView.findViewById(R.id.meeting_list);
 
         btnAdd = (FloatingActionButton) rootView.findViewById(R.id.btnAddMeeting);
@@ -158,7 +158,7 @@ public class MeetingListFragment extends Fragment {
     private void showInvitationDialog(Meeting meeting) {
 
         fragmentTransaction = getFragmentManager().beginTransaction();
-        SomeDialog newFragment = new SomeDialog(mContext, "Confirm", "Do you want to accept this meeting invitation?", SomeDialog.MEETING_INVITATION_TYPE);
+        InvitationDialog newFragment = new InvitationDialog(mContext, mContext.getResources().getString(R.string.dialog_confirm), mContext.getResources().getString(R.string.dialog_invitation_meeting), InvitationDialog.MEETING_INVITATION_TYPE);
         newFragment.show(fragmentTransaction, "dialog");
 
         Bundle details = new Bundle();
@@ -170,7 +170,7 @@ public class MeetingListFragment extends Fragment {
     private void showDeleteMeetingDialog(Meeting meeting) {
 
         fragmentTransaction = getFragmentManager().beginTransaction();
-        SomeDialog newFragment = new SomeDialog(mContext, "Confirm", "Do you want to delete this meeting?", SomeDialog.MEETING_DELETE_TYPE);
+        DeleteDialog newFragment = new DeleteDialog(mContext, mContext.getResources().getString(R.string.dialog_confirm), mContext.getResources().getString(R.string.dialog_meeting_delete), DeleteDialog.MEETING_DELETE_TYPE);
         newFragment.show(fragmentTransaction, "dialog");
 
         Bundle details = new Bundle();
@@ -182,7 +182,7 @@ public class MeetingListFragment extends Fragment {
     private void showRefuseMeetingDialog(Meeting meeting) {
 
         fragmentTransaction = getFragmentManager().beginTransaction();
-        SomeDialog newFragment = new SomeDialog(mContext, "Confirm", "Do you want to refuse this meeting?", SomeDialog.MEETING_REFUSE_TYPE);
+        RefuseDialog newFragment = new RefuseDialog(mContext, mContext.getResources().getString(R.string.dialog_confirm), mContext.getResources().getString(R.string.dialog_meeting_refuse));
         newFragment.show(fragmentTransaction, "dialog");
 
         Bundle details = new Bundle();
@@ -230,7 +230,7 @@ public class MeetingListFragment extends Fragment {
             if (!resp.isError()) {
                 setAllMeetingsAndPartitionIndex(resp);
 
-                adapter = new MeetingListAdapter(mContext, allMeetings, -1, -1);
+                adapter = new MeetingListAdapter(mContext,fragmentManager, allMeetings, -1, -1);
                 addSections();
                 createSimpleSectionedListAdapter(adapter);
                 addOnClickListenerDependingToIndex(mList);

@@ -10,6 +10,7 @@ import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.android.lagger.R;
 import com.android.lagger.model.navigation.Position;
@@ -89,7 +90,6 @@ public class MapFragment extends Fragment {
 //        tempUser.addGPSPosition(new LatLng(50.808434, 19.128928));
 //        tempUser.addGPSPosition(new LatLng(50.825787, 19.126696));
 
-        // inflat and return the layout
         View v = inflater.inflate(R.layout.fragment_test_map, container,
                 false);
         mMapView = (MapView) v.findViewById(R.id.mapView);
@@ -130,7 +130,7 @@ public class MapFragment extends Fragment {
                 getLocations();
             }
         });
-        GPSService gpsService = new GPSService(this.getActivity().getApplicationContext());
+        GPSService gpsService = new GPSService(this.getActivity().getApplicationContext(),meetingId);
         if (gpsService.canGetLocation()) {
             gpsService.getLatitude();
 
@@ -218,13 +218,13 @@ public class MapFragment extends Fragment {
     }
 
     public void showUserMarkers() {
-
+int i=0;
         for (GPSUser user : gpsUsers) {
-            showNamedMarker(user.getActualPositition(), String.valueOf(user.getIdUser() + " za " + user.getArrivalTime() + " min."));
+            showNamedMarker(user.getActualPositition(), String.valueOf(user.getIdUser() + " za " + user.getArrivalTime() + " min."),i);
 
             if (!user.getPositionList().isEmpty())
                 drawUserPath(user);
-
+i++;
         }
     }
 
@@ -232,19 +232,19 @@ public class MapFragment extends Fragment {
         MarkerOptions marker = new MarkerOptions().position(
                 latLng).title("Position");
 
-        drawMarker(marker);
+        drawMarker(marker,0);
     }
 
-    public void showNamedMarker(LatLng latLng, String name) {
+    public void showNamedMarker(LatLng latLng, String name,int colorNumber) {
         MarkerOptions marker = new MarkerOptions().position(latLng).title(name);
 
-        drawMarker(marker);
+        drawMarker(marker,colorNumber);
     }
 
-    public void drawMarker(MarkerOptions marker) {
+    public void drawMarker(MarkerOptions marker,int colorNumber) {
 
         marker.icon(BitmapDescriptorFactory
-                .defaultMarker(MarkerColors.getMarkerColor()));
+                .defaultMarker(MarkerColors.getMarkerColor(colorNumber)));
 
         googleMap.addMarker(marker);
     }
@@ -297,8 +297,8 @@ public class MapFragment extends Fragment {
                             // onPostExecute displays the results of the AsyncTask.
                             @Override
                             protected void onPostExecute(String result) {
-
-                                JsonParser parser = new JsonParser();
+                                if (!result.equals("") && !result.isEmpty()){
+                                    JsonParser parser = new JsonParser();
                                 JsonObject responseJson = (JsonObject) parser.parse(result);
 
                                 JsonArray usersPositions = responseJson.get("usersPositions").getAsJsonArray();
@@ -318,6 +318,12 @@ public class MapFragment extends Fragment {
                                     user.setPositionList(tempPositionList);
                                 }
                                 showUserMarkers();
+
+                            }
+                                else
+                                {
+Toast.makeText(getActivity().getApplicationContext(),"Błąd: nie ma takiego spotkania ", Toast.LENGTH_LONG).show();
+                                }
                             }
                         }.execute();
                     }
@@ -422,6 +428,10 @@ public class MapFragment extends Fragment {
             else
                 counter = 0;
             return markerColors.get(counter);
+        }
+
+        public static float getMarkerColor(int i) {
+            return markerColors.get(i);
         }
     }
 

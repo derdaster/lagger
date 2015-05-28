@@ -20,41 +20,49 @@
             android:paddingBottom="10dp"
             android:weightSum="1">
 
+            <TextView
+                android:textColor="@color/color_wet_asphalt"
+                android:textSize="18dp"
+                android:gravity="left"
+                android:text="@string/meeting_place"
+                android:paddingBottom="10dp"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content" />
+
             <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:paddingBottom="10dp"
-                android:layout_weight="1">
+                android:weightSum="1">
 
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:id="@+id/ivIconLocation"
                     android:src="@drawable/icon_location"
+                    android:layout_marginLeft="12dp"
+                    android:layout_marginRight="5dp"
                     android:layout_weight="0.1" />
 
-                <info.hoang8f.widget.FButton
-                    android:layout_weight="0.9"
+                <com.wrapp.floatlabelededittext.FloatLabeledEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:id="@+id/btnLocation"
-                    android:layout_width="wrap_content"
-                    android:layout_height="40dp"
-                    android:text="Location"
-                    android:textColor="@color/color_silver"
-                    fbutton:buttonColor="@color/color_wet_asphalt"
-                    fbutton:shadowColor="@color/color_asbestos"
-                    fbutton:shadowEnabled="true"
-                    fbutton:shadowHeight="4dp"
-                    fbutton:cornerRadius="7dp" />
+                    android:layout_weight="0.9">
+
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/editTextLocation" />
+                </com.wrapp.floatlabelededittext.FloatLabeledEditText>
             </LinearLayout>
 
             <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:paddingBottom="10dp"
-                android:layout_weight="0.9">
+                android:paddingBottom="10dp">
 
                 <com.google.android.gms.maps.MapView xmlns:android="http://schemas.android.com/apk/res/android"
                     android:id="@+id/mapView"
