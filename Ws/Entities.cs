@@ -11,7 +11,7 @@ namespace LaggerServer
     public class Meeting
     {
         [DataMember(Name = "id", Order = 0)]
-        public int Id { get; set; }
+        public int IdMeeting { get; set; }
 
         [DataMember(Name = "organizer", Order = 1)]
         public Friend Organizer { get; set; }
@@ -34,9 +34,12 @@ namespace LaggerServer
         [DataMember(Name = "endTime", Order = 7)]
         public DateTime EndTime { get; set; }
 
+        [DataMember(Name = "usersList", Order = 8)]
+        public List<Friend> UsersList { get; set; }
+
         public Meeting(Event entity, User user)
         {
-            Id = entity.ID_Event;
+            IdMeeting = entity.ID_Event;
             Name = entity.Name;
             LocationName = entity.LocationName;
             Latitude = entity.Latitude;

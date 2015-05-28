@@ -24,15 +24,11 @@ namespace LaggerServer
                                               select ue);
 
                     var acceptedEvents = (from e in ctx.Events
-                                          join ue in acceptedUserEvents on e.ID_Event equals ue.IDEvent
+                                          join uae in acceptedUserEvents on e.ID_Event equals uae.IDEvent
                                           join u in ctx.Users on e.IDOrganizer equals u.ID_User
                                           where !e.Blocked
                                           && !u.Blocked
                                           select new Meeting(e, u));
-
-                    var test = acceptedEvents.ToList();
-
-                    var test2 = test;
 
                     var myEvents = (from e in ctx.Events
                                     join u in ctx.Users on e.IDOrganizer equals u.ID_User
@@ -41,15 +37,25 @@ namespace LaggerServer
                                     && !u.Blocked
                                     select new Meeting(e, u));
 
-                    var test3 = myEvents.ToList();
+                    var allEvents = acceptedEvents.Union(myEvents).Distinct().ToList();
 
-                    var test4 = test3;
+                    foreach (var ev in allEvents)
+                    {
+                        var users = (from ue in ctx.UserEvents
+                                     join u in ctx.Users on ue.IDUser equals u.ID_User
+                                     where ue.IDEvent == ev.IdMeeting
+                                     && (ue.Status == (short)UserEventStatus.Accepted
+                                     || ue.Status == (short)UserEventStatus.NotAccepted)
+                                     && !ue.Blocked
+                                     && !u.Blocked
+                                     select new Friend(u)).ToList();
 
-                    var allEvents = acceptedEvents.Union(myEvents).Distinct();
-
+                        ev.UsersList = users;
+                    }
+                    
                     return new GetMeetingsResponse()
                     {
-                        Meetings = allEvents.ToList()
+                        Meetings = allEvents
                     };
                 }
             }
