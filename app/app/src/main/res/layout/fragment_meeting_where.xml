@@ -20,15 +20,6 @@
             android:paddingBottom="10dp"
             android:weightSum="1">
 
-            <TextView
-                android:textColor="@color/color_wet_asphalt"
-                android:textSize="18dp"
-                android:gravity="left"
-                android:text="@string/meeting_place"
-                android:paddingBottom="10dp"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content" />
-
             <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="fill_parent"
@@ -54,6 +45,7 @@
                     <EditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:hint="@string/meeting_place"
                         android:id="@+id/editTextLocation" />
                 </com.wrapp.floatlabelededittext.FloatLabeledEditText>
             </LinearLayout>

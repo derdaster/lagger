@@ -105,8 +105,13 @@ public class FriendsAddFragment extends Fragment {
             AddFriendTask addFriendTask = new AddFriendTask(mContext, true);
             addFriendTask.execute(addFriendRequest);
 
-            fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.addToBackStack(null);
+            FragmentManager fm = getFragmentManager();
+            int count = fm.getBackStackEntryCount();
+            for (int i = 0; i < count; ++i) {
+                fm.popBackStackImmediate();
+            }
+
+            fragmentTransaction = fm.beginTransaction();
             fragmentTransaction.replace(R.id.container_body, new FriendsListFragment(mContext)).commit();
 
         } else {

@@ -183,8 +183,9 @@ public class HomeFragment extends Fragment {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 if (i <= INDEX_OF_NEAREST) {
                     //showInvitationDialog(allMeetings.get(i - 1));
+                    showMeetingDialog(allMeetings.get(i - 1));
                 } else {
-//                    showMeetingDialog(allMeetings.get(i - 2));
+                    showMeetingDialog(allMeetings.get(i - 2));
                 }
             }
         });

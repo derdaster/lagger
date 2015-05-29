@@ -5,12 +5,11 @@
     <string name="drawer_open">Open</string>
     <string name="drawer_close">Close</string>
 
-    <string name="nav_item_home">Home</string>
+    <string name="nav_item_home">@string/title_home</string>
     <string name="nav_item_meetings">Meetings</string>
     <string name="nav_item_friends">Friends</string>
     <string name="nav_item_settings">Settings</string>
-    <string name="nav_item_map">MapTest</string>
-    <string name="nav_item_gps">GPSTest</string>
+    <string name="nav_item_logOut">@string/title_logOut</string>
 
     <!-- navigation drawer item labels  -->
     <string-array name="nav_drawer_labels">
@@ -18,14 +17,14 @@
         <item>@string/nav_item_meetings</item>
         <item>@string/nav_item_friends</item>
         <item>@string/nav_item_settings</item>
-        <item>@string/nav_item_map</item>
-        <item>@string/nav_item_gps</item>
+        <item>@string/nav_item_logOut</item>
     </string-array>
 
     <string name="title_home">Home</string>
     <string name="title_meetings">Meetings</string>
     <string name="title_friends">Friends</string>
     <string name="title_settings">Settings</string>
+    <string name="title_logOut">Log out</string>
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
