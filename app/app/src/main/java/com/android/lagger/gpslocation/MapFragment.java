@@ -130,16 +130,21 @@ public class MapFragment extends Fragment {
 //                getLocations();
 //            }
 //        });
-        GPSService gpsService = new GPSService(this.getActivity().getApplicationContext(),meetingId);
+        CameraPosition cameraPosition;
+        GPSService gpsService = new GPSService(this.getActivity().getApplicationContext(), meetingId);
         if (gpsService.canGetLocation()) {
             gpsService.getLatitude();
 
-            CameraPosition cameraPosition = new CameraPosition.Builder()
+            cameraPosition = new CameraPosition.Builder()
                     .target(new LatLng(gpsService.getLatitude(), gpsService.getLongitude())).zoom(12).build();
-            googleMap.animateCamera(CameraUpdateFactory
-                    .newCameraPosition(cameraPosition));
-            googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+
+        } else {
+            cameraPosition = new CameraPosition.Builder()
+                    .target(new LatLng(State.DEFAULT_LATITUDE, State.DEFAULT_LONGITUDE)).zoom(12).build();
         }
+        googleMap.animateCamera(CameraUpdateFactory
+                .newCameraPosition(cameraPosition));
+        googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
 
         googleMap.setMyLocationEnabled(true);
         googleMap.getUiSettings().setZoomControlsEnabled(true);
@@ -218,13 +223,13 @@ public class MapFragment extends Fragment {
     }
 
     public void showUserMarkers() {
-int i=0;
+        int i = 0;
         for (GPSUser user : gpsUsers) {
-            showNamedMarker(user.getActualPositition(), String.valueOf(user.getIdUser() + " za " + user.getArrivalTime() + " min."),i);
+            showNamedMarker(user.getActualPositition(), String.valueOf(user.getIdUser() + " za " + user.getArrivalTime() + " min."), i);
 
             if (!user.getPositionList().isEmpty())
                 drawUserPath(user);
-i++;
+            i++;
         }
     }
 
@@ -232,16 +237,16 @@ i++;
         MarkerOptions marker = new MarkerOptions().position(
                 latLng).title("Position");
 
-        drawMarker(marker,0);
+        drawMarker(marker, 0);
     }
 
-    public void showNamedMarker(LatLng latLng, String name,int colorNumber) {
+    public void showNamedMarker(LatLng latLng, String name, int colorNumber) {
         MarkerOptions marker = new MarkerOptions().position(latLng).title(name);
 
-        drawMarker(marker,colorNumber);
+        drawMarker(marker, colorNumber);
     }
 
-    public void drawMarker(MarkerOptions marker,int colorNumber) {
+    public void drawMarker(MarkerOptions marker, int colorNumber) {
 
         marker.icon(BitmapDescriptorFactory
                 .defaultMarker(MarkerColors.getMarkerColor(colorNumber)));
@@ -297,32 +302,30 @@ i++;
                             // onPostExecute displays the results of the AsyncTask.
                             @Override
                             protected void onPostExecute(String result) {
-                                if (!result.equals("") && !result.isEmpty()){
+                                if (!result.equals("") && !result.isEmpty()) {
                                     JsonParser parser = new JsonParser();
-                                JsonObject responseJson = (JsonObject) parser.parse(result);
+                                    JsonObject responseJson = (JsonObject) parser.parse(result);
 
-                                JsonArray usersPositions = responseJson.get("usersPositions").getAsJsonArray();
+                                    JsonArray usersPositions = responseJson.get("usersPositions").getAsJsonArray();
 
-                                gpsUsers.clear();
-                                Gson gson = new GsonHelper().getGson();
-                                for (JsonElement userPositionJsonElem : usersPositions) {
-                                    GPSUser user = gson.fromJson(userPositionJsonElem, GPSUser.class);
-                                    gpsUsers.add(user);
-                                    JsonObject object = userPositionJsonElem.getAsJsonObject();
-                                    JsonArray positions = object.getAsJsonArray("positions");
-                                    List tempPositionList = new ArrayList();
-                                    for (JsonElement positionJsonElem : positions) {
-                                        Position position = gson.fromJson(positionJsonElem, Position.class);
-                                        tempPositionList.add(position);
+                                    gpsUsers.clear();
+                                    Gson gson = new GsonHelper().getGson();
+                                    for (JsonElement userPositionJsonElem : usersPositions) {
+                                        GPSUser user = gson.fromJson(userPositionJsonElem, GPSUser.class);
+                                        gpsUsers.add(user);
+                                        JsonObject object = userPositionJsonElem.getAsJsonObject();
+                                        JsonArray positions = object.getAsJsonArray("positions");
+                                        List tempPositionList = new ArrayList();
+                                        for (JsonElement positionJsonElem : positions) {
+                                            Position position = gson.fromJson(positionJsonElem, Position.class);
+                                            tempPositionList.add(position);
+                                        }
+                                        user.setPositionList(tempPositionList);
                                     }
-                                    user.setPositionList(tempPositionList);
-                                }
-                                showUserMarkers();
+                                    showUserMarkers();
 
-                            }
-                                else
-                                {
-Toast.makeText(getActivity().getApplicationContext(),"Błąd: nie ma takiego spotkania ", Toast.LENGTH_LONG).show();
+                                } else {
+                                    Toast.makeText(getActivity().getApplicationContext(), "Błąd: nie ma takiego spotkania ", Toast.LENGTH_LONG).show();
                                 }
                             }
                         }.execute();

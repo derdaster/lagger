@@ -76,16 +76,21 @@ public class MeetingWhereFragment extends Fragment {
                 setMarkerOnMap(latLng);
             }
         });
+        CameraPosition cameraPosition;
         GPSService gpsService = new GPSService(mContext);
         if (gpsService.canGetLocation()) {
             gpsService.getLatitude();
 
-            CameraPosition cameraPosition = new CameraPosition.Builder()
+            cameraPosition = new CameraPosition.Builder()
                     .target(new LatLng(gpsService.getLatitude(), gpsService.getLongitude())).zoom(12).build();
-            googleMap.animateCamera(CameraUpdateFactory
-                    .newCameraPosition(cameraPosition));
-            googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+
+        } else {
+            cameraPosition = new CameraPosition.Builder()
+                    .target(new LatLng(State.DEFAULT_LATITUDE, State.DEFAULT_LONGITUDE)).zoom(12).build();
         }
+        googleMap.animateCamera(CameraUpdateFactory
+                .newCameraPosition(cameraPosition));
+        googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
 
         googleMap.setMyLocationEnabled(true);
         googleMap.getUiSettings().setZoomControlsEnabled(true);
@@ -130,7 +135,7 @@ public class MeetingWhereFragment extends Fragment {
 
     private void initialize() {
         locationEditTxt = (EditText) parent.findViewById(R.id.editTextLocation);
-        if(meeting != null){
+        if (meeting != null) {
             locationEditTxt.setText(meeting.getLocationName());
         }
         leftBtn = (FloatingActionButton) parent.findViewById(R.id.btnLeftPager);

@@ -37,9 +37,9 @@ public class SettingsFragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         mContext = getActivity().getApplicationContext();
         sliderDistance = (Slider) getActivity().findViewById(R.id.sliderDistance);
-        int x=GPSService.getMinDistanceChangeForUpdates();
+        int x = GPSService.getMinDistanceChangeForUpdates();
         sliderDistance.setValue(x);
-        x=GPSService.getMinTimeBwUpdates();
+        x = GPSService.getMinTimeBwUpdates();
         sliderTime = (Slider) getActivity().findViewById(R.id.sliderTime);
         sliderTime.setValue(x);
         switchGPS = (Switch) getActivity().findViewById(R.id.switchView);
