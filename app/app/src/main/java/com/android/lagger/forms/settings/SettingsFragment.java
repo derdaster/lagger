@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.android.lagger.R;
 import com.android.lagger.gpslocation.GPSService;
@@ -42,7 +41,7 @@ public class SettingsFragment extends Fragment {
         sliderDistance.setValue(x);
         x=GPSService.getMinTimeBwUpdates();
         sliderTime = (Slider) getActivity().findViewById(R.id.sliderTime);
-        sliderTime.setValue(x+100);
+        sliderTime.setValue(x);
         switchGPS = (Switch) getActivity().findViewById(R.id.switchView);
         switchGPS.setChecked(GPSService.isGPSTracking());
 

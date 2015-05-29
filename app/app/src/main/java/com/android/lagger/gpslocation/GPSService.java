@@ -47,42 +47,44 @@ public class GPSService extends Service implements LocationListener {
     private Integer meetingId;
     private ArrayList<LatLng> coordinatesList;
 
-    static{
-        ALLOW_GPS_TRACKING=true;
+    static {
+        ALLOW_GPS_TRACKING = false;
         MIN_DISTANCE_CHANGE_FOR_UPDATES = 100;
         MIN_TIME_BW_UPDATES = 1000 * 20 * 1;
     }
+
     public GPSService(Context context) {
-        this.meetingId=-1;
+        this.meetingId = -1;
         this.context = context;
         getLocation();
         coordinatesList = new ArrayList();
-        if (coordinates != null && coordinates.latitude != 0 && coordinates.longitude != 0 && meetingId!=-1) {
+        if (coordinates != null && coordinates.latitude != 0 && coordinates.longitude != 0 && meetingId != -1 && ALLOW_GPS_TRACKING) {
             sendLocation();
         }
         locationListener = this;
     }
 
-    public GPSService(Context context,Integer meetingId) {
+    public GPSService(Context context, Integer meetingId) {
         this.context = context;
-        this.meetingId=meetingId;
+        this.meetingId = meetingId;
         getLocation();
         coordinatesList = new ArrayList();
-        if (coordinates != null && coordinates.latitude != 0 && coordinates.longitude != 0) {
+        if (coordinates != null && coordinates.latitude != 0 && coordinates.longitude != 0 && ALLOW_GPS_TRACKING) {
             sendLocation();
         }
 
         locationListener = this;
     }
+
     public static boolean isGPSTracking() {
         return ALLOW_GPS_TRACKING;
     }
 
     public static void setGPSTracking(boolean ALLOW_GPS_TRACKING) {
         GPSService.ALLOW_GPS_TRACKING = ALLOW_GPS_TRACKING;
-        if (locationListener != null ) {
-            if(GPSService.isGPSTracking()==false)
-            locationManager.removeUpdates(locationListener);
+        if (locationListener != null) {
+            if (GPSService.isGPSTracking() == false)
+                locationManager.removeUpdates(locationListener);
             else
                 locationManager.requestLocationUpdates(
                         LocationManager.GPS_PROVIDER,
@@ -143,7 +145,7 @@ public class GPSService extends Service implements LocationListener {
 
                 }
 
-                if (isGPSEnabled && ALLOW_GPS_TRACKING) {
+                if (isGPSEnabled) {
                     if (location == null) {
                         locationManager.requestLocationUpdates(
                                 LocationManager.GPS_PROVIDER,
@@ -159,6 +161,9 @@ public class GPSService extends Service implements LocationListener {
                             }
                         }
                     }
+                    if (!ALLOW_GPS_TRACKING)
+                        locationManager.removeUpdates(this);
+
                 }
             }
 
@@ -228,7 +233,7 @@ public class GPSService extends Service implements LocationListener {
         if (location != null) {
             coordinates = new LatLng(location.getLatitude(), location.getLongitude());
         }
-        if (coordinates != null && coordinates.latitude != 0 && coordinates.longitude != 0 && meetingId!=-1) {
+        if (coordinates != null && coordinates.latitude != 0 && coordinates.longitude != 0 && meetingId != -1 && ALLOW_GPS_TRACKING) {
             sendLocation();
         }
 //        Toast.makeText(

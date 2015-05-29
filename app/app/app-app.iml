@@ -98,6 +98,7 @@
     <orderEntry type="library" exported="" name="astickyheader-0.1.0" level="project" />
     <orderEntry type="library" exported="" name="datetimepicker-0.1.2" level="project" />
     <orderEntry type="library" exported="" name="support-annotations-22.0.0" level="project" />
+    <orderEntry type="library" exported="" name="joda-time-2.7" level="project" />
     <orderEntry type="library" exported="" name="library-2.4.0" level="project" />
     <orderEntry type="library" exported="" name="support-v13-21.0.0" level="project" />
   </component>
