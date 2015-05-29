@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import com.android.lagger.R;
 import com.android.lagger.forms.main.MainActivity;
+import com.android.lagger.logic.forms.SaveSharedPreference;
 import com.android.lagger.model.entities.User;
 import com.android.lagger.responseObjects.LoginResponse;
 import com.android.lagger.services.HttpClient;
@@ -104,8 +105,10 @@ public class LoginActivity extends ActionBarActivity {
         private void enableAccess(final com.android.lagger.responseObjects.LoginResponse loginResp) {
             final Integer userId = loginResp.getIdUser();
             State.setLoggedUser(new User(userId));
+            SaveSharedPreference.setUserName(context, userId.toString());
 
             Intent intent = new Intent(context, MainActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
         }
 

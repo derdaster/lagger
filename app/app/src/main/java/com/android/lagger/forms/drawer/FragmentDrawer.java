@@ -73,9 +73,7 @@ public class FragmentDrawer extends Fragment {
         drawables.add(getResources().getDrawable(R.drawable.meetings));
         drawables.add(getResources().getDrawable(R.drawable.friends));
         drawables.add(getResources().getDrawable(R.drawable.settings));
-        drawables.add(getResources().getDrawable(R.drawable.settings));
-        drawables.add(getResources().getDrawable(R.drawable.settings));
-        drawables.add(getResources().getDrawable(R.drawable.settings));
+        drawables.add(getResources().getDrawable(R.drawable.logout));
     }
 
     @Override

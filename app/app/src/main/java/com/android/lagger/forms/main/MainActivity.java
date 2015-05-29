@@ -5,6 +5,7 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
@@ -18,9 +19,11 @@ import com.android.lagger.R;
 import com.android.lagger.forms.drawer.FragmentDrawer;
 import com.android.lagger.forms.friends.FriendsListFragment;
 import com.android.lagger.forms.home.HomeFragment;
+import com.android.lagger.forms.login.LoginActivity;
 import com.android.lagger.forms.meetings.MeetingListFragment;
 import com.android.lagger.forms.settings.SettingsFragment;
 import com.android.lagger.gpslocation.MapFragment;
+import com.android.lagger.logic.forms.SaveSharedPreference;
 import com.android.lagger.model.entities.Meeting;
 
 
@@ -36,8 +39,18 @@ public class MainActivity extends ActionBarActivity implements FragmentDrawer.Fr
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        initialize();
-        displayView(0);
+
+        if(SaveSharedPreference.getUserName(MainActivity.this).length() == 0)
+        {
+            Intent intent = new Intent(this, LoginActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+        }
+        else
+        {
+            initialize();
+            displayView(0);
+        }
     }
 
     private void initialize() {
@@ -116,12 +129,12 @@ public class MainActivity extends ActionBarActivity implements FragmentDrawer.Fr
                 title = getString(R.string.title_settings);
                 break;
             case 4:
-                fragment = new MapFragment();
-                title = "MapTest";
-                break;
-            case 5:
-                fragment = new MainFragment();
-                title = "GPSTest";
+                SaveSharedPreference.setUserName(mContext, "");
+                title = getString(R.string.title_logOut);
+                Intent intent = new Intent(this, LoginActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+
                 break;
             default:
                 break;

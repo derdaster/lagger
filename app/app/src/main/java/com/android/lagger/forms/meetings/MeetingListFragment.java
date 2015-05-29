@@ -95,6 +95,7 @@ public class MeetingListFragment extends Fragment {
         mContext = getActivity().getApplicationContext();
         HEADER_NAMES = new String[]{getResources().getString(R.string.invitations),
                 getResources().getString(R.string.upcoming)};
+
     }
 
     public void loadAllMeetingsFromServer() {

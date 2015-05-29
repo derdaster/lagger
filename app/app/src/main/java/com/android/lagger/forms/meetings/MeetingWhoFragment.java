@@ -1,6 +1,7 @@
 package com.android.lagger.forms.meetings;
 
 import android.app.Fragment;
+import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
 import android.os.AsyncTask;
@@ -93,8 +94,13 @@ public class MeetingWhoFragment extends Fragment {
                     createNewMeeting();
                 }
 
-                fragmentTransaction = getFragmentManager().beginTransaction();
-                fragmentTransaction.addToBackStack(null);
+                FragmentManager fm = getFragmentManager();
+                int count = fm.getBackStackEntryCount();
+                for (int i = 0; i < count; ++i) {
+                    fm.popBackStackImmediate();
+                }
+
+                FragmentTransaction fragmentTransaction = fm.beginTransaction();
                 fragmentTransaction.replace(R.id.container_body, new MeetingListFragment(mContext)).commit();
             }
         });

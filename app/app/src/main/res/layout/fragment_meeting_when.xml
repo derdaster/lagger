@@ -82,14 +82,6 @@
                     android:paddingBottom="5dp"
                     android:layout_weight="0.5">
 
-                    <ImageView
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:paddingBottom="5dp"
-                        android:id="@+id/ivIconDate"
-                        android:layout_gravity="center_horizontal"
-                        android:src="@drawable/icon_date" />
-
                     <com.gc.materialdesign.views.ButtonRectangle
                         android:layout_gravity="center_horizontal"
                         android:id="@+id/btnDatePickerStart"
@@ -107,13 +99,6 @@
                     android:layout_gravity="center_horizontal"
                     android:paddingBottom="5dp"
                     android:layout_weight="0.5">
-
-                    <ImageView
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:id="@+id/ivIconTime"
-                        android:src="@drawable/icon_time"
-                        android:layout_gravity="center_horizontal"/>
 
                     <com.gc.materialdesign.views.ButtonRectangle
                         android:layout_gravity="center_horizontal"
@@ -151,13 +136,6 @@
                 android:paddingBottom="5dp"
                 android:layout_weight="0.5">
 
-                <ImageView
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:id="@+id/ivIconDate"
-                    android:layout_gravity="center_horizontal"
-                    android:src="@drawable/icon_date" />
-
                 <com.gc.materialdesign.views.ButtonRectangle
                     android:layout_gravity="center_horizontal"
                     android:id="@+id/btnDatePickerEnd"
@@ -175,13 +153,6 @@
                 android:layout_gravity="center_horizontal"
                 android:paddingBottom="5dp"
                 android:layout_weight="0.5">
-
-                <ImageView
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:id="@+id/ivIconTime"
-                    android:layout_gravity="center_horizontal"
-                    android:src="@drawable/icon_time" />
 
                 <com.gc.materialdesign.views.ButtonRectangle
                     android:layout_gravity="center_horizontal"

@@ -35,6 +35,7 @@
     <string name="view">Podgląd</string>
     <string name="accept_meeting">Zaakceptowano zaproszenie na spotkanie</string>
     <string name="title_friends">Znajomi</string>
+    <string name="title_logOut">Wyloguj</string>
     <string name="title_meetings">Spotkania</string>
     <string name="refuse_meeting">Odrzucono zaproszenie na spotkanie</string>
     <string name="nav_item_friends">Znajomi</string>
