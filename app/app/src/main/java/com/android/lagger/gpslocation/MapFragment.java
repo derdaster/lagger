@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.android.lagger.R;
+import com.android.lagger.model.entities.Meeting;
 import com.android.lagger.model.navigation.Position;
 import com.android.lagger.serverConnection.GsonHelper;
 import com.android.lagger.serverConnection.HttpRequest;
@@ -57,7 +58,7 @@ public class MapFragment extends Fragment {
     final Handler handler = new Handler();
     Timer timer;
     TimerTask timerTask;
-    private Integer meetingId;
+    private Meeting meeting;
     private ProgressDialog pDialog;
     private List<LatLng> polyz;
     private MapView mMapView;
@@ -67,11 +68,11 @@ public class MapFragment extends Fragment {
     private LatLng chosenPositon;
 
     public MapFragment() {
-        this.meetingId = 2;
+        this.meeting = new Meeting();
     }
 
-    public MapFragment(int meetingId) {
-        this.meetingId = meetingId;
+    public MapFragment(Meeting meeting) {
+        this.meeting = meeting;
     }
 
     @Override
@@ -79,16 +80,8 @@ public class MapFragment extends Fragment {
                              Bundle savedInstanceState) {
         initalizeMarkerColors();
 
-        //test Data, to delete!!!/////////////////////////////////////////////////////////////////
+
         gpsUsers = new ArrayList();
-//        gpsUsers.add(new GPSUser(50.808236, 19.108781));
-//        gpsUsers.add(new GPSUser(50.808434, 19.128928));
-//        gpsUsers.add(new GPSUser(50.825787, 19.126696));
-//        gpsUsers.add(new GPSUser(50.835979, 19.149356));
-//        GPSUser tempUser = gpsUsers.get(0);
-//        tempUser.addGPSPosition(new LatLng(50.808236, 19.108781));
-//        tempUser.addGPSPosition(new LatLng(50.808434, 19.128928));
-//        tempUser.addGPSPosition(new LatLng(50.825787, 19.126696));
 
         View v = inflater.inflate(R.layout.fragment_test_map, container,
                 false);
@@ -104,34 +97,9 @@ public class MapFragment extends Fragment {
         }
 
         googleMap = mMapView.getMap();
-//        googleMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
-//
-//            @Override
-//            public void onMapClick(LatLng latLng) {
-//                chosenPositon = latLng;
-//                // Creating a marker
-//                MarkerOptions markerOptions = new MarkerOptions();
-//
-//                // Setting the position for the marker
-//                markerOptions.position(latLng);
-//
-//                // Setting the title for the marker.
-//                // This will be displayed on taping the marker
-//                markerOptions.title(latLng.latitude + " : " + latLng.longitude);
-//
-//                // Clears the previously touched position
-//                googleMap.clear();
-//
-//                // Animating to the touched position
-//                googleMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
-//
-//                // Placing a marker on the touched position
-//                googleMap.addMarker(markerOptions);
-//                getLocations();
-//            }
-//        });
+
         CameraPosition cameraPosition;
-        GPSService gpsService = new GPSService(this.getActivity().getApplicationContext(), meetingId);
+        GPSService gpsService = new GPSService(this.getActivity().getApplicationContext(), meeting.getId());
         if (gpsService.canGetLocation()) {
             gpsService.getLatitude();
 
@@ -144,17 +112,12 @@ public class MapFragment extends Fragment {
         }
         googleMap.animateCamera(CameraUpdateFactory
                 .newCameraPosition(cameraPosition));
-        googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
 
         googleMap.setMyLocationEnabled(true);
         googleMap.getUiSettings().setZoomControlsEnabled(true);
-        //new GetDirection().execute();
-//        showUserMarkers();
-        // Perform any camera updates here
+
         startTimer();
-//        Timer timer1 = new Timer();
-//        LocationTimer timer1_task = new LocationTimer();
-//        timer1.schedule(timer1_task, 0, 10);
+
         return v;
     }
 
@@ -223,14 +186,17 @@ public class MapFragment extends Fragment {
     }
 
     public void showUserMarkers() {
-        int i = 0;
+        int i = 1;
         for (GPSUser user : gpsUsers) {
             showNamedMarker(user.getActualPositition(), String.valueOf(user.getIdUser() + " za " + user.getArrivalTime() + " min."), i);
 
             if (!user.getPositionList().isEmpty())
                 drawUserPath(user);
             i++;
+            if (i > 9)
+                i = 1;
         }
+        showNamedMarker(new LatLng(meeting.getLatitude(), meeting.getLongitude()), "Spotkanie : " + meeting.getName(), 0);
     }
 
     public void showMarker(LatLng latLng) {
@@ -251,7 +217,11 @@ public class MapFragment extends Fragment {
         marker.icon(BitmapDescriptorFactory
                 .defaultMarker(MarkerColors.getMarkerColor(colorNumber)));
 
-        googleMap.addMarker(marker);
+        if (colorNumber != 0)
+            googleMap.addMarker(marker);
+        else
+            googleMap.addMarker(marker).showInfoWindow();
+
     }
 
     public void drawUserPath(GPSUser user) {
@@ -293,7 +263,7 @@ public class MapFragment extends Fragment {
                             @Override
                             protected String doInBackground(String... urls) {
                                 String userIdString = String.valueOf(State.getLoggedUserId());
-                                String meetingIdString = String.valueOf(meetingId);
+                                String meetingIdString = String.valueOf(meeting.getId());
                                 JsonObject userJson = createGPSJSON(userIdString, meetingIdString);
                                 //TODO refactoring
                                 return HttpRequest.POST(com.android.lagger.serverConnection.URL.GET_POSITIONS, userJson);
@@ -341,7 +311,7 @@ public class MapFragment extends Fragment {
             @Override
             protected String doInBackground(String... urls) {
                 String userIdString = String.valueOf(State.getLoggedUserId());
-                String meetingIdString = String.valueOf(meetingId);
+                String meetingIdString = String.valueOf(meeting.getId());
                 JsonObject userJson = createGPSJSON(userIdString, meetingIdString);
                 //TODO refactoring
                 return HttpRequest.POST(com.android.lagger.serverConnection.URL.GET_POSITIONS, userJson);

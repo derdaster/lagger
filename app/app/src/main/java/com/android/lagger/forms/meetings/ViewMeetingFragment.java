@@ -9,7 +9,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.lagger.R;
 import com.android.lagger.model.entities.Meeting;
@@ -17,6 +16,13 @@ import com.android.lagger.model.entities.User;
 import com.android.lagger.settings.Parser;
 import com.android.lagger.settings.State;
 import com.android.lagger.tasks.AcceptMeetingTask;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapView;
+import com.google.android.gms.maps.MapsInitializer;
+import com.google.android.gms.maps.model.CameraPosition;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.melnykov.fab.FloatingActionButton;
 
 /**
@@ -38,6 +44,9 @@ public class ViewMeetingFragment extends Fragment {
     private Boolean isOrganizer;
     private Meeting meeting;
     private User user;
+
+    private MapView mMapView;
+    private GoogleMap googleMap;
 
     FragmentTransaction fragmentTransaction;
 
@@ -62,7 +71,61 @@ public class ViewMeetingFragment extends Fragment {
             btnRefuse.setVisibility(View.INVISIBLE);
         }
 
+
+
         return parent;
+    }
+    private void addMap(Bundle savedInstanceState) {
+        mMapView = (MapView) parent.findViewById(R.id.mapView);
+        mMapView.onCreate(savedInstanceState);
+
+        mMapView.onResume();// needed to get the map to display immediately
+        try {
+            MapsInitializer.initialize(getActivity().getApplicationContext());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        googleMap = mMapView.getMap();
+
+
+    }
+
+    private void setChoosenLocationOnMap() {
+        LatLng latLng = new LatLng(State.DEFAULT_LATITUDE, State.DEFAULT_LONGITUDE);
+        if (meeting.getLatitude() != Double.MIN_VALUE && meeting.getLongitude() != Double.MIN_VALUE) {
+            latLng = new LatLng(meeting.getLatitude(), meeting.getLongitude());
+        }
+        setMarkerOnMap(latLng);
+    }
+
+    private void setMarkerOnMap(LatLng latLng) {
+        // Creating a marker
+        MarkerOptions markerOptions = new MarkerOptions();
+
+        // Setting the position for the marker
+        markerOptions.position(latLng);
+
+        // Setting the title for the marker.
+        // This will be displayed on taping the marker
+        markerOptions.title(latLng.latitude + " : " + latLng.longitude);
+
+        // Clears the previously touched position
+        googleMap.clear();
+
+        // Animating to the touched position
+        CameraPosition cameraPosition;
+        cameraPosition = new CameraPosition.Builder()
+                .target(latLng).zoom(12).build();
+
+
+        googleMap.animateCamera(CameraUpdateFactory
+                .newCameraPosition(cameraPosition));
+
+        // Placing a marker on the touched position
+        googleMap.addMarker(markerOptions);
+        googleMap.setMyLocationEnabled(true);
+        googleMap.getUiSettings().setZoomControlsEnabled(true);
     }
 
     @Override
@@ -75,8 +138,9 @@ public class ViewMeetingFragment extends Fragment {
 
         meeting = insertMeetingDetails();
         setBtnEditVisibilityForUser(meeting.getOrganizer());
+        addMap(savedInstanceState);
+        setChoosenLocationOnMap();
 
-        //TODO insert map
     }
 
     private Meeting insertMeetingDetails() {

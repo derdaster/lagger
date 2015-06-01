@@ -11,7 +11,6 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 
 import com.android.lagger.R;
-import com.android.lagger.gpslocation.GPSService;
 import com.android.lagger.model.entities.Meeting;
 import com.android.lagger.settings.State;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -76,26 +75,7 @@ public class MeetingWhereFragment extends Fragment {
                 setMarkerOnMap(latLng);
             }
         });
-        CameraPosition cameraPosition;
-        GPSService gpsService = new GPSService(mContext);
-        if (gpsService.canGetLocation()) {
-            gpsService.getLatitude();
 
-            cameraPosition = new CameraPosition.Builder()
-                    .target(new LatLng(gpsService.getLatitude(), gpsService.getLongitude())).zoom(12).build();
-
-        } else {
-            cameraPosition = new CameraPosition.Builder()
-                    .target(new LatLng(State.DEFAULT_LATITUDE, State.DEFAULT_LONGITUDE)).zoom(12).build();
-        }
-        googleMap.animateCamera(CameraUpdateFactory
-                .newCameraPosition(cameraPosition));
-        googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
-
-        googleMap.setMyLocationEnabled(true);
-        googleMap.getUiSettings().setZoomControlsEnabled(true);
-        //new GetDirection().execute();
-        // Perform any camera updates here
     }
 
     private void setChoosenLocationOnMap() {
@@ -122,10 +102,18 @@ public class MeetingWhereFragment extends Fragment {
         googleMap.clear();
 
         // Animating to the touched position
-        googleMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
+        CameraPosition cameraPosition;
+        cameraPosition = new CameraPosition.Builder()
+                .target(latLng).zoom(12).build();
+
+
+        googleMap.animateCamera(CameraUpdateFactory
+                .newCameraPosition(cameraPosition));
 
         // Placing a marker on the touched position
         googleMap.addMarker(markerOptions);
+        googleMap.setMyLocationEnabled(true);
+        googleMap.getUiSettings().setZoomControlsEnabled(true);
     }
 
     @Override

@@ -25,7 +25,6 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.Date;
 
 public class GPSService extends Service implements LocationListener {
@@ -45,7 +44,6 @@ public class GPSService extends Service implements LocationListener {
     double longitude;
     private LatLng coordinates;
     private Integer meetingId;
-    private ArrayList<LatLng> coordinatesList;
 
     static {
         ALLOW_GPS_TRACKING = false;
@@ -57,7 +55,6 @@ public class GPSService extends Service implements LocationListener {
         this.meetingId = -1;
         this.context = context;
         getLocation();
-        coordinatesList = new ArrayList();
         if (coordinates != null && coordinates.latitude != 0 && coordinates.longitude != 0 && meetingId != -1 && ALLOW_GPS_TRACKING) {
             sendLocation();
         }
@@ -68,7 +65,6 @@ public class GPSService extends Service implements LocationListener {
         this.context = context;
         this.meetingId = meetingId;
         getLocation();
-        coordinatesList = new ArrayList();
         if (coordinates != null && coordinates.latitude != 0 && coordinates.longitude != 0 && ALLOW_GPS_TRACKING) {
             sendLocation();
         }
@@ -137,9 +133,7 @@ public class GPSService extends Service implements LocationListener {
                                 .getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
 
                         if (location != null) {
-
                             coordinates = new LatLng(location.getLatitude(), location.getLongitude());
-                            coordinatesList.add(coordinates);
                         }
                     }
 
@@ -157,7 +151,6 @@ public class GPSService extends Service implements LocationListener {
 
                             if (location != null) {
                                 coordinates = new LatLng(location.getLatitude(), location.getLongitude());
-                                coordinatesList.add(coordinates);
                             }
                         }
                     }

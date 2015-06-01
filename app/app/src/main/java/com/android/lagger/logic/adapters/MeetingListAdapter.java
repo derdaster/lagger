@@ -66,7 +66,7 @@ public class MeetingListAdapter extends BaseAdapter {
                 public void onClick(View v) {
                     FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                     fragmentTransaction.addToBackStack(null);
-                    fragmentTransaction.replace(R.id.container_body, new MapFragment(data.get(actualPosition).getId())).commit();
+                    fragmentTransaction.replace(R.id.container_body, new MapFragment(data.get(actualPosition))).commit();
                 }
             });
         }
