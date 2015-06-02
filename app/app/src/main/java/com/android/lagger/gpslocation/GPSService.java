@@ -45,6 +45,7 @@ public class GPSService extends Service implements LocationListener {
     private LatLng coordinates;
     private Integer meetingId;
 
+    // a co to jest?
     static {
         ALLOW_GPS_TRACKING = false;
         MIN_DISTANCE_CHANGE_FOR_UPDATES = 100;
