@@ -90,4 +90,5 @@
     <string name="when">"When?"</string>
     <string name="where">"Where?"</string>
     <string name="organizer">"Organizer:"</string>
+    <string name="last_update">"Update:"</string>
 </resources>

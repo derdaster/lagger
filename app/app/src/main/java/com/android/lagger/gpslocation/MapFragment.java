@@ -10,6 +10,7 @@ import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.android.lagger.R;
@@ -43,7 +44,10 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Timer;
@@ -66,6 +70,7 @@ public class MapFragment extends Fragment {
     private Context mContext;
     private List<GPSUser> gpsUsers;
     private LatLng chosenPositon;
+    private View parent;
 
     public MapFragment() {
         this.meeting = new Meeting();
@@ -85,6 +90,7 @@ public class MapFragment extends Fragment {
 
         View v = inflater.inflate(R.layout.fragment_test_map, container,
                 false);
+        parent=v;
         mMapView = (MapView) v.findViewById(R.id.mapView);
         mMapView.onCreate(savedInstanceState);
 
@@ -292,6 +298,11 @@ public class MapFragment extends Fragment {
                                         }
                                         user.setPositionList(tempPositionList);
                                     }
+                                    DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+                                    Date date=new Date();
+                                    String reportDate = df.format(date);
+                                    EditText lastUpdate=(EditText)parent.findViewById(R.id.editTextUpdateDate);
+                                    lastUpdate.setText(reportDate);
                                     showUserMarkers();
 
                                 } else {

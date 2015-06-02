@@ -79,4 +79,5 @@
     <string name="when">"Kiedy?"</string>
     <string name="where">"Gdzie?"</string>
     <string name="organizer">"Organizator:"</string>
+    <string name="last_update">"Aktualizacja:"</string>
 </resources>

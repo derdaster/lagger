@@ -1,5 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.gms.maps.MapView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/mapView"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" />
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="10dp">
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingBottom="10dp"
+        android:weightSum="1">
+
+        <com.wrapp.floatlabelededittext.FloatLabeledEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="0.9">
+
+            <EditText
+                android:id="@+id/editTextUpdateDate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:editable="false"
+                android:hint="@string/last_update" />
+        </com.wrapp.floatlabelededittext.FloatLabeledEditText>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingBottom="10dp"
+        android:weightSum="1">
+
+        <com.google.android.gms.maps.MapView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/mapView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </LinearLayout>
+</LinearLayout>
