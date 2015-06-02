@@ -90,7 +90,7 @@ public class MapFragment extends Fragment {
 
         View v = inflater.inflate(R.layout.fragment_test_map, container,
                 false);
-        parent=v;
+        parent = v;
         mMapView = (MapView) v.findViewById(R.id.mapView);
         mMapView.onCreate(savedInstanceState);
 
@@ -192,6 +192,7 @@ public class MapFragment extends Fragment {
     }
 
     public void showUserMarkers() {
+        googleMap.clear();
         int i = 1;
         for (GPSUser user : gpsUsers) {
             showNamedMarker(user.getActualPositition(), String.valueOf(user.getIdUser() + " za " + user.getArrivalTime() + " min."), i);
@@ -227,6 +228,7 @@ public class MapFragment extends Fragment {
             googleMap.addMarker(marker);
         else
             googleMap.addMarker(marker).showInfoWindow();
+
 
     }
 
@@ -299,9 +301,9 @@ public class MapFragment extends Fragment {
                                         user.setPositionList(tempPositionList);
                                     }
                                     DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
-                                    Date date=new Date();
+                                    Date date = new Date();
                                     String reportDate = df.format(date);
-                                    EditText lastUpdate=(EditText)parent.findViewById(R.id.editTextUpdateDate);
+                                    EditText lastUpdate = (EditText) parent.findViewById(R.id.editTextUpdateDate);
                                     lastUpdate.setText(reportDate);
                                     showUserMarkers();
 
@@ -315,50 +317,6 @@ public class MapFragment extends Fragment {
             }
         };
 
-    }
-
-    public void getLocations() {
-        new AsyncTask<String, Void, String>() {
-            @Override
-            protected String doInBackground(String... urls) {
-                String userIdString = String.valueOf(State.getLoggedUserId());
-                String meetingIdString = String.valueOf(meeting.getId());
-                JsonObject userJson = createGPSJSON(userIdString, meetingIdString);
-                //TODO refactoring
-                return HttpRequest.POST(com.android.lagger.serverConnection.URL.GET_POSITIONS, userJson);
-            }
-
-            // onPostExecute displays the results of the AsyncTask.
-            @Override
-            protected void onPostExecute(String result) {
-
-                JsonParser parser = new JsonParser();
-                JsonObject responseJson = (JsonObject) parser.parse(result);
-
-                JsonArray usersPositions = responseJson.get("usersPositions").getAsJsonArray();
-
-                gpsUsers.clear();
-                Gson gson = new GsonHelper().getGson();
-                for (JsonElement userPositionJsonElem : usersPositions) {
-                    GPSUser user = gson.fromJson(userPositionJsonElem, GPSUser.class);
-                    gpsUsers.add(user);
-                    JsonObject object = userPositionJsonElem.getAsJsonObject();
-                    JsonArray positions = object.getAsJsonArray("positions");
-                    List tempPositionList = new ArrayList();
-                    for (JsonElement positionJsonElem : positions) {
-                        Position position = gson.fromJson(positionJsonElem, Position.class);
-                        tempPositionList.add(position);
-                    }
-                    user.setPositionList(tempPositionList);
-                }
-
-//                for (JsonElement positionJsonElem : positions) {
-//                    Position position = gson.fromJson(positionJsonElem, Position.class);
-//                    positionList.add(position);
-//                }
-                showUserMarkers();
-            }
-        }.execute();
     }
 
     public JsonObject createGPSJSON(String userId, String meetingId) {
