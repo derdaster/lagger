@@ -203,7 +203,9 @@ public class MapFragment extends Fragment {
             if (i > 9)
                 i = 1;
         }
-        showNamedMarker(new LatLng(meeting.getLatitude(), meeting.getLongitude()), "Spotkanie : " + meeting.getName(), 0);
+
+        String locationName = meeting.getLocationName() != null ? meeting.getLocationName() : getString(R.string.direction_place);
+        showNamedMarker(new LatLng(meeting.getLatitude(), meeting.getLongitude()), locationName, 0);
     }
 
     public void showMarker(LatLng latLng) {

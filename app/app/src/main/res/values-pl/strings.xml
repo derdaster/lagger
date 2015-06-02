@@ -68,8 +68,8 @@
     <string name="dialog_meeting_delete">"Czy chcesz usunąć to spotkanie?"</string>
     <string name="dialog_invitation_meeting">"Czy chcesz wziąć udział w tym spotkaniu?"</string>
     <string name="position_tracking">"Śledzenie pozycji"</string>
-    <string name="time_tracking">"Śledzony czas(s)"</string>
-    <string name="distance_tracking">"Śledzona odległość(m)"</string>
+    <string name="time_tracking">Śledzony czas [s]</string>
+    <string name="distance_tracking">"Śledzona odległość [m]"</string>
     <string name="password">"Hasło"</string>
     <string name="add_friend">"Dodaj znajomego"</string>
     <string name="meeting_name">"Nazwa spotkania:"</string>
@@ -80,4 +80,5 @@
     <string name="where">"Gdzie?"</string>
     <string name="organizer">"Organizator:"</string>
     <string name="last_update">"Aktualizacja:"</string>
+    <string name="direction_place">Miejsce docelowe</string>
 </resources>
