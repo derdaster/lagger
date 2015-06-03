@@ -6,7 +6,9 @@
     android:layout_height="wrap_content"
     android:layout_margin="10dp"
     android:padding="5dp"
-    android:background="#64ffffff">
+    android:background="#64ffffff"
+    android:clickable="true"
+    android:focusable="true">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -18,7 +20,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_weight="0.9">
+            android:layout_weight="0.9"
+            android:clickable="false"
+            android:focusable="false"
+            android:focusableInTouchMode="false">
 
             <TextView
                 android:layout_width="fill_parent"
@@ -55,6 +60,10 @@
                 android:layout_gravity="center"
                 android:id="@+id/tvWhere" />
         </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
         <com.melnykov.fab.FloatingActionButton
             android:id="@+id/btnMap"
@@ -69,6 +78,7 @@
             fab:fab_colorPressed="@color/primary_dark"
             fab:fab_colorRipple="@color/ripple"
             android:layout_weight="0.1" />
+        </LinearLayout>
     </LinearLayout>
 
 
