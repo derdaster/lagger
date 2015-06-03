@@ -42,4 +42,10 @@ public class Parser {
         return parsedDate;
     }
 
+    public static String parseDates(Date startDate, Date endDate){
+        String parseDate = "";
+
+        return parseDate;
+    }
+
 }

@@ -70,9 +70,6 @@ public class ViewMeetingFragment extends Fragment {
             btnAccept.setVisibility(View.INVISIBLE);
             btnRefuse.setVisibility(View.INVISIBLE);
         }
-
-
-
         return parent;
     }
     private void addMap(Bundle savedInstanceState) {
@@ -91,7 +88,7 @@ public class ViewMeetingFragment extends Fragment {
 
     }
 
-    private void setChoosenLocationOnMap() {
+    private void setChosenLocationOnMap() {
         LatLng latLng = new LatLng(State.DEFAULT_LATITUDE, State.DEFAULT_LONGITUDE);
         if (meeting.getLatitude() != Double.MIN_VALUE && meeting.getLongitude() != Double.MIN_VALUE) {
             latLng = new LatLng(meeting.getLatitude(), meeting.getLongitude());
@@ -137,10 +134,9 @@ public class ViewMeetingFragment extends Fragment {
         labelWhere = (TextView) getView().findViewById(R.id.labelWhere);
 
         meeting = insertMeetingDetails();
-        setBtnEditVisibilityForUser(meeting.getOrganizer());
+        setBtnsVisibilityForUser(meeting.getOrganizer());
         addMap(savedInstanceState);
-        setChoosenLocationOnMap();
-
+        setChosenLocationOnMap();
     }
 
     private Meeting insertMeetingDetails() {
@@ -156,10 +152,14 @@ public class ViewMeetingFragment extends Fragment {
         return meeting;
     }
 
-    private void setBtnEditVisibilityForUser(final User user){
+    private void setBtnsVisibilityForUser(final User user){
         isOrganizer = State.getLoggedUserId() == user.getId();
         if (!isOrganizer) {
             btnEdit.setVisibility(View.INVISIBLE);
+        }
+        else{
+            btnAccept.setVisibility(View.INVISIBLE);
+            btnRefuse.setVisibility(View.INVISIBLE);
         }
     }
 

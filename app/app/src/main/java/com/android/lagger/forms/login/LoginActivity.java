@@ -90,6 +90,7 @@ public class LoginActivity extends ActionBarActivity {
                 Toast.makeText(context, loginResp.getResponse(),
                         Toast.LENGTH_SHORT).show();
             }
+            loginBtn.setEnabled(true);
         }
 
         private void checkUserAndShowResult(final LoginResponse loginResp) {
@@ -98,7 +99,6 @@ public class LoginActivity extends ActionBarActivity {
                 enableAccess(loginResp);
             } else {
                 incorrectData(status);
-                loginBtn.setEnabled(true);
             }
         }
 

@@ -31,13 +31,13 @@ public class MeetingListAdapter extends BaseAdapter {
     private int actualPosition;
     private FragmentManager fragmentManager;
 
-    public MeetingListAdapter(Context inContext, FragmentManager fragmentManager,List<Meeting> d, int inIndexOfFirstActualMeeting, int inIndexOfLastActualMeeting) {
+    public MeetingListAdapter(Context inContext, FragmentManager fragmentManager, List<Meeting> d, int inIndexOfFirstActualMeeting, int inIndexOfLastActualMeeting) {
         mContext = inContext;
         data = d;
         indexOfFirstActualMeeting = inIndexOfFirstActualMeeting;
         indexOfLastActualMeeting = inIndexOfLastActualMeeting;
         inflater = (LayoutInflater) inContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        this.fragmentManager=fragmentManager;
+        this.fragmentManager = fragmentManager;
     }
 
     public int getCount() {

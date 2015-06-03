@@ -218,7 +218,7 @@ public class HttpClient {
         return respAllMeetings;
     }
 
-    private GetMeetingsResponse getMeetings(final GetMeetingsRequest meetingsReq) {
+    public GetMeetingsResponse getMeetings(final GetMeetingsRequest meetingsReq) {
         GetMeetingsResponse resp = null;
 
         ResponseObject responseMeetingsObj = httpRequest.POST(URL.GET_MEETINGS, meetingsReq);
