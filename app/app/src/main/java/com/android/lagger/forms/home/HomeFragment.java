@@ -58,9 +58,8 @@ public class HomeFragment extends Fragment {
     private List<SimpleSectionedListAdapter.Section> sections = new ArrayList<SimpleSectionedListAdapter.Section>();
     private FragmentTransaction fragmentTransaction;
     private List<Meeting> allMeetings;
-    private List<Meeting> current = new ArrayList<Meeting>();
-    private List<Meeting> nearest = new ArrayList<>();
-    private FragmentManager fragmentManager;
+    private List<Meeting> current;
+    private List<Meeting> nearest;
 
     public HomeFragment() {
     }
@@ -71,7 +70,7 @@ public class HomeFragment extends Fragment {
         mContext = getActivity().getApplicationContext();
         mList = (ListView) rootView.findViewById(R.id.meeting_current_list);
         loadDataFromServer();
-
+        adapter = null;
         return rootView;
     }
 
@@ -155,7 +154,7 @@ public class HomeFragment extends Fragment {
             if (!resp.isError()) {
                 setAllMeetingsAndPartitionIndex(resp);
 
-                adapter = new MeetingListAdapter(mContext, fragmentManager, allMeetings, -1, -1);
+                adapter = new MeetingListAdapter(mContext, getFragmentManager(), allMeetings, 0, current.size() - 1);
                 addSections();
                 createSimpleSectionedListAdapter(adapter);
                 addOnClickListenerDependingToIndex(mList);
@@ -170,12 +169,13 @@ public class HomeFragment extends Fragment {
         private void setAllMeetingsAndPartitionIndex(final GetMeetingsResponse resp) {
             List<Meeting> meetings = resp.getMeetings();
             List<Meeting> currentAndNearest = new ArrayList<>();
+            current = new ArrayList<Meeting>();
+            nearest = new ArrayList<>();
             try {
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd, HH:mm");
                 Calendar c = Calendar.getInstance();
                 String currentDate = sdf.format(new Date());
                 Date currentDateAndTime = sdf.parse(currentDate);
-
 
                 long currentDateInMilliseconds = c.getTimeInMillis();
                 //2 dni do przodu
@@ -194,6 +194,7 @@ public class HomeFragment extends Fragment {
 
            setPartitionIndex(current.size());
 
+            allMeetings = new ArrayList<Meeting>();
             currentAndNearest.addAll(current);
             currentAndNearest.addAll(nearest);
             allMeetings = currentAndNearest;
